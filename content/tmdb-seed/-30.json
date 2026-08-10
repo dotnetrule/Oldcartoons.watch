@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -30,
+    "name": "Doug",
+    "overview": "Een voorzichtige scholier vertelt over zijn eigen kleine zorgen als een natuurdocumentaire.",
+    "first_air_date": "1998-09-14",
+    "last_air_date": "2000-12-31",
+    "number_of_episodes": 52,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

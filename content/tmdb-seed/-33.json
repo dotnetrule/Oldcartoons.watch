@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -33,
+    "name": "The Powerpuff Girls",
+    "overview": "Drie chemisch-ontstane zussen verdedigen Townsville voor het slapengaan.",
+    "first_air_date": "1999-01-01",
+    "last_air_date": "2000-12-31",
+    "number_of_episodes": 78,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

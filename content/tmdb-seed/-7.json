@@ -1,0 +1,151 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -7,
+    "name": "He-Man and the Masters of the Universe",
+    "overview": "Prince Adam transforms into Eternia's strongest defender against Skeletor's latest scheme.",
+    "first_air_date": "1983-09-17",
+    "last_air_date": "1985-12-31",
+    "number_of_episodes": 130,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 8
+      },
+      {
+        "season_number": 2,
+        "name": "Season 2",
+        "episode_count": 4
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -1,
+          "name": "The Shaping Staff",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": "1983-09-17",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -2,
+          "name": "Diamond Assault",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": "1983-09-24",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -3,
+          "name": "Colossor Awakes",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": "1983-10-01",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -4,
+          "name": "The Prisoner of Zoar",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": "1983-10-08",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -5,
+          "name": "Prince Adam No More",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": "1983-10-15",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -6,
+          "name": "The Curse of the Spellstone",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": "1983-10-22",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -7,
+          "name": "Third Quest",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": "1983-10-29",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -8,
+          "name": "The Immortal Isle",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": "1983-11-05",
+          "runtime": 22,
+          "still_path": null
+        }
+      ]
+    },
+    {
+      "season_number": 2,
+      "name": "Season 2",
+      "episodes": [
+        {
+          "id": -9,
+          "name": "Temple of the Sun",
+          "season_number": 2,
+          "episode_number": 1,
+          "air_date": "1984-09-08",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -10,
+          "name": "Search for Grayskull, Part 1",
+          "season_number": 2,
+          "episode_number": 2,
+          "air_date": "1984-09-15",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -11,
+          "name": "Search for Grayskull, Part 2",
+          "season_number": 2,
+          "episode_number": 3,
+          "air_date": "1984-09-22",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -12,
+          "name": "Support Your Local Sorceress",
+          "season_number": 2,
+          "episode_number": 4,
+          "air_date": "1984-09-29",
+          "runtime": 22,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -18,
+    "name": "Batman: The Animated Series",
+    "overview": "A moodier, art-deco Gotham, built to outlast the trends around it.",
+    "first_air_date": "1992-09-05",
+    "last_air_date": "1995-12-31",
+    "number_of_episodes": 85,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

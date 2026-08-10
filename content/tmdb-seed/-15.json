@@ -1,0 +1,86 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -15,
+    "name": "Samurai Pizza Cats",
+    "overview": "Three pizza-delivering, crime-fighting cats defend Little Tokyo, redubbed from Japanese with gleeful disregard for the original script.",
+    "first_air_date": "1990-11-02",
+    "last_air_date": "1991-12-31",
+    "number_of_episodes": 52,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 6
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -19,
+          "name": "Meet the Samurai Pizza Cats",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": "1990-11-02",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -20,
+          "name": "Big Cheese's Big Scheme",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": "1990-11-09",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -21,
+          "name": "The Ninja Crows Attack",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": "1990-11-16",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -22,
+          "name": "Speedy's Day Off",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": "1990-11-23",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -23,
+          "name": "Guido Anchovy Strikes Back",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": "1990-11-30",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -24,
+          "name": "Emperor Fred’s Revenge",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": "1990-12-07",
+          "runtime": 22,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

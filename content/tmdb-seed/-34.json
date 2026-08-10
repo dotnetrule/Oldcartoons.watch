@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -34,
+    "name": "Aqua Teen Hunger Force",
+    "overview": "A milkshake, a box of fries, and a meatball share a house and solve nothing.",
+    "first_air_date": "2000-12-30",
+    "last_air_date": "2001-12-31",
+    "number_of_episodes": 22,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

@@ -19,10 +19,12 @@ import type {
   SeriesStub,
 } from '../src/types';
 import {
+  channelsFileSchema,
   episodesFileSchema,
   indexFileSchema,
   networksFileSchema,
   overridesFileSchema,
+  playlistsFileSchema,
   seriesFileSchema,
   seriesSourceFileSchema,
 } from '../src/schemas';
@@ -32,7 +34,7 @@ import {
   ensureDirs,
   readJson,
   readValidated,
-  tmdbCachePath,
+  seriesMetadataPath,
   writeJson,
 } from './lib/paths';
 import type { TmdbSeriesCache } from './lib/tmdb';
@@ -57,10 +59,11 @@ const yearOf = (isoDate: string | null): number | null => {
 const decadeOf = (year: number): string => `${Math.floor(year / 10) * 10}s`;
 
 function loadCache(source: SeriesSource): TmdbSeriesCache {
-  const cache = readJson(tmdbCachePath(source.tmdbId)) as TmdbSeriesCache;
+  const path = seriesMetadataPath(source.tmdbId);
+  const cache = readJson(path) as TmdbSeriesCache;
   if (cache.detail?.id !== source.tmdbId) {
     throw new Error(
-      `data/tmdb/${source.tmdbId}.json holds series ${cache.detail?.id} — the cache is stale, re-run 'npm run fetch'`,
+      `${path} holds series ${cache.detail?.id}, not ${source.tmdbId} — re-run 'npm run fetch'`,
     );
   }
   return cache;
@@ -92,12 +95,31 @@ function main(): void {
   const episodes = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const overrides = readValidated(contentPath('overrides.json'), overridesFileSchema);
 
+  // The ingest whitelists are not inputs to this step, but they are hand-edited
+  // and nothing else in a normal build would look at them — a bad edit would
+  // otherwise sit unnoticed until the next `npm run fetch`. Validating them
+  // here makes `npm run build` a total gate over content/.
+  readValidated(contentPath('channels.json'), channelsFileSchema);
+  const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
+
   const networkSlugs = new Set(networks.map((n) => n.slug));
   const seriesByTmdbId = new Map(seriesSources.map((s) => [s.tmdbId, s]));
+  const seriesSlugs = new Set(seriesSources.map((s) => s.slug));
 
   for (const source of seriesSources) {
     if (!networkSlugs.has(source.networkSlug)) {
       throw new Error(`series '${source.slug}' references unknown network '${source.networkSlug}'`);
+    }
+  }
+
+  // A playlist scoped to a series that does not exist matches nothing, which
+  // looks identical to a playlist that simply had no hits.
+  for (const playlist of playlists) {
+    const unknown = playlist.covers.filter((slug) => !seriesSlugs.has(slug));
+    if (unknown.length > 0) {
+      throw new Error(
+        `playlist '${playlist.name}' (${playlist.id}) covers unknown series: ${unknown.join(', ')}`,
+      );
     }
   }
 

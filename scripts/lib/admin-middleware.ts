@@ -9,7 +9,7 @@
 import type { Plugin } from 'vite';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { episodesFileSchema, overridesFileSchema } from '../../src/schemas';
-import { contentPath, formatZodError, readJson, tmdbCachePath, writeJson } from './paths';
+import { contentPath, formatZodError, readJson, seriesMetadataPath, writeJson } from './paths';
 
 const WRITE_TARGETS = {
   '/__admin/episodes': { file: 'episodes.json', schema: episodesFileSchema },
@@ -54,7 +54,7 @@ export function adminWriteMiddleware(): Plugin {
               // lives outside publicDir and so cannot be served statically.
               const images = /^\/__admin\/images\/(-?\d+)$/.exec(url);
               if (images?.[1]) {
-                return json(res, 200, readJson(tmdbCachePath(images[1])));
+                return json(res, 200, readJson(seriesMetadataPath(Number(images[1]))));
               }
               const target = READ_TARGETS[url];
               if (!target) return json(res, 404, { error: `unknown admin route ${url}` });

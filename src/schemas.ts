@@ -172,7 +172,11 @@ export const playlistSourceSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   curator: z.string().min(1),
-  covers: z.array(slugSchema),
+  // Scoping is what keeps a third-party playlist from reaching series it has
+  // no business matching, and match.ts scopes with `covers.includes(slug)` —
+  // so an empty list is not a looser playlist, it is an inert one that ingests
+  // and then silently matches nothing.
+  covers: z.array(slugSchema).min(1, 'a playlist must name at least one series it covers'),
   note: z.string(),
 });
 

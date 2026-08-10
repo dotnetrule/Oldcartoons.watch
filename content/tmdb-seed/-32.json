@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -32,
+    "name": "The Ren & Stimpy Show",
+    "overview": "Een nerveuze chihuahua en een goedaardige, weinig snuggere kat rekken de zaterdagochtend zo ver mogelijk op.",
+    "first_air_date": "1998-09-21",
+    "last_air_date": "2000-12-31",
+    "number_of_episodes": 52,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

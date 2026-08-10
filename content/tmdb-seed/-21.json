@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -21,
+    "name": "The Smurfs",
+    "overview": "Small blue forest-dwellers hide from the wizard Gargamel — kept in constant rotation on the cartoon-only channel's rerun vault.",
+    "first_air_date": "1993-01-01",
+    "last_air_date": "1999-12-31",
+    "number_of_episodes": 256,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

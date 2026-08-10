@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -16,
+    "name": "Tiny Toon Adventures",
+    "overview": "A new generation of student cartoon characters learns the trade at Acme Looniversity.",
+    "first_air_date": "1990-09-14",
+    "last_air_date": "1992-12-31",
+    "number_of_episodes": 98,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

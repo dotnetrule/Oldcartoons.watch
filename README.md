@@ -40,11 +40,20 @@ content/overrides.json   sparse hand-authored corrections to TMDB metadata
 content/channels.json    whitelisted rights-holder channels
 content/playlists.json   whitelisted third-party playlists
 content/queue.json       unresolved matches awaiting a human
+content/tmdb-seed/       stand-in metadata for series with no real TMDB id yet
 
 data/tmdb/{id}.json      cached TMDB responses    — gitignored, disposable
 data/youtube/{id}.json   cached source dumps      — gitignored, disposable
 public/data/*.json       generated output         — gitignored, rebuilt on build
 ```
+
+`content/tmdb-seed/` and `data/tmdb/` look alike and are not. The latter is a
+real cache — a real TMDB response for a real id, rebuildable by `npm run fetch`,
+so gitignoring it costs nothing. The former covers series with **no real TMDB
+id**, so there is nothing to re-fetch and nothing to rebuild it from; it is
+hand-authored source data that happens to be TMDB-shaped, and a fresh clone
+needs it to build without API keys. `scripts/lib/paths.ts` picks between them
+on the sign of the id.
 
 Overrides are merged shallow at build time (`{ ...tmdb, ...override }`) and hold
 only the keys that differ from TMDB, so anything absent keeps tracking TMDB on
@@ -112,6 +121,40 @@ curated playlist can point at fan uploads that rot in a way a rights-holder
 channel does not — provenance makes a rotting source visible and lets it be
 dropped as a unit.
 
+#### Importing one
+
+```sh
+npm run add-playlist -- "<youtube url or playlist id>" --covers heman,spc
+```
+
+**The URL must contain `list=`.** Copying the address bar while watching a
+video gives `watch?v=…`, which is a *video* id and identifies no playlist —
+open the video from inside the playlist and the URL becomes `…&list=PL…`. The
+script rejects a URL without it rather than importing something inert.
+
+It also refuses auto-generated `RD…` mixes (built per viewer, not a stable
+list), duplicate ids, and any `--covers` slug not in `content/series.json`.
+`name` and `curator` are looked up via `playlists.list` (1 quota unit); with no
+`YOUTUBE_API_KEY` set, pass `--name` and `--curator` instead.
+
+`--covers` is required and must name at least one series. An unscoped playlist
+is not a looser playlist — `match.ts` scopes with `covers.includes(slug)`, so
+an empty list ingests and then matches nothing.
+
+Then, since matching compares upload titles against **TMDB episode titles**,
+the covered series needs real TMDB metadata — a real positive `tmdbId` in
+`content/series.json`, not a seed placeholder:
+
+```sh
+npm run fetch -- --series heman   # --series scopes the TMDB half of the run
+npm run match
+npm run dev                       # /admin to resolve whatever was queued
+npm run build-data
+```
+
+`--series` exists so a single series can be brought up without first resolving
+a real TMDB id for all the others.
+
 ## Admin
 
 Dev-only, at `/admin`. The route is registered under `import.meta.env.DEV` and
@@ -170,17 +213,23 @@ always visible before a click, never discovered after one.
 
 ## Current state of this checkout
 
-`content/` is **seeded from the design prototype's sample data**, so the app
-builds and runs today without API keys. Two things follow from that:
+The 36 series and 8 networks in `content/` are **seeded from the design
+prototype's sample data**, so the app builds and runs today without API keys.
+Two things follow from that:
 
-- Every seeded episode is `status: 'missing'` with `youtubeId: null`. Nothing
-  has been matched against a real upload yet, so nothing claims to be playable.
+- **`content/episodes.json` is empty**, so every episode renders as a gap.
+  Nothing has been matched against a real upload yet, and nothing claims to be
+  playable. An empty file is the correct starting state, not a missing one:
+  a record means a decision was made about that episode, so writing
+  placeholder rows for unexamined episodes would mark them decided and exclude
+  them from every future `match` run.
 - Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
   refuses outright. A plausible-looking positive id would make a mis-seeded
   series quietly fetch the wrong show.
 
 To go live: resolve the real TMDB ids in `content/series.json`, whitelist
-sources in `content/channels.json`, then run `fetch` → `match` → `build-data`.
+sources in `content/channels.json` (and any playlists via `add-playlist`), then
+run `fetch` → `match` → `build-data`.
 
 ## Attribution
 

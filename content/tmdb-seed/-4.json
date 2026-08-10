@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -4,
+    "name": "Star Blazers",
+    "overview": "A dubbed Japanese space opera sold market by market — one of the first anime many American kids ever saw.",
+    "first_air_date": "1979-09-01",
+    "last_air_date": "1980-12-31",
+    "number_of_episodes": 52,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

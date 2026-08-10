@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -36,
+    "name": "Sealab 2021",
+    "overview": "An incompetent crew mismanages an underwater research station, badly.",
+    "first_air_date": "2000-01-06",
+    "last_air_date": "2005-12-31",
+    "number_of_episodes": 52,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

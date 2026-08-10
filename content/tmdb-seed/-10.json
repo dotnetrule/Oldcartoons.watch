@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -10,
+    "name": "Teenage Mutant Ninja Turtles",
+    "overview": "Four sewer-dwelling turtles trained in ninjutsu defend New York alongside a vigilante rat.",
+    "first_air_date": "1987-12-14",
+    "last_air_date": "1996-12-31",
+    "number_of_episodes": 193,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

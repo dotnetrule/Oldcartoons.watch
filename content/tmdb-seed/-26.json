@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -26,
+    "name": "Johnny Bravo",
+    "overview": "A vain, dim bodybuilder strikes out with every woman he meets, by design.",
+    "first_air_date": "1997-07-07",
+    "last_air_date": "2004-12-31",
+    "number_of_episodes": 67,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}
