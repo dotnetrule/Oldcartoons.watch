@@ -78,15 +78,28 @@ async function fetchYoutube(): Promise<void> {
   }
 }
 
-async function fetchTmdb(): Promise<void> {
-  const series = readValidated(contentPath('series.json'), seriesSourceFileSchema);
+async function fetchTmdb(only: string[] | null): Promise<void> {
+  const all = readValidated(contentPath('series.json'), seriesSourceFileSchema);
 
+  if (only) {
+    const known = new Set(all.map((s) => s.slug));
+    const unknown = only.filter((slug) => !known.has(slug));
+    if (unknown.length > 0) {
+      throw new Error(`--series names slugs not in content/series.json: ${unknown.join(', ')}`);
+    }
+  }
+
+  const series = only ? all.filter((s) => only.includes(s.slug)) : all;
+
+  // Scoped to the selected series, so one series can be brought up without
+  // first resolving a real TMDB id for every other series in the catalog.
   const unresolved = series.filter((s) => isPlaceholderTmdbId(s.tmdbId));
   if (unresolved.length > 0) {
     throw new Error(
       `${unresolved.length} series still carry placeholder TMDB ids and cannot be fetched:\n` +
         unresolved.map((s) => `  • ${s.slug} (${s.tmdbId})`).join('\n') +
-        `\nLook each one up on TMDB and set its real id in content/series.json.`,
+        `\nLook each one up on TMDB and set its real id in content/series.json,` +
+        `\nor scope this run with --series <slug,slug>.`,
     );
   }
 
@@ -113,14 +126,33 @@ async function fetchTmdb(): Promise<void> {
   }
 }
 
+/** `--series slug,slug` limits the TMDB half of the run. Absent, every series
+ * is fetched, exactly as before. */
+function parseSeriesFilter(argv: string[]): string[] | null {
+  const index = argv.findIndex((arg) => arg === '--series' || arg.startsWith('--series='));
+  if (index === -1) return null;
+
+  const arg = argv[index];
+  const inline = arg?.startsWith('--series=') ? arg.slice('--series='.length) : argv[index + 1];
+  if (!inline || inline.startsWith('--')) throw new Error('--series needs a value');
+
+  const slugs = inline
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (slugs.length === 0) throw new Error('--series listed no slugs');
+  return slugs;
+}
+
 async function main(): Promise<void> {
+  const only = parseSeriesFilter(process.argv.slice(2));
   ensureDirs(CONTENT_DIR, TMDB_CACHE_DIR, YOUTUBE_CACHE_DIR);
 
   console.log('fetching YouTube sources…');
   await fetchYoutube();
 
-  console.log('fetching TMDB metadata…');
-  await fetchTmdb();
+  console.log(only ? `fetching TMDB metadata for ${only.join(', ')}…` : 'fetching TMDB metadata…');
+  await fetchTmdb(only);
 
   console.log('done — cache written to data/');
 }

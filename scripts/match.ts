@@ -45,7 +45,15 @@ function main(): void {
   const existing = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const youtubeSources = loadYoutubeSources();
 
-  // A decision already recorded for this episode is final.
+  // A record in episodes.json means a decision was made about that episode —
+  // auto-matched here, chosen by a human in the admin, or corrected by the
+  // health check — and a decision is final. Absence means nobody has looked
+  // yet, which is the only state matching is allowed to act on.
+  //
+  // Nothing may write a placeholder record for an unexamined episode. Doing so
+  // marks it decided and silently excludes it from every future match run;
+  // build-data.ts already renders a record-less episode as a gap, so a
+  // placeholder buys nothing and costs the episode its chance of being found.
   const decided = new Set(existing.map((ep) => `${ep.seriesId}:${ep.season}:${ep.episode}`));
 
   const added: Episode[] = [];

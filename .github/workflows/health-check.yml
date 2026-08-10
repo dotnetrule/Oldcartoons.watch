@@ -37,8 +37,10 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: health-check/weekly
-          # The repository's default branch. Update this if the default changes.
-          base: feat/vue-implementation
+          # The branch carrying the pipeline. GitHub's default-branch pointer
+          # still names feat/vue-implementation, which predates content/ and
+          # would make this PR nonsense. Update if trunk moves.
+          base: Master
           title: 'Health check: episode availability changed'
           commit-message: 'chore: weekly health check'
           body: |
