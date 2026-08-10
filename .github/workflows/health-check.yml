@@ -1,0 +1,54 @@
+name: Health check
+
+# Weekly link rot sweep over every matched episode. Dead and un-embeddable
+# videos are proposed as a pull request rather than pushed: an episode
+# disappearing from the archive should be reviewable, not something that
+# mutates production on a cron.
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check every matched video
+        id: health
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: npm run health-check
+
+      - name: Open a pull request for the diff
+        if: steps.health.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: health-check/weekly
+          # The repository's default branch. Update this if the default changes.
+          base: feat/vue-implementation
+          title: 'Health check: episode availability changed'
+          commit-message: 'chore: weekly health check'
+          body: |
+            Automated weekly sweep of `content/episodes.json`.
+
+            An episode flips to `missing` when its video is gone from YouTube or
+            has embedding disabled — the player cannot load either one. Episodes
+            that gained or lost a region restriction flip between `available` and
+            `region-locked` and stay playable.
+
+            See the workflow run summary for the per-episode diff.
+          labels: health-check
+          delete-branch: true

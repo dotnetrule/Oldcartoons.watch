@@ -1,88 +1,138 @@
-<script setup>
-import { ref, computed } from 'vue';
+<script setup lang="ts">
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAppState } from '../composables/useAppState.js';
-import { genSeasons } from '../data/helpers.js';
+import { useUiStore } from '../stores/ui';
+import { useContentStore } from '../stores/content';
+import { formatAirDate, pad2 } from '../data/helpers';
+import { AVAILABILITY_LABELS } from '../data/themes';
+import { NOCOOKIE_HOST, loadYoutubeApi, type YtPlayer } from '../player/youtubeApi';
+import type { PublicEpisode } from '../types';
 
-const props = defineProps({
-  seriesId: { type: String, required: true },
-  season: { type: String, required: true },
-  episode: { type: String, required: true },
-});
+const props = defineProps<{ slug: string; season: string; episode: string }>();
 
 const router = useRouter();
-const { T, C, nets, allSeries, netColor, togglePlay: toggle, state } = useAppState();
+const ui = useUiStore();
+const content = useContentStore();
+const C = computed(() => ui.C);
 
-const seasonIdx = computed(() => Number(props.season));
-const episodeIdx = computed(() => Number(props.episode));
+// Route params are the real season and episode numbers, not array indices.
+const seasonNumber = computed(() => Number(props.season));
+const episodeNumber = computed(() => Number(props.episode));
 
-const series = computed(() => allSeries.value.find((s) => s.id === props.seriesId) || null);
-const network = computed(() => (series.value ? nets.value.find((n) => n.id === series.value.network) : null));
-const color = computed(() => (network.value ? netColor(network.value) : C.value.dim));
-const seasons = computed(() => (series.value ? genSeasons(series.value) : []));
-const season = computed(() => seasons.value[seasonIdx.value] || null);
-const episode = computed(() => season.value?.episodes[episodeIdx.value] || null);
+const series = computed(() => content.series(props.slug));
+const network = computed(() => content.network(series.value?.networkSlug));
+const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
 
-function nextPlayable() {
-  let si = seasonIdx.value;
-  let ei = episodeIdx.value + 1;
-  let guard = 0;
-  while (seasons.value[si] && guard++ < 200) {
-    const s = seasons.value[si];
-    if (ei >= s.episodes.length) {
-      si++;
-      ei = 0;
-      continue;
-    }
-    if (s.episodes[ei].availability === 'missing') {
-      ei++;
-      continue;
-    }
-    return { seasonIdx: si, episode: s.episodes[ei] };
+const season = computed(() => series.value?.seasons.find((s) => s.season === seasonNumber.value) ?? null);
+const episode = computed<PublicEpisode | null>(
+  () => season.value?.episodes.find((e) => e.episode === episodeNumber.value) ?? null,
+);
+
+/**
+ * The next playable episode in *this* season. When the season ends, playback
+ * stops — it does not roll into the next season. A season boundary is a
+ * deliberate stopping point, not an obstacle to route around.
+ */
+const nextEpisode = computed<PublicEpisode | null>(() => {
+  if (!season.value) return null;
+  return (
+    season.value.episodes.find((e) => e.episode > episodeNumber.value && e.status !== 'missing') ?? null
+  );
+});
+
+function playEpisode(target: PublicEpisode): void {
+  if (target.status === 'missing') return;
+  void router.push(`/series/${props.slug}/${target.season}/${target.episode}`);
+}
+
+function playNext(): void {
+  if (nextEpisode.value) playEpisode(nextEpisode.value);
+}
+
+function backToSeries(): void {
+  void router.push(`/series/${props.slug}`);
+}
+
+/* ---------------------------------------------------------------- */
+/* Playback                                                          */
+/* ---------------------------------------------------------------- */
+
+const mount = ref<HTMLDivElement | null>(null);
+let player: YtPlayer | null = null;
+let playerVideoId: string | null = null;
+
+function destroyPlayer(): void {
+  player?.destroy();
+  player = null;
+  playerVideoId = null;
+}
+
+async function syncPlayer(videoId: string | null): Promise<void> {
+  if (!videoId) {
+    destroyPlayer();
+    return;
   }
-  return null;
+  if (playerVideoId === videoId) return;
+
+  // Moving between episodes swaps the video in the existing player rather than
+  // tearing down the iframe, which keeps the rail from flashing.
+  if (player) {
+    playerVideoId = videoId;
+    player.loadVideoById(videoId);
+    return;
+  }
+
+  const YT = await loadYoutubeApi();
+  const element = mount.value;
+  // The route may have moved on while the API was loading.
+  if (!element || episode.value?.youtubeId !== videoId) return;
+
+  playerVideoId = videoId;
+  player = new YT.Player(element, {
+    host: NOCOOKIE_HOST,
+    videoId,
+    playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+    events: {
+      onStateChange: (event) => {
+        if (event.data === YT.PlayerState.ENDED) playNext();
+      },
+    },
+  });
 }
 
-const nextEp = computed(nextPlayable);
+watch(
+  () => episode.value?.youtubeId ?? null,
+  (videoId) => {
+    void syncPlayer(videoId);
+  },
+  { immediate: true, flush: 'post' },
+);
 
-function playNext() {
-  const n = nextEp.value;
-  if (!n) return;
-  router.push(`/watch/${series.value.id}/${n.seasonIdx}/${n.episode.number - 1}`);
-}
-
-function playEpisode(idx) {
-  const ep = season.value.episodes[idx];
-  if (!ep || ep.availability === 'missing') return;
-  router.push(`/watch/${series.value.id}/${seasonIdx.value}/${idx}`);
-}
-
-function backToSeries() {
-  router.push('/series/' + props.seriesId);
-}
+onBeforeUnmount(destroyPlayer);
 </script>
 
 <template>
-  <div v-if="series && episode" class="player">
+  <div v-if="series && season && episode" class="player">
     <div class="player-main">
       <div class="video" :style="{ background: C.videoBg, borderColor: C.border2 }">
-        <button class="play-btn" aria-label="Play" @click="toggle()">
-          <div v-if="state.isPlaying" class="pause-icon">
-            <span></span><span></span>
-          </div>
-          <div v-else class="play-icon"></div>
-        </button>
-        <div class="scrub">
-          <div class="scrub-track">
-            <div class="scrub-fill"></div>
-          </div>
-          <span class="mono scrub-time">{{ episode.runtime }}:00</span>
+        <!-- youtube-nocookie embed. No video is hosted or proxied here; the
+             player is the only playback path. -->
+        <div v-if="episode.youtubeId" ref="mount" class="video-frame"></div>
+        <div v-else class="video-gap" :style="{ color: C.dim }">
+          {{ AVAILABILITY_LABELS.missing }}
         </div>
       </div>
       <div class="player-info">
-        <div class="mono" :style="{ color }">{{ network?.name }} · S{{ season.n }}E{{ episode.number }}</div>
-        <h1 :style="{ color: C.ink }">{{ series.title }} — {{ episode.title }}</h1>
-        <div class="mono dim" :style="{ color: C.dim }">{{ episode.airDate }} · {{ episode.runtime }} min</div>
+        <div class="mono" :style="{ color: colour }">
+          {{ network?.name }} · S{{ pad2(episode.season) }}E{{ pad2(episode.episode) }}
+          <span v-if="episode.status === 'region-locked'" :style="{ color: C.dim }">
+            · {{ AVAILABILITY_LABELS['region-locked'] }}
+          </span>
+        </div>
+        <h1 :style="{ color: C.ink }">{{ series.name }} — {{ episode.title }}</h1>
+        <div class="mono dim" :style="{ color: C.dim }">
+          {{ formatAirDate(episode.airDate) }}{{ episode.runtime ? ` · ${episode.runtime} min` : '' }}
+        </div>
         <button class="back-btn" :style="{ borderColor: C.border2, color: C.dim2 }" @click="backToSeries">
           ← Back to series
         </button>
@@ -90,23 +140,25 @@ function backToSeries() {
     </div>
     <div class="rail" :style="{ borderColor: C.border }">
       <div class="mono rail-label" :style="{ color: C.dim }">UP NEXT</div>
-      <div v-if="nextEp" class="rail-next" :style="{ background: C.railBg }" @click="playNext">
-        <span class="rail-next-title" :style="{ color: C.ink }">{{ nextEp.episode.title }}</span>
-        <span class="mono" :style="{ color: C.dim }">{{ nextEp.episode.runtime }} min</span>
+      <div v-if="nextEpisode" class="rail-next" :style="{ background: C.railBg }" @click="playNext">
+        <span class="rail-next-title" :style="{ color: C.ink }">{{ nextEpisode.title }}</span>
+        <span class="mono" :style="{ color: C.dim }">{{ nextEpisode.runtime ? `${nextEpisode.runtime} min` : '—' }}</span>
       </div>
+      <div v-else class="mono rail-end" :style="{ color: C.dim }">End of {{ season.name }}.</div>
+
       <div class="mono rail-label" :style="{ color: C.dim }">THIS SEASON</div>
       <div
-        v-for="(ep, idx) in season.episodes"
-        :key="ep.number"
+        v-for="ep in season.episodes"
+        :key="ep.episode"
         class="rail-ep"
         :style="{
-          background: idx === episodeIdx ? C.railBg : 'transparent',
-          cursor: ep.availability === 'missing' ? 'default' : 'pointer',
-          opacity: ep.availability === 'missing' ? 0.55 : 1,
+          background: ep.episode === episodeNumber ? C.railBg : 'transparent',
+          cursor: ep.status === 'missing' ? 'default' : 'pointer',
+          opacity: ep.status === 'missing' ? 0.55 : 1,
         }"
-        @click="playEpisode(idx)"
+        @click="playEpisode(ep)"
       >
-        <span class="mono rail-ep-num" :style="{ color: C.dim }">{{ ep.number }}</span>
+        <span class="mono rail-ep-num" :style="{ color: C.dim }">{{ ep.episode }}</span>
         <span class="rail-ep-title" :style="{ color: C.ink }">{{ ep.title }}</span>
       </div>
     </div>
@@ -135,77 +187,22 @@ function backToSeries() {
   justify-content: center;
 }
 
-.play-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 120ms ease;
+.video-frame {
+  width: 100%;
+  height: 100%;
 }
 
-.play-btn:hover {
-  transform: scale(1.06);
-}
-
-.play-icon {
-  width: 0;
-  height: 0;
-  border-top: 12px solid transparent;
-  border-bottom: 12px solid transparent;
-  border-left: 20px solid #f3ecdd;
-  margin-left: 4px;
-}
-
-.pause-icon {
-  display: flex;
-  gap: 5px;
-}
-
-.pause-icon span {
-  width: 6px;
-  height: 20px;
-  background: #f3ecdd;
+.video-frame :deep(iframe) {
+  width: 100%;
+  height: 100%;
   display: block;
+  border: 0;
 }
 
-.scrub {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent);
-}
-
-.scrub-track {
-  flex: 1;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 2px;
-  position: relative;
-}
-
-.scrub-fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 22%;
-  background: #f2544c;
-  border-radius: 2px;
-}
-
-.scrub-time {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
+.video-gap {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
 }
 
 .player-info {
@@ -277,6 +274,12 @@ function backToSeries() {
 
 .rail-next .mono {
   font-size: 11px;
+}
+
+.rail-end {
+  font-size: 11px;
+  margin-bottom: 16px;
+  opacity: 0.8;
 }
 
 .rail-ep {

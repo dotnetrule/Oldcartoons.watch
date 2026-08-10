@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32" role="img" aria-label="Nickelodeon">
+  <title>Nickelodeon</title>
+  <rect x="1" y="1" width="46" height="30" fill="none" stroke="currentColor" stroke-width="2" />
+  <text x="24" y="22" text-anchor="middle" fill="currentColor"
+        font-family="Oswald, 'Arial Narrow', sans-serif" font-size="15" font-weight="600"
+        letter-spacing="0.5">NIK</text>
+</svg>

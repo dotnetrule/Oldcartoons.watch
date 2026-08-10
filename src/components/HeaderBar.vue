@@ -1,19 +1,21 @@
-<script setup>
+<script setup lang="ts">
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAppState } from '../composables/useAppState.js';
+import { useUiStore } from '../stores/ui';
+import { COPY, THEME_OPTS, VIEW_OPTS } from '../data/themes';
 
-defineProps({ pageCode: { type: String, default: '' } });
+defineProps<{ pageCode?: string }>();
 
 const router = useRouter();
-const { state, T, C, THEME_OPTS, VIEW_OPTS, REGIONS, LANGS, setTheme, setViewMode, setRegion, setLang, triggerFlicker } =
-  useAppState();
+const ui = useUiStore();
+const C = computed(() => ui.C);
 
-function goSchedule() {
-  triggerFlicker();
-  router.push('/');
+function goSchedule(): void {
+  ui.triggerFlicker();
+  void router.push('/');
 }
 
-function chipStyle(active) {
+function chipStyle(active: boolean) {
   return {
     background: active ? C.value.ink : 'transparent',
     color: active ? C.value.chipFg : C.value.dim,
@@ -33,8 +35,8 @@ function chipStyle(active) {
           v-for="opt in THEME_OPTS"
           :key="opt.id"
           class="ntv-chip"
-          :style="chipStyle(opt.id === state.theme)"
-          @click="setTheme(opt.id)"
+          :style="chipStyle(opt.id === ui.theme)"
+          @click="ui.setTheme(opt.id)"
         >
           {{ opt.label }}
         </button>
@@ -44,35 +46,13 @@ function chipStyle(active) {
           v-for="opt in VIEW_OPTS"
           :key="opt.id"
           class="ntv-chip"
-          :style="chipStyle(opt.id === state.viewMode)"
-          @click="setViewMode(opt.id)"
+          :style="chipStyle(opt.id === ui.viewMode)"
+          @click="ui.setViewMode(opt.id)"
         >
           {{ opt.label }}
         </button>
       </div>
-      <div class="ntv-chipgroup">
-        <button
-          v-for="r in REGIONS"
-          :key="r.id"
-          class="ntv-chip"
-          :style="chipStyle(r.id === state.region)"
-          @click="setRegion(r.id)"
-        >
-          {{ r.label }}
-        </button>
-      </div>
-      <div class="ntv-chipgroup">
-        <button
-          v-for="l in LANGS"
-          :key="l.id"
-          class="ntv-chip"
-          :style="chipStyle(l.id === state.lang)"
-          @click="setLang(l.id)"
-        >
-          {{ l.label }}
-        </button>
-      </div>
-      <div class="ntv-pagecode" :style="{ color: C.dim }">{{ T.page }} {{ pageCode }}</div>
+      <div class="ntv-pagecode" :style="{ color: C.dim }">{{ COPY.page }} {{ pageCode }}</div>
     </div>
   </header>
 </template>

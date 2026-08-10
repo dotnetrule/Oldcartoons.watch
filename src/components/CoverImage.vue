@@ -1,39 +1,34 @@
-<script setup>
-import { ref, computed, watch } from 'vue';
-import { hasTmdbKey, enrichSeriesArtwork } from '../services/tmdb.js';
-import { initialsFor } from '../data/helpers.js';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { initialsFor, tmdbImage } from '../data/helpers';
 
-const props = defineProps({
-  series: { type: Object, required: true },
-  kind: { type: String, default: 'poster' }, // 'poster' | 'backdrop'
-  accentColor: { type: String, default: '#8A93A6' },
-  placeholder: { type: String, default: '' },
-});
+/**
+ * Artwork, built from a TMDB `file_path` at render time.
+ *
+ * The runtime TMDB lookup this replaces is gone: `file_path` arrives in the
+ * generated JSON, and the URL is pure string construction. The initials tile
+ * is not a data fallback — it is how the design draws a series TMDB has no
+ * artwork for, which is a real and permanent state for a lot of this archive.
+ */
+const props = withDefaults(
+  defineProps<{
+    title: string;
+    /** TMDB file_path, or null when there is no artwork. */
+    filePath?: string | null;
+    size?: string;
+    accentColor?: string;
+  }>(),
+  { filePath: null, size: 'w500', accentColor: '#8A93A6' },
+);
 
-const artwork = ref(null);
-
-async function load() {
-  artwork.value = null;
-  if (!hasTmdbKey) return;
-  const result = await enrichSeriesArtwork(props.series);
-  // Guard against a stale response landing after the series prop moved on.
-  if (result && props.series) artwork.value = result;
-}
-
-watch(() => props.series?.id, load, { immediate: true });
-
-const src = computed(() => {
-  if (!artwork.value) return null;
-  return props.kind === 'backdrop' ? artwork.value.backdropUrl : artwork.value.posterUrl;
-});
-
-const initials = computed(() => initialsFor(props.series.title));
+const src = computed(() => (props.filePath ? tmdbImage(props.filePath, props.size) : null));
+const initials = computed(() => initialsFor(props.title));
 </script>
 
 <template>
   <div class="ntv-cover">
-    <img v-if="src" :src="src" :alt="series.title" loading="lazy" />
-    <div v-else class="ntv-cover-empty" :style="{ color: accentColor }" :title="placeholder || series.title">
+    <img v-if="src" :src="src" :alt="title" loading="lazy" />
+    <div v-else class="ntv-cover-empty" :style="{ color: accentColor }" :title="title">
       <span>{{ initials }}</span>
     </div>
   </div>

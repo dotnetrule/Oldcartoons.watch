@@ -1,0 +1,254 @@
+[
+  {
+    "slug": "sesamstraat",
+    "tmdbId": -1,
+    "networkSlug": "nederland3",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "de-opkopers",
+    "tmdbId": -2,
+    "networkSlug": "ketnet",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "pinwheel",
+    "tmdbId": -3,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "starblazers",
+    "tmdbId": -4,
+    "networkSlug": "syndication",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "tik-tak",
+    "tmdbId": -5,
+    "networkSlug": "ketnet",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "merlina",
+    "tmdbId": -6,
+    "networkSlug": "ketnet",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "heman",
+    "tmdbId": -7,
+    "networkSlug": "syndication",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "inspector-gadget",
+    "tmdbId": -8,
+    "networkSlug": "syndication",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "ducktales",
+    "tmdbId": -9,
+    "networkSlug": "syndication",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "tmnt",
+    "tmdbId": -10,
+    "networkSlug": "syndication",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "klokhuis",
+    "tmdbId": -11,
+    "networkSlug": "nederland3",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "postbus-x",
+    "tmdbId": -12,
+    "networkSlug": "ketnet",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "captain-planet",
+    "tmdbId": -13,
+    "networkSlug": "syndication",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "samson-gert",
+    "tmdbId": -14,
+    "networkSlug": "ketnet",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "spc",
+    "tmdbId": -15,
+    "networkSlug": "syndication",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "tiny-toons",
+    "tmdbId": -16,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "rugrats",
+    "tmdbId": -17,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "batman-tas",
+    "tmdbId": -18,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "scooby-doo",
+    "tmdbId": -19,
+    "networkSlug": "cartoonnetwork",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "animaniacs",
+    "tmdbId": -20,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "smurfs",
+    "tmdbId": -21,
+    "networkSlug": "cartoonnetwork",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "power-rangers",
+    "tmdbId": -22,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "villa-achterwerk",
+    "tmdbId": -23,
+    "networkSlug": "nederland3",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "big-betsy",
+    "tmdbId": -24,
+    "networkSlug": "vtm",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "dexter",
+    "tmdbId": -25,
+    "networkSlug": "cartoonnetwork",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "johnny-bravo",
+    "tmdbId": -26,
+    "networkSlug": "cartoonnetwork",
+    "type": "Animation",
+    "age": "Tween"
+  },
+  {
+    "slug": "kabouter-plop",
+    "tmdbId": -27,
+    "networkSlug": "vtm",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "why-why-family",
+    "tmdbId": -28,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "x-men",
+    "tmdbId": -29,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "doug",
+    "tmdbId": -30,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Tween"
+  },
+  {
+    "slug": "rugrats-dutch-dub",
+    "tmdbId": -31,
+    "networkSlug": "ketnet",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "ren-stimpy",
+    "tmdbId": -32,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Tween"
+  },
+  {
+    "slug": "ppg",
+    "tmdbId": -33,
+    "networkSlug": "cartoonnetwork",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "aqua-teen",
+    "tmdbId": -34,
+    "networkSlug": "adultswim",
+    "type": "Animation",
+    "age": "Adult"
+  },
+  {
+    "slug": "harvey-birdman",
+    "tmdbId": -35,
+    "networkSlug": "adultswim",
+    "type": "Animation",
+    "age": "Adult"
+  },
+  {
+    "slug": "sealab",
+    "tmdbId": -36,
+    "networkSlug": "adultswim",
+    "type": "Animation",
+    "age": "Adult"
+  }
+]
