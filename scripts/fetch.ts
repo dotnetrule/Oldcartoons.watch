@@ -80,6 +80,7 @@ async function fetchYoutube(): Promise<void> {
 
 async function fetchTmdb(only: string[] | null): Promise<void> {
   const all = readValidated(contentPath('series.json'), seriesSourceFileSchema);
+  const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
 
   if (only) {
     const known = new Set(all.map((s) => s.slug));
@@ -89,7 +90,21 @@ async function fetchTmdb(only: string[] | null): Promise<void> {
     }
   }
 
-  const series = only ? all.filter((s) => only.includes(s.slug)) : all;
+  const selected = only ? all.filter((s) => only.includes(s.slug)) : all;
+
+  // A series whose episode list comes from a playlist has no TMDB half to
+  // fetch — `match` writes its metadata seed from the playlist itself. Asking
+  // TMDB for it would fail on the placeholder id and block the one path that
+  // does not need TMDB at all.
+  const playlistBacked = new Set(
+    playlists.map((p) => p.episodesFor).filter((slug): slug is string => slug !== null),
+  );
+  const series = selected.filter((s) => !playlistBacked.has(s.slug));
+
+  const skipped = selected.length - series.length;
+  if (skipped > 0) {
+    console.log(`  ${skipped} series take their episodes from a playlist — no TMDB fetch needed`);
+  }
 
   // Scoped to the selected series, so one series can be brought up without
   // first resolving a real TMDB id for every other series in the catalog.

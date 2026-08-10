@@ -121,11 +121,48 @@ curated playlist can point at fan uploads that rot in a way a rights-holder
 channel does not — provenance makes a rotting source visible and lets it be
 dropped as a unit.
 
+#### Two things a playlist can be
+
+A playlist is whitelisted as one of two things, and picking the wrong one is
+the difference between a full series page and a page of gaps.
+
+`--covers` says the playlist **holds uploads that may match** those series'
+episodes. Matching compares upload titles against **TMDB episode titles**, so
+this only produces rows for a series that already has real TMDB metadata — a
+real positive `tmdbId` in `content/series.json`, not a seed placeholder. Point
+it at a series carrying a placeholder id and the ingest succeeds, the videos
+cache, and nothing matches, because there is no episode list on the other side
+of the comparison.
+
+`--episodes-for` says the playlist **is** that series' episode list. Playlist
+order becomes episode order, video titles become episode titles, and
+`content/tmdb-seed/{id}.json` is regenerated from the playlist — no TMDB, no
+key, no matching. That is the right answer for a series with no real TMDB id,
+which is every series in this checkout.
+
+What it deliberately does not invent: an upload date is not an air date, and a
+playlist carries no runtime, so both stay empty rather than becoming
+plausible-looking wrong values. A curated playlist is a flat ordered list — it
+asserts sequence and nothing about season boundaries — so everything lands in
+season 1.
+
+Unlike a matched or hand-resolved episode, a playlist-derived one is **not** a
+final decision: the decision lives in the playlist and is re-read on every run,
+so re-running the pipeline picks up a playlist that gained or reordered
+episodes. One series' list may be owned by at most one playlist.
+
 #### Importing one
 
 ```sh
+# the playlist IS the series' episode list — no TMDB needed
+npm run add-playlist -- "<youtube url or playlist id>" --episodes-for spc
+npm run fetch && npm run match && npm run build-data
+
+# the playlist is a pool of candidates for series TMDB already describes
 npm run add-playlist -- "<youtube url or playlist id>" --covers heman,spc
 ```
+
+`--episodes-for` implies `--covers`, so a single-series playlist needs one flag.
 
 **The URL must contain `list=`.** Copying the address bar while watching a
 video gives `watch?v=…`, which is a *video* id and identifies no playlist —
@@ -133,17 +170,13 @@ open the video from inside the playlist and the URL becomes `…&list=PL…`. Th
 script rejects a URL without it rather than importing something inert.
 
 It also refuses auto-generated `RD…` mixes (built per viewer, not a stable
-list), duplicate ids, and any `--covers` slug not in `content/series.json`.
-`name` and `curator` are looked up via `playlists.list` (1 quota unit); with no
-`YOUTUBE_API_KEY` set, pass `--name` and `--curator` instead.
+list), duplicate ids, and any slug not in `content/series.json`.
 
-`--covers` is required and must name at least one series. An unscoped playlist
-is not a looser playlist — `match.ts` scopes with `covers.includes(slug)`, so
-an empty list ingests and then matches nothing.
+Scoping is required either way. An unscoped playlist is not a looser playlist —
+`match.ts` scopes with `covers.includes(slug)`, so an empty list ingests and
+then matches nothing.
 
-Then, since matching compares upload titles against **TMDB episode titles**,
-the covered series needs real TMDB metadata — a real positive `tmdbId` in
-`content/series.json`, not a seed placeholder:
+For the `--covers` route, bring the covered series' TMDB metadata up first:
 
 ```sh
 npm run fetch -- --series heman   # --series scopes the TMDB half of the run
@@ -153,7 +186,23 @@ npm run build-data
 ```
 
 `--series` exists so a single series can be brought up without first resolving
-a real TMDB id for all the others.
+a real TMDB id for all the others. A series whose list comes from
+`--episodes-for` is skipped by the TMDB half entirely — there is nothing to
+fetch.
+
+#### Without an API key
+
+`YOUTUBE_API_KEY` is still the better path: the Data API is paginated,
+documented and complete. But requiring a Google Cloud project before a pasted
+link can produce one episode row is friction the archive does not need, so with
+no key set, `add-playlist` and `fetch` read the playlist's own public page
+instead.
+
+The fallback refuses to return a **partial** playlist. The public page serves
+roughly the first hundred items and hands the rest to a continuation it will
+not answer unauthenticated; hitting that limit throws and names the key, because
+a playlist truncated at 100 is a wrong episode list rather than a shorter one.
+Channels still need the key — `channels.list` has no page to read.
 
 ## Admin
 
@@ -227,9 +276,21 @@ Two things follow from that:
   refuses outright. A plausible-looking positive id would make a mis-seeded
   series quietly fetch the wrong show.
 
-To go live: resolve the real TMDB ids in `content/series.json`, whitelist
-sources in `content/channels.json` (and any playlists via `add-playlist`), then
-run `fetch` → `match` → `build-data`.
+  This is also why `--covers` cannot fill a series in yet: there is no real
+  episode list to match uploads against. `--episodes-for` is the route that
+  works today, because it does not need one.
+
+To go live, either route works per series:
+
+```sh
+# from a curated playlist, no keys required
+npm run add-playlist -- "<playlist url>" --episodes-for <slug>
+npm run fetch && npm run match && npm run build-data
+
+# from TMDB plus rights-holder channels
+# resolve the real tmdbId in content/series.json, whitelist the channel, then
+npm run fetch && npm run match && npm run build-data
+```
 
 ## Attribution
 

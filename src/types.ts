@@ -106,6 +106,18 @@ export type PlaylistSource = {
   /** Series slugs this playlist is expected to cover. Advisory: it scopes
    * matching so a playlist cannot pull in unrelated series. */
   covers: string[];
+  /**
+   * When set, this playlist *is* the episode list for that series rather than
+   * a pool of candidates matched against TMDB's.
+   *
+   * The fuzzy path can only surface episodes TMDB already lists, so a series
+   * with no real TMDB id has nothing for a playlist to match against and every
+   * row renders as a gap no matter how good the playlist is. Naming the series
+   * here inverts that: playlist order becomes episode order, video titles
+   * become episode titles, and the series' metadata seed is regenerated from
+   * the playlist. The slug must also appear in `covers`.
+   */
+  episodesFor: string | null;
   note: string;
 };
 
