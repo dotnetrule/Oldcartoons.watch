@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+a {
+  color: #3fe0d0;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #f3ecdd;
+}
+
+::selection {
+  background: #3fe0d0;
+  color: #0b0f16;
+}
+
+*:focus-visible {
+  outline: 2px solid #f3ecdd;
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a3040;
+  border-radius: 6px;
+}
+
+@keyframes ntv-flicker {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 0.3;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

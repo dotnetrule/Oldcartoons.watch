@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Inter',sans-serif;}
+button{font:inherit;}
+a{color:#3FE0D0;text-decoration:none;}
+a:hover{color:#F3ECDD;}
+::selection{background:#3FE0D0;color:#0B0F16;}
+*:focus-visible{outline:2px solid #F3ECDD;outline-offset:2px;}
+::-webkit-scrollbar{height:10px;width:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#2A3040;border-radius:6px;}
+@keyframes ntv-flicker{0%{opacity:0;}15%{opacity:.5;}30%{opacity:0;}45%{opacity:.3;}60%{opacity:0;}100%{opacity:0;}}
+</style>
+</helmet>
+<div style="min-height:100vh;background:{{ C.bg }};color:{{ C.ink }};font-family:'Inter',sans-serif;display:flex;flex-direction:column;transition:background 180ms ease,color 180ms ease;">
+<div style="position:fixed;inset:0;pointer-events:none;z-index:9999;background:{{ C.flashColor }};mix-blend-mode:{{ C.flashBlend }};opacity:0;{{ flickerStyle }}"></div>
+
+<header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:8px 20px;min-height:36px;background:{{ C.bg }};border-bottom:1px solid {{ C.border }};flex:none;transition:background 180ms ease,border-color 180ms ease;">
+<button onClick="{{ goSchedule }}" style="background:none;border:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.1em;color:{{ C.ink }};padding:0;white-space:nowrap;">OLDCARTOONS<span style="color:{{ C.dim }};">.</span>WATCH</button>
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+<div style="display:flex;gap:3px;">
+<sc-for list="{{ themeOptions }}" as="opt" hint-placeholder-count="2">
+<button onClick="{{ opt.onClick }}" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;padding:5px 9px;background:{{ opt.bg }};color:{{ opt.fg }};border:1px solid {{ C.border2 }};border-radius:2px;cursor:pointer;transition:background 120ms ease,color 120ms ease;" style-active="transform:scale(.94);">{{ opt.label }}</button>
+</sc-for>
+</div>
+<div style="display:flex;gap:3px;">
+<sc-for list="{{ viewOptions }}" as="opt" hint-placeholder-count="2">
+<button onClick="{{ opt.onClick }}" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;padding:5px 9px;background:{{ opt.bg }};color:{{ opt.fg }};border:1px solid {{ C.border2 }};border-radius:2px;cursor:pointer;transition:background 120ms ease,color 120ms ease;" style-active="transform:scale(.94);">{{ opt.label }}</button>
+</sc-for>
+</div>
+<div style="display:flex;gap:3px;">
+<sc-for list="{{ regionOptions }}" as="opt" hint-placeholder-count="2">
+<button onClick="{{ opt.onClick }}" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;padding:5px 9px;background:{{ opt.bg }};color:{{ opt.fg }};border:1px solid {{ C.border2 }};border-radius:2px;cursor:pointer;transition:background 120ms ease,color 120ms ease;" style-active="transform:scale(.94);">{{ opt.label }}</button>
+</sc-for>
+</div>
+<div style="display:flex;gap:3px;">
+<sc-for list="{{ langOptions }}" as="opt" hint-placeholder-count="3">
+<button onClick="{{ opt.onClick }}" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;padding:5px 9px;background:{{ opt.bg }};color:{{ opt.fg }};border:1px solid {{ C.border2 }};border-radius:2px;cursor:pointer;transition:background 120ms ease,color 120ms ease;" style-active="transform:scale(.94);">{{ opt.label }}</button>
+</sc-for>
+</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:{{ C.dim }};white-space:nowrap;">{{ T.page }} {{ pageCode }}</div>
+</div>
+</header>
+
+<nav aria-label="Broadcasters" style="position:sticky;top:0;z-index:49;display:flex;gap:6px;overflow-x:auto;padding:10px 20px;background:{{ C.bg2 }};border-bottom:1px solid {{ C.border }};flex:none;transition:background 180ms ease,border-color 180ms ease;">
+<sc-for list="{{ channelTabs }}" as="tab" hint-placeholder-count="6">
+<button onClick="{{ tab.onClick }}" style="display:flex;align-items:center;gap:7px;padding:6px 14px 6px 6px;background:{{ tab.bg }};color:{{ tab.fg }};border:1px solid {{ tab.bd }};border-radius:2px;white-space:nowrap;cursor:pointer;font-size:13px;flex:none;transition:background 150ms ease,color 150ms ease,transform 120ms ease;" style-hover="transform:translateY(-1px);">
+<sc-if value="{{ isCovers }}" hint-placeholder-val="{{ false }}">
+<image-slot id="logo-{{ tab.id }}" shape="rect" placeholder="" style="width:22px;height:22px;flex:none;border-radius:1px;"></image-slot>
+</sc-if>
+<span style="font-family:'IBM Plex Mono',monospace;font-weight:600;">{{ tab.ch }}</span>
+<span style="font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.02em;font-size:13px;">{{ tab.name }}</span>
+</button>
+</sc-for>
+</nav>
+
+<main style="flex:1;padding-bottom:120px;">
+
+<sc-if value="{{ isSchedule }}" hint-placeholder-val="{{ true }}">
+<div style="padding:20px 20px 0;">
+<div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:16px;padding-bottom:10px;border-bottom:{{ C.titleRule }};">
+<h1 style="margin:0;font-family:'Oswald',sans-serif;font-weight:600;font-size:34px;letter-spacing:.01em;text-transform:uppercase;color:{{ C.ink }};">{{ T.schedule }}</h1>
+<div style="display:flex;gap:18px;flex-wrap:wrap;">
+<div style="display:flex;gap:4px;">
+<sc-for list="{{ typeOptions }}" as="opt" hint-placeholder-count="3">
+<button onClick="{{ opt.onClick }}" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;padding:5px 10px;background:{{ opt.bg }};color:{{ opt.fg }};border:1px solid {{ C.border2 }};border-radius:2px;cursor:pointer;transition:background 120ms ease,color 120ms ease;">{{ opt.label }}</button>
+</sc-for>
+</div>
+<div style="display:flex;gap:4px;">
+<sc-for list="{{ ageOptions }}" as="opt" hint-placeholder-count="5">
+<button onClick="{{ opt.onClick }}" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;padding:5px 10px;background:{{ opt.bg }};color:{{ opt.fg }};border:1px solid {{ C.border2 }};border-radius:2px;cursor:pointer;transition:background 120ms ease,color 120ms ease;">{{ opt.label }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+
+<sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 16px 24px;display:flex;flex-direction:column;gap:24px;">
+<sc-for list="{{ mobileGroups }}" as="grp" hint-placeholder-count="4">
+<div>
+<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:2px solid {{ grp.network.color }};margin-bottom:8px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:{{ grp.network.color }};">{{ grp.network.ch }}</span>
+<span style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:16px;letter-spacing:.03em;color:{{ C.ink }};">{{ grp.network.name }}</span>
+</div>
+<sc-for list="{{ grp.items }}" as="entry" hint-placeholder-count="3">
+<div onClick="{{ entry.onClick }}" style="display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid {{ C.border }};cursor:pointer;">
+<sc-if value="{{ isCovers }}" hint-placeholder-val="{{ false }}">
+<image-slot id="cover-{{ entry.id }}" shape="rect" placeholder="" style="width:64px;height:36px;flex:none;border-radius:1px;"></image-slot>
+</sc-if>
+<span style="font-family:'Oswald',sans-serif;font-size:17px;color:{{ C.ink }};flex:1;">{{ entry.title }}</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ C.dim }};white-space:nowrap;">{{ entry.yearsLabel }} · {{ entry.epLabel }}</span>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+<div style="overflow-x:auto;padding:8px 20px 24px;">
+<div data-grid-root="true" style="display:flex;flex-direction:column;min-width:980px;">
+<div style="display:flex;">
+<div style="width:172px;flex:none;"></div>
+<sc-for list="{{ decadeHeaders }}" as="dec" hint-placeholder-count="4">
+<div style="flex:1;min-width:200px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:{{ C.dim }};padding:6px 10px;border-bottom:1px solid {{ C.border2 }};">{{ dec }}</div>
+</sc-for>
+</div>
+<sc-for list="{{ scheduleRows }}" as="row" hint-placeholder-count="6">
+<div style="display:flex;">
+<div style="width:172px;flex:none;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:12px 10px;border-top:1px solid {{ C.border }};border-left:3px solid {{ row.network.color }};background:{{ C.rowStripe }};">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:{{ row.network.color }};">{{ row.network.ch }}</span>
+<span style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:15px;letter-spacing:.02em;color:{{ C.ink }};line-height:1.15;">{{ row.network.name }}</span>
+</div>
+<sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="4">
+<div style="flex:1;min-width:200px;padding:8px 10px;border-top:1px solid {{ C.border }};border-left:1px solid {{ C.border }};display:flex;flex-direction:column;gap:6px;justify-content:center;min-height:64px;">
+<sc-if value="{{ cell.empty }}" hint-placeholder-val="{{ false }}">
+<span style="font-family:'IBM Plex Mono',monospace;color:{{ C.dim }};opacity:.6;font-size:13px;">—</span>
+</sc-if>
+<sc-for list="{{ cell.entries }}" as="entry" hint-placeholder-count="1">
+<div data-row="{{ row.rowIdx }}" data-col="{{ entry.colIdx }}" role="button" tabIndex="0" onClick="{{ entry.onClick }}" onKeyDown="{{ entry.onKeyDown }}" onMouseEnter="{{ entry.onMouseEnter }}" onFocus="{{ entry.onFocus }}" style="cursor:pointer;padding:3px 4px;border-radius:1px;display:flex;align-items:center;gap:8px;transition:background 120ms ease,transform 120ms ease;" style-hover="background:{{ C.hoverBg }};transform:translateX(1px);" style-focus="background:{{ C.focusBg }};">
+<sc-if value="{{ isCovers }}" hint-placeholder-val="{{ false }}">
+<image-slot id="cover-{{ entry.id }}" shape="rect" placeholder="" style="width:64px;height:36px;flex:none;border-radius:1px;"></image-slot>
+</sc-if>
+<div style="min-width:0;">
+<div style="font-family:'Oswald',sans-serif;font-size:16px;line-height:1.15;color:{{ C.ink }};letter-spacing:.01em;">{{ entry.title }}</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ C.dim }};margin-top:2px;">{{ entry.yearsLabel }} · {{ entry.epLabel }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{ isBroadcaster }}" hint-placeholder-val="{{ false }}">
+<div style="padding:28px 20px 40px;max-width:960px;">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:4px solid {{ activeNetwork.color }};padding-left:18px;margin-bottom:28px;">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;color:{{ C.dim }};">CH {{ activeNetwork.ch }} · {{ activeNetwork.yearsLabel }}</div>
+<h1 style="margin:0;font-family:'Oswald',sans-serif;font-weight:600;font-size:42px;text-transform:uppercase;letter-spacing:.01em;color:{{ C.ink }};">{{ activeNetwork.name }}</h1>
+<div style="font-family:'Inter',sans-serif;font-size:14px;color:{{ C.dim2 }};max-width:560px;">{{ activeNetwork.noteLabel }}</div>
+</div>
+<sc-if value="{{ isListings }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;">
+<sc-for list="{{ broadcasterSeries }}" as="row" hint-placeholder-count="5">
+<div onClick="{{ row.onClick }}" role="button" tabIndex="0" onKeyDown="{{ row.onKeyDown }}" style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:14px 6px;border-bottom:1px solid {{ C.border }};cursor:pointer;transition:background 120ms ease;" style-hover="background:{{ C.hoverBg }};">
+<span style="font-family:'Oswald',sans-serif;font-size:19px;color:{{ C.ink }};">{{ row.title }}</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ C.dim }};white-space:nowrap;">{{ row.yearsLabel }} · {{ row.epLabel }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ isCovers }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-wrap:wrap;gap:18px;">
+<sc-for list="{{ broadcasterSeries }}" as="row" hint-placeholder-count="5">
+<div onClick="{{ row.onClick }}" role="button" tabIndex="0" onKeyDown="{{ row.onKeyDown }}" style="width:200px;cursor:pointer;transition:transform 120ms ease;" style-hover="transform:translateY(-2px);">
+<image-slot id="cover-{{ row.id }}" shape="rect" placeholder="" style="width:200px;height:112px;border-radius:2px;"></image-slot>
+<div style="font-family:'Oswald',sans-serif;font-size:16px;color:{{ C.ink }};margin-top:8px;">{{ row.title }}</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ C.dim }};">{{ row.yearsLabel }} · {{ row.epLabel }}</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSeries }}" hint-placeholder-val="{{ false }}">
+<div>
+<div style="position:relative;width:100%;height:320px;overflow:hidden;">
+<image-slot id="hero-{{ currentSeries.id }}" shape="rect" placeholder="Backdrop still" style="width:100%;height:100%;"></image-slot>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,15,22,.1) 0%,rgba(11,15,22,.6) 60%,{{ C.heroFade }} 100%);pointer-events:none;"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:0 24px 20px;display:flex;flex-direction:column;gap:6px;pointer-events:none;">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.05em;color:{{ currentNetworkForSeries.color }};">{{ currentNetworkForSeries.ch }} {{ currentNetworkForSeries.name }}</div>
+<h1 style="margin:0;font-family:'Oswald',sans-serif;font-weight:600;font-size:44px;line-height:1.02;text-transform:uppercase;color:#F3ECDD;text-shadow:0 2px 10px rgba(0,0,0,.5);">{{ currentSeries.title }}</h1>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#D8DCE4;">{{ currentSeries.yearsLabel }} · {{ currentSeries.epLabel }}</div>
+</div>
+</div>
+<div style="max-width:760px;padding:20px 24px 8px;font-family:'Inter',sans-serif;font-size:15px;line-height:1.5;color:{{ C.dim2 }};">{{ currentSeries.synopsis }}</div>
+<sc-if value="{{ hasMultiSeasons }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:6px;padding:16px 24px 0;">
+<sc-for list="{{ seasonTabs }}" as="tab" hint-placeholder-count="2">
+<button onClick="{{ tab.onClick }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.05em;padding:6px 12px;background:{{ tab.bg }};color:{{ tab.fg }};border:1px solid {{ C.border2 }};border-radius:2px;cursor:pointer;transition:background 120ms ease;">{{ tab.label }}</button>
+</sc-for>
+</div>
+</sc-if>
+<div style="padding:20px 24px 40px;max-width:900px;">
+<sc-for list="{{ episodes }}" as="ep" hint-placeholder-count="6">
+<div>
+<div style="display:flex;align-items:baseline;gap:14px;padding:12px 8px;border-bottom:1px solid {{ C.border }};opacity:{{ ep.rowOpacity }};transition:background 120ms ease;" style-hover="background:{{ C.hoverBg }};">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:{{ C.dim }};width:22px;flex:none;">{{ ep.number }}</span>
+<span onClick="{{ ep.onClick }}" style="font-family:'Oswald',sans-serif;font-size:17px;color:{{ C.ink }};flex:1;cursor:{{ ep.cursor }};">{{ ep.title }}</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ C.dim }};white-space:nowrap;">{{ ep.runtime }} min · {{ ep.airDate }}</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;color:{{ ep.tagColor }};white-space:nowrap;width:130px;text-align:right;">{{ ep.tagLabel }}</span>
+</div>
+<sc-if value="{{ ep.showReport }}" hint-placeholder-val="{{ false }}">
+<div style="padding:0 8px 12px 36px;font-family:'Inter',sans-serif;font-size:12px;color:{{ C.dim }};">{{ ep.missingNote }} <a href="#" onClick="{{ ep.onReport }}" style="color:#3FE0D0;">{{ ep.reportText }}</a></div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPlayer }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:flex-start;">
+<div style="flex:1;min-width:0;padding:20px 24px;">
+<div style="position:relative;width:100%;aspect-ratio:16/9;background:{{ C.videoBg }};border:1px solid {{ C.border2 }};display:flex;align-items:center;justify-content:center;">
+<button onClick="{{ togglePlay }}" aria-label="Play" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 120ms ease;" style-hover="transform:scale(1.06);">
+<sc-if value="{{ isPlaying }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:5px;"><div style="width:6px;height:20px;background:#F3ECDD;"></div><div style="width:6px;height:20px;background:#F3ECDD;"></div></div>
+</sc-if>
+<sc-if value="{{ isNotPlaying }}" hint-placeholder-val="{{ true }}">
+<div style="width:0;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:20px solid #F3ECDD;margin-left:4px;"></div>
+</sc-if>
+</button>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:10px 14px;display:flex;align-items:center;gap:10px;background:linear-gradient(0deg,rgba(0,0,0,.7),transparent);">
+<div style="flex:1;height:3px;background:rgba(255,255,255,.25);border-radius:2px;position:relative;"><div style="position:absolute;left:0;top:0;bottom:0;width:22%;background:#F2544C;border-radius:2px;"></div></div>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.7);">{{ playerEpisode.runtime }}:00</span>
+</div>
+</div>
+<div style="padding:16px 2px;display:flex;flex-direction:column;gap:6px;">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ playerNetwork.color }};">{{ playerNetwork.name }} · S{{ seasonNumber }}E{{ playerEpisode.number }}</div>
+<h1 style="margin:0;font-family:'Oswald',sans-serif;font-size:28px;text-transform:uppercase;color:{{ C.ink }};">{{ playerSeries.title }} — {{ playerEpisode.title }}</h1>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ C.dim }};">{{ playerEpisode.airDate }} · {{ playerEpisode.runtime }} min</div>
+<button onClick="{{ goBackToSeries }}" style="align-self:flex-start;margin-top:8px;background:none;border:1px solid {{ C.border2 }};color:{{ C.dim2 }};font-family:'IBM Plex Mono',monospace;font-size:12px;padding:6px 12px;border-radius:2px;cursor:pointer;transition:background 120ms ease;" style-hover="background:{{ C.hoverBg }};">← Back to series</button>
+</div>
+</div>
+<div style="width:320px;flex:none;max-height:calc(100vh - 160px);overflow-y:auto;border-left:1px solid {{ C.border }};padding:16px;">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:{{ C.dim }};margin-bottom:10px;">UP NEXT</div>
+<sc-if value="{{ hasNext }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ playNext }}" style="display:flex;justify-content:space-between;gap:10px;padding:10px;background:{{ C.railBg }};border-radius:2px;cursor:pointer;margin-bottom:16px;">
+<span style="font-family:'Oswald',sans-serif;font-size:15px;color:{{ C.ink }};">{{ nextEp.title }}</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ C.dim }};">{{ nextEp.runtime }} min</span>
+</div>
+</sc-if>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:{{ C.dim }};margin:16px 0 8px;">THIS SEASON</div>
+<sc-for list="{{ railEpisodes }}" as="ep" hint-placeholder-count="6">
+<div onClick="{{ ep.onClick }}" style="display:flex;align-items:baseline;gap:10px;padding:9px 6px;border-radius:2px;background:{{ ep.railBg }};cursor:{{ ep.cursor }};opacity:{{ ep.rowOpacity }};transition:background 120ms ease;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ C.dim }};width:18px;flex:none;">{{ ep.number }}</span>
+<span style="font-family:'Oswald',sans-serif;font-size:14px;color:{{ C.ink }};flex:1;">{{ ep.title }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ isSchedule }}" hint-placeholder-val="{{ true }}">
+<div style="position:fixed;left:0;right:0;bottom:0;height:104px;background:{{ C.bg2 }};border-top:1px solid {{ C.border2 }};display:flex;align-items:center;gap:16px;padding:0 20px;z-index:40;transition:background 180ms ease,border-color 180ms ease;">
+<sc-if value="{{ hasPreview }}" hint-placeholder-val="{{ false }}">
+<div style="width:72px;height:72px;flex:none;background:{{ C.hoverBg }};border:1px solid {{ C.border2 }};display:flex;align-items:center;justify-content:center;">
+<span style="font-family:'Oswald',sans-serif;font-size:22px;color:{{ preview.networkColor }};">{{ preview.initials }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+<div style="font-family:'Oswald',sans-serif;font-size:20px;color:{{ C.ink }};text-transform:uppercase;letter-spacing:.01em;">{{ preview.title }}</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ C.dim }};">{{ preview.metaLine }}</div>
+</div>
+</sc-if>
+<sc-if value="{{ noPreview }}" hint-placeholder-val="{{ true }}">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ C.dim }};">{{ T.hoverHint }}</span>
+</sc-if>
+</div>
+</sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const THEMES = {
+  dark: { bg:'#0B0F16', bg2:'#0E121A', ink:'#F3ECDD', dim:'#8A93A6', dim2:'#B7BECB',
+    border:'rgba(255,255,255,.1)', border2:'rgba(255,255,255,.16)',
+    hoverBg:'rgba(255,255,255,.06)', focusBg:'rgba(255,255,255,.1)', railBg:'rgba(255,255,255,.08)',
+    rowStripe:'rgba(255,255,255,.02)', missing:'#F2544C', flashColor:'#F3ECDD', flashBlend:'overlay',
+    videoBg:'#000', chipFg:'#0B0F16', titleRule:'1px solid rgba(255,255,255,.16)', heroFade:'rgba(11,15,22,.97)' },
+  light: { bg:'#F1EDE3', bg2:'#E7E1D1', ink:'#1A1B1E', dim:'#6B6A64', dim2:'#4B4A45',
+    border:'rgba(26,27,30,.14)', border2:'rgba(26,27,30,.22)',
+    hoverBg:'rgba(26,27,30,.05)', focusBg:'rgba(26,27,30,.08)', railBg:'rgba(26,27,30,.07)',
+    rowStripe:'rgba(26,27,30,.025)', missing:'#A3372B', flashColor:'#1A1B1E', flashBlend:'multiply',
+    videoBg:'#15140F', chipFg:'#F1EDE3', titleRule:'3px double rgba(26,27,30,.5)', heroFade:'rgba(241,237,227,.97)' }
+};
+
+const REGIONS = [{id:'nlbe', label:'NL·BE'}, {id:'usa', label:'USA'}];
+const LANGS = [{id:'nl', label:'NL'}, {id:'fr', label:'FR'}, {id:'en', label:'EN'}];
+const THEME_OPTS = [{id:'dark', label:'DARK'}, {id:'light', label:'LIGHT'}];
+const VIEW_OPTS = [{id:'listings', label:'LISTINGS'}, {id:'covers', label:'COVERS'}];
+
+const DECADES = { nlbe:['1970s','1980s','1990s'], usa:['1970s','1980s','1990s','2000s'] };
+
+function N(id,ch,color,colorLight,years,note,neutral){ return {id,ch,color,colorLight,years,note,neutral}; }
+const NETWORKS = {
+  nlbe: [
+    N('ketnet','45','#3FE0D0','#0E7A6E',{en:'1997–present',nl:'1997–heden',fr:'1997–présent'},{en:"VRT's children's channel for Flanders.",nl:'Het kinderkanaal van de VRT voor Vlaanderen.',fr:'La chaîne jeunesse de la VRT pour la Flandre.'}),
+    N('vtm','02','#E838B0','#9C1F6E',{en:'1989–present',nl:'1989–heden',fr:'1989–présent'},{en:"Flanders' first commercial channel; imported cartoons filled its afternoons.",nl:'Vlaanderens eerste commerciële zender; geïmporteerde tekenfilms vulden de namiddag.',fr:'La première chaîne commerciale de Flandre ; des dessins animés importés remplissaient ses après-midis.'}),
+    N('foxkids','33','#4CD97A','#1F7A3D',{en:'1997–2005',nl:'1997–2005',fr:'1997–2005'},{en:'The Benelux feed of the American after-school block.',nl:'De Benelux-uitzending van het Amerikaanse naschoolse blok.',fr:"Le flux Benelux du bloc américain de l'après-école."}),
+    N('nickelodeon','30','#F2C94C','#8A6512',{en:'1998–present',nl:'1998–heden',fr:'1998–présent'},{en:'The first Nickelodeon feed for Dutch and Flemish viewers.',nl:'De eerste Nickelodeon-uitzending voor Nederlandse en Vlaamse kijkers.',fr:'Le premier flux Nickelodeon pour les téléspectateurs néerlandais et flamands.'}),
+    N('nederland3','03','#4C8DF2','#1E4E9C',{en:'1988–present',nl:'1988–heden',fr:'1988–présent'},{en:"Dutch public television's third channel; home of the after-school block.",nl:'Het derde net van de Nederlandse publieke omroep; thuis van het naschoolse blok.',fr:"La troisième chaîne de la télévision publique néerlandaise ; foyer du bloc de l'après-école."}),
+    N('cartoonnetwork','38','#8A93A6','#6B6A64',{en:'1993–present',nl:'1993–heden',fr:'1993–présent'},{en:'The Benelux feed of the cartoon-only channel.',nl:'De Benelux-uitzending van het kanaal dat uitsluitend tekenfilms toont.',fr:"Le flux Benelux de la chaîne consacrée uniquement aux dessins animés."},true)
+  ],
+  usa: [
+    N('foxkids','11','#E838B0','#9C1F6E',{en:'1990–2002',nl:'1990–2002',fr:'1990–2002'},{en:'Weekday afternoons and Saturday mornings, built around action toy lines.',nl:'Doordeweekse namiddagen en zaterdagochtenden, opgebouwd rond actiespeelgoedlijnen.',fr:"Après-midi en semaine et samedis matin, construits autour de lignes de jouets d'action."}),
+    N('cartoonnetwork','15','#4CD97A','#1F7A3D',{en:'1992–present',nl:'1992–heden',fr:'1992–présent'},{en:'The first channel programmed entirely from the cartoon vault.',nl:'Het eerste kanaal dat volledig geprogrammeerd werd vanuit het tekenfilmarchief.',fr:'La première chaîne entièrement programmée à partir des archives de dessins animés.'}),
+    N('ketnet','45','#3FE0D0','#0E7A6E',{en:'1997–present',nl:'1997–heden',fr:'1997–présent'},{en:"VRT's children's channel for Flanders.",nl:'Het kinderkanaal van de VRT voor Vlaanderen.',fr:'La chaîne jeunesse de la VRT pour la Flandre.'}),
+    N('adultswim','31','#4C8DF2','#1E4E9C',{en:'2000–present',nl:'2000–heden',fr:'2000–présent'},{en:'Late-night reruns for the audience that grew up with them.',nl:'Laat-avond herhalingen voor het publiek dat ermee opgroeide.',fr:'Reprises de fin de soirée pour le public qui a grandi avec elles.'}),
+    N('syndication','—','#8A93A6','#6B6A64',{en:'Market by market',nl:'Per zender',fr:'Marché par marché'},{en:'Sold station by station rather than aired on one channel.',nl:'Per zender verkocht in plaats van uitgezonden op één kanaal.',fr:'Vendu station par station plutôt que diffusé sur une seule chaîne.'},true),
+    N('nickelodeon','08','#F2C94C','#8A6512',{en:'1979–present',nl:'1979–heden',fr:'1979–présent'},{en:'The first cable channel programmed exclusively for kids.',nl:'Het eerste kabelkanaal dat uitsluitend voor kinderen werd geprogrammeerd.',fr:'La première chaîne câblée programmée exclusivement pour les enfants.'})
+  ]
+};
+
+const SERIES = {
+  nlbe: [
+    {id:'de-opkopers', network:'ketnet', title:'De Opkopers', yearStart:1977, yearEnd:1983, decade:'1970s', episodeCount:100, type:'Live-action', age:'Tween', firstAirDate:'1977', synopsis:'Twee opkopers belanden van het ene in het andere avontuur — de eerste van de grote BRT-jeugdreeksen.'},
+    {id:'sesamstraat', network:'nederland3', title:'Sesamstraat', yearStart:1976, yearEnd:2000, decade:'1970s', episodeCount:'—', type:'Live-action', age:'Preschool', firstAirDate:'6 jan 1976', synopsis:'De Nederlandstalige productie van Sesame Street, met een eigen poppencast naast de internationaal bekende.'},
+    {id:'tik-tak', network:'ketnet', title:'Tik Tak', yearStart:1981, yearEnd:2000, decade:'1980s', episodeCount:'—', type:'Live-action', age:'Preschool', firstAirDate:'1981', synopsis:'Twee schapen en een drinkmannetje, zonder woorden — een van de langstlopende VRT-kleutertitels.'},
+    {id:'klokhuis', network:'nederland3', title:'Het Klokhuis', yearStart:1988, yearEnd:2000, decade:'1980s', episodeCount:'—', type:'Live-action', age:'Kids', firstAirDate:'5 sep 1988', synopsis:'Elke dag een nieuwe vraag, en twaalf minuten om ze te beantwoorden.'},
+    {id:'merlina', network:'ketnet', title:'Merlina', yearStart:1982, yearEnd:1988, decade:'1980s', episodeCount:95, type:'Live-action', age:'Preschool', firstAirDate:'4 okt 1982', synopsis:'Een goedaardige televisieheks die de tekenfilms van de namiddag aan elkaar praat vanuit haar zolder.'},
+    {id:'villa-achterwerk', network:'nederland3', title:'Villa Achterwerk', yearStart:1994, yearEnd:2000, decade:'1990s', episodeCount:'—', type:'Live-action', age:'Kids', firstAirDate:'5 sep 1994', synopsis:"NPS' naschoolse strip: een presentator tussen de tekenfilms van de dag."},
+    {id:'postbus-x', network:'ketnet', title:'Postbus X', yearStart:1989, yearEnd:1994, decade:'1990s', episodeCount:100, type:'Live-action', age:'Tween', firstAirDate:'2 jan 1989', synopsis:'Journalisten van De Ravenburgse Post helpen mensen die schrijven naar Postbus X — vervolg op Merlina.'},
+    {id:'samson-gert', network:'ketnet', title:'Samson & Gert', yearStart:1990, yearEnd:2000, decade:'1990s', episodeCount:520, type:'Live-action', age:'Preschool', firstAirDate:'8 jan 1990', synopsis:'Een man en zijn sprekende hond, vijf namiddagen per week — een Vlaamse instelling.', flagship:true,
+      seasons:[{n:1, episodes:[
+        {number:1, title:'Het Verjaardagsfeest', airDate:'8 jan 1990', runtime:25, availability:'available'},
+        {number:2, title:'Gert is Ziek', airDate:'9 jan 1990', runtime:25, availability:'available'},
+        {number:3, title:'De Verdwenen Fiets', airDate:'10 jan 1990', runtime:25, availability:'region-locked'},
+        {number:4, title:'Samson in de Sneeuw', airDate:'11 jan 1990', runtime:25, availability:'missing'},
+        {number:5, title:'Het Grote Zoeken', airDate:'12 jan 1990', runtime:25, availability:'available'},
+        {number:6, title:"Gert's Verjaardag", airDate:'15 jan 1990', runtime:25, availability:'available'}
+      ]}]},
+    {id:'kabouter-plop', network:'vtm', title:'Kabouter Plop', yearStart:1997, yearEnd:2000, decade:'1990s', episodeCount:150, type:'Live-action', age:'Preschool', firstAirDate:'1 sep 1997', synopsis:'Een kabouter met een rode puntmuts en zijn vrienden in het Kabouterbos, een Studio 100-hit.', flagship:true,
+      seasons:[{n:1, episodes:[
+        {number:1, title:'Plop en de Kabouterschool', airDate:'1 sep 1997', runtime:12, availability:'available'},
+        {number:2, title:'Plop is Verdwaald', airDate:'8 sep 1997', runtime:12, availability:'available'},
+        {number:3, title:'De Grote Kabouterparade', airDate:'15 sep 1997', runtime:12, availability:'region-locked'},
+        {number:4, title:"Kwebbel's Toverdrank", airDate:'22 sep 1997', runtime:12, availability:'missing'},
+        {number:5, title:'Plop Wordt Koning', airDate:'29 sep 1997', runtime:12, availability:'available'},
+        {number:6, title:'Het Kabouterfeest', airDate:'6 okt 1997', runtime:12, availability:'available'}
+      ]}]},
+    {id:'big-betsy', network:'vtm', title:'Big & Betsy', yearStart:1996, yearEnd:2000, decade:'1990s', episodeCount:60, type:'Live-action', age:'Preschool', firstAirDate:'1 jan 1996', synopsis:'Een sprekende hond en zijn menselijke vriendin lossen kleine buurtproblemen op.'},
+    {id:'why-why-family-nlbe', network:'foxkids', title:'The Why Why Family', yearStart:1997, yearEnd:1998, decade:'1990s', episodeCount:26, type:'Animation', age:'Preschool', firstAirDate:'nov 1997', synopsis:'Een baby genaamd Victor sleurt zijn familie mee in demonstraties van hoe de wereld werkt, één letterlijke vraag per keer.', flagship:true,
+      seasons:[{n:1, episodes:[
+        {number:1, title:'Why Do Boats Float?', airDate:'2 nov 1997', runtime:20, availability:'available'},
+        {number:2, title:'Why Is the Sky Blue?', airDate:'9 nov 1997', runtime:20, availability:'available'},
+        {number:3, title:'Why Do We Dream?', airDate:'16 nov 1997', runtime:20, availability:'region-locked'},
+        {number:4, title:'Why Do Birds Fly South?', airDate:'23 nov 1997', runtime:20, availability:'missing'},
+        {number:5, title:'Why Does Bread Rise?', airDate:'30 nov 1997', runtime:20, availability:'available'},
+        {number:6, title:'Why Is the Ocean Salty?', airDate:'7 dec 1997', runtime:20, availability:'available'}
+      ]}]},
+    {id:'x-men-nlbe', network:'foxkids', title:'X-Men', yearStart:1997, yearEnd:2000, decade:'1990s', episodeCount:76, type:'Animation', age:'Kids', firstAirDate:'sep 1997', synopsis:"Marvel's mutantenteam verdedigt een wereld die hen vreest."},
+    {id:'power-rangers', network:'foxkids', title:'Mighty Morphin Power Rangers', yearStart:1994, yearEnd:1999, decade:'1990s', episodeCount:145, type:'Live-action', age:'Kids', firstAirDate:'3 sep 1994', synopsis:'Vijf tieners met attitude besturen gigantische robots tegen een wisselende reeks rubberen monsters.', flagship:true,
+      seasons:[{n:1, episodes:[
+        {number:1, title:'Day of the Dumpster', airDate:'3 sep 1994', runtime:23, availability:'available'},
+        {number:2, title:'High Five', airDate:'10 sep 1994', runtime:23, availability:'available'},
+        {number:3, title:'Teamwork', airDate:'17 sep 1994', runtime:23, availability:'region-locked'},
+        {number:4, title:'A Pressing Engagement', airDate:'24 sep 1994', runtime:23, availability:'missing'},
+        {number:5, title:'Different Drum', airDate:'1 okt 1994', runtime:23, availability:'available'},
+        {number:6, title:'Food Fight', airDate:'8 okt 1994', runtime:23, availability:'available'}
+      ]}]},
+    {id:'rugrats-nlbe', network:'nickelodeon', title:'Rugrats', yearStart:1998, yearEnd:2001, decade:'1990s', episodeCount:80, type:'Animation', age:'Preschool', firstAirDate:'14 sep 1998', synopsis:'Een kruipende peuter kijkt neer op een wereld waarvan volwassenen denken dat zij hem besturen.'},
+    {id:'doug-nlbe', network:'nickelodeon', title:'Doug', yearStart:1998, yearEnd:2000, decade:'1990s', episodeCount:52, type:'Animation', age:'Tween', firstAirDate:'14 sep 1998', synopsis:'Een voorzichtige scholier vertelt over zijn eigen kleine zorgen als een natuurdocumentaire.'},
+    {id:'ren-stimpy-nlbe', network:'nickelodeon', title:'The Ren & Stimpy Show', yearStart:1998, yearEnd:2000, decade:'1990s', episodeCount:52, type:'Animation', age:'Tween', firstAirDate:'21 sep 1998', synopsis:'Een nerveuze chihuahua en een goedaardige, weinig snuggere kat rekken de zaterdagochtend zo ver mogelijk op.'},
+    {id:'dexter-nlbe', network:'cartoonnetwork', title:"Dexter's Laboratory", yearStart:1997, yearEnd:2000, decade:'1990s', episodeCount:78, type:'Animation', age:'Kids', firstAirDate:'1997', synopsis:'Een jongensgenie bewaakt een geheim lab tegen zijn zus Dee Dee, en vaak tegen zichzelf.'},
+    {id:'ppg-nlbe', network:'cartoonnetwork', title:'The Powerpuff Girls', yearStart:1999, yearEnd:2000, decade:'1990s', episodeCount:78, type:'Animation', age:'Kids', firstAirDate:'1999', synopsis:'Drie chemisch-ontstane zussen verdedigen Townsville voor het slapengaan.'}
+  ],
+  usa: [
+    {id:'why-why-family', network:'foxkids', title:'The Why Why Family', yearStart:1996, yearEnd:1997, decade:'1990s', episodeCount:26, type:'Animation', age:'Preschool', firstAirDate:'Nov 2, 1996', synopsis:'A baby named Victor drags his family into demonstrations of how the everyday world works, one literal question at a time.', flagship:true,
+      seasons:[{n:1, episodes:[
+        {number:1, title:'Why Do Boats Float?', airDate:'Nov 2, 1996', runtime:20, availability:'available'},
+        {number:2, title:'Why Is the Sky Blue?', airDate:'Nov 9, 1996', runtime:20, availability:'available'},
+        {number:3, title:'Why Do We Dream?', airDate:'Nov 16, 1996', runtime:20, availability:'region-locked'},
+        {number:4, title:'Why Do Birds Fly South?', airDate:'Nov 23, 1996', runtime:20, availability:'missing'},
+        {number:5, title:'Why Does Bread Rise?', airDate:'Nov 30, 1996', runtime:20, availability:'available'},
+        {number:6, title:'Why Is the Ocean Salty?', airDate:'Dec 7, 1996', runtime:20, availability:'available'}
+      ]}]},
+    {id:'x-men', network:'foxkids', title:'X-Men', yearStart:1992, yearEnd:1997, decade:'1990s', episodeCount:76, type:'Animation', age:'Kids', firstAirDate:'Oct 31, 1992', synopsis:"Marvel's mutant team defends a world that fears them, adapted from three decades of comic continuity."},
+    {id:'batman-tas', network:'foxkids', title:'Batman: The Animated Series', yearStart:1992, yearEnd:1995, decade:'1990s', episodeCount:85, type:'Animation', age:'Kids', firstAirDate:'Sep 5, 1992', synopsis:'A moodier, art-deco Gotham, built to outlast the trends around it.'},
+    {id:'animaniacs', network:'foxkids', title:'Animaniacs', yearStart:1993, yearEnd:1998, decade:'1990s', episodeCount:99, type:'Animation', age:'Kids', firstAirDate:'Sep 13, 1993', synopsis:'Three unshackled cartoon siblings overrun the Warner Bros. lot with pun-driven chaos.'},
+    {id:'tiny-toons', network:'foxkids', title:'Tiny Toon Adventures', yearStart:1990, yearEnd:1992, decade:'1990s', episodeCount:98, type:'Animation', age:'Kids', firstAirDate:'Sep 14, 1990', synopsis:'A new generation of student cartoon characters learns the trade at Acme Looniversity.'},
+    {id:'dexter', network:'cartoonnetwork', title:"Dexter's Laboratory", yearStart:1996, yearEnd:2003, decade:'1990s', episodeCount:78, type:'Animation', age:'Kids', firstAirDate:'Apr 28, 1996', synopsis:'A boy genius guards a secret lab from his sister Dee Dee, and often from his own experiments.', flagship:true},
+    {id:'ppg', network:'cartoonnetwork', title:'The Powerpuff Girls', yearStart:1998, yearEnd:2005, decade:'1990s', episodeCount:78, type:'Animation', age:'Kids', firstAirDate:'Nov 18, 1998', synopsis:'Three chemically-accidental sisters defend Townsville before bedtime.'},
+    {id:'johnny-bravo', network:'cartoonnetwork', title:'Johnny Bravo', yearStart:1997, yearEnd:2004, decade:'1990s', episodeCount:67, type:'Animation', age:'Tween', firstAirDate:'Jul 7, 1997', synopsis:'A vain, dim bodybuilder strikes out with every woman he meets, by design.'},
+    {id:'smurfs', network:'cartoonnetwork', title:'The Smurfs', yearStart:1993, yearEnd:1999, decade:'1990s', episodeCount:256, type:'Animation', age:'Preschool', firstAirDate:'1993', synopsis:"Small blue forest-dwellers hide from the wizard Gargamel — kept in constant rotation on the cartoon-only channel's rerun vault."},
+    {id:'scooby-doo', network:'cartoonnetwork', title:'Scooby-Doo, Where Are You!', yearStart:1992, yearEnd:1999, decade:'1990s', episodeCount:25, type:'Animation', age:'Kids', firstAirDate:'1992', synopsis:'Four teenagers and a talking dog unmask small-town frauds — a Hanna-Barbera original kept alive by the rerun vault.'},
+    {id:'samson-gert', network:'ketnet', title:'Samson & Gert', yearStart:1990, yearEnd:2000, decade:'1990s', episodeCount:520, type:'Live-action', age:'Preschool', firstAirDate:'Jan 8, 1990', synopsis:'A man and his talking dog, five afternoons a week — a Flemish institution.'},
+    {id:'rugrats-ketnet', network:'ketnet', title:'Rugrats (Dutch dub)', yearStart:1998, yearEnd:2000, decade:'1990s', episodeCount:40, type:'Animation', age:'Preschool', firstAirDate:'Mar 3, 1998', synopsis:'The Dutch-language run of the Nickelodeon toddler favorite.'},
+    {id:'harvey-birdman', network:'adultswim', title:'Harvey Birdman, Attorney at Law', yearStart:2000, yearEnd:2007, decade:'2000s', episodeCount:39, type:'Animation', age:'Adult', firstAirDate:'Dec 30, 2000', synopsis:'A washed-up superhero practices law using former Hanna-Barbera co-stars as his clients.'},
+    {id:'sealab', network:'adultswim', title:'Sealab 2021', yearStart:2000, yearEnd:2005, decade:'2000s', episodeCount:52, type:'Animation', age:'Adult', firstAirDate:'Jan 6, 2000', synopsis:'An incompetent crew mismanages an underwater research station, badly.'},
+    {id:'aqua-teen', network:'adultswim', title:'Aqua Teen Hunger Force', yearStart:2000, yearEnd:2001, decade:'2000s', episodeCount:22, type:'Animation', age:'Adult', firstAirDate:'Dec 30, 2000', synopsis:'A milkshake, a box of fries, and a meatball share a house and solve nothing.'},
+    {id:'heman', network:'syndication', title:'He-Man and the Masters of the Universe', yearStart:1983, yearEnd:1985, decade:'1980s', episodeCount:130, type:'Animation', age:'Kids', firstAirDate:'Sep 17, 1983', synopsis:"Prince Adam transforms into Eternia's strongest defender against Skeletor's latest scheme.", flagship:true,
+      seasons:[
+        {n:1, episodes:[
+          {number:1, title:'The Shaping Staff', airDate:'Sep 17, 1983', runtime:22, availability:'available'},
+          {number:2, title:'Diamond Assault', airDate:'Sep 24, 1983', runtime:22, availability:'available'},
+          {number:3, title:'Colossor Awakes', airDate:'Oct 1, 1983', runtime:22, availability:'region-locked'},
+          {number:4, title:'The Prisoner of Zoar', airDate:'Oct 8, 1983', runtime:22, availability:'available'},
+          {number:5, title:'Prince Adam No More', airDate:'Oct 15, 1983', runtime:22, availability:'missing'},
+          {number:6, title:'The Curse of the Spellstone', airDate:'Oct 22, 1983', runtime:22, availability:'available'},
+          {number:7, title:'Third Quest', airDate:'Oct 29, 1983', runtime:22, availability:'region-locked'},
+          {number:8, title:'The Immortal Isle', airDate:'Nov 5, 1983', runtime:22, availability:'available'}
+        ]},
+        {n:2, episodes:[
+          {number:1, title:'Temple of the Sun', airDate:'Sep 8, 1984', runtime:22, availability:'missing'},
+          {number:2, title:'Search for Grayskull, Part 1', airDate:'Sep 15, 1984', runtime:22, availability:'available'},
+          {number:3, title:'Search for Grayskull, Part 2', airDate:'Sep 22, 1984', runtime:22, availability:'available'},
+          {number:4, title:'Support Your Local Sorceress', airDate:'Sep 29, 1984', runtime:22, availability:'region-locked'}
+        ]}
+      ]},
+    {id:'spc', network:'syndication', title:'Samurai Pizza Cats', yearStart:1990, yearEnd:1991, decade:'1990s', episodeCount:52, type:'Animation', age:'Kids', firstAirDate:'Nov 2, 1990', synopsis:'Three pizza-delivering, crime-fighting cats defend Little Tokyo, redubbed from Japanese with gleeful disregard for the original script.', flagship:true,
+      seasons:[{n:1, episodes:[
+        {number:1, title:'Meet the Samurai Pizza Cats', airDate:'Nov 2, 1990', runtime:22, availability:'available'},
+        {number:2, title:"Big Cheese's Big Scheme", airDate:'Nov 9, 1990', runtime:22, availability:'available'},
+        {number:3, title:'The Ninja Crows Attack', airDate:'Nov 16, 1990', runtime:22, availability:'region-locked'},
+        {number:4, title:"Speedy's Day Off", airDate:'Nov 23, 1990', runtime:22, availability:'missing'},
+        {number:5, title:'Guido Anchovy Strikes Back', airDate:'Nov 30, 1990', runtime:22, availability:'available'},
+        {number:6, title:'Emperor Fred\u2019s Revenge', airDate:'Dec 7, 1990', runtime:22, availability:'available'}
+      ]}]},
+    {id:'ducktales', network:'syndication', title:'DuckTales', yearStart:1987, yearEnd:1990, decade:'1980s', episodeCount:100, type:'Animation', age:'Kids', firstAirDate:'Sep 18, 1987', synopsis:"Scrooge McDuck's three grand-nephews chase treasure and trouble across the world."},
+    {id:'tmnt', network:'syndication', title:'Teenage Mutant Ninja Turtles', yearStart:1987, yearEnd:1996, decade:'1980s', episodeCount:193, type:'Animation', age:'Kids', firstAirDate:'Dec 14, 1987', synopsis:'Four sewer-dwelling turtles trained in ninjutsu defend New York alongside a vigilante rat.'},
+    {id:'starblazers', network:'syndication', title:'Star Blazers', yearStart:1979, yearEnd:1980, decade:'1970s', episodeCount:52, type:'Animation', age:'Kids', firstAirDate:'Sep 1, 1979', synopsis:'A dubbed Japanese space opera sold market by market — one of the first anime many American kids ever saw.'},
+    {id:'inspector-gadget', network:'syndication', title:'Inspector Gadget', yearStart:1983, yearEnd:1986, decade:'1980s', episodeCount:86, type:'Animation', age:'Kids', firstAirDate:'Sep 12, 1983', synopsis:'A bumbling cyborg detective solves every case mostly thanks to his niece and her dog.'},
+    {id:'captain-planet', network:'syndication', title:'Captain Planet and the Planeteers', yearStart:1990, yearEnd:1996, decade:'1990s', episodeCount:113, type:'Animation', age:'Kids', firstAirDate:'Sep 15, 1990', synopsis:'Five teenagers combine their rings to summon an eco-powered hero against industrial polluters.'},
+    {id:'rugrats', network:'nickelodeon', title:'Rugrats', yearStart:1991, yearEnd:2004, decade:'1990s', episodeCount:172, type:'Animation', age:'Preschool', firstAirDate:'Aug 11, 1991', synopsis:"A crawling toddler's-eye view of a world adults think they're running.", flagship:true,
+      seasons:[{n:1, episodes:[
+        {number:1, title:"Tommy's First Birthday", airDate:'Aug 11, 1991', runtime:22, availability:'available'},
+        {number:2, title:'Wash-Dry Story', airDate:'Aug 18, 1991', runtime:22, availability:'available'},
+        {number:3, title:'Real or Robots', airDate:'Aug 25, 1991', runtime:22, availability:'missing'},
+        {number:4, title:'Chuckie vs. the Potty', airDate:'Sep 1, 1991', runtime:22, availability:'region-locked'},
+        {number:5, title:'At the Movies', airDate:'Sep 8, 1991', runtime:22, availability:'available'},
+        {number:6, title:'Tooth or Dare', airDate:'Sep 15, 1991', runtime:22, availability:'available'}
+      ]}]},
+    {id:'doug', network:'nickelodeon', title:'Doug', yearStart:1991, yearEnd:1994, decade:'1990s', episodeCount:52, type:'Animation', age:'Tween', firstAirDate:'Aug 11, 1991', synopsis:'A cautious middle-schooler narrates his own small anxieties like a nature documentary.'},
+    {id:'ren-stimpy', network:'nickelodeon', title:'The Ren & Stimpy Show', yearStart:1991, yearEnd:1996, decade:'1990s', episodeCount:52, type:'Animation', age:'Tween', firstAirDate:'Aug 11, 1991', synopsis:'A neurotic chihuahua and an amiable, none-too-bright cat push Saturday morning as far as it will go.'},
+    {id:'pinwheel', network:'nickelodeon', title:'Pinwheel', yearStart:1977, yearEnd:1990, decade:'1970s', episodeCount:'—', type:'Live-action', age:'Preschool', firstAirDate:'Apr 1, 1977', synopsis:"Nickelodeon's first programming block, mixing animation, puppetry, and international shorts before the channel had a real schedule to speak of."}
+  ]
+};
+
+const I18N = {
+  en: { schedule:'THE SCHEDULE', page:'PAGE', present:'present',
+    type:{All:'All',Animation:'Animation','Live-action':'Live-action'},
+    age:{All:'All',Preschool:'Preschool',Kids:'Kids',Tween:'Tween',Adult:'Adult'},
+    decade:{'1970s':'1970s','1980s':'1980s','1990s':'1990s','2000s':'2000s'},
+    hoverHint:'Hover or focus a title for first-air-date, network, and episode count.',
+    firstAired:'first aired', episodesWord:'episodes',
+    avail:{available:'PLAYS', regionLocked:'REGION-LOCKED', missing:'MISSING', reportLink:'Report a working link', reportedThanks:'Reported — thank you.', missingNote:'No upload found for this episode.'} },
+  nl: { schedule:'DE TV-GIDS', page:'PAGINA', present:'heden',
+    type:{All:'Alle',Animation:'Animatie','Live-action':'Live-action'},
+    age:{All:'Alle',Preschool:'Peuters',Kids:'Kids',Tween:'Tieners',Adult:'Volwassenen'},
+    decade:{'1970s':"jaren '70",'1980s':"jaren '80",'1990s':"jaren '90",'2000s':"jaren '00"},
+    hoverHint:'Beweeg over of focus een titel voor eerste uitzenddatum, zender en aantal afleveringen.',
+    firstAired:'eerste uitzending', episodesWord:'afleveringen',
+    avail:{available:'SPEELT', regionLocked:'REGIOGEBONDEN', missing:'ONTBREEKT', reportLink:'Meld een werkende link', reportedThanks:'Gemeld — bedankt.', missingNote:'Geen upload gevonden voor deze aflevering.'} },
+  fr: { schedule:'LE GUIDE TÉLÉ', page:'PAGE', present:'présent',
+    type:{All:'Tout',Animation:'Animation','Live-action':'Live-action'},
+    age:{All:'Tout',Preschool:'Préscolaire',Kids:'Enfants',Tween:'Ados',Adult:'Adultes'},
+    decade:{'1970s':'années 70','1980s':'années 80','1990s':'années 90','2000s':'années 00'},
+    hoverHint:'Survolez ou sélectionnez un titre pour la date de première diffusion, la chaîne et le nombre d\u2019épisodes.',
+    firstAired:'première diffusion', episodesWord:'épisodes',
+    avail:{available:'DISPONIBLE', regionLocked:'ZONE VERROUILLÉE', missing:'MANQUANT', reportLink:'Signaler un lien valide', reportedThanks:'Signalé — merci.', missingNote:'Aucun envoi trouvé pour cet épisode.'} }
+};
+
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function pad2(n){ return String(n).padStart(2,'0'); }
+function genSeasons(series){
+  if (series.seasons) return series.seasons;
+  const count = typeof series.episodeCount === 'number' ? Math.min(series.episodeCount, 12) : 6;
+  const states = ['available','available','region-locked','available','missing','available','region-locked','available'];
+  const span = Math.max(series.yearEnd - series.yearStart, 1);
+  const eps = [];
+  for (let i=0;i<count;i++){
+    const yr = series.yearStart + Math.floor((i/count)*span);
+    eps.push({ number:i+1, title:'Episode '+(i+1), runtime: series.type==='Live-action'?25:22, airDate: MONTHS[i%12]+' '+((i*7)%28+1)+', '+yr, availability: states[i%states.length] });
+  }
+  return [{ n:1, episodes: eps }];
+}
+function initialsFor(title){
+  const stop=new Set(['the','and','of','a','an','de','het','een']);
+  const words=title.split(/\s+/).filter(w=>w && !stop.has(w.toLowerCase().replace(/[^a-z]/g,'')));
+  const pick = words.length?words:title.split(/\s+/);
+  return pick.slice(0,2).map(w=>(w.replace(/[^A-Za-z0-9]/g,'')[0]||'')).join('').toUpperCase();
+}
+
+class Component extends DCLogic {
+  state = {
+    screen:'schedule', region:'nlbe', lang:'nl', theme:'dark', viewMode:'listings',
+    activeNetworkId:null, activeSeriesId:null, activeSeasonIdx:0, activeEpisodeIdx:0,
+    previewId:null, typeFilter:'All', ageFilter:'All', flicker:false, isPlaying:false, reportedKeys: new Set(),
+    viewportW: (typeof window!=='undefined'?window.innerWidth:1200)
+  };
+
+  componentDidMount(){
+    this._reducedMotion = typeof window!=='undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._onResize = () => this.setState({viewportW: window.innerWidth});
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount(){
+    window.removeEventListener('resize', this._onResize);
+    clearTimeout(this._flickerT);
+  }
+
+  _nets(){ return NETWORKS[this.state.region]; }
+  _series(){ return SERIES[this.state.region]; }
+  _decades(){ return DECADES[this.state.region]; }
+  _T(){ return I18N[this.state.lang]; }
+  _C(){ return THEMES[this.state.theme]; }
+  _netColor(net){ return this.state.theme==='dark'?net.color:net.colorLight; }
+
+  triggerFlicker(){
+    if (this._reducedMotion) return;
+    this.setState({flicker:true});
+    clearTimeout(this._flickerT);
+    this._flickerT = setTimeout(()=>this.setState({flicker:false}), 220);
+  }
+
+  goSchedule(){ this.triggerFlicker(); this.setState({screen:'schedule'}); }
+  goBroadcaster(id){ this.triggerFlicker(); this.setState({screen:'broadcaster', activeNetworkId:id}); }
+  goSeries(id){
+    const s = this._series().find(x=>x.id===id); if(!s) return;
+    this.triggerFlicker();
+    this.setState({screen:'series', activeSeriesId:id, activeNetworkId:s.network, activeSeasonIdx:0});
+  }
+  setSeason(idx){ this.setState({activeSeasonIdx:idx}); }
+  goPlayer(seriesId, seasonIdx, epIdx){
+    const s = this._series().find(x=>x.id===seriesId); if(!s) return;
+    const seasons = genSeasons(s);
+    const ep = seasons[seasonIdx] && seasons[seasonIdx].episodes[epIdx];
+    if (!ep || ep.availability==='missing') return;
+    this.triggerFlicker();
+    this.setState({screen:'player', activeSeriesId:seriesId, activeSeasonIdx:seasonIdx, activeEpisodeIdx:epIdx, activeNetworkId:s.network});
+  }
+  playNext(){
+    const s = this._series().find(x=>x.id===this.state.activeSeriesId); if(!s) return;
+    const seasons = genSeasons(s);
+    let seasonIdx = this.state.activeSeasonIdx, epIdx = this.state.activeEpisodeIdx+1, guard=0;
+    while (seasons[seasonIdx] && guard++<200){
+      const season = seasons[seasonIdx];
+      if (epIdx >= season.episodes.length){ seasonIdx++; epIdx=0; continue; }
+      if (season.episodes[epIdx].availability==='missing'){ epIdx++; continue; }
+      this.goPlayer(s.id, seasonIdx, epIdx); return;
+    }
+  }
+  _nextPlayable(seasons, seasonIdx, epIdx){
+    let si=seasonIdx, ei=epIdx, guard=0;
+    while (seasons[si] && guard++<200){
+      const season = seasons[si];
+      if (ei >= season.episodes.length){ si++; ei=0; continue; }
+      if (season.episodes[ei].availability==='missing'){ ei++; continue; }
+      return season.episodes[ei];
+    }
+    return null;
+  }
+  setTypeFilter(v){ this.setState({typeFilter:v}); }
+  setAgeFilter(v){ this.setState({ageFilter:v}); }
+  setPreview(id){ this.setState({previewId:id}); }
+  setRegion(id){
+    if (id===this.state.region) return;
+    this.triggerFlicker();
+    this.setState({region:id, screen:'schedule', activeNetworkId:null, activeSeriesId:null, previewId:null, typeFilter:'All', ageFilter:'All'});
+  }
+  setLang(id){ this.setState({lang:id}); }
+  setTheme(id){ if(id!==this.state.theme){ this.triggerFlicker(); this.setState({theme:id}); } }
+  setViewMode(id){ this.setState({viewMode:id}); }
+  togglePlay(){ this.setState(s=>({isPlaying:!s.isPlaying})); }
+  reportMissing(key){ const set=new Set(this.state.reportedKeys); set.add(key); this.setState({reportedKeys:set}); }
+
+  handleGridKeyDown(e){
+    const key = e.key;
+    if (!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter',' '].includes(key)) return;
+    e.preventDefault();
+    const cur = e.currentTarget;
+    if (key==='Enter' || key===' '){ cur.click(); return; }
+    const root = cur.closest('[data-grid-root]');
+    if (!root) return;
+    let row = parseInt(cur.getAttribute('data-row'),10), col = parseInt(cur.getAttribute('data-col'),10);
+    if (key==='ArrowRight') col++;
+    else if (key==='ArrowLeft') col--;
+    else if (key==='ArrowDown') row++;
+    else if (key==='ArrowUp') row--;
+    let target = null;
+    if (key==='ArrowLeft' || key==='ArrowRight'){
+      target = root.querySelector('[data-row="'+row+'"][data-col="'+col+'"]');
+    } else {
+      for (let c=col; c>=0 && !target; c--) target = root.querySelector('[data-row="'+row+'"][data-col="'+c+'"]');
+      if (!target) target = root.querySelector('[data-row="'+row+'"]');
+    }
+    if (target) target.focus();
+  }
+
+  _decorateEntry(s, net){
+    return { ...s, networkName:net.name, networkColor:this._netColor(net), networkNeutral:!!net.neutral,
+      colIdx:0, yearsLabel: s.yearStart+'–'+s.yearEnd,
+      epLabel: typeof s.episodeCount==='number' ? s.episodeCount+' EP' : '— EP',
+      onClick: ()=>this.goSeries(s.id),
+      onMouseEnter: ()=>this.setPreview(s.id),
+      onFocus: ()=>this.setPreview(s.id),
+      onKeyDown: (e)=>this.handleGridKeyDown(e) };
+  }
+  _previewData(s, T){
+    const net = this._nets().find(n=>n.id===s.network);
+    const epCount = typeof s.episodeCount==='number' ? s.episodeCount+' '+T.episodesWord : '— '+T.episodesWord;
+    return { title:s.title, initials:initialsFor(s.title), networkColor:this._netColor(net),
+      metaLine: s.yearStart+'–'+s.yearEnd+' · '+net.name+' · '+T.firstAired+' '+s.firstAirDate+' · '+epCount };
+  }
+  _decorateEpisode(ep, series, seasonIdx, idx, isCurrent, T, C){
+    const playable = ep.availability!=='missing';
+    const key = series.id+'-'+seasonIdx+'-'+idx;
+    const reported = this.state.reportedKeys.has(key);
+    const tagMap = { available:[T.avail.available,C.dim], 'region-locked':[T.avail.regionLocked,C.dim], missing:[T.avail.missing,C.missing] };
+    const tag = tagMap[ep.availability] || tagMap.available;
+    return { ...ep, isCurrent:!!isCurrent, canPlay:playable,
+      cursor: playable?'pointer':'default', rowOpacity: playable?1:0.55,
+      tagLabel: tag[0], tagColor: tag[1],
+      railBg: isCurrent?C.railBg:'transparent',
+      showReport: !playable, reportText: reported?T.avail.reportedThanks:T.avail.reportLink, missingNote:T.avail.missingNote,
+      onReport: (e)=>{ e.preventDefault(); this.reportMissing(key); },
+      onClick: playable ? ()=>this.goPlayer(series.id, seasonIdx, idx) : undefined };
+  }
+  _pageCode(){
+    const st=this.state; const prefix = st.region==='usa'?'U':'N';
+    if (st.screen==='schedule') return prefix+'100';
+    if (st.screen==='broadcaster'){ const i=this._nets().findIndex(n=>n.id===st.activeNetworkId); return prefix+'2'+pad2(i+1); }
+    if (st.screen==='series'){ const i=this._series().findIndex(s=>s.id===st.activeSeriesId); return prefix+'3'+pad2(i+1); }
+    if (st.screen==='player'){ const i=this._series().findIndex(s=>s.id===st.activeSeriesId); return prefix+'4'+pad2(i+1)+'·'+pad2(st.activeEpisodeIdx+1); }
+    return prefix+'100';
+  }
+
+  renderVals(){
+    const st = this.state;
+    const T = this._T(), C = this._C();
+    const nets = this._nets(), allSeries = this._series(), decades = this._decades();
+    const isMobile = st.viewportW < 760;
+    const netColor = (net)=>this._netColor(net);
+    const activeNetworkRaw = nets.find(n=>n.id===st.activeNetworkId) || null;
+    const activeNetwork = activeNetworkRaw ? { ...activeNetworkRaw, color:netColor(activeNetworkRaw), yearsLabel:activeNetworkRaw.years[st.lang], noteLabel:activeNetworkRaw.note[st.lang] } : null;
+
+    const themeOptions = THEME_OPTS.map(o=>({label:o.label, bg:o.id===st.theme?C.ink:'transparent', fg:o.id===st.theme?C.chipFg:C.dim, onClick:()=>this.setTheme(o.id)}));
+    const viewOptions = VIEW_OPTS.map(o=>({label:o.label, bg:o.id===st.viewMode?C.ink:'transparent', fg:o.id===st.viewMode?C.chipFg:C.dim, onClick:()=>this.setViewMode(o.id)}));
+    const regionOptions = REGIONS.map(r=>({ label:r.label, bg:r.id===st.region?C.ink:'transparent', fg:r.id===st.region?C.chipFg:C.dim, onClick:()=>this.setRegion(r.id) }));
+    const langOptions = LANGS.map(l=>({ label:l.label, bg:l.id===st.lang?C.ink:'transparent', fg:l.id===st.lang?C.chipFg:C.dim, onClick:()=>this.setLang(l.id) }));
+
+    const channelTabs = nets.map(n => {
+      const active = activeNetwork ? activeNetwork.id===n.id : false;
+      const col = netColor(n);
+      return { ...n, active, color:col,
+        bg: active ? col : 'transparent',
+        fg: active ? C.chipFg : (n.neutral ? C.dim : col),
+        bd: n.neutral ? C.border2 : col,
+        onClick: () => this.goBroadcaster(n.id) };
+    });
+
+    const matchesFilter = (s) => (st.typeFilter==='All'||s.type===st.typeFilter) && (st.ageFilter==='All'||s.age===st.ageFilter);
+    const typeKeys = ['All','Animation','Live-action'];
+    const ageKeys = ['All','Preschool','Kids','Tween','Adult'];
+    const typeOptions = typeKeys.map(t=>({label:T.type[t], bg:t===st.typeFilter?C.ink:'transparent', fg:t===st.typeFilter?C.chipFg:C.dim, onClick:()=>this.setTypeFilter(t)}));
+    const ageOptions = ageKeys.map(a=>({label:T.age[a], bg:a===st.ageFilter?C.ink:'transparent', fg:a===st.ageFilter?C.chipFg:C.dim, onClick:()=>this.setAgeFilter(a)}));
+    const decadeHeaders = decades.map(d=>T.decade[d]);
+
+    const scheduleRows = nets.map((net, rowIdx) => {
+      const netSeries = allSeries.filter(s=>s.network===net.id);
+      let colCounter = 0;
+      const cells = decades.map(dec => {
+        const entries = netSeries.filter(s=>s.decade===dec && matchesFilter(s)).map(s => ({ ...this._decorateEntry(s, net), colIdx: colCounter++ }));
+        return { decade:dec, entries, empty: entries.length===0 };
+      });
+      return { network:{...net,color:netColor(net)}, rowIdx, cells };
+    });
+
+    const previewSeries = allSeries.find(s=>s.id===st.previewId) || null;
+    const preview = previewSeries ? this._previewData(previewSeries, T) : null;
+
+    const mobileGroups = nets.map(net => ({
+      network: {...net, color:netColor(net)},
+      items: allSeries.filter(s=>s.network===net.id && matchesFilter(s)).sort((a,b)=>a.yearStart-b.yearStart).map(s => this._decorateEntry(s, net))
+    })).filter(g=>g.items.length>0);
+
+    const broadcasterSeries = activeNetworkRaw ? allSeries.filter(s=>s.network===activeNetworkRaw.id).sort((a,b)=>a.yearStart-b.yearStart).map(s => this._decorateEntry(s, activeNetworkRaw)) : [];
+
+    const currentSeriesRaw = allSeries.find(s=>s.id===st.activeSeriesId) || null;
+    const currentSeries = currentSeriesRaw ? { ...currentSeriesRaw, yearsLabel: currentSeriesRaw.yearStart+'–'+currentSeriesRaw.yearEnd, epLabel: typeof currentSeriesRaw.episodeCount==='number'?currentSeriesRaw.episodeCount+' EP':'— EP' } : null;
+    const currentNetworkForSeries = currentSeries ? (()=>{ const n=nets.find(x=>x.id===currentSeries.network); return n?{...n,color:netColor(n)}:null; })() : null;
+    const seasons = currentSeries ? genSeasons(currentSeries) : [];
+    const activeSeasonIdx = Math.min(st.activeSeasonIdx, Math.max(seasons.length-1,0));
+    const seasonTabs = seasons.map((sea,idx)=>({ label:'Season '+sea.n, active: idx===activeSeasonIdx, bg: idx===activeSeasonIdx?C.ink:'transparent', fg: idx===activeSeasonIdx?C.chipFg:C.dim, onClick: ()=>this.setSeason(idx) }));
+    const episodes = (seasons[activeSeasonIdx]?.episodes||[]).map((ep,idx)=>this._decorateEpisode(ep, currentSeries, activeSeasonIdx, idx, false, T, C));
+    const hasMultiSeasons = seasons.length>1;
+    const seasonNumber = (seasons[activeSeasonIdx]&&seasons[activeSeasonIdx].n)||1;
+
+    let playerEpisode=null, playerSeries=currentSeries, playerNetwork=currentNetworkForSeries, railEpisodes=[], nextEp=null;
+    if (st.screen==='player' && currentSeries){
+      const sea = seasons[st.activeSeasonIdx];
+      playerEpisode = sea ? sea.episodes[st.activeEpisodeIdx] : null;
+      railEpisodes = (sea?.episodes||[]).map((ep,idx)=>this._decorateEpisode(ep, currentSeries, st.activeSeasonIdx, idx, idx===st.activeEpisodeIdx, T, C));
+      nextEp = this._nextPlayable(seasons, st.activeSeasonIdx, st.activeEpisodeIdx+1);
+    }
+
+    return {
+      T, C, screen: st.screen, isSchedule: st.screen==='schedule', isBroadcaster: st.screen==='broadcaster',
+      isSeries: st.screen==='series', isPlayer: st.screen==='player',
+      isMobile, isDesktop: !isMobile, isCovers: st.viewMode==='covers', isListings: st.viewMode==='listings',
+      goSchedule: ()=>this.goSchedule(),
+      themeOptions, viewOptions, regionOptions, langOptions, channelTabs,
+      flickerStyle: st.flicker ? 'animation:ntv-flicker 220ms ease-out;' : '',
+      pageCode: this._pageCode(),
+      typeOptions, ageOptions, decadeHeaders, scheduleRows, mobileGroups,
+      preview, hasPreview: !!preview, noPreview: !preview,
+      activeNetwork, broadcasterSeries,
+      currentSeries, currentNetworkForSeries, seasonTabs, episodes, activeSeasonIdx, hasMultiSeasons, seasonNumber,
+      playerEpisode, playerSeries, playerNetwork, railEpisodes, nextEp, hasNext: !!nextEp,
+      isPlaying: st.isPlaying, isNotPlaying: !st.isPlaying, togglePlay: ()=>this.togglePlay(),
+      playNext: ()=>this.playNext(),
+      goBackToSeries: ()=> this.setState({screen:'series'}),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
