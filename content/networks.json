@@ -1,0 +1,114 @@
+[
+  {
+    "slug": "vtm",
+    "name": "VTM",
+    "channelNumber": 2,
+    "colour": "#E838B0",
+    "colourLight": "#9C1F6E",
+    "logo": "/networks/vtm.svg",
+    "activeYears": [
+      1989,
+      2026
+    ],
+    "note": "Flanders' first commercial channel; imported cartoons filled its afternoons.",
+    "neutral": false
+  },
+  {
+    "slug": "nederland3",
+    "name": "Nederland 3",
+    "channelNumber": 3,
+    "colour": "#4C8DF2",
+    "colourLight": "#1E4E9C",
+    "logo": "/networks/nederland3.svg",
+    "activeYears": [
+      1988,
+      2026
+    ],
+    "note": "Dutch public television's third channel; home of the after-school block.",
+    "neutral": false
+  },
+  {
+    "slug": "nickelodeon",
+    "name": "Nickelodeon",
+    "channelNumber": 30,
+    "colour": "#F2C94C",
+    "colourLight": "#8A6512",
+    "logo": "/networks/nickelodeon.svg",
+    "activeYears": [
+      1998,
+      2026
+    ],
+    "note": "The first Nickelodeon feed for Dutch and Flemish viewers.",
+    "neutral": false
+  },
+  {
+    "slug": "adultswim",
+    "name": "Adult Swim",
+    "channelNumber": 31,
+    "colour": "#4C8DF2",
+    "colourLight": "#1E4E9C",
+    "logo": "/networks/adultswim.svg",
+    "activeYears": [
+      2000,
+      2026
+    ],
+    "note": "Late-night reruns for the audience that grew up with them.",
+    "neutral": false
+  },
+  {
+    "slug": "foxkids",
+    "name": "Fox Kids",
+    "channelNumber": 33,
+    "colour": "#4CD97A",
+    "colourLight": "#1F7A3D",
+    "logo": "/networks/foxkids.svg",
+    "activeYears": [
+      1997,
+      2005
+    ],
+    "note": "The Benelux feed of the American after-school block.",
+    "neutral": false
+  },
+  {
+    "slug": "cartoonnetwork",
+    "name": "Cartoon Network",
+    "channelNumber": 38,
+    "colour": "#8A93A6",
+    "colourLight": "#6B6A64",
+    "logo": "/networks/cartoonnetwork.svg",
+    "activeYears": [
+      1993,
+      2026
+    ],
+    "note": "The Benelux feed of the cartoon-only channel.",
+    "neutral": true
+  },
+  {
+    "slug": "ketnet",
+    "name": "Ketnet",
+    "channelNumber": 45,
+    "colour": "#3FE0D0",
+    "colourLight": "#0E7A6E",
+    "logo": "/networks/ketnet.svg",
+    "activeYears": [
+      1997,
+      2026
+    ],
+    "note": "VRT's children's channel for Flanders.",
+    "neutral": false
+  },
+  {
+    "slug": "syndication",
+    "name": "Syndication",
+    "channelNumber": 99,
+    "colour": "#8A93A6",
+    "colourLight": "#6B6A64",
+    "logo": "/networks/syndication.svg",
+    "activeYears": [
+      1979,
+      1996
+    ],
+    "note": "Sold station by station rather than aired on one channel.",
+    "neutral": true
+  }
+]

@@ -1,33 +1,44 @@
-<script setup>
+<script setup lang="ts">
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAppState } from '../composables/useAppState.js';
+import { useUiStore } from '../stores/ui';
+import { useContentStore } from '../stores/content';
+import { pad2 } from '../data/helpers';
 
-const props = defineProps({ activeId: { type: String, default: null } });
+const props = defineProps<{ activeSlug?: string | null }>();
 
 const router = useRouter();
-const { nets, netColor, C, state, triggerFlicker } = useAppState();
+const ui = useUiStore();
+const content = useContentStore();
+const C = computed(() => ui.C);
 
-function go(id) {
-  triggerFlicker();
-  router.push(`/broadcaster/${id}`);
+function go(slug: string): void {
+  ui.triggerFlicker();
+  void router.push(`/network/${slug}`);
 }
 </script>
 
 <template>
   <nav class="ntv-tabs" aria-label="Broadcasters" :style="{ background: C.bg2, borderColor: C.border }">
     <button
-      v-for="net in nets"
-      :key="net.id"
+      v-for="net in content.networks"
+      :key="net.slug"
       class="ntv-tab"
       :style="{
-        background: net.id === props.activeId ? netColor(net) : 'transparent',
-        color: net.id === props.activeId ? C.chipFg : net.neutral ? C.dim : netColor(net),
-        borderColor: net.neutral ? C.border2 : netColor(net),
+        background: net.slug === props.activeSlug ? ui.netColour(net) : 'transparent',
+        color: net.slug === props.activeSlug ? C.chipFg : net.neutral ? C.dim : ui.netColour(net),
+        borderColor: net.neutral ? C.border2 : ui.netColour(net),
       }"
-      @click="go(net.id)"
+      @click="go(net.slug)"
     >
-      <div v-if="state.viewMode === 'covers'" class="ntv-tab-logo" :style="{ background: netColor(net) }"></div>
-      <span class="ntv-tab-ch">{{ net.ch }}</span>
+      <img
+        v-if="ui.viewMode === 'covers'"
+        class="ntv-tab-logo"
+        :src="net.logo"
+        :alt="''"
+        aria-hidden="true"
+      />
+      <span class="ntv-tab-ch">{{ pad2(net.channelNumber) }}</span>
       <span class="ntv-tab-name">{{ net.name }}</span>
     </button>
   </nav>
@@ -76,6 +87,9 @@ function go(id) {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   font-weight: 600;
+  /* The mark is a monogram drawn in currentColor, so it inherits the tab's
+     active/neutral colour rather than needing a second palette. */
+  object-fit: contain;
 }
 
 .ntv-tab-ch {

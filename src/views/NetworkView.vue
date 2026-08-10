@@ -1,58 +1,66 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAppState } from '../composables/useAppState.js';
+import { useUiStore } from '../stores/ui';
+import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
+import { episodeCountLabel, pad2, yearRangeLabel } from '../data/helpers';
+import type { SeriesStub } from '../types';
 
-const props = defineProps({ id: { type: String, required: true } });
+const props = defineProps<{ slug: string }>();
 
 const router = useRouter();
-const { state, C, nets, allSeries, netColor, triggerFlicker } = useAppState();
+const ui = useUiStore();
+const content = useContentStore();
+const C = computed(() => ui.C);
 
-const network = computed(() => nets.value.find((n) => n.id === props.id) || null);
-const color = computed(() => (network.value ? netColor(network.value) : C.value.dim));
-const yearsLabel = computed(() => network.value?.years?.[state.lang] || '');
-const note = computed(() => network.value?.note?.[state.lang] || '');
+const network = computed(() => content.network(props.slug));
+const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
 
-const series = computed(() =>
+const yearsLabel = computed(() =>
+  network.value ? yearRangeLabel(network.value.activeYears[0], network.value.activeYears[1]) : '',
+);
+
+/** One broadcaster, chronological. */
+const series = computed<SeriesStub[]>(() =>
   network.value
-    ? allSeries.value.filter((s) => s.network === network.value.id).sort((a, b) => a.yearStart - b.yearStart)
+    ? content.stubs
+        .filter((s) => s.networkSlug === network.value?.slug)
+        .sort((a, b) => a.firstAirYear - b.firstAirYear)
     : [],
 );
 
-function seriesYearsLabel(s) {
-  return s.yearStart + '–' + s.yearEnd;
-}
-function epLabel(s) {
-  return typeof s.episodeCount === 'number' ? s.episodeCount + ' EP' : '— EP';
-}
+const seriesYearsLabel = (s: SeriesStub): string => yearRangeLabel(s.firstAirYear, s.lastAirYear);
+const epLabel = (s: SeriesStub): string => episodeCountLabel(s.episodeCount);
 
-function goSeries(id) {
-  triggerFlicker();
-  router.push('/series/' + id);
+function goSeries(slug: string): void {
+  ui.triggerFlicker();
+  void router.push(`/series/${slug}`);
 }
 </script>
 
 <template>
   <div v-if="network" class="bcast">
-    <div class="bcast-head" :style="{ borderColor: color }">
-      <div class="mono dim" :style="{ color: C.dim }">CH {{ network.ch }} · {{ yearsLabel }}</div>
+    <div class="bcast-head" :style="{ borderColor: colour }">
+      <div class="mono dim" :style="{ color: C.dim }">
+        CH {{ pad2(network.channelNumber) }} · {{ yearsLabel }}
+      </div>
       <h1 :style="{ color: C.ink }">{{ network.name }}</h1>
-      <div class="note" :style="{ color: C.dim2 }">{{ note }}</div>
+      <div class="note" :style="{ color: C.dim2 }">{{ network.note }}</div>
     </div>
 
-    <div v-if="state.viewMode === 'listings'" class="bcast-list">
+    <div v-if="ui.viewMode === 'listings'" class="bcast-list">
       <div
         v-for="s in series"
-        :key="s.id"
+        :key="s.slug"
         class="bcast-row"
         role="button"
         tabindex="0"
         :style="{ borderColor: C.border }"
-        @click="goSeries(s.id)"
-        @keydown.enter="goSeries(s.id)"
+        @click="goSeries(s.slug)"
+        @keydown.enter="goSeries(s.slug)"
       >
-        <span class="title" :style="{ color: C.ink }">{{ s.title }}</span>
+        <span class="title" :style="{ color: C.ink }">{{ s.name }}</span>
         <span class="mono dim" :style="{ color: C.dim }">{{ seriesYearsLabel(s) }} · {{ epLabel(s) }}</span>
       </div>
     </div>
@@ -60,15 +68,21 @@ function goSeries(id) {
     <div v-else class="bcast-covers">
       <div
         v-for="s in series"
-        :key="s.id"
+        :key="s.slug"
         class="cover-card"
         role="button"
         tabindex="0"
-        @click="goSeries(s.id)"
-        @keydown.enter="goSeries(s.id)"
+        @click="goSeries(s.slug)"
+        @keydown.enter="goSeries(s.slug)"
       >
-        <CoverImage :series="s" :accent-color="color" class="cover-card-img" />
-        <div class="cover-card-title" :style="{ color: C.ink }">{{ s.title }}</div>
+        <CoverImage
+          :title="s.name"
+          :file-path="s.poster"
+          size="w342"
+          :accent-color="colour"
+          class="cover-card-img"
+        />
+        <div class="cover-card-title" :style="{ color: C.ink }">{{ s.name }}</div>
         <div class="mono dim" :style="{ color: C.dim }">{{ seriesYearsLabel(s) }} · {{ epLabel(s) }}</div>
       </div>
     </div>

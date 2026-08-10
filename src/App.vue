@@ -1,48 +1,48 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import HeaderBar from './components/HeaderBar.vue';
 import ChannelTabs from './components/ChannelTabs.vue';
-import { useAppState } from './composables/useAppState.js';
-import { pad2 } from './data/helpers.js';
+import { useUiStore } from './stores/ui';
+import { useContentStore } from './stores/content';
+import { pad2 } from './data/helpers';
 
 const route = useRoute();
-const { state, C, nets, allSeries } = useAppState();
+const ui = useUiStore();
+const content = useContentStore();
 
-const activeNetworkId = computed(() => {
-  if (route.name === 'broadcaster') return route.params.id;
-  if (route.name === 'series') {
-    const s = allSeries.value.find((x) => x.id === route.params.id);
-    return s ? s.network : null;
-  }
-  if (route.name === 'player') {
-    const s = allSeries.value.find((x) => x.id === route.params.seriesId);
-    return s ? s.network : null;
+const C = computed(() => ui.C);
+
+const activeNetworkSlug = computed<string | null>(() => {
+  if (route.name === 'network') return String(route.params.slug);
+  if (route.name === 'series' || route.name === 'player') {
+    return content.stub(String(route.params.slug))?.networkSlug ?? null;
   }
   return null;
 });
 
+/** The teletext page number in the header. Cosmetic, but it is the thing that
+ * sells the conceit, so it tracks the real route. */
 const pageCode = computed(() => {
-  const prefix = state.region === 'usa' ? 'U' : 'N';
-  if (route.name === 'broadcaster') {
-    const i = nets.value.findIndex((n) => n.id === route.params.id);
-    return prefix + '2' + pad2(i + 1);
+  if (route.name === 'network') {
+    const i = content.networks.findIndex((n) => n.slug === route.params.slug);
+    return `2${pad2(i + 1)}`;
   }
   if (route.name === 'series') {
-    const i = allSeries.value.findIndex((s) => s.id === route.params.id);
-    return prefix + '3' + pad2(i + 1);
+    const i = content.stubs.findIndex((s) => s.slug === route.params.slug);
+    return `3${pad2(i + 1)}`;
   }
   if (route.name === 'player') {
-    const i = allSeries.value.findIndex((s) => s.id === route.params.seriesId);
-    return prefix + '4' + pad2(i + 1) + '·' + pad2(Number(route.params.episode) + 1);
+    const i = content.stubs.findIndex((s) => s.slug === route.params.slug);
+    return `4${pad2(i + 1)}·${pad2(Number(route.params.episode))}`;
   }
-  return prefix + '100';
+  return '100';
 });
 
 const flashStyle = computed(() => ({
   background: C.value.flashColor,
   mixBlendMode: C.value.flashBlend,
-  animation: state.flicker ? 'ntv-flicker 220ms ease-out' : 'none',
+  animation: ui.flicker ? 'ntv-flicker 220ms ease-out' : 'none',
 }));
 </script>
 
@@ -50,10 +50,21 @@ const flashStyle = computed(() => ({
   <div class="ntv-app" :style="{ background: C.bg, color: C.ink }">
     <div class="ntv-flash" :style="flashStyle"></div>
     <HeaderBar :page-code="pageCode" />
-    <ChannelTabs :active-id="activeNetworkId" />
+    <ChannelTabs :active-slug="activeNetworkSlug" />
     <main class="ntv-main">
       <router-view />
     </main>
+    <footer class="ntv-footer" :style="{ borderColor: C.border, color: C.dim }">
+      <span>
+        No video is hosted here. Every episode plays as an embed from the
+        rights-holder's own YouTube channel.
+      </span>
+      <span>
+        Series and episode metadata from
+        <a :style="{ color: C.dim2 }" href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">TMDB</a>.
+        This product uses the TMDB API but is not endorsed or certified by TMDB.
+      </span>
+    </footer>
   </div>
 </template>
 
@@ -76,5 +87,22 @@ const flashStyle = computed(() => ({
 
 .ntv-main {
   flex: 1;
+}
+
+.ntv-footer {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 20px 24px;
+  border-top: 1px solid;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+.ntv-footer a {
+  text-decoration: underline;
 }
 </style>

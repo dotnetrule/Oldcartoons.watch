@@ -1,0 +1,482 @@
+[
+  {
+    "tmdbEpisodeId": -1,
+    "seriesId": -7,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -2,
+    "seriesId": -7,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -3,
+    "seriesId": -7,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -4,
+    "seriesId": -7,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -5,
+    "seriesId": -7,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -6,
+    "seriesId": -7,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -7,
+    "seriesId": -7,
+    "season": 1,
+    "episode": 7,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -8,
+    "seriesId": -7,
+    "season": 1,
+    "episode": 8,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -9,
+    "seriesId": -7,
+    "season": 2,
+    "episode": 1,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -10,
+    "seriesId": -7,
+    "season": 2,
+    "episode": 2,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -11,
+    "seriesId": -7,
+    "season": 2,
+    "episode": 3,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -12,
+    "seriesId": -7,
+    "season": 2,
+    "episode": 4,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -13,
+    "seriesId": -14,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -14,
+    "seriesId": -14,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -15,
+    "seriesId": -14,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -16,
+    "seriesId": -14,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -17,
+    "seriesId": -14,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -18,
+    "seriesId": -14,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -19,
+    "seriesId": -15,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -20,
+    "seriesId": -15,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -21,
+    "seriesId": -15,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -22,
+    "seriesId": -15,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -23,
+    "seriesId": -15,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -24,
+    "seriesId": -15,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -25,
+    "seriesId": -17,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -26,
+    "seriesId": -17,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -27,
+    "seriesId": -17,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -28,
+    "seriesId": -17,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -29,
+    "seriesId": -17,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -30,
+    "seriesId": -17,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -31,
+    "seriesId": -22,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -32,
+    "seriesId": -22,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -33,
+    "seriesId": -22,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -34,
+    "seriesId": -22,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -35,
+    "seriesId": -22,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -36,
+    "seriesId": -22,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -37,
+    "seriesId": -27,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -38,
+    "seriesId": -27,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -39,
+    "seriesId": -27,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -40,
+    "seriesId": -27,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -41,
+    "seriesId": -27,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -42,
+    "seriesId": -27,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -43,
+    "seriesId": -28,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -44,
+    "seriesId": -28,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -45,
+    "seriesId": -28,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -46,
+    "seriesId": -28,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -47,
+    "seriesId": -28,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  },
+  {
+    "tmdbEpisodeId": -48,
+    "seriesId": -28,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": null,
+    "status": "missing",
+    "checkedAt": "2026-08-10",
+    "source": null
+  }
+]

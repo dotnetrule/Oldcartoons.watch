@@ -1,41 +1,42 @@
-<script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+<script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAppState } from '../composables/useAppState.js';
+import { useUiStore } from '../stores/ui';
+import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
+import { episodeCountLabel, initialsFor, pad2, yearRangeLabel } from '../data/helpers';
+import { AGE_FILTERS, COPY, TYPE_FILTERS, type AgeFilter, type TypeFilter } from '../data/themes';
+import type { Network, SeriesStub } from '../types';
 
 const router = useRouter();
-const { state, T, C, nets, allSeries, decades, netColor, setTypeFilter, setAgeFilter, setPreview, triggerFlicker } =
-  useAppState();
+const ui = useUiStore();
+const content = useContentStore();
+const C = computed(() => ui.C);
 
 const viewportW = ref(window.innerWidth);
-function onResize() {
+function onResize(): void {
   viewportW.value = window.innerWidth;
 }
 onMounted(() => window.addEventListener('resize', onResize));
 onUnmounted(() => window.removeEventListener('resize', onResize));
 const isMobile = computed(() => viewportW.value < 760);
 
-const typeKeys = ['All', 'Animation', 'Live-action'];
-const ageKeys = ['All', 'Preschool', 'Kids', 'Tween', 'Adult'];
-
-function matchesFilter(s) {
-  return (state.typeFilter === 'All' || s.type === state.typeFilter) && (state.ageFilter === 'All' || s.age === state.ageFilter);
+function matchesFilter(s: SeriesStub): boolean {
+  return (
+    (ui.typeFilter === 'All' || s.type === ui.typeFilter) &&
+    (ui.ageFilter === 'All' || s.age === ui.ageFilter)
+  );
 }
 
-function yearsLabel(s) {
-  return s.yearStart + '–' + s.yearEnd;
-}
-function epLabel(s) {
-  return typeof s.episodeCount === 'number' ? s.episodeCount + ' EP' : '— EP';
+const yearsLabel = (s: SeriesStub): string => yearRangeLabel(s.firstAirYear, s.lastAirYear);
+const epLabel = (s: SeriesStub): string => episodeCountLabel(s.episodeCount);
+
+function goSeries(slug: string): void {
+  ui.triggerFlicker();
+  void router.push(`/series/${slug}`);
 }
 
-function goSeries(id) {
-  triggerFlicker();
-  router.push('/series/' + id);
-}
-
-function chipStyle(active) {
+function chipStyle(active: boolean) {
   return {
     background: active ? C.value.ink : 'transparent',
     color: active ? C.value.chipFg : C.value.dim,
@@ -43,11 +44,14 @@ function chipStyle(active) {
   };
 }
 
+/** Decades × networks. `colIdx` counts across a whole row rather than per
+ * cell, which is what lets left/right arrow keys walk the row continuously
+ * instead of stopping at every decade boundary. */
 const scheduleRows = computed(() =>
-  nets.value.map((net, rowIdx) => {
-    const netSeries = allSeries.value.filter((s) => s.network === net.id);
+  content.networks.map((net, rowIdx) => {
+    const netSeries = content.stubs.filter((s) => s.networkSlug === net.slug);
     let colCounter = 0;
-    const cells = decades.value.map((dec) => {
+    const cells = content.decades.map((dec) => {
       const entries = netSeries
         .filter((s) => s.decade === dec && matchesFilter(s))
         .map((s) => ({ series: s, colIdx: colCounter++ }));
@@ -58,57 +62,80 @@ const scheduleRows = computed(() =>
 );
 
 const mobileGroups = computed(() =>
-  nets.value
+  content.networks
     .map((net) => ({
       network: net,
-      items: allSeries.value.filter((s) => s.network === net.id && matchesFilter(s)).sort((a, b) => a.yearStart - b.yearStart),
+      items: content.stubs
+        .filter((s) => s.networkSlug === net.slug && matchesFilter(s))
+        .sort((a, b) => a.firstAirYear - b.firstAirYear),
     }))
     .filter((g) => g.items.length > 0),
 );
 
-const previewSeries = computed(() => allSeries.value.find((s) => s.id === state.previewId) || null);
-const previewNet = computed(() => (previewSeries.value ? nets.value.find((n) => n.id === previewSeries.value.network) : null));
+const previewSeries = computed(() => content.stub(ui.previewSlug));
+const previewNet = computed<Network | null>(() => content.network(previewSeries.value?.networkSlug));
 
-function handleGridKeyDown(e, row, col) {
+function handleGridKeyDown(e: KeyboardEvent, row: number, col: number): void {
   const key = e.key;
   if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(key)) return;
   e.preventDefault();
+
+  const current = e.currentTarget as HTMLElement;
   if (key === 'Enter' || key === ' ') {
-    e.currentTarget.click();
+    current.click();
     return;
   }
-  const root = e.currentTarget.closest('[data-grid-root]');
+
+  const root = current.closest('[data-grid-root]');
   if (!root) return;
+
   let r = row;
   let c = col;
   if (key === 'ArrowRight') c++;
   else if (key === 'ArrowLeft') c--;
   else if (key === 'ArrowDown') r++;
   else if (key === 'ArrowUp') r--;
-  let target = null;
+
+  let target: HTMLElement | null = null;
   if (key === 'ArrowLeft' || key === 'ArrowRight') {
     target = root.querySelector(`[data-row="${r}"][data-col="${c}"]`);
   } else {
-    for (let cc = c; cc >= 0 && !target; cc--) target = root.querySelector(`[data-row="${r}"][data-col="${cc}"]`);
+    // Rows are ragged, so a vertical move lands on the nearest column at or
+    // left of the current one rather than falling off the end of a short row.
+    for (let cc = c; cc >= 0 && !target; cc--) {
+      target = root.querySelector(`[data-row="${r}"][data-col="${cc}"]`);
+    }
     if (!target) target = root.querySelector(`[data-row="${r}"]`);
   }
-  if (target) target.focus();
+  target?.focus();
 }
 </script>
 
 <template>
   <div class="sched">
     <div class="sched-head" :style="{ borderBottom: C.titleRule }">
-      <h1 class="sched-title" :style="{ color: C.ink }">{{ T.schedule }}</h1>
+      <h1 class="sched-title" :style="{ color: C.ink }">{{ COPY.schedule }}</h1>
       <div class="sched-filters">
         <div class="chipgroup">
-          <button v-for="t in typeKeys" :key="t" class="chip" :style="chipStyle(t === state.typeFilter)" @click="setTypeFilter(t)">
-            {{ T.type[t] }}
+          <button
+            v-for="t in TYPE_FILTERS"
+            :key="t"
+            class="chip"
+            :style="chipStyle(t === ui.typeFilter)"
+            @click="ui.setTypeFilter(t as TypeFilter)"
+          >
+            {{ t }}
           </button>
         </div>
         <div class="chipgroup">
-          <button v-for="a in ageKeys" :key="a" class="chip" :style="chipStyle(a === state.ageFilter)" @click="setAgeFilter(a)">
-            {{ T.age[a] }}
+          <button
+            v-for="a in AGE_FILTERS"
+            :key="a"
+            class="chip"
+            :style="chipStyle(a === ui.ageFilter)"
+            @click="ui.setAgeFilter(a as AgeFilter)"
+          >
+            {{ a }}
           </button>
         </div>
       </div>
@@ -116,20 +143,27 @@ function handleGridKeyDown(e, row, col) {
 
     <!-- Mobile: grouped list -->
     <div v-if="isMobile" class="sched-mobile">
-      <div v-for="grp in mobileGroups" :key="grp.network.id" class="mobile-group">
-        <div class="mobile-group-head" :style="{ borderColor: netColor(grp.network) }">
-          <span class="mono" :style="{ color: netColor(grp.network) }">{{ grp.network.ch }}</span>
+      <div v-for="grp in mobileGroups" :key="grp.network.slug" class="mobile-group">
+        <div class="mobile-group-head" :style="{ borderColor: ui.netColour(grp.network) }">
+          <span class="mono" :style="{ color: ui.netColour(grp.network) }">{{ pad2(grp.network.channelNumber) }}</span>
           <span class="netname" :style="{ color: C.ink }">{{ grp.network.name }}</span>
         </div>
         <div
           v-for="s in grp.items"
-          :key="s.id"
+          :key="s.slug"
           class="mobile-row"
           :style="{ borderColor: C.border }"
-          @click="goSeries(s.id)"
+          @click="goSeries(s.slug)"
         >
-          <CoverImage v-if="state.viewMode === 'covers'" :series="s" :accent-color="netColor(grp.network)" class="mobile-cover" />
-          <span class="mobile-title" :style="{ color: C.ink }">{{ s.title }}</span>
+          <CoverImage
+            v-if="ui.viewMode === 'covers'"
+            :title="s.name"
+            :file-path="s.poster"
+            size="w185"
+            :accent-color="ui.netColour(grp.network)"
+            class="mobile-cover"
+          />
+          <span class="mobile-title" :style="{ color: C.ink }">{{ s.name }}</span>
           <span class="mono dim" :style="{ color: C.dim }">{{ yearsLabel(s) }} · {{ epLabel(s) }}</span>
         </div>
       </div>
@@ -140,41 +174,43 @@ function handleGridKeyDown(e, row, col) {
       <div data-grid-root class="grid-root">
         <div class="grid-headrow">
           <div class="grid-corner"></div>
-          <div v-for="dec in decades" :key="dec" class="grid-dechead" :style="{ color: C.dim, borderColor: C.border2 }">
-            {{ T.decade[dec] }}
+          <div v-for="dec in content.decades" :key="dec" class="grid-dechead" :style="{ color: C.dim, borderColor: C.border2 }">
+            {{ dec }}
           </div>
         </div>
-        <div v-for="row in scheduleRows" :key="row.network.id" class="grid-row">
+        <div v-for="row in scheduleRows" :key="row.network.slug" class="grid-row">
           <div
             class="grid-netcell"
-            :style="{ borderTopColor: C.border, borderLeftColor: netColor(row.network), background: C.rowStripe }"
+            :style="{ borderTopColor: C.border, borderLeftColor: ui.netColour(row.network), background: C.rowStripe }"
           >
-            <span class="mono" :style="{ color: netColor(row.network) }">{{ row.network.ch }}</span>
+            <span class="mono" :style="{ color: ui.netColour(row.network) }">{{ pad2(row.network.channelNumber) }}</span>
             <span class="netname" :style="{ color: C.ink }">{{ row.network.name }}</span>
           </div>
           <div v-for="cell in row.cells" :key="cell.decade" class="grid-cell" :style="{ borderColor: C.border }">
             <span v-if="cell.empty" class="grid-empty" :style="{ color: C.dim }">—</span>
             <div
               v-for="entry in cell.entries"
-              :key="entry.series.id"
+              :key="entry.series.slug"
               class="grid-entry"
               role="button"
               tabindex="0"
               :data-row="row.rowIdx"
               :data-col="entry.colIdx"
-              @click="goSeries(entry.series.id)"
-              @keydown="(e) => handleGridKeyDown(e, row.rowIdx, entry.colIdx)"
-              @mouseenter="setPreview(entry.series.id)"
-              @focus="setPreview(entry.series.id)"
+              @click="goSeries(entry.series.slug)"
+              @keydown="(e: KeyboardEvent) => handleGridKeyDown(e, row.rowIdx, entry.colIdx)"
+              @mouseenter="ui.setPreview(entry.series.slug)"
+              @focus="ui.setPreview(entry.series.slug)"
             >
               <CoverImage
-                v-if="state.viewMode === 'covers'"
-                :series="entry.series"
-                :accent-color="netColor(row.network)"
+                v-if="ui.viewMode === 'covers'"
+                :title="entry.series.name"
+                :file-path="entry.series.poster"
+                size="w185"
+                :accent-color="ui.netColour(row.network)"
                 class="grid-cover"
               />
               <div class="grid-entry-text">
-                <div class="grid-entry-title" :style="{ color: C.ink }">{{ entry.series.title }}</div>
+                <div class="grid-entry-title" :style="{ color: C.ink }">{{ entry.series.name }}</div>
                 <div class="mono dim" :style="{ color: C.dim }">{{ yearsLabel(entry.series) }} · {{ epLabel(entry.series) }}</div>
               </div>
             </div>
@@ -187,24 +223,19 @@ function handleGridKeyDown(e, row, col) {
     <div class="preview-dock" :style="{ background: C.bg2, borderColor: C.border2 }">
       <template v-if="previewSeries">
         <div class="preview-thumb" :style="{ background: C.hoverBg, borderColor: C.border2 }">
-          <span class="preview-initials" :style="{ color: netColor(previewNet) }">{{
-            previewSeries.title
-              .split(/\s+/)
-              .slice(0, 2)
-              .map((w) => w[0])
-              .join('')
-              .toUpperCase()
-          }}</span>
+          <span class="preview-initials" :style="{ color: previewNet ? ui.netColour(previewNet) : C.dim }">
+            {{ initialsFor(previewSeries.name) }}
+          </span>
         </div>
         <div class="preview-info">
-          <div class="preview-title" :style="{ color: C.ink }">{{ previewSeries.title }}</div>
+          <div class="preview-title" :style="{ color: C.ink }">{{ previewSeries.name }}</div>
           <div class="mono dim" :style="{ color: C.dim }">
-            {{ yearsLabel(previewSeries) }} · {{ previewNet?.name }} · {{ T.firstAired }} {{ previewSeries.firstAirDate }} ·
-            {{ epLabel(previewSeries) }}
+            {{ yearsLabel(previewSeries) }} · {{ previewNet?.name }} · {{ COPY.firstAired }}
+            {{ previewSeries.firstAirDate ?? '—' }} · {{ epLabel(previewSeries) }}
           </div>
         </div>
       </template>
-      <span v-else class="mono dim" :style="{ color: C.dim }">{{ T.hoverHint }}</span>
+      <span v-else class="mono dim" :style="{ color: C.dim }">{{ COPY.hoverHint }}</span>
     </div>
   </div>
 </template>

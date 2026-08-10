@@ -1,94 +1,193 @@
 # oldcartoons.watch
 
-A teletext/CRT-styled TV guide for classic cartoons and kids' TV — schedule
-grid, broadcaster pages, series pages, and a video player, with light/dark
-themes, NL·BE / USA region switching, and NL/FR/EN localization.
+A teletext/CRT-styled TV guide for classic cartoons and kids' TV. It indexes
+archived television series and plays them through embedded YouTube uploads from
+rights-holder channels.
 
-This is the real Vue implementation, built from a design handoff produced in
-Claude Design. The original design bundle (prototype HTML/CSS/JS, chat
-transcript, design notes) is kept in [`design/`](./design) for reference.
+**It hosts no video.** Every playback path is a `youtube-nocookie` embed.
+
+The UI came from a design handoff produced in Claude Design; the original bundle
+(prototype HTML/CSS/JS, chat transcript, notes) is kept in [`design/`](./design)
+for reference.
+
+## The governing idea
+
+Every network call happens at build time or in CI. There is no backend, no
+database, and no runtime call to YouTube or TMDB for data. The deployed app
+reads JSON that was generated before deploy — **if a value is not in that JSON
+at request time, it does not exist.**
+
+That is why there are no defensive checks in components. `scripts/build-data.ts`
+validates everything against Zod and throws; anything that reaches
+`public/data/` has already passed the gate. There are no fallback data paths: if
+a fetch fails, it throws rather than rendering a quietly smaller archive.
 
 ## Stack
 
-- [Vue 3](https://vuejs.org/) (`<script setup>` SFCs) + [Vite](https://vitejs.dev/)
-- [vue-router](https://router.vuejs.org/) — one route per screen:
-  - `/` — schedule grid
-  - `/broadcaster/:id` — broadcaster page
-  - `/series/:id` — series page
-  - `/watch/:seriesId/:season/:episode` — player
-- No UI framework/CSS library — scoped component styles, matching the
-  original design's teletext/CRT look (Oswald/Inter/IBM Plex Mono).
+Vue 3 (`<script setup lang="ts">`) + TypeScript + Vite, Pinia for state,
+vue-router, Zod at the build gate. No CSS framework — scoped component styles
+matching the design's teletext/CRT look (Oswald / Inter / IBM Plex Mono).
+
+## Data model
+
+Two committed directories matter. Everything else is regenerable cache.
+
+```
+content/networks.json    broadcasters — hand-curated, closed set
+content/series.json      curated series list: slug, tmdbId, network, type, age
+content/episodes.json    curated YouTube ↔ TMDB matches
+content/overrides.json   sparse hand-authored corrections to TMDB metadata
+content/channels.json    whitelisted rights-holder channels
+content/playlists.json   whitelisted third-party playlists
+content/queue.json       unresolved matches awaiting a human
+
+data/tmdb/{id}.json      cached TMDB responses    — gitignored, disposable
+data/youtube/{id}.json   cached source dumps      — gitignored, disposable
+public/data/*.json       generated output         — gitignored, rebuilt on build
+```
+
+Overrides are merged shallow at build time (`{ ...tmdb, ...override }`) and hold
+only the keys that differ from TMDB, so anything absent keeps tracking TMDB on
+the next fetch. Every override key must exist on the series object or the build
+fails — that catches typos and surfaces TMDB schema changes instead of letting a
+stale override sit silently unapplied.
 
 ## Getting started
 
 ```sh
 npm install
-npm run dev       # start the dev server
-npm run build      # production build to dist/
-npm run preview    # preview the production build locally
+npm run build-data   # generate public/data/ from content/
+npm run dev
 ```
 
-## TMDB integration
+`npm run build` runs `build-data` and `typecheck` before `vite build`, so the
+Zod gate runs on every production build.
 
-Show/episode artwork and synopses can be enriched from
-[TMDB](https://www.themoviedb.org/) at runtime. Copy `.env.example` to `.env`
-and set your API key:
+### API keys
+
+Build-time only — see [`.env.example`](./.env.example). The app never reads
+them; only `scripts/` and CI do.
 
 ```sh
-cp .env.example .env
-# then edit .env:
-# VITE_TMDB_API_KEY=your_key_here
+TMDB_API_KEY=...      # npm run fetch
+YOUTUBE_API_KEY=...   # npm run fetch, npm run health-check
 ```
 
-Get a free key at https://www.themoviedb.org/settings/api.
+## Pipeline
 
-**Without a key**, the app runs fully on the bundled sample data
-(`src/data/series.js`, `src/data/networks.js`) — real network/show names with
-placeholder episode details — and every `<CoverImage>` falls back to a
-teletext-style initials tile instead of a photo. This is the current state
-of this checkout: no key is configured yet.
+Three scripts, run in order, each writing forward only.
 
-The TMDB client (`src/services/tmdb.js`) is best-effort and never throws —
-a missing key, a failed lookup, or an API error all just fall back to the
-sample data.
-
-## Project structure
-
-```
-src/
-  data/            sample data ported from the design prototype
-    themes.js        color tokens, regions, langs, view/theme options
-    networks.js       broadcaster info per region
-    series.js         shows/seasons/episodes per region
-    i18n.js            NL/FR/EN copy
-    helpers.js         season/episode synthesis, initials, date padding
-  services/
-    tmdb.js           TMDB API client (search, details, season episodes)
-  composables/
-    useAppState.js    shared reactive state: region, lang, theme, view mode,
-                       filters, hover preview, reported links, player state
-  components/
-    HeaderBar.vue      logo + theme/view/region/lang switchers + page code
-    ChannelTabs.vue    horizontal broadcaster tab strip
-    CoverImage.vue     TMDB-backed artwork with an initials-tile fallback
-  views/
-    ScheduleView.vue    desktop grid + mobile list + type/age filters + hover preview dock
-    BroadcasterView.vue listings/covers for one network
-    SeriesView.vue       hero, synopsis, seasons, episode list
-    PlayerView.vue       mocked video chrome, up-next rail, season rail
+```sh
+npm run fetch        # channels.list → playlistItems.list; TMDB detail/seasons/images → data/
+npm run match        # fuzzy-match upload titles to TMDB episodes → episodes.json + queue.json
+npm run build-data   # merge, validate, split → public/data/
 ```
 
-## Notes on the port
+`match` resolves roughly 60% automatically and queues the rest. That ratio is
+the design, not a shortfall — heuristics chasing the tail cost more to maintain
+than the keystrokes they save. It never overwrites an existing decision.
 
-- The original design's `image-slot.js` component is a proprietary editor
-  widget (drag-and-drop placeholder tied to the Claude Design tool's local
-  sidecar file) and isn't meaningful in a real deployed app. It's replaced
-  by `CoverImage.vue`, which shows real TMDB artwork when available and a
-  themed initials tile otherwise.
-- The design prototype's `N()` network helper never actually set a `name`
-  field (a bug in the prototype — `net.name` rendered blank throughout).
-  `src/data/networks.js` fixes this with the real broadcaster names.
-- State (region/lang/theme/view mode) persists to `localStorage` and screens
-  have real URLs via vue-router, both upgrades from the prototype's
-  in-memory single-page state — reasonable for a real site with shareable
-  links and reload persistence.
+Quota is 10,000 units/day. `playlistItems.list` and `videos.list` cost 1 unit
+per call, so a full refetch of thirty channels lands well under a thousand.
+
+## Curation policy
+
+Rights-holder channels are whitelisted **by hand, one time**. Enumerating a
+channel's uploads gives thousands of episodes that will not disappear, whereas
+fan uploads rot constantly and turn the index into a maintenance treadmill.
+Prioritising official sources is also what keeps the project on defensible
+ground. There is deliberately **no general YouTube search ingest.**
+
+### Third-party playlists
+
+A third party with a ready-made playlist only has to hand over its id.
+`content/playlists.json` whitelists it with attribution and a `covers` list of
+series slugs, and `fetch.ts` ingests it through the identical path as a channel
+— same endpoint, same per-page cost, same matching, same Zod gate.
+
+Two things keep that safe. A playlist is **scoped** by `covers`, so it cannot
+pull in series it has no business matching. And every episode records
+**provenance** (`source: { kind: 'channel' | 'playlist', id }`), because a
+curated playlist can point at fan uploads that rot in a way a rights-holder
+channel does not — provenance makes a rotting source visible and lets it be
+dropped as a unit.
+
+## Admin
+
+Dev-only, at `/admin`. The route is registered under `import.meta.env.DEV` and
+its write endpoint is a Vite dev-server middleware, so neither exists in a
+production build — there is nothing to authenticate at runtime.
+
+Two modes, keyboard-driven, one decision per keystroke (`↑↓` move, `←→` change
+entry/image, `⏎` select, `s` skip):
+
+- **Match** — reads `queue.json`, TMDB episode left, candidate uploads right,
+  writes `episodes.json`.
+- **Metadata** — textless backdrop candidates in a grid (filtered on
+  `iso_639_1: null`, because the design sets titles in display type over the
+  image), plus a form for the text fields. Writes `overrides.json`.
+
+It is not general CRUD. Anything off the critical path of "resolve one ambiguity
+fast" is faster as a script.
+
+## Health check
+
+`.github/workflows/health-check.yml` runs weekly. An id absent from
+`videos.list` means the video is gone; `status.embeddable: false` means the
+player will refuse to load it. Both flip the episode to `missing` and stamp
+`checkedAt`.
+
+The action opens a **pull request** rather than pushing. Dead episodes should be
+reviewable, not silently mutated in production.
+
+Region-locking is detected at ingest from `contentDetails.regionRestriction`,
+never at render. Region-locked episodes stay playable and are labelled.
+
+## Routes
+
+```
+/                                schedule grid — decades × networks
+/network/:slug                   one broadcaster, chronological
+/series/:slug                    hero, season tabs, episode rows
+/series/:slug/:season/:episode   player with persistent episode rail
+```
+
+The schedule loads `index.json` only. Series and episode routes load
+`series-{slug}.json` on entry — the archive is thousands of episodes and the
+grid only needs stubs, so there is never one combined file.
+
+Season and episode are **real numbers**, not array indices: the URL is the
+episode's identity and has to survive TMDB reordering a season.
+
+## Playback
+
+Autoplay advances to the next playable episode **within the season**. When the
+season ends, it stops — a season boundary is a deliberate stopping point.
+
+Episodes with status `missing` keep their row, title and air date but have no
+link. The gap is information; it is shown rather than hidden. Availability is
+always visible before a click, never discovered after one.
+
+## Current state of this checkout
+
+`content/` is **seeded from the design prototype's sample data**, so the app
+builds and runs today without API keys. Two things follow from that:
+
+- Every seeded episode is `status: 'missing'` with `youtubeId: null`. Nothing
+  has been matched against a real upload yet, so nothing claims to be playable.
+- Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
+  refuses outright. A plausible-looking positive id would make a mis-seeded
+  series quietly fetch the wrong show.
+
+To go live: resolve the real TMDB ids in `content/series.json`, whitelist
+sources in `content/channels.json`, then run `fetch` → `match` → `build-data`.
+
+## Attribution
+
+Series and episode metadata from [TMDB](https://www.themoviedb.org/). This
+product uses the TMDB API but is not endorsed or certified by TMDB. Images
+hotlink `image.tmdb.org` and are never proxied or re-hosted.
+
+The marks in `public/networks/` are hand-drawn monograms, deliberately **not**
+the broadcasters' corporate logos — those are current identities rather than
+era-correct ones.

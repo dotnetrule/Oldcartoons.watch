@@ -3,3 +3,10 @@ dist
 .env
 .env.local
 *.log
+
+# Regenerable cache and generated output. content/ is the source of truth;
+# everything below is rebuilt by scripts/{fetch,match,build-data}.ts and is
+# disposable by design.
+data/tmdb/
+data/youtube/
+public/data/

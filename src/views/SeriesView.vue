@@ -1,86 +1,97 @@
-<script setup>
-import { ref, computed, watch } from 'vue';
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAppState } from '../composables/useAppState.js';
-import { genSeasons } from '../data/helpers.js';
+import { useUiStore } from '../stores/ui';
+import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
+import { episodeCountLabel, formatAirDate, pad2, yearRangeLabel } from '../data/helpers';
+import { AVAILABILITY_LABELS, COPY } from '../data/themes';
+import type { PublicEpisode } from '../types';
 
-const props = defineProps({ id: { type: String, required: true } });
+const props = defineProps<{ slug: string }>();
 
 const router = useRouter();
-const { state, T, C, nets, allSeries, netColor, reportMissing, triggerFlicker } = useAppState();
+const ui = useUiStore();
+const content = useContentStore();
+const C = computed(() => ui.C);
 
-const series = computed(() => allSeries.value.find((s) => s.id === props.id) || null);
-const network = computed(() => (series.value ? nets.value.find((n) => n.id === series.value.network) : null));
-const color = computed(() => (network.value ? netColor(network.value) : C.value.dim));
-const seasons = computed(() => (series.value ? genSeasons(series.value) : []));
+// The route's beforeEnter has already awaited this file, so it is present.
+const series = computed(() => content.series(props.slug));
+const network = computed(() => content.network(series.value?.networkSlug));
+const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
+const seasons = computed(() => series.value?.seasons ?? []);
 
 const activeSeasonIdx = ref(0);
 watch(
-  () => props.id,
+  () => props.slug,
   () => {
     activeSeasonIdx.value = 0;
   },
 );
 
-const yearsLabel = computed(() => (series.value ? series.value.yearStart + '–' + series.value.yearEnd : ''));
-const epLabel = computed(() =>
-  series.value ? (typeof series.value.episodeCount === 'number' ? series.value.episodeCount + ' EP' : '— EP') : '',
+const yearsLabel = computed(() =>
+  series.value ? yearRangeLabel(series.value.firstAirYear, series.value.lastAirYear) : '',
 );
+const epLabel = computed(() => (series.value ? episodeCountLabel(series.value.episodeCount) : ''));
 
-const episodes = computed(() => seasons.value[activeSeasonIdx.value]?.episodes || []);
+const episodes = computed<PublicEpisode[]>(() => seasons.value[activeSeasonIdx.value]?.episodes ?? []);
 
-const tagMap = computed(() => ({
-  available: [T.value.avail.available, C.value.dim],
-  'region-locked': [T.value.avail.regionLocked, C.value.dim],
-  missing: [T.value.avail.missing, C.value.missing],
-}));
-
-function episodeMeta(ep) {
-  const playable = ep.availability !== 'missing';
-  const key = series.value.id + '-' + activeSeasonIdx.value + '-' + ep.number;
-  const reported = state.reportedKeys.has(key);
-  const tag = tagMap.value[ep.availability] || tagMap.value.available;
+/** Availability is on the row before the click, never discovered after one. */
+function tagFor(episode: PublicEpisode): { label: string; colour: string } {
   return {
-    playable,
-    key,
-    reported,
-    tagLabel: tag[0],
-    tagColor: tag[1],
+    label: AVAILABILITY_LABELS[episode.status],
+    colour: episode.status === 'missing' ? C.value.missing : C.value.dim,
   };
 }
 
-function goEpisode(ep) {
-  if (ep.availability === 'missing') return;
-  triggerFlicker();
-  router.push(`/watch/${series.value.id}/${activeSeasonIdx.value}/${ep.number - 1}`);
+const isPlayable = (episode: PublicEpisode): boolean => episode.status !== 'missing';
+
+const reportKey = (episode: PublicEpisode): string =>
+  `${props.slug}-${episode.season}-${episode.episode}`;
+
+function goEpisode(episode: PublicEpisode): void {
+  if (!isPlayable(episode)) return;
+  ui.triggerFlicker();
+  void router.push(`/series/${props.slug}/${episode.season}/${episode.episode}`);
 }
 
-function report(e, ep) {
+function report(e: Event, episode: PublicEpisode): void {
   e.preventDefault();
-  const meta = episodeMeta(ep);
-  reportMissing(meta.key);
+  ui.reportMissing(reportKey(episode));
 }
 </script>
 
 <template>
   <div v-if="series" class="series">
     <div class="hero">
-      <CoverImage :series="series" kind="backdrop" :accent-color="color" class="hero-img" />
-      <div class="hero-fade" :style="{ background: `linear-gradient(180deg, rgba(11,15,22,.1) 0%, rgba(11,15,22,.6) 60%, ${C.heroFade} 100%)` }"></div>
+      <CoverImage
+        :title="series.name"
+        :file-path="series.backdrop"
+        size="w1280"
+        :accent-color="colour"
+        class="hero-img"
+      />
+      <div
+        class="hero-fade"
+        :style="{
+          background: `linear-gradient(180deg, rgba(11,15,22,.1) 0%, rgba(11,15,22,.6) 60%, ${C.heroFade} 100%)`,
+        }"
+      ></div>
       <div class="hero-text">
-        <div class="mono" :style="{ color }">{{ network?.ch }} {{ network?.name }}</div>
-        <h1>{{ series.title }}</h1>
+        <div class="mono" :style="{ color: colour }">
+          {{ network ? pad2(network.channelNumber) : '' }} {{ network?.name }}
+        </div>
+        <h1>{{ series.name }}</h1>
         <div class="mono hero-meta">{{ yearsLabel }} · {{ epLabel }}</div>
       </div>
     </div>
 
-    <div class="synopsis" :style="{ color: C.dim2 }">{{ series.synopsis }}</div>
+    <div class="synopsis" :style="{ color: C.dim2 }">{{ series.overview }}</div>
 
     <div v-if="seasons.length > 1" class="season-tabs">
       <button
         v-for="(sea, idx) in seasons"
-        :key="sea.n"
+        :key="sea.season"
         class="chip"
         :style="{
           background: idx === activeSeasonIdx ? C.ink : 'transparent',
@@ -89,26 +100,32 @@ function report(e, ep) {
         }"
         @click="activeSeasonIdx = idx"
       >
-        Season {{ sea.n }}
+        {{ sea.name }}
       </button>
     </div>
 
     <div class="episodes">
-      <div v-for="ep in episodes" :key="ep.number" class="ep-block">
-        <div class="ep-row" :style="{ borderColor: C.border, opacity: episodeMeta(ep).playable ? 1 : 0.55 }">
-          <span class="mono ep-num" :style="{ color: C.dim }">{{ ep.number }}</span>
+      <div v-for="ep in episodes" :key="`${ep.season}-${ep.episode}`" class="ep-block">
+        <div class="ep-row" :style="{ borderColor: C.border, opacity: isPlayable(ep) ? 1 : 0.55 }">
+          <span class="mono ep-num" :style="{ color: C.dim }">{{ ep.episode }}</span>
           <span
             class="ep-title"
-            :style="{ color: C.ink, cursor: episodeMeta(ep).playable ? 'pointer' : 'default' }"
+            :style="{ color: C.ink, cursor: isPlayable(ep) ? 'pointer' : 'default' }"
             @click="goEpisode(ep)"
             >{{ ep.title }}</span
           >
-          <span class="mono ep-meta" :style="{ color: C.dim }">{{ ep.runtime }} min · {{ ep.airDate }}</span>
-          <span class="mono ep-tag" :style="{ color: episodeMeta(ep).tagColor }">{{ episodeMeta(ep).tagLabel }}</span>
+          <span class="mono ep-meta" :style="{ color: C.dim }">
+            {{ ep.runtime ? `${ep.runtime} min · ` : '' }}{{ formatAirDate(ep.airDate) }}
+          </span>
+          <span class="mono ep-tag" :style="{ color: tagFor(ep).colour }">{{ tagFor(ep).label }}</span>
         </div>
-        <div v-if="!episodeMeta(ep).playable" class="ep-report" :style="{ color: C.dim }">
-          {{ T.avail.missingNote }}
-          <a href="#" @click="report($event, ep)">{{ episodeMeta(ep).reported ? T.avail.reportedThanks : T.avail.reportLink }}</a>
+        <!-- The gap is information: a missing episode keeps its row, title and
+             air date, and says plainly that no upload was found. -->
+        <div v-if="!isPlayable(ep)" class="ep-report" :style="{ color: C.dim }">
+          {{ COPY.missingNote }}
+          <a href="#" @click="report($event, ep)">
+            {{ ui.reportedKeys.has(reportKey(ep)) ? COPY.reportedThanks : COPY.reportLink }}
+          </a>
         </div>
       </div>
     </div>
