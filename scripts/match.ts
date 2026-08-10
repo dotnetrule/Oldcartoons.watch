@@ -18,7 +18,7 @@ import {
   contentPath,
   readJson,
   readValidated,
-  tmdbCachePath,
+  seriesMetadataPath,
   writeJson,
 } from './lib/paths';
 import type { TmdbSeriesCache } from './lib/tmdb';
@@ -61,7 +61,7 @@ function main(): void {
   const today = new Date().toISOString().slice(0, 10);
 
   for (const source of seriesSources) {
-    const cache = readJson(tmdbCachePath(source.tmdbId)) as TmdbSeriesCache;
+    const cache = readJson(seriesMetadataPath(source.tmdbId)) as TmdbSeriesCache;
 
     // A channel carries only its rights-holder's material, so it is open to
     // every series. A playlist is scoped by its `covers` list, which stops a

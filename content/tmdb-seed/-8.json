@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -8,
+    "name": "Inspector Gadget",
+    "overview": "A bumbling cyborg detective solves every case mostly thanks to his niece and her dog.",
+    "first_air_date": "1983-09-12",
+    "last_air_date": "1986-12-31",
+    "number_of_episodes": 86,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -9,
+    "name": "DuckTales",
+    "overview": "Scrooge McDuck's three grand-nephews chase treasure and trouble across the world.",
+    "first_air_date": "1987-09-18",
+    "last_air_date": "1990-12-31",
+    "number_of_episodes": 100,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

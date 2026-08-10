@@ -1,0 +1,86 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -14,
+    "name": "Samson & Gert",
+    "overview": "Een man en zijn sprekende hond, vijf namiddagen per week — een Vlaamse instelling.",
+    "first_air_date": "1990-01-08",
+    "last_air_date": "2000-12-31",
+    "number_of_episodes": 520,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 6
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -13,
+          "name": "Het Verjaardagsfeest",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": "1990-01-08",
+          "runtime": 25,
+          "still_path": null
+        },
+        {
+          "id": -14,
+          "name": "Gert is Ziek",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": "1990-01-09",
+          "runtime": 25,
+          "still_path": null
+        },
+        {
+          "id": -15,
+          "name": "De Verdwenen Fiets",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": "1990-01-10",
+          "runtime": 25,
+          "still_path": null
+        },
+        {
+          "id": -16,
+          "name": "Samson in de Sneeuw",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": "1990-01-11",
+          "runtime": 25,
+          "still_path": null
+        },
+        {
+          "id": -17,
+          "name": "Het Grote Zoeken",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": "1990-01-12",
+          "runtime": 25,
+          "still_path": null
+        },
+        {
+          "id": -18,
+          "name": "Gert's Verjaardag",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": "1990-01-15",
+          "runtime": 25,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

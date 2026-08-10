@@ -12,9 +12,26 @@ export const TMDB_CACHE_DIR = join(CACHE_DIR, 'tmdb');
 export const YOUTUBE_CACHE_DIR = join(CACHE_DIR, 'youtube');
 export const PUBLIC_DATA_DIR = join(ROOT, 'public', 'data');
 
+/** Committed stand-in metadata for series not yet resolved against TMDB. */
+export const TMDB_SEED_DIR = join(CONTENT_DIR, 'tmdb-seed');
+
 export const contentPath = (name: string): string => join(CONTENT_DIR, name);
 export const tmdbCachePath = (id: number | string): string => join(TMDB_CACHE_DIR, `${id}.json`);
 export const youtubeCachePath = (id: string): string => join(YOUTUBE_CACHE_DIR, `${id}.json`);
+
+/**
+ * Where a series' TMDB-shaped metadata actually lives.
+ *
+ * For a real TMDB id, `data/tmdb/` is a genuine cache: disposable, gitignored,
+ * re-fetchable at any time. For a placeholder id there is nothing to re-fetch —
+ * that file is hand-authored source data, so it is committed under
+ * `content/tmdb-seed/` and a fresh clone can build without running `fetch`.
+ *
+ * This is a dispatch on whether the series is resolved yet, not a fallback:
+ * exactly one location is correct for a given id, and a miss still throws.
+ */
+export const seriesMetadataPath = (tmdbId: number): string =>
+  tmdbId < 0 ? join(TMDB_SEED_DIR, `${tmdbId}.json`) : tmdbCachePath(tmdbId);
 
 export function readJson(path: string): unknown {
   let raw: string;

@@ -34,7 +34,7 @@ import {
   ensureDirs,
   readJson,
   readValidated,
-  tmdbCachePath,
+  seriesMetadataPath,
   writeJson,
 } from './lib/paths';
 import type { TmdbSeriesCache } from './lib/tmdb';
@@ -59,10 +59,11 @@ const yearOf = (isoDate: string | null): number | null => {
 const decadeOf = (year: number): string => `${Math.floor(year / 10) * 10}s`;
 
 function loadCache(source: SeriesSource): TmdbSeriesCache {
-  const cache = readJson(tmdbCachePath(source.tmdbId)) as TmdbSeriesCache;
+  const path = seriesMetadataPath(source.tmdbId);
+  const cache = readJson(path) as TmdbSeriesCache;
   if (cache.detail?.id !== source.tmdbId) {
     throw new Error(
-      `data/tmdb/${source.tmdbId}.json holds series ${cache.detail?.id} — the cache is stale, re-run 'npm run fetch'`,
+      `${path} holds series ${cache.detail?.id}, not ${source.tmdbId} — re-run 'npm run fetch'`,
     );
   }
   return cache;

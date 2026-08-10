@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -20,
+    "name": "Animaniacs",
+    "overview": "Three unshackled cartoon siblings overrun the Warner Bros. lot with pun-driven chaos.",
+    "first_air_date": "1993-09-13",
+    "last_air_date": "1998-12-31",
+    "number_of_episodes": 99,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

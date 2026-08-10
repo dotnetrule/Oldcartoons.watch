@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -29,
+    "name": "X-Men",
+    "overview": "Marvel's mutantenteam verdedigt een wereld die hen vreest.",
+    "first_air_date": "1997-09-01",
+    "last_air_date": "2000-12-31",
+    "number_of_episodes": 76,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

@@ -40,11 +40,20 @@ content/overrides.json   sparse hand-authored corrections to TMDB metadata
 content/channels.json    whitelisted rights-holder channels
 content/playlists.json   whitelisted third-party playlists
 content/queue.json       unresolved matches awaiting a human
+content/tmdb-seed/       stand-in metadata for series with no real TMDB id yet
 
 data/tmdb/{id}.json      cached TMDB responses    — gitignored, disposable
 data/youtube/{id}.json   cached source dumps      — gitignored, disposable
 public/data/*.json       generated output         — gitignored, rebuilt on build
 ```
+
+`content/tmdb-seed/` and `data/tmdb/` look alike and are not. The latter is a
+real cache — a real TMDB response for a real id, rebuildable by `npm run fetch`,
+so gitignoring it costs nothing. The former covers series with **no real TMDB
+id**, so there is nothing to re-fetch and nothing to rebuild it from; it is
+hand-authored source data that happens to be TMDB-shaped, and a fresh clone
+needs it to build without API keys. `scripts/lib/paths.ts` picks between them
+on the sign of the id.
 
 Overrides are merged shallow at build time (`{ ...tmdb, ...override }`) and hold
 only the keys that differ from TMDB, so anything absent keeps tracking TMDB on

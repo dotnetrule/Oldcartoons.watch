@@ -1,0 +1,86 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -17,
+    "name": "Rugrats",
+    "overview": "A crawling toddler's-eye view of a world adults think they're running.",
+    "first_air_date": "1991-08-11",
+    "last_air_date": "2004-12-31",
+    "number_of_episodes": 172,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 6
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -25,
+          "name": "Tommy's First Birthday",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": "1991-08-11",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -26,
+          "name": "Wash-Dry Story",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": "1991-08-18",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -27,
+          "name": "Real or Robots",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": "1991-08-25",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -28,
+          "name": "Chuckie vs. the Potty",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": "1991-09-01",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -29,
+          "name": "At the Movies",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": "1991-09-08",
+          "runtime": 22,
+          "still_path": null
+        },
+        {
+          "id": -30,
+          "name": "Tooth or Dare",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": "1991-09-15",
+          "runtime": 22,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

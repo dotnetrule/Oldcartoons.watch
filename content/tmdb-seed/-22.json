@@ -1,0 +1,86 @@
+{
+  "fetchedAt": "2026-08-10",
+  "detail": {
+    "id": -22,
+    "name": "Mighty Morphin Power Rangers",
+    "overview": "Vijf tieners met attitude besturen gigantische robots tegen een wisselende reeks rubberen monsters.",
+    "first_air_date": "1994-09-03",
+    "last_air_date": "1999-12-31",
+    "number_of_episodes": 145,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 6
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -31,
+          "name": "Day of the Dumpster",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": "1994-09-03",
+          "runtime": 23,
+          "still_path": null
+        },
+        {
+          "id": -32,
+          "name": "High Five",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": "1994-09-10",
+          "runtime": 23,
+          "still_path": null
+        },
+        {
+          "id": -33,
+          "name": "Teamwork",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": "1994-09-17",
+          "runtime": 23,
+          "still_path": null
+        },
+        {
+          "id": -34,
+          "name": "A Pressing Engagement",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": "1994-09-24",
+          "runtime": 23,
+          "still_path": null
+        },
+        {
+          "id": -35,
+          "name": "Different Drum",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": "1994-10-01",
+          "runtime": 23,
+          "still_path": null
+        },
+        {
+          "id": -36,
+          "name": "Food Fight",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": "1994-10-08",
+          "runtime": 23,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}
