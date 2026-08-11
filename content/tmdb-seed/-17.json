@@ -3,7 +3,7 @@
   "detail": {
     "id": -17,
     "name": "Rugrats",
-    "overview": "A crawling toddler's-eye view of a world adults think they're running.",
+    "overview": "Een kruipend peuterperspectief op een wereld waarvan volwassenen denken dat zij er de baas zijn.",
     "first_air_date": "1991-08-11",
     "last_air_date": "2004-12-31",
     "number_of_episodes": 172,
@@ -12,7 +12,7 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Season 1",
+        "name": "Seizoen 1",
         "episode_count": 6
       }
     ]
@@ -20,7 +20,7 @@
   "seasons": [
     {
       "season_number": 1,
-      "name": "Season 1",
+      "name": "Seizoen 1",
       "episodes": [
         {
           "id": -25,

@@ -3,7 +3,7 @@
   "detail": {
     "id": -7,
     "name": "He-Man and the Masters of the Universe",
-    "overview": "Prince Adam transforms into Eternia's strongest defender against Skeletor's latest scheme.",
+    "overview": "Prins Adam verandert in de machtigste verdediger van Eternia en neemt het op tegen de nieuwste plannen van Skeletor.",
     "first_air_date": "1983-09-17",
     "last_air_date": "1985-12-31",
     "number_of_episodes": 130,
@@ -12,12 +12,12 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Season 1",
+        "name": "Seizoen 1",
         "episode_count": 8
       },
       {
         "season_number": 2,
-        "name": "Season 2",
+        "name": "Seizoen 2",
         "episode_count": 4
       }
     ]
@@ -25,7 +25,7 @@
   "seasons": [
     {
       "season_number": 1,
-      "name": "Season 1",
+      "name": "Seizoen 1",
       "episodes": [
         {
           "id": -1,
@@ -103,7 +103,7 @@
     },
     {
       "season_number": 2,
-      "name": "Season 2",
+      "name": "Seizoen 2",
       "episodes": [
         {
           "id": -9,

@@ -42,7 +42,7 @@ const nextEpisode = computed<PublicEpisode | null>(() => {
 
 function playEpisode(target: PublicEpisode): void {
   if (target.status === 'missing') return;
-  void router.push(`/series/${props.slug}/${target.season}/${target.episode}`);
+  void router.push(`/programma/${props.slug}/${target.season}/${target.episode}`);
 }
 
 function playNext(): void {
@@ -50,7 +50,7 @@ function playNext(): void {
 }
 
 function backToSeries(): void {
-  void router.push(`/series/${props.slug}`);
+  void router.push(`/programma/${props.slug}`);
 }
 
 /* ---------------------------------------------------------------- */
@@ -134,19 +134,19 @@ onBeforeUnmount(destroyPlayer);
           {{ formatAirDate(episode.airDate) }}{{ episode.runtime ? ` · ${episode.runtime} min` : '' }}
         </div>
         <button class="back-btn" :style="{ borderColor: C.border2, color: C.dim2 }" @click="backToSeries">
-          ← Back to series
+          ← Terug naar programma
         </button>
       </div>
     </div>
     <div class="rail" :style="{ borderColor: C.border }">
-      <div class="mono rail-label" :style="{ color: C.dim }">UP NEXT</div>
+      <div class="mono rail-label" :style="{ color: C.dim }">HIERNA</div>
       <div v-if="nextEpisode" class="rail-next" :style="{ background: C.railBg }" @click="playNext">
         <span class="rail-next-title" :style="{ color: C.ink }">{{ nextEpisode.title }}</span>
         <span class="mono" :style="{ color: C.dim }">{{ nextEpisode.runtime ? `${nextEpisode.runtime} min` : '—' }}</span>
       </div>
-      <div v-else class="mono rail-end" :style="{ color: C.dim }">End of {{ season.name }}.</div>
+      <div v-else class="mono rail-end" :style="{ color: C.dim }">Einde van {{ season.name }}.</div>
 
-      <div class="mono rail-label" :style="{ color: C.dim }">THIS SEASON</div>
+      <div class="mono rail-label" :style="{ color: C.dim }">DIT SEIZOEN</div>
       <div
         v-for="ep in season.episodes"
         :key="ep.episode"

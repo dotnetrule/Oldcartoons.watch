@@ -16,6 +16,11 @@ export type SeriesType = 'Animation' | 'Live-action';
 
 export type AgeBand = 'Preschool' | 'Kids' | 'Tween' | 'Adult';
 
+/** Spoken language of an indexed YouTube source. Keep this deliberately
+ * narrow: these are the languages the archive currently curates, not a list
+ * of every language YouTube may contain. */
+export type ContentLanguage = 'nl' | 'en';
+
 /** Where a matched upload came from. Channel uploads are rights-holder
  * material and stable; third-party playlists are curated but can point at
  * uploads that rot, so provenance is recorded per episode and a whole source
@@ -178,6 +183,7 @@ export type SeriesSource = {
 export type ChannelSource = {
   id: string;
   name: string;
+  language: ContentLanguage;
   note: string;
 };
 
@@ -200,6 +206,8 @@ export type PlaylistSource = {
   name: string | null;
   /** Who published the playlist, shown as attribution. Null as for `name`. */
   curator: string | null;
+  /** Spoken language of the uploads in this curated source. */
+  language: ContentLanguage;
   /** Series slugs this playlist is expected to cover. Advisory: it scopes
    * matching so a playlist cannot pull in unrelated series. */
   covers: string[];
@@ -276,6 +284,9 @@ export type SeriesFile = {
   decade: string;
   episodeCount: number;
   availableCount: number;
+  /** Languages found among the currently playable episode sources. Empty
+   * exactly when there are no playable episodes. */
+  availableLanguages: ContentLanguage[];
   /** TMDB file_path. */
   backdrop: string | null;
   poster: string | null;
@@ -298,6 +309,7 @@ export type SeriesStub = {
   decade: string;
   episodeCount: number;
   availableCount: number;
+  availableLanguages: ContentLanguage[];
   poster: string | null;
 };
 

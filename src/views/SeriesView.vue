@@ -4,7 +4,13 @@ import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
+import SeriesStatusDot from '../components/SeriesStatusDot.vue';
 import { episodeCountLabel, formatAirDate, pad2, yearRangeLabel } from '../data/helpers';
+import {
+  seriesArchiveStatus,
+  seriesArchiveStatusLabel,
+  type SeriesArchiveStatus,
+} from '../data/series-status';
 import { AVAILABILITY_LABELS, COPY } from '../data/themes';
 import { formatChannelTime, nextAiring } from '../broadcast/engine';
 import type { Broadcast, BroadcastChannel, PublicEpisode } from '../types';
@@ -34,6 +40,36 @@ const yearsLabel = computed(() =>
   series.value ? yearRangeLabel(series.value.firstAirYear, series.value.lastAirYear) : '',
 );
 const epLabel = computed(() => (series.value ? episodeCountLabel(series.value.episodeCount) : ''));
+const archiveStatus = computed<SeriesArchiveStatus>(() =>
+  series.value ? seriesArchiveStatus(series.value) : 'empty',
+);
+const archiveStatusLabel = computed(() =>
+  series.value ? seriesArchiveStatusLabel(series.value) : '',
+);
+const needsDutchSource = computed(() => archiveStatus.value !== 'complete');
+
+const youtubePlaylistSearch = computed(() => {
+  const query = `${series.value?.name ?? ''} NEDERLANDS playlist`;
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+});
+const youtubeEpisodeSearch = computed(() => {
+  const query = `${series.value?.name ?? ''} NEDERLANDS volledige afleveringen`;
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+});
+
+const sourceSearchMessage = computed(() => {
+  if (!series.value) return '';
+  switch (archiveStatus.value) {
+    case 'empty':
+      return 'Er is nog geen afspeelbare aflevering gevonden. Zoek op YouTube naar een Nederlandse playlist of losse afleveringen.';
+    case 'non-dutch':
+      return 'De huidige bron is niet Nederlandstalig. Help een Nederlandse dub of playlist terug te vinden.';
+    case 'incomplete':
+      return `Er zijn ${series.value.availableCount} van de ${series.value.episodeCount} afleveringen gevonden. Zoek naar de ontbrekende Nederlandse afleveringen.`;
+    case 'complete':
+      return '';
+  }
+});
 
 const episodes = computed<PublicEpisode[]>(() => seasons.value[activeSeasonIdx.value]?.episodes ?? []);
 
@@ -52,18 +88,18 @@ const nextBroadcast = computed<{ broadcast: Broadcast; channel: BroadcastChannel
 
 const nextBroadcastLabel = computed(() => {
   const item = nextBroadcast.value;
-  if (!item) return 'No upcoming broadcast scheduled';
+  if (!item) return 'Geen komende uitzending gepland';
   const startsAt = new Date(item.broadcast.startsAt);
   if (startsAt.getTime() <= Date.now() && new Date(item.broadcast.endsAt).getTime() > Date.now()) {
-    return `On air now · until ${formatChannelTime(item.broadcast.endsAt, item.channel.timezone)}`;
+    return `Nu op tv · tot ${formatChannelTime(item.broadcast.endsAt, item.channel.timezone)}`;
   }
-  const date = new Intl.DateTimeFormat('en-GB', {
+  const date = new Intl.DateTimeFormat('nl-NL', {
     timeZone: item.channel.timezone,
     weekday: 'short',
     day: 'numeric',
     month: 'short',
   }).format(startsAt);
-  return `Next broadcast ${date} · ${formatChannelTime(startsAt, item.channel.timezone)}`;
+  return `Volgende uitzending ${date} · ${formatChannelTime(startsAt, item.channel.timezone)}`;
 });
 
 /** Availability is on the row before the click, never discovered after one. */
@@ -82,12 +118,12 @@ const reportKey = (episode: PublicEpisode): string =>
 function goEpisode(episode: PublicEpisode): void {
   if (!isPlayable(episode)) return;
   ui.triggerFlicker();
-  void router.push(`/series/${props.slug}/${episode.season}/${episode.episode}`);
+  void router.push(`/programma/${props.slug}/${episode.season}/${episode.episode}`);
 }
 
 function watchOnChannel(): void {
   const target = nextBroadcast.value?.channel;
-  if (target) void router.push(`/watch/${target.id}`);
+  if (target) void router.push(`/kijken/${target.id}`);
 }
 
 function report(e: Event, episode: PublicEpisode): void {
@@ -117,11 +153,47 @@ function report(e: Event, episode: PublicEpisode): void {
           {{ network ? pad2(network.channelNumber) : '' }} {{ network?.name }}
         </div>
         <h1>{{ series.name }}</h1>
-        <div class="mono hero-meta">{{ yearsLabel }} · {{ epLabel }}</div>
+        <div class="mono hero-meta">
+          <span>{{ yearsLabel }} · {{ epLabel }}</span>
+          <span class="hero-status">
+            <SeriesStatusDot :status="archiveStatus" :label="archiveStatusLabel" />
+            {{ archiveStatusLabel }}
+          </span>
+        </div>
       </div>
     </div>
 
     <div class="synopsis" :style="{ color: C.dim2 }">{{ series.overview }}</div>
+
+    <section
+      v-if="needsDutchSource"
+      class="source-search"
+      :style="{ borderColor: C.border, background: C.bg2 }"
+    >
+      <div class="source-search-copy">
+        <span class="mono source-search-label" :style="{ color: C.dim }">NEDERLANDSE BRON GEZOCHT</span>
+        <strong :style="{ color: C.ink }">{{ archiveStatusLabel }}</strong>
+        <p :style="{ color: C.dim2 }">{{ sourceSearchMessage }}</p>
+      </div>
+      <div class="source-search-actions">
+        <a
+          :href="youtubePlaylistSearch"
+          target="_blank"
+          rel="noopener noreferrer"
+          :style="{ background: colour, color: C.chipFg }"
+        >
+          ZOEK PLAYLIST OP YOUTUBE ↗
+        </a>
+        <a
+          :href="youtubeEpisodeSearch"
+          target="_blank"
+          rel="noopener noreferrer"
+          :style="{ borderColor: C.border2, color: C.dim2 }"
+        >
+          ZOEK LOSSE AFLEVERINGEN ↗
+        </a>
+      </div>
+    </section>
 
     <div v-if="network" class="broadcast-cta" :style="{ borderColor: C.border, background: C.bg2 }">
       <div>
@@ -134,7 +206,7 @@ function report(e: Event, episode: PublicEpisode): void {
         :style="{ background: nextBroadcast ? colour : C.border2, color: C.chipFg }"
         @click="watchOnChannel"
       >
-        WATCH ON {{ network.name.toUpperCase() }} →
+        KIJK OP {{ network.name.toUpperCase() }} →
       </button>
     </div>
 
@@ -235,12 +307,70 @@ function report(e: Event, episode: PublicEpisode): void {
   font-size: 13px;
 }
 
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+}
+
 .synopsis {
   max-width: 760px;
   padding: 20px 24px 8px;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   line-height: 1.5;
+}
+
+.source-search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 860px;
+  margin: 14px 24px 2px;
+  padding: 14px 16px;
+  border: 1px solid;
+}
+
+.source-search-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.source-search-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.source-search strong {
+  font: 17px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.source-search p {
+  max-width: 560px;
+  margin: 2px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.source-search-actions {
+  display: flex;
+  flex: none;
+  gap: 8px;
+}
+
+.source-search-actions a {
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  font: 700 10px 'IBM Plex Mono', monospace;
+  white-space: nowrap;
+}
+
+.source-search-actions a:last-child {
+  background: transparent;
 }
 
 .broadcast-cta {
@@ -372,6 +502,28 @@ function report(e: Event, episode: PublicEpisode): void {
 
   .synopsis {
     padding: 16px 14px 4px;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+
+  .hero-status {
+    margin-left: 0;
+  }
+
+  .source-search {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    margin: 12px 14px 0;
+  }
+
+  .source-search-actions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .broadcast-cta {

@@ -12,7 +12,7 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Season 1",
+        "name": "Seizoen 1",
         "episode_count": 6
       }
     ]
@@ -20,7 +20,7 @@
   "seasons": [
     {
       "season_number": 1,
-      "name": "Season 1",
+      "name": "Seizoen 1",
       "episodes": [
         {
           "id": -37,

@@ -48,13 +48,13 @@ export const THEMES: Record<ThemeId, ThemeTokens> = {
 };
 
 export const THEME_OPTS: { id: ThemeId; label: string }[] = [
-  { id: 'dark', label: 'DARK' },
-  { id: 'light', label: 'LIGHT' },
+  { id: 'dark', label: 'DONKER' },
+  { id: 'light', label: 'LICHT' },
 ];
 
 export const VIEW_OPTS: { id: ViewMode; label: string }[] = [
-  { id: 'listings', label: 'LISTINGS' },
-  { id: 'covers', label: 'COVERS' },
+  { id: 'listings', label: 'LIJST' },
+  { id: 'covers', label: 'POSTERS' },
 ];
 
 export const TYPE_FILTERS = ['All', 'Animation', 'Live-action'] as const;
@@ -66,18 +66,18 @@ export type AgeFilter = (typeof AGE_FILTERS)[number];
 /** Availability labels. These used to be localized three ways; the spec's
  * single-language model collapses them to the schedule's own voice. */
 export const AVAILABILITY_LABELS = {
-  available: 'PLAYS',
-  'region-locked': 'REGION-LOCKED',
-  missing: 'MISSING',
+  available: 'BEKIJKEN',
+  'region-locked': 'REGIOBLOKKADE',
+  missing: 'ONTBREEKT',
 } as const;
 
 export const COPY = {
-  schedule: 'THE SCHEDULE',
-  page: 'PAGE',
-  present: 'present',
-  firstAired: 'first aired',
-  hoverHint: 'Hover or focus a title for first-air-date, network, and episode count.',
-  missingNote: 'No upload found for this episode.',
-  reportLink: 'Report a working link',
-  reportedThanks: 'Reported — thank you.',
+  schedule: 'PROGRAMMERING',
+  page: 'PAG',
+  present: 'heden',
+  firstAired: 'eerste uitzending',
+  hoverHint: 'Selecteer een titel voor de eerste uitzenddatum, zender en het aantal afleveringen.',
+  missingNote: 'Voor deze aflevering is nog geen video gevonden.',
+  reportLink: 'Werkende link doorgeven',
+  reportedThanks: 'Ontvangen — bedankt.',
 } as const;

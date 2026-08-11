@@ -10,7 +10,7 @@
       1989,
       2026
     ],
-    "note": "Flanders' first commercial channel; imported cartoons filled its afternoons.",
+    "note": "De eerste commerciële zender van Vlaanderen, met elke middag volop tekenfilms.",
     "neutral": false
   },
   {
@@ -24,7 +24,7 @@
       1988,
       2026
     ],
-    "note": "Dutch public television's third channel; home of the after-school block.",
+    "note": "De derde Nederlandse publieke zender en jarenlang de vaste plek voor jeugdtelevisie na school.",
     "neutral": false
   },
   {
@@ -38,7 +38,7 @@
       1998,
       2026
     ],
-    "note": "The first Nickelodeon feed for Dutch and Flemish viewers.",
+    "note": "De eerste Nickelodeon-zender voor Nederlandse en Vlaamse kijkers.",
     "neutral": false
   },
   {
@@ -52,7 +52,7 @@
       2000,
       2026
     ],
-    "note": "Late-night reruns for the audience that grew up with them.",
+    "note": "Late herhalingen en eigenzinnige animatie voor de kijkers die met tekenfilms opgroeiden.",
     "neutral": false
   },
   {
@@ -66,7 +66,7 @@
       1997,
       2005
     ],
-    "note": "The Benelux feed of the American after-school block.",
+    "note": "De Nederlandse en Vlaamse versie van het Amerikaanse middagblok na schooltijd.",
     "neutral": false
   },
   {
@@ -80,7 +80,7 @@
       1993,
       2026
     ],
-    "note": "The Benelux feed of the cartoon-only channel.",
+    "note": "De Europese zender waarop de hele dag tekenfilms te zien waren.",
     "neutral": true
   },
   {
@@ -94,12 +94,12 @@
       1997,
       2026
     ],
-    "note": "VRT's children's channel for Flanders.",
+    "note": "De jeugdzender van de VRT voor heel Vlaanderen.",
     "neutral": false
   },
   {
     "slug": "syndication",
-    "name": "Syndication",
+    "name": "Losse uitzendingen",
     "channelNumber": 99,
     "colour": "#8A93A6",
     "colourLight": "#6B6A64",
@@ -108,7 +108,7 @@
       1979,
       1996
     ],
-    "note": "Sold station by station rather than aired on one channel.",
+    "note": "Programma’s die per omroep werden verkocht en niet bij één vaste zender hoorden.",
     "neutral": true
   }
 ]

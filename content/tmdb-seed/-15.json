@@ -3,7 +3,7 @@
   "detail": {
     "id": -15,
     "name": "Samurai Pizza Cats",
-    "overview": "Three pizza-delivering, crime-fighting cats defend Little Tokyo, redubbed from Japanese with gleeful disregard for the original script.",
+    "overview": "Drie pizzabezorgende misdaadbestrijders verdedigen Little Tokyo in een uitbundige bewerking die zich weinig aantrekt van het oorspronkelijke Japanse script.",
     "first_air_date": "1990-11-02",
     "last_air_date": "1991-12-31",
     "number_of_episodes": 52,
@@ -12,7 +12,7 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Season 1",
+        "name": "Seizoen 1",
         "episode_count": 52
       }
     ]
@@ -20,7 +20,7 @@
   "seasons": [
     {
       "season_number": 1,
-      "name": "Season 1",
+      "name": "Seizoen 1",
       "episodes": [
         {
           "id": -15001,

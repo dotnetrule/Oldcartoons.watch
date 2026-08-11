@@ -12,11 +12,14 @@ import type {
   BroadcastChannelSource,
   BroadcastDataFile,
   BroadcastSchedule,
+  ChannelSource,
+  ContentLanguage,
   Episode,
   IndexFile,
   Network,
   PublicEpisode,
   PublicSeason,
+  PlaylistSource,
   ScheduledBroadcast,
   SeriesFile,
   SeriesSource,
@@ -66,6 +69,7 @@ const decadeOf = (year: number): string => `${Math.floor(year / 10) * 10}s`;
 
 type ScheduleSeed = {
   networkSlug: string;
+  language: ContentLanguage;
   showSlug: string;
   showTitle: string;
   season: number;
@@ -217,8 +221,14 @@ function main(): void {
   // and nothing else in a normal build would look at them — a bad edit would
   // otherwise sit unnoticed until the next `npm run fetch`. Validating them
   // here makes `npm run build` a total gate over content/.
-  readValidated(contentPath('channels.json'), channelsFileSchema);
-  const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
+  const youtubeChannelSources: ChannelSource[] = readValidated(
+    contentPath('channels.json'),
+    channelsFileSchema,
+  );
+  const playlists: PlaylistSource[] = readValidated(
+    contentPath('playlists.json'),
+    playlistsFileSchema,
+  );
 
   const networkSlugs = new Set(networks.map((n) => n.slug));
   const seriesByTmdbId = new Map(seriesSources.map((s) => [s.tmdbId, s]));
@@ -268,11 +278,20 @@ function main(): void {
   // episode pointing at a series that no longer exists is caught rather than
   // silently dropped.
   const episodesBySeries = new Map<number, Episode[]>();
+  const sourceLanguageByKey = new Map<string, ContentLanguage>([
+    ...youtubeChannelSources.map((source) => [`channel:${source.id}`, source.language] as const),
+    ...playlists.map((source) => [`playlist:${source.id}`, source.language] as const),
+  ]);
   for (const episode of episodes) {
     if (!seriesByTmdbId.has(episode.seriesId)) {
       throw new Error(
         `content/episodes.json has S${episode.season}E${episode.episode} for series ${episode.seriesId}, ` +
           `which is not in content/series.json`,
+      );
+    }
+    if (episode.source && !sourceLanguageByKey.has(`${episode.source.kind}:${episode.source.id}`)) {
+      throw new Error(
+        `content/episodes.json references unknown ${episode.source.kind} source '${episode.source.id}'`,
       );
     }
     const bucket = episodesBySeries.get(episode.seriesId);
@@ -317,6 +336,20 @@ function main(): void {
     const statusByEpisode = new Map(
       (episodesBySeries.get(source.tmdbId) ?? []).map((ep) => [`${ep.season}:${ep.episode}`, ep]),
     );
+    const languageByEpisode = new Map(
+      (episodesBySeries.get(source.tmdbId) ?? []).flatMap((episode) => {
+        if (!episode.source) return [];
+        const language = sourceLanguageByKey.get(`${episode.source.kind}:${episode.source.id}`);
+        return language ? [[`${episode.season}:${episode.episode}`, language] as const] : [];
+      }),
+    );
+    const availableLanguages = [...new Set(
+      (episodesBySeries.get(source.tmdbId) ?? []).flatMap((episode) => {
+        if (episode.status === 'missing' || !episode.source) return [];
+        const language = sourceLanguageByKey.get(`${episode.source.kind}:${episode.source.id}`);
+        return language ? [language] : [];
+      }),
+    )].sort();
 
     const seasons: PublicSeason[] = [];
     let availableCount = 0;
@@ -333,7 +366,7 @@ function main(): void {
           episode: episode.episode_number,
           // TMDB leaves untitled episodes blank; the row still has to say
           // something, and the number is the only honest thing to say.
-          title: episode.name || `Episode ${episode.episode_number}`,
+          title: episode.name || `Aflevering ${episode.episode_number}`,
           airDate: episode.air_date || null,
           runtime: episode.runtime && episode.runtime > 0 ? episode.runtime : null,
           // No record at all means nobody has looked for this episode yet,
@@ -349,7 +382,7 @@ function main(): void {
 
       seasons.push({
         season: season.season_number,
-        name: season.name || `Season ${season.season_number}`,
+        name: season.name || `Seizoen ${season.season_number}`,
         episodes: publicEpisodes,
       });
     }
@@ -382,6 +415,7 @@ function main(): void {
       decade,
       episodeCount: detail.number_of_episodes,
       availableCount,
+      availableLanguages,
       backdrop: base.backdrop,
       poster: detail.poster_path,
       seasons,
@@ -394,6 +428,7 @@ function main(): void {
         if (publicEpisode.status === 'missing' || publicEpisode.youtubeId === null) continue;
         scheduleSeeds.push({
           networkSlug: seriesFile.networkSlug,
+          language: languageByEpisode.get(`${publicEpisode.season}:${publicEpisode.episode}`)!,
           showSlug: seriesFile.slug,
           showTitle: seriesFile.name,
           season: publicEpisode.season,
@@ -418,6 +453,7 @@ function main(): void {
       decade: seriesFile.decade,
       episodeCount: seriesFile.episodeCount,
       availableCount: seriesFile.availableCount,
+      availableLanguages: seriesFile.availableLanguages,
       poster: seriesFile.poster,
     });
   }
@@ -434,7 +470,9 @@ function main(): void {
   const schedules = broadcastChannelSources.flatMap((channel) => {
     const schedule = buildSchedule(
       channel,
-      scheduleSeeds.filter((seed) => seed.networkSlug === channel.networkSlug),
+      scheduleSeeds.filter(
+        (seed) => seed.networkSlug === channel.networkSlug && seed.language === channel.language,
+      ),
     );
     return schedule ? [schedule] : [];
   });

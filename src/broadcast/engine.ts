@@ -88,7 +88,7 @@ type ZonedParts = {
 };
 
 function zonedParts(timestamp: Date | string | number, timezone: string): ZonedParts {
-  const formatter = new Intl.DateTimeFormat('en-GB', {
+  const formatter = new Intl.DateTimeFormat('nl-NL', {
     timeZone: timezone,
     year: 'numeric',
     month: '2-digit',
@@ -172,7 +172,7 @@ export function broadcastProgress(broadcast: Broadcast, timestamp: Date | number
 }
 
 export function formatChannelTime(timestamp: Date | string | number, timezone: string): string {
-  return new Intl.DateTimeFormat('en-GB', {
+  return new Intl.DateTimeFormat('nl-NL', {
     timeZone: timezone,
     hour: '2-digit',
     minute: '2-digit',
@@ -181,7 +181,7 @@ export function formatChannelTime(timestamp: Date | string | number, timezone: s
 }
 
 export function formatGuideDate(dateKey: string, timezone: string): string {
-  return new Intl.DateTimeFormat('en-GB', {
+  return new Intl.DateTimeFormat('nl-NL', {
     timeZone: timezone,
     weekday: 'long',
     day: 'numeric',

@@ -9,6 +9,7 @@ import {
   formatChannelTime,
   nextBroadcast,
 } from '../broadcast/engine';
+import { broadcastTypeLabel, countryLabel } from '../data/helpers';
 import { NOCOOKIE_HOST, loadYoutubeApi, type YtPlayer } from '../player/youtubeApi';
 
 const props = defineProps<{ channelId: string }>();
@@ -39,7 +40,8 @@ const playerKey = computed(() =>
 );
 const hasMediaError = computed(() => failedBroadcastId.value === playerKey.value);
 
-const titleFor = (item: typeof current.value): string => item?.show?.title ?? item?.type ?? 'Off air';
+const titleFor = (item: typeof current.value): string =>
+  item?.show?.title ?? (item?.type ? broadcastTypeLabel(item.type) : 'Geen uitzending');
 const subtitleFor = (item: typeof current.value): string => item?.episode?.title ?? '';
 const timeFor = (iso: string): string =>
   channel.value ? formatChannelTime(iso, channel.value.timezone) : '';
@@ -137,11 +139,11 @@ async function syncPlayer(): Promise<void> {
 }
 
 function goNetwork(): void {
-  if (network.value) void router.push(`/network/${network.value.slug}`);
+  if (network.value) void router.push(`/zender/${network.value.slug}`);
 }
 
 function goGuide(): void {
-  void router.push({ name: 'schedule', query: { channel: props.channelId } });
+  void router.push({ name: 'gids', query: { channel: props.channelId } });
 }
 
 function goLive(): void {
@@ -208,12 +210,12 @@ onBeforeUnmount(() => {
           <div ref="mount" class="yt-mount"></div>
         </div>
         <div v-if="!playerReady && !hasMediaError" class="tuning" :style="{ color: C.dim }">
-          TUNING {{ channel.name.toUpperCase() }}…
+          AFSTEMMEN OP {{ channel.name.toUpperCase() }}…
         </div>
         <div v-if="hasMediaError" class="signal" :style="{ color: C.ink }">
           <img :src="network.logo" alt="" :style="{ filter: 'invert(1)' }" />
-          <strong>SIGNAL INTERRUPTED</strong>
-          <span :style="{ color: C.dim }">The next scheduled broadcast will start automatically.</span>
+          <strong>SIGNAAL ONDERBROKEN</strong>
+          <span :style="{ color: C.dim }">De volgende geplande uitzending start automatisch.</span>
         </div>
       </div>
 
@@ -222,13 +224,13 @@ onBeforeUnmount(() => {
           <img :src="network.logo" :alt="network.name" :style="{ filter: 'invert(1)' }" />
           <div>
             <strong>{{ channel.name }}</strong>
-            <span>{{ channel.country }} · {{ channel.timezone }}</span>
+            <span>{{ countryLabel(channel.country) }} · {{ channel.timezone }}</span>
           </div>
           <span class="live-pill" :style="{ background: colour }">LIVE</span>
         </div>
 
         <div class="programme">
-          <div class="eyebrow">NOW</div>
+          <div class="eyebrow">NU</div>
           <h1>{{ titleFor(current) }}</h1>
           <p>{{ subtitleFor(current) }}</p>
           <div class="timeline">
@@ -239,24 +241,24 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="next">
-          <span class="eyebrow">NEXT · {{ timeFor(next.startsAt) }}</span>
+          <span class="eyebrow">HIERNA · {{ timeFor(next.startsAt) }}</span>
           <strong>{{ titleFor(next) }}</strong>
           <span>{{ subtitleFor(next) }}</span>
         </div>
 
         <div class="actions">
           <button @click="goNetwork">← {{ network.name }}</button>
-          <button @click="goGuide">TV guide</button>
-          <button @click="goLive">{{ isPlaying ? 'Go live' : 'Play live' }}</button>
-          <button @click="toggleSound">{{ isMuted ? 'Sound on' : 'Mute' }}</button>
-          <button @click="toggleFullscreen">Fullscreen</button>
+          <button @click="goGuide">TV-gids</button>
+          <button @click="goLive">{{ isPlaying ? 'Naar live' : 'Live afspelen' }}</button>
+          <button @click="toggleSound">{{ isMuted ? 'Geluid aan' : 'Dempen' }}</button>
+          <button @click="toggleFullscreen">Volledig scherm</button>
         </div>
       </div>
     </template>
 
     <div v-else class="unavailable" :style="{ color: C.ink }">
-      <strong>CHANNEL UNAVAILABLE</strong>
-      <button :style="{ color: C.dim2, borderColor: C.border2 }" @click="goGuide">Open TV guide</button>
+      <strong>ZENDER NIET BESCHIKBAAR</strong>
+      <button :style="{ color: C.dim2, borderColor: C.border2 }" @click="goGuide">Open de TV-gids</button>
     </div>
   </section>
 </template>

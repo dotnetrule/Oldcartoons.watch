@@ -11,17 +11,41 @@ const router = useRouter();
 const ui = useUiStore();
 const content = useContentStore();
 const C = computed(() => ui.C);
+const orderedNetworks = computed(() =>
+  [...content.networks].sort((a, b) => {
+    const aDutch = content.channelsForNetwork(a.slug).some((channel) => channel.language === 'nl');
+    const bDutch = content.channelsForNetwork(b.slug).some((channel) => channel.language === 'nl');
+    return Number(bDutch) - Number(aDutch) || a.channelNumber - b.channelNumber;
+  }),
+);
 
 function go(slug: string): void {
   ui.triggerFlicker();
-  void router.push(`/network/${slug}`);
+  void router.push(`/zender/${slug}`);
+}
+
+function goGuide(): void {
+  ui.triggerFlicker();
+  void router.push('/');
 }
 </script>
 
 <template>
-  <nav class="ntv-tabs" aria-label="Broadcasters" :style="{ background: C.bg2, borderColor: C.border }">
+  <nav class="ntv-tabs" aria-label="Zenders en programmering" :style="{ background: C.bg2, borderColor: C.border }">
     <button
-      v-for="net in content.networks"
+      class="ntv-tab ntv-tab-guide"
+      :style="{
+        background: props.activeSlug ? 'transparent' : C.ink,
+        color: props.activeSlug ? C.dim2 : C.chipFg,
+        borderColor: C.border2,
+      }"
+      @click="goGuide"
+    >
+      <span class="ntv-tab-ch">100</span>
+      <span class="ntv-tab-name">TV-GIDS</span>
+    </button>
+    <button
+      v-for="net in orderedNetworks"
       :key="net.slug"
       class="ntv-tab"
       :style="{
@@ -102,5 +126,9 @@ function go(slug: string): void {
   text-transform: uppercase;
   letter-spacing: 0.02em;
   font-size: 13px;
+}
+
+.ntv-tab-guide {
+  padding-left: 10px;
 }
 </style>

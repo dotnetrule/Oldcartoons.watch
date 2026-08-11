@@ -25,16 +25,16 @@ export function initialsFor(title: string): string {
     .toUpperCase();
 }
 
-/** "1997–2005", or "1997–present" while the run is still open. */
+/** "1997–2005", of "1997–heden" als de reeks nog loopt. */
 export function yearRangeLabel(from: number, to: number): string {
   const currentYear = new Date().getUTCFullYear();
-  return `${from}–${to >= currentYear ? 'present' : to}`;
+  return `${from}–${to >= currentYear ? 'heden' : to}`;
 }
 
 /** The design shows an em dash rather than "0 EP" for a series whose aired
  * count is unknown. */
 export function episodeCountLabel(count: number): string {
-  return count > 0 ? `${count} EP` : '— EP';
+  return count > 0 ? `${count} AFL.` : '— AFL.';
 }
 
 /** ISO dates come out of TMDB; the design renders them short and readable. */
@@ -42,10 +42,34 @@ export function formatAirDate(isoDate: string | null): string {
   if (!isoDate) return '—';
   const parsed = new Date(`${isoDate}T00:00:00Z`);
   if (Number.isNaN(parsed.getTime())) return isoDate;
-  return parsed.toLocaleDateString('en-GB', {
+  return parsed.toLocaleDateString('nl-NL', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
     timeZone: 'UTC',
   });
+}
+
+export function countryLabel(country: string): string {
+  return ({ NL: 'Nederland', BE: 'België', GB: 'Verenigd Koninkrijk', US: 'Verenigde Staten' } as Record<string, string>)[country]
+    ?? country;
+}
+
+export function languageLabel(language: string): string {
+  return ({ nl: 'Nederlands', en: 'Engels' } as Record<string, string>)[language]
+    ?? language.toUpperCase();
+}
+
+export function broadcastTypeLabel(type: string): string {
+  return ({
+    Episode: 'Aflevering',
+    Movie: 'Film',
+    NetworkIdent: 'Zenderleader',
+    ShowBumper: 'Programmaleader',
+    Commercial: 'Reclame',
+    CommercialBlock: 'Reclameblok',
+    Promo: 'Promo',
+    Trailer: 'Trailer',
+    Interstitial: 'Tussendoortje',
+  } as Record<string, string>)[type] ?? type;
 }

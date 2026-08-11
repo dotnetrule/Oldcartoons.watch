@@ -3,7 +3,7 @@
   "detail": {
     "id": -37,
     "name": "What's with Andy?",
-    "overview": "Andy Larkin, self-declared greatest prankster alive, spends every episode engineering an elaborate practical joke on the town of East Gackle — and spends the last few minutes of it being caught.",
+    "overview": "Andy Larkin noemt zichzelf de grootste grappenmaker ter wereld en bedenkt voor iedere aflevering een uitgebreide streek voor het stadje East Gackle, waarna hij meestal alsnog wordt betrapt.",
     "first_air_date": "2001",
     "last_air_date": "2007",
     "number_of_episodes": 47,
@@ -12,7 +12,7 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Season 1",
+        "name": "Seizoen 1",
         "episode_count": 47
       }
     ]
@@ -20,7 +20,7 @@
   "seasons": [
     {
       "season_number": 1,
-      "name": "Season 1",
+      "name": "Seizoen 1",
       "episodes": [
         {
           "id": -37001,

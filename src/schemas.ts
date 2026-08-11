@@ -13,6 +13,8 @@ export const seriesTypeSchema = z.enum(['Animation', 'Live-action']);
 
 export const ageBandSchema = z.enum(['Preschool', 'Kids', 'Tween', 'Adult']);
 
+export const contentLanguageSchema = z.enum(['nl', 'en']);
+
 const slugSchema = z
   .string()
   .min(1)
@@ -288,6 +290,7 @@ export const seriesSourceFileSchema = z
 export const channelSourceSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
+  language: contentLanguageSchema,
   note: z.string(),
 });
 
@@ -300,6 +303,7 @@ export const playlistSourceSchema = z
     // would be a third state meaning the same thing, so it is rejected.
     name: z.string().min(1).nullable().default(null),
     curator: z.string().min(1).nullable().default(null),
+    language: contentLanguageSchema,
     // Scoping is what keeps a third-party playlist from reaching series it has
     // no business matching, and match.ts scopes with `covers.includes(slug)` —
     // so an empty list is not a looser playlist, it is an inert one that ingests
@@ -398,6 +402,7 @@ export const seriesFileSchema = z.object({
   decade: z.string().regex(/^\d{4}s$/),
   episodeCount: z.number().int().nonnegative(),
   availableCount: z.number().int().nonnegative(),
+  availableLanguages: z.array(contentLanguageSchema),
   backdrop: z.string().startsWith('/').nullable(),
   poster: z.string().startsWith('/').nullable(),
   seasons: z.array(publicSeasonSchema),
@@ -416,6 +421,7 @@ export const seriesStubSchema = z.object({
   decade: z.string().regex(/^\d{4}s$/),
   episodeCount: z.number().int().nonnegative(),
   availableCount: z.number().int().nonnegative(),
+  availableLanguages: z.array(contentLanguageSchema),
   poster: z.string().startsWith('/').nullable(),
 });
 

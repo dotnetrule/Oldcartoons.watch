@@ -1,7 +1,7 @@
 /**
  * Whitelist a third-party YouTube playlist as an ingest source.
  *
- *   npm run add-playlist -- "<youtube url or playlist id>" --episodes-for spc
+ *   npm run add-playlist -- "<youtube url or playlist id>" --episodes-for spc --language en
  *   npm run add-playlist -- "<youtube url or playlist id>" --covers heman,spc
  *
  * This is the one hand-approval step in the playlist path. Everything after it
@@ -22,7 +22,7 @@
  *                   no real TMDB id for, where --covers would ingest happily
  *                   and still leave every row a gap.
  */
-import type { PlaylistSource } from '../src/types';
+import type { ContentLanguage, PlaylistSource } from '../src/types';
 import { playlistsFileSchema, seriesSourceFileSchema } from '../src/schemas';
 import { contentPath, readValidated, writeJson } from './lib/paths';
 import { getPublicPlaylistInfo } from './lib/youtube-public';
@@ -84,6 +84,7 @@ type Args = {
   episodesFor: string | null;
   name?: string;
   curator?: string;
+  language: ContentLanguage;
   note: string;
 };
 
@@ -116,7 +117,8 @@ function parseArgs(argv: string[]): Args {
   if (!input) {
     throw new Error(
       'usage: npm run add-playlist -- "<youtube url or playlist id>" --episodes-for <slug>\n' +
-        '   or: npm run add-playlist -- "<youtube url or playlist id>" --covers slug[,slug]',
+        '   or: npm run add-playlist -- "<youtube url or playlist id>" --covers slug[,slug]\n' +
+        "optional: --language nl|en (default: nl)",
     );
   }
 
@@ -155,12 +157,18 @@ function parseArgs(argv: string[]): Args {
     );
   }
 
+  const language = flags.get('language')?.trim().toLowerCase() ?? 'nl';
+  if (language !== 'nl' && language !== 'en') {
+    throw new Error(`--language must be 'nl' or 'en', got '${language}'`);
+  }
+
   return {
     input,
     covers,
     episodesFor,
     ...(flags.has('name') ? { name: flags.get('name') } : {}),
     ...(flags.has('curator') ? { curator: flags.get('curator') } : {}),
+    language,
     note: flags.get('note') ?? '',
   };
 }
@@ -234,6 +242,7 @@ async function main(): Promise<void> {
     id,
     name,
     curator,
+    language: args.language,
     covers: args.covers,
     episodesFor: args.episodesFor,
     note: args.note,
@@ -246,6 +255,7 @@ async function main(): Promise<void> {
   console.log(name && curator ? `whitelisted '${name}' by ${curator}` : `whitelisted ${id} (unattributed)`);
   console.log(`  id      ${id}`);
   console.log(`  covers  ${args.covers.join(', ')}`);
+  console.log(`  language ${args.language}`);
   if (args.episodesFor) console.log(`  owns the episode list for  ${args.episodesFor}`);
 
   // A playlist-backed series needs no TMDB fetch, so the next step is the

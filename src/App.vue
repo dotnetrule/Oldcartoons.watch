@@ -14,9 +14,9 @@ const content = useContentStore();
 const C = computed(() => ui.C);
 
 const activeNetworkSlug = computed<string | null>(() => {
-  if (route.name === 'network') return String(route.params.slug);
+  if (route.name === 'zender') return String(route.params.slug);
   if (route.name === 'live') return content.channel(String(route.params.channelId))?.networkSlug ?? null;
-  if (route.name === 'series' || route.name === 'player') {
+  if (route.name === 'programma' || route.name === 'aflevering') {
     return content.stub(String(route.params.slug))?.networkSlug ?? null;
   }
   return null;
@@ -25,15 +25,15 @@ const activeNetworkSlug = computed<string | null>(() => {
 /** The teletext page number in the header. Cosmetic, but it is the thing that
  * sells the conceit, so it tracks the real route. */
 const pageCode = computed(() => {
-  if (route.name === 'network') {
+  if (route.name === 'zender') {
     const i = content.networks.findIndex((n) => n.slug === route.params.slug);
     return `2${pad2(i + 1)}`;
   }
-  if (route.name === 'series') {
+  if (route.name === 'programma') {
     const i = content.stubs.findIndex((s) => s.slug === route.params.slug);
     return `3${pad2(i + 1)}`;
   }
-  if (route.name === 'player') {
+  if (route.name === 'aflevering') {
     const i = content.stubs.findIndex((s) => s.slug === route.params.slug);
     return `4${pad2(i + 1)}·${pad2(Number(route.params.episode))}`;
   }
@@ -61,13 +61,13 @@ const flashStyle = computed(() => ({
     </main>
     <footer class="ntv-footer" :style="{ borderColor: C.border, color: C.dim }">
       <span>
-        No video is hosted here. Every broadcast plays as an external
-        youtube-nocookie embed from a curated source.
+        We bewaren zelf geen video. Iedere uitzending speelt via een externe
+        youtube-nocookie-embed uit een zorgvuldig gekozen bron.
       </span>
       <span>
-        Series and episode metadata from
+        Informatie over programma’s en afleveringen komt van
         <a :style="{ color: C.dim2 }" href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">TMDB</a>.
-        This product uses the TMDB API but is not endorsed or certified by TMDB.
+        Deze site gebruikt de TMDB-API, maar is niet verbonden aan of goedgekeurd door TMDB.
       </span>
     </footer>
   </div>

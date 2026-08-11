@@ -4,7 +4,14 @@ import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
-import { episodeCountLabel, pad2, yearRangeLabel } from '../data/helpers';
+import SeriesStatusDot from '../components/SeriesStatusDot.vue';
+import { countryLabel, episodeCountLabel, languageLabel, pad2, yearRangeLabel } from '../data/helpers';
+import {
+  SERIES_STATUS_META,
+  seriesArchiveStatus,
+  seriesArchiveStatusLabel,
+  type SeriesArchiveStatus,
+} from '../data/series-status';
 import { broadcastProgress, formatChannelTime, nowAndNext } from '../broadcast/engine';
 import type { BroadcastChannel, SeriesStub } from '../types';
 
@@ -36,7 +43,11 @@ const series = computed<SeriesStub[]>(() =>
   network.value
     ? content.stubs
         .filter((item) => item.networkSlug === network.value?.slug)
-        .sort((a, b) => a.firstAirYear - b.firstAirYear)
+        .sort(
+          (a, b) =>
+            Number(b.availableLanguages.includes('nl')) - Number(a.availableLanguages.includes('nl')) ||
+            a.firstAirYear - b.firstAirYear,
+        )
     : [],
 );
 
@@ -51,6 +62,11 @@ onBeforeUnmount(() => clearInterval(clockTimer));
 const seriesYearsLabel = (item: SeriesStub): string =>
   yearRangeLabel(item.firstAirYear, item.lastAirYear);
 const epLabel = (item: SeriesStub): string => episodeCountLabel(item.episodeCount);
+const statusFor = (item: SeriesStub): SeriesArchiveStatus => seriesArchiveStatus(item);
+const statusLabelFor = (item: SeriesStub): string => seriesArchiveStatusLabel(item);
+const statusLegend = (
+  Object.entries(SERIES_STATUS_META) as [SeriesArchiveStatus, { label: string }][]
+).map(([status, meta]) => ({ status, label: meta.label }));
 const time = (iso: string): string =>
   channel.value ? formatChannelTime(iso, channel.value.timezone) : '';
 
@@ -60,16 +76,16 @@ function selectChannel(target: BroadcastChannel): void {
 
 function goSeries(slug: string): void {
   ui.triggerFlicker();
-  void router.push(`/series/${slug}`);
+  void router.push(`/programma/${slug}`);
 }
 
 function watchLive(): void {
-  if (channel.value?.scheduleId) void router.push(`/watch/${channel.value.id}`);
+  if (channel.value?.scheduleId) void router.push(`/kijken/${channel.value.id}`);
 }
 
 function goGuide(): void {
   if (channel.value?.scheduleId) {
-    void router.push({ name: 'schedule', query: { channel: channel.value.id } });
+    void router.push({ name: 'gids', query: { channel: channel.value.id } });
   }
 }
 </script>
@@ -83,14 +99,14 @@ function goGuide(): void {
         :style="{ filter: ui.theme === 'dark' ? 'invert(1)' : 'none' }"
       />
       <div class="network-identity">
-        <span class="mono" :style="{ color: colour }">NETWORK {{ pad2(network.channelNumber) }} · {{ yearsLabel }}</span>
+        <span class="mono" :style="{ color: colour }">ZENDER {{ pad2(network.channelNumber) }} · {{ yearsLabel }}</span>
         <h1 :style="{ color: C.ink }">{{ network.name }}</h1>
         <p :style="{ color: C.dim2 }">{{ network.note }}</p>
       </div>
     </header>
 
     <section class="channels">
-      <span class="section-label" :style="{ color: C.dim }">SELECT CHANNEL</span>
+      <span class="section-label" :style="{ color: C.dim }">KIES EEN ZENDERVERSIE</span>
       <div class="channel-buttons">
         <button
           v-for="item in channels"
@@ -103,15 +119,15 @@ function goGuide(): void {
           @click="selectChannel(item)"
         >
           <strong>{{ item.name }}</strong>
-          <span :style="{ color: C.dim }">{{ item.country }} · {{ item.language.toUpperCase() }} · {{ item.timezone }}</span>
-          <i :style="{ color: item.scheduleId ? colour : C.dim }">{{ item.scheduleId ? 'ON AIR' : 'ARCHIVE PENDING' }}</i>
+          <span :style="{ color: C.dim }">{{ countryLabel(item.country) }} · {{ languageLabel(item.language) }} · {{ item.timezone }}</span>
+          <i :style="{ color: item.scheduleId ? colour : C.dim }">{{ item.scheduleId ? 'IN DE LUCHT' : 'ARCHIEF VOLGT' }}</i>
         </button>
       </div>
     </section>
 
     <section v-if="channel && current" class="live-card" :style="{ borderColor: colour, background: C.bg2 }">
       <div class="live-copy">
-        <span class="section-label" :style="{ color: colour }">● LIVE NOW · {{ channel.name }}</span>
+        <span class="section-label" :style="{ color: colour }">● NU LIVE · {{ channel.name }}</span>
         <h2 :style="{ color: C.ink }">{{ current.show?.title }}</h2>
         <p :style="{ color: C.dim2 }">{{ current.episode?.title }}</p>
         <div class="live-time" :style="{ color: C.dim }">
@@ -122,13 +138,13 @@ function goGuide(): void {
           <span>{{ time(current.endsAt) }}</span>
         </div>
         <div class="live-actions">
-          <button :style="{ background: colour, color: C.chipFg }" @click="watchLive">WATCH LIVE →</button>
-          <button :style="{ borderColor: C.border2, color: C.dim2 }" @click="goGuide">FULL TV GUIDE</button>
+          <button :style="{ background: colour, color: C.chipFg }" @click="watchLive">KIJK LIVE →</button>
+          <button :style="{ borderColor: C.border2, color: C.dim2 }" @click="goGuide">HELE PROGRAMMERING</button>
         </div>
       </div>
 
       <div class="coming-up" :style="{ borderColor: C.border }">
-        <span class="section-label" :style="{ color: C.dim }">COMING UP</span>
+        <span class="section-label" :style="{ color: C.dim }">STRAKS</span>
         <div v-for="item in upcoming" :key="`${item.id}-${item.startsAt}`" :style="{ borderColor: C.border }">
           <time :style="{ color: C.dim }">{{ time(item.startsAt) }}</time>
           <p>
@@ -140,17 +156,23 @@ function goGuide(): void {
     </section>
 
     <section v-else-if="channel" class="not-live" :style="{ color: C.dim, borderColor: C.border }">
-      <strong :style="{ color: C.ink }">This channel is not broadcasting yet.</strong>
-      <span>Its identity and programme archive are available, but no validated media schedule can be generated yet.</span>
+      <strong :style="{ color: C.ink }">Deze zender is nog niet in de lucht.</strong>
+      <span>De zender en het programma-archief zijn al beschikbaar, maar er is nog niet genoeg gevalideerd materiaal voor een speelschema.</span>
     </section>
 
     <section class="archive">
       <div class="archive-head" :style="{ borderColor: C.border }">
-        <div>
-          <span class="section-label" :style="{ color: C.dim }">PROGRAMME ARCHIVE</span>
-          <h2 :style="{ color: C.ink }">SHOWS ON {{ network.name }}</h2>
+        <div class="archive-heading">
+          <span class="section-label" :style="{ color: C.dim }">PROGRAMMA-ARCHIEF</span>
+          <h2 :style="{ color: C.ink }">PROGRAMMA’S OP {{ network.name }}</h2>
+          <div class="status-legend" :style="{ color: C.dim }" aria-label="Seriesstatus legenda">
+            <span v-for="entry in statusLegend" :key="entry.status">
+              <SeriesStatusDot :status="entry.status" />
+              {{ entry.label }}
+            </span>
+          </div>
         </div>
-        <span class="mono" :style="{ color: C.dim }">{{ series.length }} TITLES</span>
+        <span class="mono" :style="{ color: C.dim }">{{ series.length }} TITELS</span>
       </div>
 
       <div v-if="ui.viewMode === 'listings'" class="archive-list">
@@ -164,8 +186,13 @@ function goGuide(): void {
           @click="goSeries(item.slug)"
           @keydown.enter="goSeries(item.slug)"
         >
-          <span class="title" :style="{ color: C.ink }">{{ item.name }}</span>
-          <span class="mono" :style="{ color: C.dim }">{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}</span>
+          <span class="title" :style="{ color: C.ink }">
+            <SeriesStatusDot :status="statusFor(item)" :label="statusLabelFor(item)" />
+            {{ item.name }}
+          </span>
+          <span class="mono" :style="{ color: C.dim }">
+            <template v-if="item.availableLanguages.includes('nl')">NEDERLANDS · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
+          </span>
         </div>
       </div>
 
@@ -186,8 +213,13 @@ function goGuide(): void {
             :accent-color="colour"
             class="cover-card-img"
           />
-          <strong :style="{ color: C.ink }">{{ item.name }}</strong>
-          <span class="mono" :style="{ color: C.dim }">{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}</span>
+          <strong :style="{ color: C.ink }">
+            <SeriesStatusDot :status="statusFor(item)" :label="statusLabelFor(item)" />
+            {{ item.name }}
+          </strong>
+          <span class="mono" :style="{ color: C.dim }">
+            <template v-if="item.availableLanguages.includes('nl')">NEDERLANDS · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
+          </span>
         </div>
       </div>
     </section>
@@ -398,6 +430,27 @@ function goGuide(): void {
   font: 600 25px 'Oswald', sans-serif;
 }
 
+.archive-heading {
+  min-width: 0;
+}
+
+.status-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 8px;
+  font: 9px 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+}
+
+.status-legend > span,
+.archive-row .title,
+.cover-card strong {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
 .archive-head > .mono {
   font-size: 10px;
 }
@@ -466,6 +519,10 @@ function goGuide(): void {
 
   .live-card {
     grid-template-columns: 1fr;
+  }
+
+  .archive-head {
+    align-items: flex-start;
   }
 
   .coming-up {

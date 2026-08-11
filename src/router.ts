@@ -21,27 +21,27 @@ async function loadBroadcastData(): Promise<void> {
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'schedule',
+    name: 'gids',
     component: ScheduleView,
     beforeEnter: loadBroadcastData,
   },
   {
-    path: '/network/:slug',
-    name: 'network',
+    path: '/zender/:slug',
+    name: 'zender',
     component: NetworkView,
     props: true,
     beforeEnter: loadBroadcastData,
   },
   {
-    path: '/watch/:channelId',
+    path: '/kijken/:channelId',
     name: 'live',
     component: () => import('./views/LivePlayerView.vue'),
     props: true,
     beforeEnter: loadBroadcastData,
   },
   {
-    path: '/series/:slug',
-    name: 'series',
+    path: '/programma/:slug',
+    name: 'programma',
     component: SeriesView,
     props: true,
     beforeEnter: (to) => loadSeriesData(String(to.params.slug)),
@@ -49,13 +49,24 @@ const routes: RouteRecordRaw[] = [
   {
     // Real season and episode numbers, not array indices — the URL is the
     // episode's identity and has to survive TMDB reordering a season.
-    path: '/series/:slug/:season/:episode',
-    name: 'player',
+    path: '/programma/:slug/:season/:episode',
+    name: 'aflevering',
     component: PlayerView,
     props: true,
     beforeEnter: (to) => loadSeriesData(String(to.params.slug)),
   },
 ];
+
+// Oude publieke adressen blijven werken, maar leiden naar de Nederlandse URL's.
+routes.push(
+  { path: '/network/:slug', redirect: (to) => `/zender/${String(to.params.slug)}` },
+  { path: '/watch/:channelId', redirect: (to) => `/kijken/${String(to.params.channelId)}` },
+  { path: '/series/:slug', redirect: (to) => `/programma/${String(to.params.slug)}` },
+  {
+    path: '/series/:slug/:season/:episode',
+    redirect: (to) => `/programma/${String(to.params.slug)}/${String(to.params.season)}/${String(to.params.episode)}`,
+  },
+);
 
 if (import.meta.env.DEV) {
   // Dev-only, and statically eliminated from a production build: the branch

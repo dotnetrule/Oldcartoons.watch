@@ -27,7 +27,7 @@ function chipStyle(active: boolean) {
 <template>
   <header class="ntv-header" :style="{ background: C.bg, borderColor: C.border }">
     <button class="ntv-logo" :style="{ color: C.ink }" @click="goSchedule">
-      OLDCARTOONS<span :style="{ color: C.dim }">.</span>WATCH
+      <span>TV</span><span :style="{ color: C.dim }">VAN</span><span>TOEN</span>
     </button>
     <div class="ntv-header-right">
       <div class="ntv-chipgroup">
@@ -75,6 +75,9 @@ function chipStyle(active: boolean) {
 }
 
 .ntv-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
   background: none;
   border: none;
   cursor: pointer;

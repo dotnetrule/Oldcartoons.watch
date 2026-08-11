@@ -2,7 +2,7 @@
   {
     "id": "vtm-flanders",
     "networkSlug": "vtm",
-    "name": "VTM Flanders",
+    "name": "VTM Vlaanderen",
     "country": "BE",
     "language": "nl",
     "timezone": "Europe/Brussels"
@@ -18,7 +18,7 @@
   {
     "id": "nickelodeon-nl",
     "networkSlug": "nickelodeon",
-    "name": "Nickelodeon Netherlands",
+    "name": "Nickelodeon Nederland",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -26,7 +26,7 @@
   {
     "id": "adultswim-us",
     "networkSlug": "adultswim",
-    "name": "Adult Swim US",
+    "name": "Adult Swim VS",
     "country": "US",
     "language": "en",
     "timezone": "America/New_York"
@@ -34,7 +34,7 @@
   {
     "id": "foxkids-nl",
     "networkSlug": "foxkids",
-    "name": "Fox Kids Netherlands",
+    "name": "Fox Kids Nederland",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -42,7 +42,7 @@
   {
     "id": "foxkids-uk",
     "networkSlug": "foxkids",
-    "name": "Fox Kids UK",
+    "name": "Fox Kids VK",
     "country": "GB",
     "language": "en",
     "timezone": "Europe/London"
@@ -50,7 +50,7 @@
   {
     "id": "cartoonnetwork-eu",
     "networkSlug": "cartoonnetwork",
-    "name": "Cartoon Network Europe",
+    "name": "Cartoon Network Europa",
     "country": "GB",
     "language": "en",
     "timezone": "Europe/London"
@@ -58,7 +58,7 @@
   {
     "id": "ketnet-flanders",
     "networkSlug": "ketnet",
-    "name": "Ketnet Flanders",
+    "name": "Ketnet Vlaanderen",
     "country": "BE",
     "language": "nl",
     "timezone": "Europe/Brussels"
@@ -66,7 +66,7 @@
   {
     "id": "syndication-us",
     "networkSlug": "syndication",
-    "name": "US Syndication",
+    "name": "Losse uitzendingen VS",
     "country": "US",
     "language": "en",
     "timezone": "America/New_York"

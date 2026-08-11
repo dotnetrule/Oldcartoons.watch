@@ -3,6 +3,7 @@
     "id": "PLsVrIqEkJoylev4yM2hFkrHwS_An094Yb",
     "name": null,
     "curator": null,
+    "language": "en",
     "covers": [
       "spc"
     ],
@@ -13,6 +14,7 @@
     "id": "PLU4Lcri7Lk0pl02LrI7FJMuue-f_3YZhr",
     "name": null,
     "curator": null,
+    "language": "nl",
     "covers": [
       "whats-with-andy"
     ],
@@ -23,6 +25,7 @@
     "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4",
     "name": "Flint the Time Detective: The Complete Series",
     "curator": "Michael Rubalcava",
+    "language": "en",
     "covers": [
       "flint-the-time-detective"
     ],
@@ -33,6 +36,7 @@
     "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp",
     "name": "Bobby's World: The Complete Series (1990-1998)",
     "curator": "Reuben Abrams",
+    "language": "en",
     "covers": [
       "bobbys-world"
     ],
@@ -43,6 +47,7 @@
     "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB",
     "name": "Kids from Room 402",
     "curator": "Televisienostalgie",
+    "language": "nl",
     "covers": [
       "kids-from-room-402"
     ],
@@ -53,6 +58,7 @@
     "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K",
     "name": "Sesamstraat",
     "curator": "Televisienostalgie",
+    "language": "nl",
     "covers": [
       "sesamstraat"
     ],
@@ -63,6 +69,7 @@
     "id": "PLU4Lcri7Lk0q1nyiLkRab7ev-amwhkvja",
     "name": "Jim Button",
     "curator": "Televisienostalgie",
+    "language": "nl",
     "covers": [
       "jim-button"
     ],
@@ -73,6 +80,7 @@
     "id": "PLU4Lcri7Lk0o1WjExmeMDc9IXmLD0YMQy",
     "name": "Walter Melon",
     "curator": "Televisienostalgie",
+    "language": "nl",
     "covers": [
       "walter-melon"
     ],
@@ -83,6 +91,7 @@
     "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl",
     "name": "De Bende van Vijf",
     "curator": "Televisienostalgie",
+    "language": "nl",
     "covers": [
       "de-bende-van-vijf"
     ],
@@ -93,6 +102,7 @@
     "id": "PLU4Lcri7Lk0rTxNemGkM3wSat9r4NEfwi",
     "name": "Beugelbekkie",
     "curator": "Televisienostalgie",
+    "language": "nl",
     "covers": [
       "beugelbekkie"
     ],

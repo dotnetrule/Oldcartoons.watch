@@ -1,9 +1,9 @@
-# oldcartoons.watch
+# TV van Toen
 
-A teletext/CRT-styled live TV simulator and guide for classic cartoons and
-kids' TV. It indexes archived television series, builds deterministic channel
-schedules, and plays the broadcast active at the viewer's current timestamp
-through an embedded YouTube upload.
+De Nederlandse tv-gids en live simulator voor klassieke tekenfilms en
+jeugdtelevisie, bereikbaar via oldcartoons.watch. TV van Toen zet
+Nederlandstalige zenders en hun programmering voorop, bouwt vaste speelschema’s
+uit het archief en speelt de actuele uitzending via een YouTube-embed.
 
 **It hosts no video.** Every playback path is a `youtube-nocookie` embed.
 
@@ -57,8 +57,10 @@ generated schedule into one broadcast, one media asset, and an exact media
 offset. The same function feeds the network Now/Next panel, the daily EPG, and
 the player, so those surfaces cannot disagree about what is on air.
 
-`scripts/build-data.ts` round-robins validated playable episodes into a gapless,
-repeating schedule and writes it to `public/data/broadcast.json`. Its anchor,
+`scripts/build-data.ts` matches the language of every validated playable
+episode to the language of its regional channel, round-robins the result into a
+gapless repeating schedule and writes it to `public/data/broadcast.json`. A
+Dutch feed therefore never silently switches to an English upload. Its anchor,
 slot order and durations are stable, so a timestamp produces the same result
 for every viewer and a rebuild introduces no random programming changes.
 
@@ -288,10 +290,11 @@ never at render. Region-locked episodes stay playable and are labelled.
 ## Routes
 
 ```
-/                                schedule grid — decades × networks
-/network/:slug                   one broadcaster, chronological
-/series/:slug                    hero, season tabs, episode rows
-/series/:slug/:season/:episode   player with persistent episode rail
+/                                        zenders en volledige programmering
+/zender/:slug                            één zender met liveblok en archief
+/kijken/:channelId                       live speler voor een regionale feed
+/programma/:slug                         programma, seizoenen en afleveringen
+/programma/:slug/:season/:episode        speler met vaste afleveringslijst
 ```
 
 The schedule loads `index.json` only. Series and episode routes load
@@ -312,23 +315,18 @@ always visible before a click, never discovered after one.
 
 ## Current state of this checkout
 
-The 36 series and 8 networks in `content/` are **seeded from the design
-prototype's sample data**, so the app builds and runs today without API keys.
-Two things follow from that:
+The 48 series and 8 networks in `content/` are seeded so the app builds and
+runs today without API keys. Ten curated playlists currently provide 277
+playable episodes; every remaining gap stays visible instead of being presented
+as available.
 
-- **`content/episodes.json` is empty**, so every episode renders as a gap.
-  Nothing has been matched against a real upload yet, and nothing claims to be
-  playable. An empty file is the correct starting state, not a missing one:
-  a record means a decision was made about that episode, so writing
-  placeholder rows for unexamined episodes would mark them decided and exclude
-  them from every future `match` run.
-- Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
-  refuses outright. A plausible-looking positive id would make a mis-seeded
-  series quietly fetch the wrong show.
+Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
+refuses outright. A plausible-looking positive id would make a mis-seeded
+series quietly fetch the wrong show.
 
-  This is also why `--covers` cannot fill a series in yet: there is no real
-  episode list to match uploads against. `--episodes-for` is the route that
-  works today, because it does not need one.
+This is also why `--covers` cannot fill a seeded series in yet: there is no real
+TMDB episode list to match uploads against. `--episodes-for` is the route that
+works today, because it does not need one.
 
 To go live, either route works per series:
 
