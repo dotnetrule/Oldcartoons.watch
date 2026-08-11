@@ -302,4 +302,44 @@ onBeforeUnmount(destroyPlayer);
   font-size: 14px;
   flex: 1;
 }
+
+/* Mobile. The rail cannot shrink, so on a phone it has to stop being a column
+   and stack under the video — otherwise the 16/9 embed is squeezed into
+   whatever slice of width the 320px rail leaves behind. Kept to CSS on
+   purpose: a v-if variant would unmount the player's mount node on resize. */
+@media (max-width: 759px) {
+  .player {
+    flex-direction: column;
+  }
+
+  /* The video runs edge to edge; the padding moves onto the text below it. */
+  .player-main {
+    padding: 0;
+  }
+
+  .video {
+    border-left: none;
+    border-right: none;
+  }
+
+  .player-info {
+    padding: 14px 14px 4px;
+  }
+
+  .player-info h1 {
+    font-size: 20px;
+    overflow-wrap: break-word;
+  }
+
+  /* No inner scroller inside page scroll on touch, and the max-height it
+     replaces was a desktop header/footer measurement anyway. */
+  .rail {
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+    border-left: none;
+    border-top: 1px solid;
+    padding: 16px 14px 28px;
+  }
+}
 </style>
