@@ -19,9 +19,14 @@ on:
     branches-ignore:
       - Master
     paths:
+      # The whitelists, and the machinery that reads them. A change to either
+      # can change what the archive should contain, and a pipeline fix that
+      # did not re-run the pipeline would leave the branch stale.
       - 'content/playlists.json'
       - 'content/channels.json'
       - 'content/series.json'
+      - 'scripts/**'
+      - '.github/workflows/ingest.yml'
   workflow_dispatch:
 
 permissions:
