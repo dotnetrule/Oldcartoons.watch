@@ -100,7 +100,7 @@
   {
     "slug": "spc",
     "tmdbId": -15,
-    "networkSlug": "syndication",
+    "networkSlug": "foxkids",
     "type": "Animation",
     "age": "Kids"
   },
@@ -250,5 +250,12 @@
     "networkSlug": "adultswim",
     "type": "Animation",
     "age": "Adult"
+  },
+  {
+    "slug": "whats-with-andy",
+    "tmdbId": -37,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Tween"
   }
 ]

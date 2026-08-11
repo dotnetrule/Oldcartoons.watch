@@ -118,7 +118,7 @@ function main(): void {
     const unknown = playlist.covers.filter((slug) => !seriesSlugs.has(slug));
     if (unknown.length > 0) {
       throw new Error(
-        `playlist '${playlist.name}' (${playlist.id}) covers unknown series: ${unknown.join(', ')}`,
+        `playlist '${playlist.name ?? playlist.id}' (${playlist.id}) covers unknown series: ${unknown.join(', ')}`,
       );
     }
   }

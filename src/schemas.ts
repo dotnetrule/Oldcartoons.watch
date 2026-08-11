@@ -171,8 +171,10 @@ export const channelsFileSchema = z.array(channelSourceSchema);
 export const playlistSourceSchema = z
   .object({
     id: z.string().min(1),
-    name: z.string().min(1),
-    curator: z.string().min(1),
+    // Null means "not looked up yet", not "has no title". An empty string
+    // would be a third state meaning the same thing, so it is rejected.
+    name: z.string().min(1).nullable().default(null),
+    curator: z.string().min(1).nullable().default(null),
     // Scoping is what keeps a third-party playlist from reaching series it has
     // no business matching, and match.ts scopes with `covers.includes(slug)` —
     // so an empty list is not a looser playlist, it is an inert one that ingests

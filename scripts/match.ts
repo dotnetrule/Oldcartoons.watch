@@ -77,7 +77,7 @@ function rebuildFromPlaylist(
   const dump = youtubeSources.find((yt) => yt.id === playlist.id);
   if (!dump) {
     throw new Error(
-      `playlist '${playlist.name}' (${playlist.id}) owns the episode list for '${source.slug}' ` +
+      `playlist '${playlist.name ?? playlist.id}' (${playlist.id}) owns the episode list for '${source.slug}' ` +
         `but has not been fetched — run 'npm run fetch' first`,
     );
   }
@@ -96,7 +96,8 @@ function rebuildFromPlaylist(
 
   writeJson(seedPath, cache);
   console.log(
-    `  ${source.slug}: ${episodes.length} episodes from playlist '${playlist.name}' by ${playlist.curator}`,
+    `  ${source.slug}: ${episodes.length} episodes from playlist '${playlist.name ?? playlist.id}'` +
+      (playlist.curator ? ` by ${playlist.curator}` : ''),
   );
   return episodes;
 }

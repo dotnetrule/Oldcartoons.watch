@@ -190,6 +190,35 @@ a real TMDB id for all the others. A series whose list comes from
 `--episodes-for` is skipped by the TMDB half entirely — there is nothing to
 fetch.
 
+#### When the machine cannot reach YouTube
+
+Whitelisting a playlist and ingesting it are separable acts, because the id is
+the only part of a playlist a person actually has — it is sitting in the link
+they pasted. The title and curator credit live on YouTube.
+
+So `add-playlist` no longer refuses when it cannot reach them. It writes the
+entry with `name` and `curator` as `null`, meaning *not looked up yet* rather
+than *has no title*, and says so. Anywhere with a route to youtube.com then
+completes it:
+
+```sh
+npm run resolve-playlists
+```
+
+That is the one script that deliberately mutates `content/` in place. Filling a
+known gap in a record that already exists is a different act from `fetch`
+quietly rewriting curated data behind you, which is why it is its own named
+step rather than a side effect of the pipeline.
+
+`.github/workflows/ingest.yml` runs the whole thing on GitHub's runners when a
+push changes an ingest whitelist, and commits the derived episodes back to the
+same branch — so an environment that can edit `content/` but not reach YouTube
+can still fill the archive in. It never runs on `Master`.
+
+`npm run fetch -- --youtube-only` skips the TMDB half outright, which is what
+an archive built entirely from playlists needs: every series here still carries
+a placeholder id, and the TMDB half refuses those by design.
+
 #### Without an API key
 
 `YOUTUBE_API_KEY` is still the better path: the Data API is paginated,

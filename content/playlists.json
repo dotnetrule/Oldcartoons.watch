@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": "PLsVrIqEkJoylev4yM2hFkrHwS_An094Yb",
+    "name": null,
+    "curator": null,
+    "covers": [
+      "spc"
+    ],
+    "episodesFor": "spc",
+    "note": ""
+  },
+  {
+    "id": "PLU4Lcri7Lk0pl02LrI7FJMuue-f_3YZhr",
+    "name": null,
+    "curator": null,
+    "covers": [
+      "whats-with-andy"
+    ],
+    "episodesFor": "whats-with-andy",
+    "note": ""
+  }
+]

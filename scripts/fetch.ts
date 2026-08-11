@@ -69,12 +69,13 @@ async function fetchYoutube(): Promise<void> {
       fetchedAt: new Date().toISOString(),
       kind: 'playlist',
       id: playlist.id,
-      name: playlist.name,
+      name: playlist.name ?? playlist.id,
       covers: playlist.covers,
       videos,
     };
     writeJson(youtubeCachePath(playlist.id), cache);
-    console.log(`  playlist ${playlist.name} (${playlist.curator}): ${videos.length} videos`);
+    const credit = playlist.curator ? ` (${playlist.curator})` : ' (unattributed)';
+    console.log(`  playlist ${playlist.name ?? playlist.id}${credit}: ${videos.length} videos`);
   }
 }
 
@@ -160,14 +161,29 @@ function parseSeriesFilter(argv: string[]): string[] | null {
 }
 
 async function main(): Promise<void> {
-  const only = parseSeriesFilter(process.argv.slice(2));
+  const argv = process.argv.slice(2);
+  const only = parseSeriesFilter(argv);
+  // An archive built entirely from playlists has no TMDB half to run: every
+  // series still carries a placeholder id, which fetchTmdb refuses by design.
+  // This says so out loud instead of scoping around it with a slug list that
+  // has to be kept in step with content/playlists.json.
+  const youtubeOnly = argv.includes('--youtube-only');
+
+  if (youtubeOnly && only) {
+    throw new Error('--youtube-only and --series contradict each other: one skips TMDB, the other scopes it');
+  }
+
   ensureDirs(CONTENT_DIR, TMDB_CACHE_DIR, YOUTUBE_CACHE_DIR);
 
   console.log('fetching YouTube sources…');
   await fetchYoutube();
 
-  console.log(only ? `fetching TMDB metadata for ${only.join(', ')}…` : 'fetching TMDB metadata…');
-  await fetchTmdb(only);
+  if (youtubeOnly) {
+    console.log('skipping TMDB (--youtube-only)');
+  } else {
+    console.log(only ? `fetching TMDB metadata for ${only.join(', ')}…` : 'fetching TMDB metadata…');
+    await fetchTmdb(only);
+  }
 
   console.log('done — cache written to data/');
 }

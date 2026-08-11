@@ -213,8 +213,22 @@ async function main(): Promise<void> {
     throw new Error(`playlist ${id} is already whitelisted in content/playlists.json`);
   }
 
-  const { name, curator } =
-    args.name && args.curator ? { name: args.name, curator: args.curator } : await lookup(id);
+  // Attribution is the one part of a playlist that lives on YouTube rather
+  // than in the pasted link. Failing to reach it is not a reason to refuse the
+  // whitelist — the id is the fact that matters, and `resolve-playlists` fills
+  // the credit in from anywhere with a route to youtube.com.
+  let name: string | null = args.name ?? null;
+  let curator: string | null = args.curator ?? null;
+
+  if (name === null || curator === null) {
+    try {
+      ({ name, curator } = await lookup(id));
+    } catch (error) {
+      console.warn(`could not look up the playlist's title and curator:`);
+      console.warn(`  ${(error as Error).message.split('\n')[0]}`);
+      console.warn(`whitelisting it unattributed — run 'npm run resolve-playlists' to fill that in.\n`);
+    }
+  }
 
   const entry: PlaylistSource = {
     id,
@@ -229,7 +243,7 @@ async function main(): Promise<void> {
   // produce a file that `npm run build-data` would later reject.
   writeJson(contentPath('playlists.json'), playlistsFileSchema.parse([...playlists, entry]));
 
-  console.log(`whitelisted '${name}' by ${curator}`);
+  console.log(name && curator ? `whitelisted '${name}' by ${curator}` : `whitelisted ${id} (unattributed)`);
   console.log(`  id      ${id}`);
   console.log(`  covers  ${args.covers.join(', ')}`);
   if (args.episodesFor) console.log(`  owns the episode list for  ${args.episodesFor}`);
