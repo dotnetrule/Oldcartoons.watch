@@ -77,6 +77,32 @@ sources. A broadcast channel can exist with a null schedule while its media
 archive is still pending; the UI identifies that state instead of fabricating
 a fallback programme.
 
+### Only real stations appear as stations
+
+The channel map on the front page is a claim about what was actually on air in
+2005, so two fields keep invented channels out of it and the build gate
+enforces both.
+
+`real` on a network says a broadcaster of that name went on air. The catalogue
+also holds bookkeeping buckets — `syndication` collects material with no
+established channel — and those are not stations. A network that is not `real`
+cannot be `listed` and cannot own a broadcast channel; either one fails the
+build rather than reaching a viewer as a station.
+
+`kind` on a broadcast channel separates the one feed that stands for a network
+(`primary`) from a preserved week of that same network's real schedule
+(`archive`). Fox Kids' 2001 and 2004 weeks are two more views of channel 8, not
+two more channels, so the map draws one card per `primary` feed and the weeks
+are listed apart from it, each labelled with the station it came off. Exactly
+one primary per network is a build rule.
+
+Network marks in `public/networks/` are identification plates — the station's
+real name and on-air colour, set in a neutral condensed face — rather than
+reproductions of the broadcasters' own logos. They carry their own colours, so
+nothing inverts them for the dark theme: a station's colour is part of what
+identifies it. `src/components/NetworkLogo.vue` is the only thing that renders
+one. Dropping a licensed logo file in over any plate needs no other change.
+
 `content/tmdb-seed/` and `data/tmdb/` look alike and are not. The latter is a
 real cache — a real TMDB response for a real id, rebuildable by `npm run fetch`,
 so gitignoring it costs nothing. The former covers series with **no real TMDB
