@@ -258,4 +258,64 @@ function report(e: Event, episode: PublicEpisode): void {
   font-family: 'Inter', sans-serif;
   font-size: 12px;
 }
+
+/* Mobile. The row's four columns do not fit a phone, so it wraps to two lines:
+   number and title, then air date and availability indented under the title.
+   32px is the number's 22px plus the 10px column gap. */
+@media (max-width: 759px) {
+  .hero {
+    height: 200px;
+  }
+
+  .hero-text {
+    padding: 0 14px 14px;
+  }
+
+  .hero-text h1 {
+    font-size: 28px;
+  }
+
+  .synopsis {
+    padding: 16px 14px 4px;
+  }
+
+  .season-tabs {
+    padding: 14px 14px 0;
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .episodes {
+    padding: 14px 14px 32px;
+  }
+
+  .ep-row {
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 4px;
+    padding: 12px 4px;
+  }
+
+  .ep-title {
+    flex: 1 1 calc(100% - 32px);
+    font-size: 16px;
+  }
+
+  .ep-meta {
+    flex: 1 1 auto;
+    margin-left: 32px;
+    white-space: normal;
+  }
+
+  /* The 130px reservation only earns its keep when the tags column-align. */
+  .ep-tag {
+    width: auto;
+    flex: none;
+    text-align: right;
+  }
+
+  .ep-report {
+    padding-left: 32px;
+  }
+}
 </style>
