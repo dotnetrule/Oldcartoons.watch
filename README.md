@@ -363,7 +363,7 @@ The 116 series and 15 source networks in `content/` are seeded so the app builds
 and runs today without API keys. `network-programmes.json` projects that
 catalogue onto the ten public Dutch channels: a series can occur on several
 channels and remains listed when it has no episodes. Ten curated playlists
-currently provide 277 playable episodes; every remaining gap stays visible
+currently provide 276 playable episodes; every remaining gap stays visible
 instead of being presented as available.
 
 Children's programming currently sits on Nederland 1–3, Jetix / Veronica and
