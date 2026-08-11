@@ -42,7 +42,6 @@ export const useContentStore = defineStore('content', () => {
   const liveChannels = computed<BroadcastChannel[]>(() =>
     channels.value.filter((channel) => channel.scheduleId !== null),
   );
-
   /** Broadcasters that actually went on air. The catalogue also carries
    * bookkeeping buckets for material with no established channel, and those
    * are never shown to a viewer as a channel. */
@@ -111,6 +110,22 @@ export const useContentStore = defineStore('content', () => {
     return id ? channels.value.find((item) => item.id === id) ?? null : null;
   }
 
+  /** Everything the archive lists for a broadcaster: its own catalogue plus
+   * the programmes a lineup places on it. Dutch-language sources first, then
+   * chronological — the order the channel map and the broadcaster page share.
+   * An empty result is a statement, not a gap: a channel in the 1–10 map that
+   * carried no children's programming has no titles to list. */
+  function seriesForNetwork(networkSlug: string | null | undefined): SeriesStub[] {
+    if (!networkSlug) return [];
+    return stubs.value
+      .filter((item) => item.networkSlugs.includes(networkSlug))
+      .sort(
+        (a, b) =>
+          Number(b.availableLanguages.includes('nl')) - Number(a.availableLanguages.includes('nl')) ||
+          a.firstAirYear - b.firstAirYear,
+      );
+  }
+
   function channelsForNetwork(networkSlug: string | null | undefined): BroadcastChannel[] {
     return networkSlug
       ? channels.value.filter((item) => item.networkSlug === networkSlug)
@@ -147,6 +162,7 @@ export const useContentStore = defineStore('content', () => {
     network,
     stub,
     series,
+    seriesForNetwork,
     channel,
     channelsForNetwork,
     archiveChannelsForNetwork,

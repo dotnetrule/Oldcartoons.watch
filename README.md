@@ -42,7 +42,7 @@ Two committed directories matter. Everything else is regenerable cache.
 ```
 content/networks.json    broadcasters — hand-curated, closed set
 content/broadcast-channels.json viewer-facing regional/historical TV feeds
-content/network-programmes.json series shown on each Dutch channel; duplicates allowed
+content/network-programmes.json series shown on each Dutch channel; duplicates allowed, empty allowed
 content/series.json      curated series list: slug, tmdbId, network, type, age
 content/episodes.json    curated YouTube ↔ TMDB matches
 content/overrides.json   sparse hand-authored corrections to TMDB metadata
@@ -92,9 +92,8 @@ build rather than reaching a viewer as a station.
 `kind` on a broadcast channel separates the one feed that stands for a network
 (`primary`) from a preserved week of that same network's real schedule
 (`archive`). Fox Kids' 2001 and 2004 weeks are two more views of channel 8, not
-two more channels, so the map draws one card per `primary` feed and the weeks
-are listed apart from it, each labelled with the station it came off. Exactly
-one primary per network is a build rule.
+two more channels, so the map draws one card per `primary` feed. Exactly one
+primary per network is a build rule.
 
 Network marks in `public/networks/` are identification plates — the station's
 real name and on-air colour, set in a neutral condensed face — rather than
@@ -102,6 +101,37 @@ reproductions of the broadcasters' own logos. They carry their own colours, so
 nothing inverts them for the dark theme: a station's colour is part of what
 identifies it. `src/components/NetworkLogo.vue` is the only thing that renders
 one. Dropping a licensed logo file in over any plate needs no other change.
+
+### Where an archive week is shown
+
+Not on the front page. `kind` keeps a week off the map, and nothing lists the
+weeks beside it either: a reconstruction of one dated week answers a different
+question from "what was on channel 8", and putting the two on one page invites
+reading a week as a station. A week belongs on its broadcaster page, next to
+the provenance that qualifies it.
+
+So the build also stamps `historicalWeek` onto the generated channel — the guide
+id, the requested range and the coverage grade — and the broadcaster page prints
+the range and grade on the channel button. The two fields are kept honest
+against each other: `kind: 'archive'` and a guide claiming the channel must
+agree, and the build fails when they do not. The guide route still renders a
+week on request (`/?channel=foxkids-nl-2001`), labelled as one; it is just not
+somewhere the front page can land you by accident.
+
+### Which channels carried children's programming
+
+Not one of the ten. `network-programmes.json` may hold an **empty** lineup, and
+that is a statement rather than a gap: a channel in the map that carried no
+children's block has nothing to list, and the build accepts it. What still fails
+is a listed network with no entry at all, because that is silence rather than an
+answer.
+
+Membership needs a reason. A series reaches a channel either through its own
+`networkSlug` in `content/series.json` or through that channel's lineup, and the
+lineups that survive are the ones a `historical-guides.json` entry backs. Series
+with no sourced Dutch broadcaster stay on `syndication` — "Losse uitzendingen",
+which is the honest bucket for *we do not know which channel*, and reads very
+differently from asserting one.
 
 `content/tmdb-seed/` and `data/tmdb/` look alike and are not. The latter is a
 real cache — a real TMDB response for a real id, rebuildable by `npm run fetch`,
@@ -151,6 +181,14 @@ npm run build-data   # merge, validate, split → public/data/
 `match` resolves roughly 60% automatically and queues the rest. That ratio is
 the design, not a shortfall — heuristics chasing the tail cost more to maintain
 than the keystrokes they save. It never overwrites an existing decision.
+
+A series lifted from an archived programme guide passes through `match` without
+work. The guide proves a title was broadcast that week, not which episodes ran,
+so there is no episode list on the other side of the comparison — the same
+reason `--covers` matches nothing on a placeholder id. `scripts/lib/series-metadata.ts`
+is where the three metadata sources (TMDB cache, committed seed, guide entry)
+are told apart, so `match` and `build-data` cannot disagree about which a series
+has.
 
 Quota is 10,000 units/day. `playlistItems.list` and `videos.list` cost 1 unit
 per call, so a full refetch of thirty channels lands well under a thousand.
@@ -323,7 +361,7 @@ never at render. Region-locked episodes stay playable and are labelled.
 ## Routes
 
 ```
-/                                        zenders en volledige programmering
+/                                        zenderkaart, programmering en titellijst
 /zender/:slug                            één zender met liveblok en archief
 /kijken/:channelId                       live speler voor een regionale feed
 /programma/:slug                         programma, seizoenen en afleveringen
@@ -352,8 +390,18 @@ The 116 series and 15 source networks in `content/` are seeded so the app builds
 and runs today without API keys. `network-programmes.json` projects that
 catalogue onto the ten public Dutch channels: a series can occur on several
 channels and remains listed when it has no episodes. Ten curated playlists
-currently provide 277 playable episodes; every remaining gap stays visible
+currently provide 276 playable episodes; every remaining gap stays visible
 instead of being presented as available.
+
+Children's programming currently sits on Nederland 1–3, Jetix / Veronica and
+Nickelodeon. RTL 4, RTL 5, RTL 7, SBS 6 and Net 5 hold empty lineups: nothing in
+`historical-guides.json` sources a children's block to any of them, and RTL 7
+launched in August 2005 as Yorin's successor without one. Nickelodeon's lineup
+is trimmed to the same rule: its own catalogue plus the Dutch Rugrats dub, with
+the Cartoon Network titles that had been sitting there dropped, because the
+archived 2004 Nickelodeon guide does not list them. That is a statement
+about the evidence, not about the era — RTL 4 ran Telekids for years, so an
+archived RTL guide would justify a lineup there and the file is where it goes.
 
 Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
 refuses outright. A plausible-looking positive id would make a mis-seeded

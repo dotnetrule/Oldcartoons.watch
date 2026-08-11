@@ -41,69 +41,19 @@
   },
   {
     "networkSlug": "rtl4",
-    "seriesSlugs": [
-      "heman",
-      "inspector-gadget",
-      "ducktales",
-      "tmnt",
-      "captain-planet",
-      "tiny-toons",
-      "animaniacs",
-      "power-rangers",
-      "spc",
-      "pokemon",
-      "dennis-the-menace",
-      "de-troetelbeertjes"
-    ]
+    "seriesSlugs": []
   },
   {
     "networkSlug": "rtl5",
-    "seriesSlugs": [
-      "batman-tas",
-      "scooby-doo",
-      "x-men",
-      "spider-man-unlimited",
-      "action-man",
-      "power-rangers-lightspeed-rescue",
-      "big-bad-beetleborgs",
-      "eerie-indiana",
-      "kippenvel",
-      "saved-by-the-bell",
-      "sabrina-the-teenage-witch"
-    ]
+    "seriesSlugs": []
   },
   {
     "networkSlug": "sbs6",
-    "seriesSlugs": [
-      "bobbys-world",
-      "life-with-louie",
-      "mad-jack-the-pirate",
-      "eek-the-cat",
-      "totally-spies",
-      "sonic-x",
-      "lizzie-mcguire",
-      "breaker-high",
-      "big-wolf-on-campus",
-      "sweet-valley-high",
-      "franklin"
-    ]
+    "seriesSlugs": []
   },
   {
     "networkSlug": "rtl7",
-    "seriesSlugs": [
-      "pokemon",
-      "digimon-adventure",
-      "shinzo",
-      "medabots",
-      "monster-rancher",
-      "flint-the-time-detective",
-      "yu-gi-oh",
-      "shin-chan",
-      "funky-cops",
-      "action-man",
-      "x-men",
-      "power-rangers"
-    ]
+    "seriesSlugs": []
   },
   {
     "networkSlug": "foxkids",
@@ -111,32 +61,12 @@
   },
   {
     "networkSlug": "net5",
-    "seriesSlugs": [
-      "smurfs",
-      "tik-tak",
-      "inspector-gadget",
-      "rugrats-dutch-dub",
-      "why-why-family",
-      "honeybee-hutch",
-      "the-littl-bits",
-      "de-troetelbeertjes",
-      "calimero",
-      "thomas-de-stoomlocomotief",
-      "blues-clues",
-      "dora-the-explorer",
-      "bassie-en-adriaan",
-      "kuifje",
-      "lucky-luke",
-      "franklin"
-    ]
+    "seriesSlugs": []
   },
   {
     "networkSlug": "nickelodeon",
     "seriesSlugs": [
-      "rugrats-dutch-dub",
-      "smurfs",
-      "scooby-doo",
-      "ppg"
+      "rugrats-dutch-dub"
     ]
   }
 ]

@@ -76,6 +76,18 @@ export type Network = {
   neutral: boolean;
 };
 
+/** The archived broadcast week a feed replays, resolved at build time from the
+ * historical guide that owns the channel. A channel carrying this is the
+ * reconstruction of one dated week rather than the broadcaster's standing
+ * archive feed — it belongs on the broadcaster page, next to its provenance,
+ * and not in the public channel map. */
+export type HistoricalWeek = {
+  guideId: string;
+  requestedFrom: string;
+  requestedTo: string;
+  coverage: HistoricalGuideCoverage;
+};
+
 /** A viewer-facing regional or historical television feed. Do not confuse
  * this with `ChannelSource` below: that type describes a YouTube ingest
  * source, while this type is part of the broadcast domain. */
@@ -96,6 +108,8 @@ export type BroadcastChannel = {
   timezone: string;
   /** Null while this channel has no playable schedule in the archive. */
   scheduleId: string | null;
+  /** Null for a broadcaster's standing feed; set for a replayed archive week. */
+  historicalWeek: HistoricalWeek | null;
 };
 
 export type BroadcastType =
@@ -244,8 +258,10 @@ export type ChannelSource = {
   note: string;
 };
 
-/** Hand-curated input from content/broadcast-channels.json. */
-export type BroadcastChannelSource = Omit<BroadcastChannel, 'scheduleId'>;
+/** Hand-curated input from content/broadcast-channels.json. Both omitted keys
+ * are derived: the schedule from the archive, the week from the historical
+ * guide that names this channel. */
+export type BroadcastChannelSource = Omit<BroadcastChannel, 'scheduleId' | 'historicalWeek'>;
 
 /** A whitelisted third-party playlist. Same ingest path as a channel — the
  * only difference is provenance and the trust that follows from it. */
