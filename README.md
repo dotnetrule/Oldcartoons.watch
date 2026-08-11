@@ -369,7 +369,10 @@ instead of being presented as available.
 Children's programming currently sits on Nederland 1–3, Jetix / Veronica and
 Nickelodeon. RTL 4, RTL 5, RTL 7, SBS 6 and Net 5 hold empty lineups: nothing in
 `historical-guides.json` sources a children's block to any of them, and RTL 7
-launched in August 2005 as Yorin's successor without one. That is a statement
+launched in August 2005 as Yorin's successor without one. Nickelodeon's lineup
+is trimmed to the same rule: its own catalogue plus the Dutch Rugrats dub, with
+the Cartoon Network titles that had been sitting there dropped, because the
+archived 2004 Nickelodeon guide does not list them. That is a statement
 about the evidence, not about the era — RTL 4 ran Telekids for years, so an
 archived RTL guide would justify a lineup there and the file is where it goes.
 
