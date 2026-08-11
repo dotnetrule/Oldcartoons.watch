@@ -302,6 +302,18 @@ export const historicalSeriesSeedsFileSchema = z
   .array(historicalSeriesSeedSchema)
   .refine((all) => new Set(all.map((seed) => seed.tmdbId)).size === all.length, 'duplicate historical series id');
 
+export const networkProgrammeLineupSchema = z.object({
+  networkSlug: slugSchema,
+  seriesSlugs: z.array(slugSchema),
+});
+
+export const networkProgrammeLineupsFileSchema = z
+  .array(networkProgrammeLineupSchema)
+  .refine(
+    (all) => new Set(all.map((lineup) => lineup.networkSlug)).size === all.length,
+    'duplicate network programme lineup',
+  );
+
 export const historicalGuideSchema = z.object({
   id: slugSchema,
   broadcaster: z.string().min(1),
@@ -433,6 +445,7 @@ export const seriesFileSchema = z.object({
   name: z.string().min(1),
   overview: z.string(),
   networkSlug: slugSchema,
+  networkSlugs: z.array(slugSchema).min(1),
   type: seriesTypeSchema,
   age: ageBandSchema,
   firstAirYear: z.number().int(),
@@ -452,6 +465,7 @@ export const seriesStubSchema = z.object({
   name: z.string().min(1),
   overview: z.string(),
   networkSlug: slugSchema,
+  networkSlugs: z.array(slugSchema).min(1),
   type: seriesTypeSchema,
   age: ageBandSchema,
   firstAirYear: z.number().int(),

@@ -192,6 +192,15 @@ export type HistoricalSeriesSeed = {
   lastAirYear: number;
 };
 
+/** Additional historical broadcaster memberships. A programme keeps one
+ * canonical source network, while this list lets it appear on every Dutch
+ * channel that carried it. The same slug may deliberately occur in multiple
+ * lineups. */
+export type NetworkProgrammeLineup = {
+  networkSlug: string;
+  seriesSlugs: string[];
+};
+
 export type HistoricalGuideCoverage =
   | 'direct'
   | 'reconstructed'
@@ -312,6 +321,7 @@ export type SeriesFile = {
   name: string;
   overview: string;
   networkSlug: string;
+  networkSlugs: string[];
   type: SeriesType;
   age: AgeBand;
   firstAirYear: number;
@@ -337,6 +347,7 @@ export type SeriesStub = {
   name: string;
   overview: string;
   networkSlug: string;
+  networkSlugs: string[];
   type: SeriesType;
   age: AgeBand;
   firstAirYear: number;
