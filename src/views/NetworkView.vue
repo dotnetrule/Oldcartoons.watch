@@ -5,7 +5,15 @@ import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
 import SeriesStatusDot from '../components/SeriesStatusDot.vue';
-import { countryLabel, episodeCountLabel, languageLabel, pad2, yearRangeLabel } from '../data/helpers';
+import {
+  countryLabel,
+  episodeCountLabel,
+  guideCoverageLabel,
+  languageLabel,
+  pad2,
+  weekRangeLabel,
+  yearRangeLabel,
+} from '../data/helpers';
 import {
   SERIES_STATUS_META,
   seriesArchiveStatus,
@@ -39,17 +47,7 @@ const yearsLabel = computed(() =>
   network.value ? yearRangeLabel(network.value.activeYears[0], network.value.activeYears[1]) : '',
 );
 
-const series = computed<SeriesStub[]>(() =>
-  network.value
-    ? content.stubs
-        .filter((item) => item.networkSlugs.includes(props.slug))
-        .sort(
-          (a, b) =>
-            Number(b.availableLanguages.includes('nl')) - Number(a.availableLanguages.includes('nl')) ||
-            a.firstAirYear - b.firstAirYear,
-        )
-    : [],
-);
+const series = computed<SeriesStub[]>(() => content.seriesForNetwork(props.slug));
 
 let clockTimer: ReturnType<typeof setInterval> | undefined;
 onMounted(() => {
@@ -119,7 +117,11 @@ function goGuide(): void {
           @click="selectChannel(item)"
         >
           <strong>{{ item.name }}</strong>
-          <span :style="{ color: C.dim }">{{ countryLabel(item.country) }} · {{ languageLabel(item.language) }} · {{ item.timezone }}</span>
+          <span v-if="item.historicalWeek" :style="{ color: C.dim }">
+            {{ weekRangeLabel(item.historicalWeek.requestedFrom, item.historicalWeek.requestedTo) }} ·
+            {{ guideCoverageLabel(item.historicalWeek.coverage) }}
+          </span>
+          <span v-else :style="{ color: C.dim }">{{ countryLabel(item.country) }} · {{ languageLabel(item.language) }} · {{ item.timezone }}</span>
           <i :style="{ color: item.scheduleId ? colour : C.dim }">{{ item.scheduleId ? 'IN DE LUCHT' : 'ARCHIEF VOLGT' }}</i>
         </button>
       </div>
@@ -175,7 +177,11 @@ function goGuide(): void {
         <span class="mono" :style="{ color: C.dim }">{{ series.length }} TITELS</span>
       </div>
 
-      <div v-if="ui.viewMode === 'listings'" class="archive-list">
+      <p v-if="!series.length" class="archive-empty" :style="{ color: C.dim }">
+        Deze zender had geen jeugdprogrammering in het archief.
+      </p>
+
+      <div v-else-if="ui.viewMode === 'listings'" class="archive-list">
         <div
           v-for="item in series"
           :key="item.slug"
@@ -453,6 +459,12 @@ function goGuide(): void {
 
 .archive-head > .mono {
   font-size: 10px;
+}
+
+.archive-empty {
+  padding: 44px 0;
+  text-align: center;
+  font: 12px 'IBM Plex Mono', monospace;
 }
 
 .archive-row {

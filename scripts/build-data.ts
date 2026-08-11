@@ -321,19 +321,13 @@ function main(): void {
       );
     }
   }
+  // Every listed network states its extra memberships, and an empty list is one
+  // of the things it can state: a channel in the 1–10 map that carried no
+  // children's programming is a fact about the era, not a gap in the data. A
+  // *missing* entry is the gap, and that still fails.
   for (const networkSlug of listedNetworkSlugs) {
-    const lineup = networkProgrammeLineups.find((item) => item.networkSlug === networkSlug);
-    if (!lineup) {
+    if (!networkProgrammeLineups.some((item) => item.networkSlug === networkSlug)) {
       throw new Error(`listed network '${networkSlug}' has no programme lineup`);
-    }
-    const programmeCount = new Set([
-      ...lineup.seriesSlugs,
-      ...seriesSources
-        .filter((series) => series.networkSlug === networkSlug)
-        .map((series) => series.slug),
-    ]).size;
-    if (programmeCount === 0) {
-      throw new Error(`listed network '${networkSlug}' has an empty programme lineup`);
     }
   }
 
@@ -587,8 +581,14 @@ function main(): void {
 
   writeJson(`${PUBLIC_DATA_DIR}/index.json`, indexFileSchema.parse(index));
 
+  // At most one guide may claim a channel — historicalGuidesFileSchema enforces
+  // that — so a channel resolves to one week or to none.
+  const guideByChannelId = new Map(
+    historicalGuides.flatMap((guide) => (guide.channelId ? [[guide.channelId, guide] as const] : [])),
+  );
+
   const schedules = broadcastChannelSources.flatMap((channel) => {
-    const historicalGuide = historicalGuides.find((guide) => guide.channelId === channel.id) ?? null;
+    const historicalGuide = guideByChannelId.get(channel.id) ?? null;
     const guideSeries = historicalGuide ? new Set(historicalGuide.seriesSlugs) : null;
     const schedule = buildSchedule(
       channel,
@@ -607,10 +607,21 @@ function main(): void {
   const broadcastData: BroadcastDataFile = {
     generatedAt: index.generatedAt,
     channels: broadcastChannelSources
-      .map((channel) => ({
-        ...channel,
-        scheduleId: scheduleIdByChannel.get(channel.id) ?? null,
-      }))
+      .map((channel) => {
+        const guide = guideByChannelId.get(channel.id);
+        return {
+          ...channel,
+          scheduleId: scheduleIdByChannel.get(channel.id) ?? null,
+          historicalWeek: guide
+            ? {
+                guideId: guide.id,
+                requestedFrom: guide.requestedFrom,
+                requestedTo: guide.requestedTo,
+                coverage: guide.coverage,
+              }
+            : null,
+        };
+      })
       .sort(
         (a, b) =>
           (channelOrder.get(a.networkSlug) ?? 0) - (channelOrder.get(b.networkSlug) ?? 0) ||

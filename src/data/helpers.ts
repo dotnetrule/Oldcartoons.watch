@@ -50,6 +50,22 @@ export function formatAirDate(isoDate: string | null): string {
   });
 }
 
+/** "6 aug. 2001 – 12 aug. 2001" for an archived broadcast week. Both ends are
+ * spelled out: the week a source covers is provenance, not decoration. */
+export function weekRangeLabel(from: string, to: string): string {
+  return `${formatAirDate(from)} – ${formatAirDate(to)}`;
+}
+
+/** How well the archived source covers the week it is presented as. */
+export function guideCoverageLabel(coverage: string): string {
+  return ({
+    direct: 'Directe bron',
+    reconstructed: 'Reconstructie',
+    partial: 'Deels bewaard',
+    'not-yet-launched': 'Nog niet gestart',
+  } as Record<string, string>)[coverage] ?? coverage;
+}
+
 export function countryLabel(country: string): string {
   return ({ NL: 'Nederland', BE: 'België', GB: 'Verenigd Koninkrijk', US: 'Verenigde Staten' } as Record<string, string>)[country]
     ?? country;

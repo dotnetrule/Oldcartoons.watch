@@ -12,8 +12,19 @@ import {
   nowAndNext,
   shiftDateKey,
 } from '../broadcast/engine';
-import { broadcastTypeLabel, countryLabel, languageLabel, pad2 } from '../data/helpers';
-import type { BroadcastChannel } from '../types';
+import {
+  broadcastTypeLabel,
+  countryLabel,
+  episodeCountLabel,
+  guideCoverageLabel,
+  languageLabel,
+  pad2,
+  weekRangeLabel,
+  yearRangeLabel,
+} from '../data/helpers';
+import SeriesStatusDot from '../components/SeriesStatusDot.vue';
+import { seriesArchiveStatus, seriesArchiveStatusLabel } from '../data/series-status';
+import type { BroadcastChannel, SeriesStub } from '../types';
 
 const route = useRoute();
 const router = useRouter();
@@ -21,8 +32,10 @@ const content = useContentStore();
 const ui = useUiStore();
 const C = computed(() => ui.C);
 const nowMs = ref(Date.now());
+/** The channel map only. A replayed archive week is reachable from its
+ * broadcaster page and by deep link, but it is not one of the ten channels. */
 const prioritizedChannels = computed(() =>
-  [...content.channels].sort((a, b) => {
+  [...content.mapChannels].sort((a, b) => {
     const languageOrder = Number(b.language === 'nl') - Number(a.language === 'nl');
     const countryOrder = Number(b.country === 'NL') - Number(a.country === 'NL');
     const aNumber = content.network(a.networkSlug)?.channelNumber ?? 999;
@@ -42,22 +55,35 @@ const channelCards = computed(() =>
       current: lineUp[0] ?? null,
       next: lineUp[1] ?? null,
       accent: ui.netColour(itemNetwork),
+      // Nothing on air has two different causes, and the card says which:
+      // an archive still filling up, or a channel that carried no children's
+      // programming at all.
+      titleCount: content.seriesForNetwork(item.networkSlug).length,
     };
   }),
 );
 const dutchChannelCards = computed(() => channelCards.value.filter((item) => item.channel.language === 'nl'));
 const otherChannelCards = computed(() => channelCards.value.filter((item) => item.channel.language !== 'nl'));
 
-const initialChannelId = (() => {
-  const fromQuery = typeof route.query.channel === 'string' ? route.query.channel : null;
-  if (fromQuery && content.liveChannels.some((channel) => channel.id === fromQuery)) return fromQuery;
-  return prioritizedChannels.value.find((channel) => channel.scheduleId !== null)?.id ?? null;
-})();
+/** A deep link may name any channel, including an archived week the map does
+ * not show — that link is a deliberate act, unlike the default landing. */
+const linkedChannelId = (queryChannel: unknown): string | null =>
+  typeof queryChannel === 'string' && content.channels.some((item) => item.id === queryChannel)
+    ? queryChannel
+    : null;
+
+const initialChannelId =
+  linkedChannelId(route.query.channel) ??
+  prioritizedChannels.value.find((channel) => channel.scheduleId !== null)?.id ??
+  null;
 
 const selectedChannelId = ref<string | null>(initialChannelId);
 const channel = computed(() => content.channel(selectedChannelId.value));
 const schedule = computed(() => content.scheduleForChannel(selectedChannelId.value));
 const network = computed(() => content.network(channel.value?.networkSlug));
+const networkSeries = computed<SeriesStub[]>(() =>
+  content.seriesForNetwork(network.value?.slug),
+);
 const todayKey = computed(() =>
   channel.value ? channelDateKey(nowMs.value, channel.value.timezone) : '',
 );
@@ -89,12 +115,8 @@ onBeforeUnmount(() => clearInterval(clockTimer));
 watch(
   () => route.query.channel,
   (queryChannel) => {
-    if (
-      typeof queryChannel === 'string' &&
-      content.liveChannels.some((item) => item.id === queryChannel)
-    ) {
-      selectedChannelId.value = queryChannel;
-    }
+    const linked = linkedChannelId(queryChannel);
+    if (linked) selectedChannelId.value = linked;
   },
 );
 
@@ -102,8 +124,9 @@ watch(channel, (next, previous) => {
   if (next && next.id !== previous?.id) guideDate.value = channelDateKey(Date.now(), next.timezone);
 });
 
+/** Selecting a channel with no schedule is meaningful: the guide stays empty,
+ * but the broadcaster's title list below it does not. */
 function selectChannel(target: BroadcastChannel): void {
-  if (!target.scheduleId) return;
   selectedChannelId.value = target.id;
   ui.selectChannel(target.networkSlug, target.id);
   void router.replace({ query: { ...route.query, channel: target.id } });
@@ -130,6 +153,14 @@ function goSeries(slug: string | undefined): void {
   }
 }
 
+function goNetwork(): void {
+  if (network.value) void router.push(`/zender/${network.value.slug}`);
+}
+
+const seriesYearsLabel = (item: SeriesStub): string =>
+  yearRangeLabel(item.firstAirYear, item.lastAirYear);
+const epLabel = (item: SeriesStub): string => episodeCountLabel(item.episodeCount);
+
 function cardTime(iso: string, target: BroadcastChannel): string {
   return formatChannelTime(iso, target.timezone);
 }
@@ -151,10 +182,19 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
         <h1 :style="{ color: C.ink }">ZENDERS &amp; PROGRAMMERING</h1>
         <p :style="{ color: C.dim2 }">Kies een zender, zie wat er nu speelt en blader door de volledige dag.</p>
       </div>
-      <button v-if="channel" class="live-button" :style="{ background: accent, color: C.chipFg }" @click="goLive">
+      <button v-if="channel?.scheduleId" class="live-button" :style="{ background: accent, color: C.chipFg }" @click="goLive">
         KIJK LIVE →
       </button>
     </header>
+
+    <!-- Only reachable by deep link: an archived week is not one of the ten
+         channels, so the guide says which week it is showing. -->
+    <p v-if="channel?.historicalWeek" class="week-note" :style="{ borderColor: accent, color: C.dim2 }">
+      <strong :style="{ color: C.ink }">Bewaarde uitzendweek</strong>
+      {{ weekRangeLabel(channel.historicalWeek.requestedFrom, channel.historicalWeek.requestedTo) }} ·
+      {{ guideCoverageLabel(channel.historicalWeek.coverage) }} ·
+      <button type="button" :style="{ color: accent }" @click="goNetwork">terug naar {{ network?.name }}</button>
+    </p>
 
     <section class="stations" aria-labelledby="nl-zenders">
       <div class="section-head">
@@ -166,8 +206,7 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
           v-for="item in dutchChannelCards"
           :key="item.channel.id"
           class="station-card"
-          :class="{ active: item.channel.id === selectedChannelId }"
-          :disabled="!item.current"
+          :class="{ active: item.channel.id === selectedChannelId, pending: !item.current }"
           :style="{
             borderColor: item.channel.id === selectedChannelId ? item.accent : C.border2,
             background: item.channel.id === selectedChannelId ? C.focusBg : C.bg2,
@@ -192,7 +231,9 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
               STRAKS {{ cardTime(item.next.startsAt, item.channel) }} · {{ item.next.show?.title ?? broadcastTypeLabel(item.next.type) }}
             </span>
           </template>
-          <span v-else class="station-pending" :style="{ color: C.dim }">PROGRAMMERING VOLGT</span>
+          <span v-else class="station-pending" :style="{ color: C.dim }">
+            {{ item.titleCount ? 'PROGRAMMERING VOLGT' : 'GEEN JEUGDPROGRAMMERING' }}
+          </span>
         </button>
       </div>
     </section>
@@ -203,7 +244,6 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
         <button
           v-for="item in otherChannelCards"
           :key="item.channel.id"
-          :disabled="!item.current"
           :style="{
             borderColor: item.channel.id === selectedChannelId ? item.accent : C.border2,
             background: item.channel.id === selectedChannelId ? C.focusBg : 'transparent',
@@ -238,7 +278,7 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
       </div>
     </section>
 
-    <section class="date-nav" :style="{ borderColor: C.border }">
+    <section v-if="schedule" class="date-nav" :style="{ borderColor: C.border }">
       <button :style="{ color: C.dim2, borderColor: C.border2 }" aria-label="Vorige dag" @click="shiftDay(-1)">←</button>
       <div>
         <strong :style="{ color: C.ink }">{{ dateLabel }}</strong>
@@ -275,9 +315,42 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
       </article>
     </section>
 
-    <div v-else class="empty" :style="{ color: C.dim }">
-      Voor deze zender staat nog geen programmering klaar.
+    <div v-else-if="schedule" class="empty" :style="{ color: C.dim }">
+      Voor deze dag staat nog geen programmering klaar.
     </div>
+
+    <div v-else class="empty" :style="{ color: C.dim }">
+      Deze zender is in dit archief niet in de lucht.
+    </div>
+
+    <section v-if="network" class="line-up" aria-labelledby="zender-series">
+      <div class="section-head" :style="{ borderColor: C.border }">
+        <h2 id="zender-series" :style="{ color: C.ink }">Series op {{ network.name }}</h2>
+        <span :style="{ color: C.dim }">{{ networkSeries.length }} TITELS</span>
+      </div>
+
+      <div v-if="networkSeries.length" class="series-grid">
+        <button
+          v-for="item in networkSeries"
+          :key="item.slug"
+          class="series-row"
+          :style="{ borderColor: C.border, color: C.ink }"
+          @click="goSeries(item.slug)"
+        >
+          <SeriesStatusDot :status="seriesArchiveStatus(item)" :label="seriesArchiveStatusLabel(item)" />
+          <strong>{{ item.name }}</strong>
+          <small :style="{ color: C.dim }">{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}</small>
+        </button>
+      </div>
+
+      <p v-else class="empty" :style="{ color: C.dim }">
+        Deze zender had geen jeugdprogrammering in het archief.
+      </p>
+
+      <button v-if="networkSeries.length" class="line-up-more" :style="{ borderColor: C.border2, color: C.dim2 }" @click="goNetwork">
+        HELE ZENDERPAGINA →
+      </button>
+    </section>
   </div>
 </template>
 
@@ -320,6 +393,32 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
   padding: 10px 14px;
   font: 700 11px 'IBM Plex Mono', monospace;
   letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.week-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-left: 3px solid;
+  font: 10px 'IBM Plex Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+.week-note strong {
+  font: 14px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.week-note button {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  text-decoration: underline;
   cursor: pointer;
 }
 
@@ -369,13 +468,8 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
   transform: translateY(-1px);
 }
 
-.station-card:disabled {
-  cursor: default;
-  opacity: 0.62;
-}
-
-.station-card:disabled:hover {
-  transform: none;
+.station-card.pending {
+  opacity: 0.72;
 }
 
 .station-top {
@@ -479,11 +573,6 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
   background: none;
   cursor: pointer;
   font-family: 'IBM Plex Mono', monospace;
-}
-
-.channel-picker button:disabled {
-  cursor: default;
-  opacity: 0.55;
 }
 
 .channel-picker strong {
@@ -622,6 +711,56 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
   padding: 50px 0;
   text-align: center;
   font: 12px 'IBM Plex Mono', monospace;
+}
+
+.line-up {
+  padding-top: 30px;
+}
+
+.line-up .section-head {
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+}
+
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0 18px;
+}
+
+.series-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 2px;
+  border: 0;
+  border-bottom: 1px solid;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.series-row strong {
+  overflow: hidden;
+  font: 16px 'Oswald', sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.series-row small {
+  font: 9px 'IBM Plex Mono', monospace;
+  white-space: nowrap;
+}
+
+.line-up-more {
+  margin-top: 18px;
+  border: 1px solid;
+  background: transparent;
+  padding: 9px 12px;
+  font: 10px 'IBM Plex Mono', monospace;
+  letter-spacing: 0.06em;
+  cursor: pointer;
 }
 
 @media (max-width: 640px) {

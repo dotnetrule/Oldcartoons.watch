@@ -137,6 +137,13 @@ export const broadcastTypeSchema = z.enum([
   'Interstitial',
 ]);
 
+export const historicalGuideCoverageSchema = z.enum([
+  'direct',
+  'reconstructed',
+  'partial',
+  'not-yet-launched',
+]);
+
 export const broadcastChannelSourceSchema = z.object({
   id: slugSchema,
   networkSlug: slugSchema,
@@ -155,6 +162,14 @@ export const broadcastChannelSourcesFileSchema = z
 
 export const broadcastChannelSchema = broadcastChannelSourceSchema.extend({
   scheduleId: slugSchema.nullable(),
+  historicalWeek: z
+    .object({
+      guideId: slugSchema,
+      requestedFrom: z.string().date(),
+      requestedTo: z.string().date(),
+      coverage: historicalGuideCoverageSchema,
+    })
+    .nullable(),
 });
 
 export const mediaAssetSchema = z.object({
@@ -321,7 +336,7 @@ export const historicalGuideSchema = z.object({
   channelId: slugSchema.nullable(),
   requestedFrom: z.string().date(),
   requestedTo: z.string().date(),
-  coverage: z.enum(['direct', 'reconstructed', 'partial', 'not-yet-launched']),
+  coverage: historicalGuideCoverageSchema,
   evidenceDate: z.string().date().nullable(),
   sourceUrls: z.array(z.string().url()),
   note: z.string().min(1),

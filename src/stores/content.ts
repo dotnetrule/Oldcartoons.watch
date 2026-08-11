@@ -42,6 +42,12 @@ export const useContentStore = defineStore('content', () => {
   const liveChannels = computed<BroadcastChannel[]>(() =>
     channels.value.filter((channel) => channel.scheduleId !== null),
   );
+  /** The public channel map: broadcasters' standing feeds only. A replayed
+   * archive week is a reconstruction of one dated week, so it belongs on the
+   * broadcaster page next to its provenance rather than in the map. */
+  const mapChannels = computed<BroadcastChannel[]>(() =>
+    channels.value.filter((channel) => channel.historicalWeek === null),
+  );
 
   /** index.json is the only payload the schedule route loads — the archive is
    * thousands of episodes and the grid needs stubs. */
@@ -97,6 +103,22 @@ export const useContentStore = defineStore('content', () => {
     return id ? channels.value.find((item) => item.id === id) ?? null : null;
   }
 
+  /** Everything the archive lists for a broadcaster: its own catalogue plus
+   * the programmes a lineup places on it. Dutch-language sources first, then
+   * chronological — the order the channel map and the broadcaster page share.
+   * An empty result is a statement, not a gap: a channel in the 1–10 map that
+   * carried no children's programming has no titles to list. */
+  function seriesForNetwork(networkSlug: string | null | undefined): SeriesStub[] {
+    if (!networkSlug) return [];
+    return stubs.value
+      .filter((item) => item.networkSlugs.includes(networkSlug))
+      .sort(
+        (a, b) =>
+          Number(b.availableLanguages.includes('nl')) - Number(a.availableLanguages.includes('nl')) ||
+          a.firstAirYear - b.firstAirYear,
+      );
+  }
+
   function channelsForNetwork(networkSlug: string | null | undefined): BroadcastChannel[] {
     return networkSlug
       ? channels.value.filter((item) => item.networkSlug === networkSlug)
@@ -120,12 +142,14 @@ export const useContentStore = defineStore('content', () => {
     channels,
     schedules,
     liveChannels,
+    mapChannels,
     loadIndex,
     loadSeries,
     loadBroadcastData,
     network,
     stub,
     series,
+    seriesForNetwork,
     channel,
     channelsForNetwork,
     schedule,
