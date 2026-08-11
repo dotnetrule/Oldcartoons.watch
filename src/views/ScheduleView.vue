@@ -22,6 +22,7 @@ import {
   weekRangeLabel,
   yearRangeLabel,
 } from '../data/helpers';
+import NetworkLogo from '../components/NetworkLogo.vue';
 import SeriesStatusDot from '../components/SeriesStatusDot.vue';
 import { seriesArchiveStatus, seriesArchiveStatusLabel } from '../data/series-status';
 import type { BroadcastChannel, SeriesStub } from '../types';
@@ -32,10 +33,13 @@ const content = useContentStore();
 const ui = useUiStore();
 const C = computed(() => ui.C);
 const nowMs = ref(Date.now());
-/** The channel map only. A replayed archive week is reachable from its
- * broadcaster page and by deep link, but it is not one of the ten channels. */
+/** The channel map is one card per station that actually broadcast. It is
+ * built from the primary feeds only: bookkeeping buckets are not networks,
+ * and a network's preserved weeks are further views of one station rather
+ * than stations of their own. Neither belongs on this page — a week is
+ * reachable from its broadcaster page and by deep link. */
 const prioritizedChannels = computed(() =>
-  [...content.mapChannels].sort((a, b) => {
+  [...content.primaryChannels].sort((a, b) => {
     const languageOrder = Number(b.language === 'nl') - Number(a.language === 'nl');
     const countryOrder = Number(b.country === 'NL') - Number(a.country === 'NL');
     const aNumber = content.network(a.networkSlug)?.channelNumber ?? 999;
@@ -215,7 +219,7 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
           @click="selectChannel(item.channel)"
         >
           <span class="station-top">
-            <img :src="item.network.logo" alt="" :style="{ filter: ui.theme === 'dark' ? 'invert(1)' : 'none' }" />
+            <NetworkLogo :network="item.network" :size="36" decorative />
             <span>
               <strong>{{ item.channel.name }}</strong>
               <small :style="{ color: C.dim }">{{ countryLabel(item.channel.country) }} · {{ languageLabel(item.channel.language) }}</small>

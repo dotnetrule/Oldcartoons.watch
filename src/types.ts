@@ -49,6 +49,11 @@ export type Episode = {
 export type Network = {
   slug: string;
   name: string;
+  /** Whether a broadcaster of this name actually went on air. False marks the
+   * bookkeeping buckets — syndication and the like — that hold material with
+   * no established channel. Nothing that is not `real` is ever presented to a
+   * viewer as a channel. */
+  real: boolean;
   /** Whether this broadcaster belongs in the public historical channel strip. */
   listed: boolean;
   /** Drives the channel strip ordering. */
@@ -86,10 +91,17 @@ export type HistoricalWeek = {
 /** A viewer-facing regional or historical television feed. Do not confuse
  * this with `ChannelSource` below: that type describes a YouTube ingest
  * source, while this type is part of the broadcast domain. */
+export type BroadcastChannelKind = 'primary' | 'archive';
+
 export type BroadcastChannel = {
   id: string;
   networkSlug: string;
   name: string;
+  /** `primary` is the feed that stands for the network itself — exactly one
+   * per network. `archive` is a preserved week of that same network's real
+   * schedule; it is a second view of one channel, not a second channel, so it
+   * never gets its own card in the channel map. */
+  kind: BroadcastChannelKind;
   country: string;
   language: string;
   /** IANA timezone used by the guide and all on-air clock labels. */

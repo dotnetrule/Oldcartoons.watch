@@ -77,19 +77,46 @@ sources. A broadcast channel can exist with a null schedule while its media
 archive is still pending; the UI identifies that state instead of fabricating
 a fallback programme.
 
-### Two kinds of feed, and which one the map shows
+### Only real stations appear as stations
 
-A channel named by a historical guide replays **one dated week**, and the build
-stamps that week onto the generated channel as `historicalWeek` — its guide id,
-the requested range and the coverage grade. Everything else is a broadcaster's
-standing archive feed, with `historicalWeek: null`.
+The channel map on the front page is a claim about what was actually on air in
+2005, so two fields keep invented channels out of it and the build gate
+enforces both.
 
-The channel map on `/` lists the standing feeds only. An archive week is a
-reconstruction of a specific week rather than a position in the September 2005
-zenderkaart, so it belongs on the broadcaster page beside its provenance — the
-guide's date range and coverage grade are rendered on its channel button there.
-The guide route still renders one on request (`/?channel=foxkids-nl-2001`),
-labelled as an archived week; it just is not something the homepage lands on.
+`real` on a network says a broadcaster of that name went on air. The catalogue
+also holds bookkeeping buckets — `syndication` collects material with no
+established channel — and those are not stations. A network that is not `real`
+cannot be `listed` and cannot own a broadcast channel; either one fails the
+build rather than reaching a viewer as a station.
+
+`kind` on a broadcast channel separates the one feed that stands for a network
+(`primary`) from a preserved week of that same network's real schedule
+(`archive`). Fox Kids' 2001 and 2004 weeks are two more views of channel 8, not
+two more channels, so the map draws one card per `primary` feed. Exactly one
+primary per network is a build rule.
+
+Network marks in `public/networks/` are identification plates — the station's
+real name and on-air colour, set in a neutral condensed face — rather than
+reproductions of the broadcasters' own logos. They carry their own colours, so
+nothing inverts them for the dark theme: a station's colour is part of what
+identifies it. `src/components/NetworkLogo.vue` is the only thing that renders
+one. Dropping a licensed logo file in over any plate needs no other change.
+
+### Where an archive week is shown
+
+Not on the front page. `kind` keeps a week off the map, and nothing lists the
+weeks beside it either: a reconstruction of one dated week answers a different
+question from "what was on channel 8", and putting the two on one page invites
+reading a week as a station. A week belongs on its broadcaster page, next to
+the provenance that qualifies it.
+
+So the build also stamps `historicalWeek` onto the generated channel — the guide
+id, the requested range and the coverage grade — and the broadcaster page prints
+the range and grade on the channel button. The two fields are kept honest
+against each other: `kind: 'archive'` and a guide claiming the channel must
+agree, and the build fails when they do not. The guide route still renders a
+week on request (`/?channel=foxkids-nl-2001`), labelled as one; it is just not
+somewhere the front page can land you by accident.
 
 ### Which channels carried children's programming
 

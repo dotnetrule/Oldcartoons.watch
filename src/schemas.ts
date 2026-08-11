@@ -113,6 +113,7 @@ export const episodesFileSchema = z.array(episodeSchema).superRefine((all, ctx) 
 export const networkSchema = z.object({
   slug: slugSchema,
   name: z.string().min(1),
+  real: z.boolean(),
   listed: z.boolean(),
   channelNumber: z.number().int().nonnegative(),
   colour: hexColourSchema,
@@ -144,10 +145,13 @@ export const historicalGuideCoverageSchema = z.enum([
   'not-yet-launched',
 ]);
 
+export const broadcastChannelKindSchema = z.enum(['primary', 'archive']);
+
 export const broadcastChannelSourceSchema = z.object({
   id: slugSchema,
   networkSlug: slugSchema,
   name: z.string().min(1),
+  kind: broadcastChannelKindSchema,
   country: z.string().length(2),
   language: z.string().min(2),
   timezone: z.string().min(1),

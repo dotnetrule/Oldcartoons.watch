@@ -42,11 +42,18 @@ export const useContentStore = defineStore('content', () => {
   const liveChannels = computed<BroadcastChannel[]>(() =>
     channels.value.filter((channel) => channel.scheduleId !== null),
   );
-  /** The public channel map: broadcasters' standing feeds only. A replayed
-   * archive week is a reconstruction of one dated week, so it belongs on the
-   * broadcaster page next to its provenance rather than in the map. */
-  const mapChannels = computed<BroadcastChannel[]>(() =>
-    channels.value.filter((channel) => channel.historicalWeek === null),
+  /** Broadcasters that actually went on air. The catalogue also carries
+   * bookkeeping buckets for material with no established channel, and those
+   * are never shown to a viewer as a channel. */
+  const realNetworks = computed<Network[]>(() => networks.value.filter((network) => network.real));
+  const realNetworkSlugs = computed(() => new Set(realNetworks.value.map((network) => network.slug)));
+
+  /** One feed per real network: what the channel map draws a card for.
+   * Archive weeks belong to a network page, not to the map. */
+  const primaryChannels = computed<BroadcastChannel[]>(() =>
+    channels.value.filter(
+      (channel) => channel.kind === 'primary' && realNetworkSlugs.value.has(channel.networkSlug),
+    ),
   );
 
   /** index.json is the only payload the schedule route loads — the archive is
@@ -125,6 +132,11 @@ export const useContentStore = defineStore('content', () => {
       : [];
   }
 
+  /** The preserved weeks of a network's real schedule, in listed order. */
+  function archiveChannelsForNetwork(networkSlug: string | null | undefined): BroadcastChannel[] {
+    return channelsForNetwork(networkSlug).filter((item) => item.kind === 'archive');
+  }
+
   function schedule(id: string | null | undefined): BroadcastSchedule | null {
     return id ? schedules.value.find((item) => item.id === id) ?? null : null;
   }
@@ -142,7 +154,8 @@ export const useContentStore = defineStore('content', () => {
     channels,
     schedules,
     liveChannels,
-    mapChannels,
+    realNetworks,
+    primaryChannels,
     loadIndex,
     loadSeries,
     loadBroadcastData,
@@ -152,6 +165,7 @@ export const useContentStore = defineStore('content', () => {
     seriesForNetwork,
     channel,
     channelsForNetwork,
+    archiveChannelsForNetwork,
     schedule,
     scheduleForChannel,
   };

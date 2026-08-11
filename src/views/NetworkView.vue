@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
+import NetworkLogo from '../components/NetworkLogo.vue';
 import SeriesStatusDot from '../components/SeriesStatusDot.vue';
 import {
   countryLabel,
@@ -91,11 +92,7 @@ function goGuide(): void {
 <template>
   <div v-if="network" class="network-page">
     <header class="network-head" :style="{ borderColor: colour }">
-      <img
-        :src="network.logo"
-        :alt="network.name"
-        :style="{ filter: ui.theme === 'dark' ? 'invert(1)' : 'none' }"
-      />
+      <NetworkLogo :network="network" :size="66" />
       <div class="network-identity">
         <span class="mono" :style="{ color: colour }">ZENDER {{ pad2(network.channelNumber) }} · {{ yearsLabel }}</span>
         <h1 :style="{ color: C.ink }">{{ network.name }}</h1>
@@ -247,10 +244,8 @@ function goGuide(): void {
   padding: 8px 0 8px 20px;
 }
 
-.network-head img {
-  width: 90px;
-  height: 72px;
-  object-fit: contain;
+.network-head .network-logo {
+  --network-logo-width: 90px;
 }
 
 .network-identity h1 {
@@ -520,9 +515,8 @@ function goGuide(): void {
     padding-left: 13px;
   }
 
-  .network-head img {
-    width: 62px;
-    height: 50px;
+  .network-head .network-logo {
+    --network-logo-width: 62px;
   }
 
   .network-identity h1 {
