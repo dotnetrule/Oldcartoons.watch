@@ -43,6 +43,20 @@ export const useContentStore = defineStore('content', () => {
     channels.value.filter((channel) => channel.scheduleId !== null),
   );
 
+  /** Broadcasters that actually went on air. The catalogue also carries
+   * bookkeeping buckets for material with no established channel, and those
+   * are never shown to a viewer as a channel. */
+  const realNetworks = computed<Network[]>(() => networks.value.filter((network) => network.real));
+  const realNetworkSlugs = computed(() => new Set(realNetworks.value.map((network) => network.slug)));
+
+  /** One feed per real network: what the channel map draws a card for.
+   * Archive weeks belong to a network page, not to the map. */
+  const primaryChannels = computed<BroadcastChannel[]>(() =>
+    channels.value.filter(
+      (channel) => channel.kind === 'primary' && realNetworkSlugs.value.has(channel.networkSlug),
+    ),
+  );
+
   /** index.json is the only payload the schedule route loads — the archive is
    * thousands of episodes and the grid needs stubs. */
   function loadIndex(): Promise<IndexFile> {
@@ -103,6 +117,11 @@ export const useContentStore = defineStore('content', () => {
       : [];
   }
 
+  /** The preserved weeks of a network's real schedule, in listed order. */
+  function archiveChannelsForNetwork(networkSlug: string | null | undefined): BroadcastChannel[] {
+    return channelsForNetwork(networkSlug).filter((item) => item.kind === 'archive');
+  }
+
   function schedule(id: string | null | undefined): BroadcastSchedule | null {
     return id ? schedules.value.find((item) => item.id === id) ?? null : null;
   }
@@ -120,6 +139,8 @@ export const useContentStore = defineStore('content', () => {
     channels,
     schedules,
     liveChannels,
+    realNetworks,
+    primaryChannels,
     loadIndex,
     loadSeries,
     loadBroadcastData,
@@ -128,6 +149,7 @@ export const useContentStore = defineStore('content', () => {
     series,
     channel,
     channelsForNetwork,
+    archiveChannelsForNetwork,
     schedule,
     scheduleForChannel,
   };

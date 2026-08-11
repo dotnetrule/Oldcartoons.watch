@@ -291,6 +291,22 @@ function main(): void {
   const channelIds = new Set(broadcastChannelSources.map((channel) => channel.id));
   const listedNetworkSlugs = new Set(networks.filter((network) => network.listed).map((network) => network.slug));
 
+  // A network that never went on air must not reach a viewer as a channel:
+  // it cannot be listed, and it cannot carry a feed of any kind.
+  for (const network of networks) {
+    if (network.real) continue;
+    if (network.listed) {
+      throw new Error(`network '${network.slug}' is not a real broadcaster and cannot be listed`);
+    }
+    const feed = broadcastChannelSources.find((channel) => channel.networkSlug === network.slug);
+    if (feed) {
+      throw new Error(
+        `network '${network.slug}' is not a real broadcaster but has broadcast channel '${feed.id}'`,
+      );
+    }
+  }
+
+
   for (const seed of historicalSeriesSeeds) {
     if (!seriesByTmdbId.has(seed.tmdbId)) {
       throw new Error(`historical series seed ${seed.tmdbId} matches no series in content/series.json`);
@@ -357,12 +373,34 @@ function main(): void {
     }
   }
 
+  // One primary feed per network is what makes "one card per channel" true on
+  // the channel map. Archive weeks are extra views of that same feed.
   for (const network of networks) {
+    const primaries = broadcastChannelSources.filter(
+      (channel) => channel.networkSlug === network.slug && channel.kind === 'primary',
+    );
+    if (network.listed && primaries.length === 0) {
+      throw new Error(`network '${network.slug}' has no primary broadcast channel`);
+    }
+    if (primaries.length > 1) {
+      throw new Error(
+        `network '${network.slug}' has ${primaries.length} primary broadcast channels: ${primaries
+          .map((channel) => channel.id)
+          .join(', ')}`,
+      );
+    }
+  }
+
+  for (const channel of broadcastChannelSources) {
     if (
-      network.listed &&
-      !broadcastChannelSources.some((channel) => channel.networkSlug === network.slug)
+      channel.kind === 'archive' &&
+      !broadcastChannelSources.some(
+        (other) => other.networkSlug === channel.networkSlug && other.kind === 'primary',
+      )
     ) {
-      throw new Error(`network '${network.slug}' has no broadcast channel`);
+      throw new Error(
+        `archive channel '${channel.id}' has no primary channel on network '${channel.networkSlug}'`,
+      );
     }
   }
 

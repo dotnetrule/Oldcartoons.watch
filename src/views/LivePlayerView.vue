@@ -213,7 +213,7 @@ onBeforeUnmount(() => {
           AFSTEMMEN OP {{ channel.name.toUpperCase() }}…
         </div>
         <div v-if="hasMediaError" class="signal" :style="{ color: C.ink }">
-          <img :src="network.logo" alt="" :style="{ filter: 'invert(1)' }" />
+          <NetworkLogo :network="network" :size="88" decorative />
           <strong>SIGNAAL ONDERBROKEN</strong>
           <span :style="{ color: C.dim }">De volgende geplande uitzending start automatisch.</span>
         </div>
@@ -221,7 +221,7 @@ onBeforeUnmount(() => {
 
       <div class="live-overlay">
         <div class="station">
-          <img :src="network.logo" :alt="network.name" :style="{ filter: 'invert(1)' }" />
+          <NetworkLogo :network="network" :size="48" />
           <div>
             <strong>{{ channel.name }}</strong>
             <span>{{ countryLabel(channel.country) }} · {{ channel.timezone }}</span>
@@ -303,10 +303,8 @@ onBeforeUnmount(() => {
   font-size: 10px;
 }
 
-.signal img {
-  width: 88px;
-  height: 64px;
-  object-fit: contain;
+.signal .network-logo {
+  --network-logo-width: 88px;
   margin-bottom: 8px;
 }
 
@@ -340,10 +338,8 @@ onBeforeUnmount(() => {
   gap: 11px;
 }
 
-.station img {
-  width: 48px;
-  height: 38px;
-  object-fit: contain;
+.station .network-logo {
+  --network-logo-width: 48px;
 }
 
 .station div {
