@@ -179,6 +179,25 @@ function findFirst(node: unknown, key: string): unknown {
   return collect(node, key)[0] ?? null;
 }
 
+/**
+ * Undo the escaping a value picks up from being read out of raw HTML or out of
+ * a JSON string literal inside it. Returns null for a missing or empty match,
+ * so a failed regex and an empty capture read the same to the caller.
+ */
+function decodeHtml(value: string | undefined): string | null {
+  if (!value) return null;
+  const text = value
+    .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex: string) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/\\(["\\/])/g, '$1')
+    .replace(/&(?:amp|#38);/g, '&')
+    .replace(/&(?:quot|#34);/g, '"')
+    .replace(/&(?:#39|apos);/g, "'")
+    .replace(/&(?:lt|#60);/g, '<')
+    .replace(/&(?:gt|#62);/g, '>')
+    .trim();
+  return text || null;
+}
+
 /** YouTube writes text as either `{ simpleText }` or `{ runs: [{ text }] }`. */
 function readText(node: unknown): string | null {
   if (!isObject(node)) return null;
@@ -283,13 +302,21 @@ export async function getPublicPlaylistInfo(
 ): Promise<{ name: string; curator: string }> {
   const { html, data } = await getPlaylistPage(playlistId);
 
+  // og:title is the one thing every layout of this page has agreed on, so it
+  // leads and the renderer tree is the fallback rather than the other way
+  // round.
   const name =
+    decodeHtml(/<meta\s+(?:property|name)="og:title"\s+content="([^"]*)"/.exec(html)?.[1]) ??
     readText(findFirst(data, 'title')) ??
-    /<meta\s+property="og:title"\s+content="([^"]*)"/.exec(html)?.[1] ??
     null;
 
   const curator =
-    readText(findFirst(data, 'ownerText')) ?? readText(findFirst(data, 'videoOwnerText')) ?? null;
+    readText(findFirst(data, 'ownerText')) ??
+    readText(findFirst(data, 'videoOwnerText')) ??
+    // Newer layouts drop ownerText entirely and carry the channel name as a
+    // plain string somewhere in the page payload.
+    decodeHtml(/"(?:ownerChannelName|channelName)":"((?:[^"\\]|\\.)*)"/.exec(html)?.[1]) ??
+    null;
 
   if (!name || !curator) {
     throw new Error(

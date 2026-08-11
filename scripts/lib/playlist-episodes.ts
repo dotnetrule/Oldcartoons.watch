@@ -65,6 +65,15 @@ const LEADING_SEPARATOR = /^[\s\-–—:|·•,_~]+/;
 const LEADING_EPISODE_NUMBER =
   /^(?:(?:ep(?:isode)?|afl(?:evering)?|e|#|no)\.?\s*#?\s*\d{1,4}\b|\d{1,4}\b(?=\s*[-–—:|·•.]\s*\S))\s*[-–—:|·•.]?\s*/i;
 
+/**
+ * A leading episode word carrying no number — "aflevering Lieve Pappa".
+ *
+ * Dutch and English uploaders both use this as a bare label meaning "here is
+ * an episode", which is exactly what the row it becomes already says. The
+ * lookahead keeps it from eating a title that is only the word itself.
+ */
+const LEADING_EPISODE_WORD = /^(?:ep(?:isode)?|afl(?:evering)?)\b[\s.:|—–-]*(?=\S)/i;
+
 /** Trailing decorations that describe the upload rather than the episode. */
 const TRAILING_NOISE =
   /[\s\-–—|]*[([{]\s*(?:full\s*episode|full\s*episodes|full|hd|4k|1080p?|720p?|remastered|official|complete)\s*[)\]}]\s*$/i;
@@ -90,6 +99,7 @@ export function cleanEpisodeTitle(rawTitle: string, seriesName: string): string 
     if (namePattern) title = title.replace(namePattern, '');
     title = title.replace(LEADING_SEPARATOR, '');
     title = title.replace(LEADING_EPISODE_NUMBER, '');
+    title = title.replace(LEADING_EPISODE_WORD, '');
     title = title.replace(TRAILING_NOISE, '');
     if (title === before) break;
   }
