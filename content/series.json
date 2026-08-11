@@ -334,5 +334,481 @@
     "networkSlug": "foxkids",
     "type": "Animation",
     "age": "Tween"
+  },
+  {
+    "slug": "peter-pan-and-the-pirates",
+    "tmdbId": -49,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "honeybee-hutch",
+    "tmdbId": -50,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "de-drieling",
+    "tmdbId": -51,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "pokemon",
+    "tmdbId": -52,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "pony-express",
+    "tmdbId": -53,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "dennis-the-menace",
+    "tmdbId": -54,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "action-man",
+    "tmdbId": -55,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "power-rangers-lightspeed-rescue",
+    "tmdbId": -56,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "de-troetelbeertjes",
+    "tmdbId": -57,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "the-littl-bits",
+    "tmdbId": -58,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "pokemon-update",
+    "tmdbId": -59,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "tante-soesa-en-sassefras",
+    "tmdbId": -60,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "princess-sissi",
+    "tmdbId": -61,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "oliver-twist",
+    "tmdbId": -62,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "masked-rider",
+    "tmdbId": -63,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "big-wolf-on-campus",
+    "tmdbId": -64,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "iznogoud",
+    "tmdbId": -65,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "de-verveelde-heks",
+    "tmdbId": -66,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "spider-man-unlimited",
+    "tmdbId": -67,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "the-secret-files-of-the-spydogs",
+    "tmdbId": -68,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "life-with-louie",
+    "tmdbId": -69,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "mad-jack-the-pirate",
+    "tmdbId": -70,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "eek-the-cat",
+    "tmdbId": -71,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "eerie-indiana",
+    "tmdbId": -72,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "kippenvel",
+    "tmdbId": -73,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "big-bad-beetleborgs",
+    "tmdbId": -74,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "breaker-high",
+    "tmdbId": -75,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "fox-kids-hang-out",
+    "tmdbId": -76,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "pecola",
+    "tmdbId": -77,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "franklin",
+    "tmdbId": -78,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "bobo-tv",
+    "tmdbId": -79,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "tractor-tom",
+    "tmdbId": -80,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "de-koala-broertjes",
+    "tmdbId": -81,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "totally-spies",
+    "tmdbId": -82,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Tween"
+  },
+  {
+    "slug": "shin-chan",
+    "tmdbId": -83,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "lizzie-mcguire",
+    "tmdbId": -84,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "sonic-x",
+    "tmdbId": -85,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "wunschpunsch",
+    "tmdbId": -86,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "wie-van-de-drie-fox-kids",
+    "tmdbId": -87,
+    "networkSlug": "foxkids",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "yu-gi-oh",
+    "tmdbId": -88,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "funky-cops",
+    "tmdbId": -89,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Tween"
+  },
+  {
+    "slug": "kuifje",
+    "tmdbId": -90,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "lucky-luke",
+    "tmdbId": -91,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "zoop",
+    "tmdbId": -92,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "yakkity-yak",
+    "tmdbId": -93,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "argai",
+    "tmdbId": -94,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "sweet-valley-high",
+    "tmdbId": -95,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "fairly-oddparents",
+    "tmdbId": -96,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "sonick",
+    "tmdbId": -97,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "calimero",
+    "tmdbId": -98,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "thomas-de-stoomlocomotief",
+    "tmdbId": -99,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "bassie-en-adriaan",
+    "tmdbId": -100,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Kids"
+  },
+  {
+    "slug": "spongebob-squarepants",
+    "tmdbId": -101,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "saved-by-the-bell",
+    "tmdbId": -102,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "sabrina-the-teenage-witch",
+    "tmdbId": -103,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "rockos-modern-life",
+    "tmdbId": -104,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Tween"
+  },
+  {
+    "slug": "rocket-power",
+    "tmdbId": -105,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "kenan-and-kel",
+    "tmdbId": -106,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "kablam",
+    "tmdbId": -107,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "jimmy-neutron",
+    "tmdbId": -108,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "hey-arnold",
+    "tmdbId": -109,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "the-wild-thornberrys",
+    "tmdbId": -110,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "the-angry-beavers",
+    "tmdbId": -111,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "cousin-skeeter",
+    "tmdbId": -112,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Tween"
+  },
+  {
+    "slug": "catdog",
+    "tmdbId": -113,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "as-told-by-ginger",
+    "tmdbId": -114,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Tween"
+  },
+  {
+    "slug": "blues-clues",
+    "tmdbId": -115,
+    "networkSlug": "nickelodeon",
+    "type": "Live-action",
+    "age": "Preschool"
+  },
+  {
+    "slug": "dora-the-explorer",
+    "tmdbId": -116,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Preschool"
   }
 ]

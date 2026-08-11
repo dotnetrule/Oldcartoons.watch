@@ -121,18 +121,20 @@ function buildSchedule(
   const channelHash = stableHash(channel.id);
   const guideOrder = new Map(historicalGuide?.seriesSlugs.map((slug, index) => [slug, index]) ?? []);
   const sortedGroups = [...byShow.entries()]
-      .sort(([a], [b]) => {
-        if (!historicalGuide) return a.localeCompare(b);
-        return (guideOrder.get(a) ?? Number.MAX_SAFE_INTEGER) -
-          (guideOrder.get(b) ?? Number.MAX_SAFE_INTEGER) || a.localeCompare(b);
-      })
-      .map(([slug, episodes]) => ({
-        slug,
-        episodes: rotate(
-          episodes.sort((a, b) => a.season - b.season || a.episode - b.episode),
-          stableHash(`${channel.id}:${slug}`),
-        ),
-      }));
+    .sort(([a], [b]) => {
+      if (!historicalGuide) return a.localeCompare(b);
+      return (
+        (guideOrder.get(a) ?? Number.MAX_SAFE_INTEGER) -
+          (guideOrder.get(b) ?? Number.MAX_SAFE_INTEGER) || a.localeCompare(b)
+      );
+    })
+    .map(([slug, episodes]) => ({
+      slug,
+      episodes: rotate(
+        episodes.sort((a, b) => a.season - b.season || a.episode - b.episode),
+        stableHash(`${channel.id}:${slug}`),
+      ),
+    }));
   const groups = historicalGuide ? sortedGroups : rotate(sortedGroups, channelHash);
 
   const ordered: ScheduleSeed[] = [];

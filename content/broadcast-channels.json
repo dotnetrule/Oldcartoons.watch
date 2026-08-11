@@ -78,5 +78,21 @@
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "foxkids-nl-2001",
+    "networkSlug": "foxkids",
+    "name": "Fox Kids · week 11 aug 2001",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "foxkids-nl-2004",
+    "networkSlug": "foxkids",
+    "name": "Fox Kids · week 11 aug 2004",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
   }
 ]
