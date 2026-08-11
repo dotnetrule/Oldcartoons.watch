@@ -1,6 +1,7 @@
 /**
  * Whitelist a third-party YouTube playlist as an ingest source.
  *
+ *   npm run add-playlist -- "<youtube url or playlist id>" --episodes-for spc
  *   npm run add-playlist -- "<youtube url or playlist id>" --covers heman,spc
  *
  * This is the one hand-approval step in the playlist path. Everything after it
@@ -8,10 +9,23 @@
  * channel's uploads, `match` scopes it to the series named in `--covers`, and
  * every resulting episode records provenance so a source that starts rotting
  * can be found and dropped as a unit.
+ *
+ * The two flags are two different claims about the playlist:
+ *
+ *   --covers        it holds uploads that may match those series' episodes.
+ *                   Requires those series to have real TMDB metadata, because
+ *                   TMDB is what supplies the episode list to match against.
+ *
+ *   --episodes-for  it *is* that series' episode list. Playlist order is
+ *                   episode order, video titles are episode titles, no TMDB
+ *                   needed. This is the answer for a series the catalog has
+ *                   no real TMDB id for, where --covers would ingest happily
+ *                   and still leave every row a gap.
  */
 import type { PlaylistSource } from '../src/types';
 import { playlistsFileSchema, seriesSourceFileSchema } from '../src/schemas';
 import { contentPath, readValidated, writeJson } from './lib/paths';
+import { getPublicPlaylistInfo } from './lib/youtube-public';
 
 /**
  * Pull the playlist id out of whatever the user pasted.
@@ -67,6 +81,7 @@ function assertUsableId(id: string): string {
 type Args = {
   input: string;
   covers: string[];
+  episodesFor: string | null;
   name?: string;
   curator?: string;
   note: string;
@@ -100,27 +115,50 @@ function parseArgs(argv: string[]): Args {
   const input = positional[0];
   if (!input) {
     throw new Error(
-      'usage: npm run add-playlist -- "<youtube url or playlist id>" --covers slug[,slug]',
+      'usage: npm run add-playlist -- "<youtube url or playlist id>" --episodes-for <slug>\n' +
+        '   or: npm run add-playlist -- "<youtube url or playlist id>" --covers slug[,slug]',
     );
   }
 
+  const episodesFor = flags.get('episodes-for')?.trim() || null;
+
   const coversRaw = flags.get('covers');
-  if (!coversRaw) {
+  // --episodes-for is the stronger statement of the two: a playlist that *is*
+  // a series' episode list is necessarily scoped to it, so it implies --covers
+  // and the common single-series case needs one flag rather than two.
+  const covers = coversRaw
+    ? coversRaw
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : episodesFor
+      ? [episodesFor]
+      : [];
+
+  if (covers.length === 0) {
     throw new Error(
-      '--covers is required: name the series slugs this playlist is allowed to match.\n' +
+      'name the series this playlist is for.\n\n' +
+        '  --episodes-for <slug>   the playlist IS that series\' episode list:\n' +
+        '                          playlist order becomes episode order and video\n' +
+        '                          titles become episode titles. Use this when the\n' +
+        '                          series has no real TMDB metadata yet.\n\n' +
+        '  --covers slug[,slug]    the playlist is a pool of candidate uploads to\n' +
+        '                          match against episode lists TMDB already has.\n\n' +
         'An unscoped playlist would ingest and then match nothing.',
     );
   }
 
-  const covers = coversRaw
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean);
-  if (covers.length === 0) throw new Error('--covers listed no slugs');
+  if (episodesFor && !covers.includes(episodesFor)) {
+    throw new Error(
+      `--episodes-for '${episodesFor}' is not in --covers (${covers.join(', ')}) — ` +
+        `a playlist cannot own the episode list of a series it is not scoped to`,
+    );
+  }
 
   return {
     input,
     covers,
+    episodesFor,
     ...(flags.has('name') ? { name: flags.get('name') } : {}),
     ...(flags.has('curator') ? { curator: flags.get('curator') } : {}),
     note: flags.get('note') ?? '',
@@ -132,15 +170,11 @@ type PlaylistsResponse = {
 };
 
 /** playlists.list — 1 quota unit. Used only to fill in the display name and
- * the curator credit; `--name`/`--curator` skip it entirely. */
+ * the curator credit; `--name`/`--curator` skip it entirely, and with no key
+ * the playlist's own public page answers the same two questions. */
 async function lookup(id: string): Promise<{ name: string; curator: string }> {
   const key = process.env.YOUTUBE_API_KEY;
-  if (!key) {
-    throw new Error(
-      'YOUTUBE_API_KEY is not set, so the playlist title cannot be looked up.\n' +
-        'Either set the key, or pass --name "…" --curator "…" yourself.',
-    );
-  }
+  if (!key) return getPublicPlaylistInfo(id);
 
   const url = new URL('https://www.googleapis.com/youtube/v3/playlists');
   url.searchParams.set('key', key);
@@ -179,19 +213,48 @@ async function main(): Promise<void> {
     throw new Error(`playlist ${id} is already whitelisted in content/playlists.json`);
   }
 
-  const { name, curator } =
-    args.name && args.curator ? { name: args.name, curator: args.curator } : await lookup(id);
+  // Attribution is the one part of a playlist that lives on YouTube rather
+  // than in the pasted link. Failing to reach it is not a reason to refuse the
+  // whitelist — the id is the fact that matters, and `resolve-playlists` fills
+  // the credit in from anywhere with a route to youtube.com.
+  let name: string | null = args.name ?? null;
+  let curator: string | null = args.curator ?? null;
 
-  const entry: PlaylistSource = { id, name, curator, covers: args.covers, note: args.note };
+  if (name === null || curator === null) {
+    try {
+      ({ name, curator } = await lookup(id));
+    } catch (error) {
+      console.warn(`could not look up the playlist's title and curator:`);
+      console.warn(`  ${(error as Error).message.split('\n')[0]}`);
+      console.warn(`whitelisting it unattributed — run 'npm run resolve-playlists' to fill that in.\n`);
+    }
+  }
+
+  const entry: PlaylistSource = {
+    id,
+    name,
+    curator,
+    covers: args.covers,
+    episodesFor: args.episodesFor,
+    note: args.note,
+  };
 
   // Written through the same schema the build gate uses, so this cannot
   // produce a file that `npm run build-data` would later reject.
   writeJson(contentPath('playlists.json'), playlistsFileSchema.parse([...playlists, entry]));
 
-  console.log(`whitelisted '${name}' by ${curator}`);
+  console.log(name && curator ? `whitelisted '${name}' by ${curator}` : `whitelisted ${id} (unattributed)`);
   console.log(`  id      ${id}`);
   console.log(`  covers  ${args.covers.join(', ')}`);
-  console.log(`\nNext: npm run fetch -- --series ${args.covers.join(',')} && npm run match`);
+  if (args.episodesFor) console.log(`  owns the episode list for  ${args.episodesFor}`);
+
+  // A playlist-backed series needs no TMDB fetch, so the next step is the
+  // whole rest of the pipeline in one line.
+  console.log(
+    args.episodesFor
+      ? `\nNext: npm run fetch && npm run match && npm run build-data`
+      : `\nNext: npm run fetch -- --series ${args.covers.join(',')} && npm run match`,
+  );
 }
 
 await main();

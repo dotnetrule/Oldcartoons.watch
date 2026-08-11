@@ -100,12 +100,33 @@ export type ChannelSource = {
  * only difference is provenance and the trust that follows from it. */
 export type PlaylistSource = {
   id: string;
-  name: string;
-  /** Who published the playlist, shown as attribution. */
-  curator: string;
+  /**
+   * Display name, or null when it has not been looked up yet.
+   *
+   * The id is the only part of a playlist a person actually has — it is in the
+   * link they paste. The title and the curator credit live on YouTube, so a
+   * machine without network access to it can whitelist a playlist but cannot
+   * attribute one. Null records that gap honestly instead of inventing a
+   * credit; `npm run resolve-playlists` fills it in where the network is.
+   */
+  name: string | null;
+  /** Who published the playlist, shown as attribution. Null as for `name`. */
+  curator: string | null;
   /** Series slugs this playlist is expected to cover. Advisory: it scopes
    * matching so a playlist cannot pull in unrelated series. */
   covers: string[];
+  /**
+   * When set, this playlist *is* the episode list for that series rather than
+   * a pool of candidates matched against TMDB's.
+   *
+   * The fuzzy path can only surface episodes TMDB already lists, so a series
+   * with no real TMDB id has nothing for a playlist to match against and every
+   * row renders as a gap no matter how good the playlist is. Naming the series
+   * here inverts that: playlist order becomes episode order, video titles
+   * become episode titles, and the series' metadata seed is regenerated from
+   * the playlist. The slug must also appear in `covers`.
+   */
+  episodesFor: string | null;
   note: string;
 };
 

@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import type { ZodType } from 'zod';
+import type { ZodType, ZodTypeDef } from 'zod';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -51,9 +51,16 @@ export function readJson(path: string): unknown {
   }
 }
 
-/** Read a JSON file and validate it, throwing a message that names the file
- * and the offending path so a bad hand-edit is obvious from the build log. */
-export function readValidated<T>(path: string, schema: ZodType<T>): T {
+/**
+ * Read a JSON file and validate it, throwing a message that names the file
+ * and the offending path so a bad hand-edit is obvious from the build log.
+ *
+ * The input side is `unknown` on purpose. The parsed file genuinely is
+ * unknown, and pinning it there is also what makes `T` bind to the schema's
+ * *output* — so a schema that fills in a default hands back the completed
+ * shape rather than the optional one the file was allowed to have.
+ */
+export function readValidated<T>(path: string, schema: ZodType<T, ZodTypeDef, unknown>): T {
   const parsed = schema.safeParse(readJson(path));
   if (!parsed.success) {
     throw new Error(`${path} failed validation:\n${formatZodError(parsed.error)}`);

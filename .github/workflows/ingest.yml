@@ -1,0 +1,100 @@
+name: Ingest
+
+# Runs the pipeline where the network is.
+#
+# Every network call in this project happens at build time, which assumes the
+# machine holding the repo can reach YouTube. That is not always true — a
+# sandboxed or offline environment can edit content/ and still have no route to
+# youtube.com — so whitelisting a playlist and ingesting it are separable acts.
+# A push that changes an ingest whitelist runs the pipeline here and commits the
+# derived episodes back to the same branch.
+#
+# It pushes rather than opening a pull request, which is the opposite of what
+# health-check.yml does. The difference is what is at stake: the health check
+# proposes *removing* episodes from a live archive, which should be reviewed,
+# while this only ever fills a branch in with data that branch just asked for.
+# It never runs on Master.
+on:
+  push:
+    branches-ignore:
+      - Master
+    paths:
+      # The whitelists, and the machinery that reads them. A change to either
+      # can change what the archive should contain, and a pipeline fix that
+      # did not re-run the pipeline would leave the branch stale.
+      - 'content/playlists.json'
+      - 'content/channels.json'
+      - 'content/series.json'
+      - 'scripts/**'
+      - '.github/workflows/ingest.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# A second push while a run is in flight would race it to the same branch.
+concurrency:
+  group: ingest-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Attribution for any playlist whitelisted from its id alone. Optional:
+      # an unreachable playlist keeps its null and the ingest carries on.
+      - name: Resolve playlist attribution
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: npm run resolve-playlists
+
+      # --youtube-only because every series in content/ still carries a
+      # placeholder TMDB id, which the TMDB half refuses by design. Drop the
+      # flag once real ids land.
+      - name: Fetch sources
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: npm run fetch -- --youtube-only
+
+      - name: Derive episodes
+        run: npm run match
+
+      # The Zod gate. A bad ingest fails here rather than being committed.
+      - name: Validate
+        run: npm run build-data
+
+      - name: Commit the derived episodes
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          if git diff --quiet -- content/; then
+            echo 'nothing changed — content/ already matches the sources'
+            exit 0
+          fi
+
+          git add content/
+          git commit -m 'chore: ingest episodes from whitelisted sources'
+          # Pushes authenticated with GITHUB_TOKEN do not trigger workflow runs,
+          # so this cannot set itself off again.
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Summarise
+        if: always()
+        run: |
+          {
+            echo '### Ingest'
+            echo
+            echo '```'
+            git log -1 --stat --format='%s' -- content/ || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

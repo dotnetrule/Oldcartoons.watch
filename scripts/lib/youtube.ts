@@ -7,6 +7,8 @@
  * and the weekly health check costs one unit per fifty episodes.
  */
 
+import { isUnplayableTitle, listPublicPlaylistVideos } from './youtube-public';
+
 const API_BASE = 'https://www.googleapis.com/youtube/v3';
 
 function apiKey(): string {
@@ -78,9 +80,20 @@ export async function getUploadsPlaylistId(channelId: string): Promise<string> {
   return uploads;
 }
 
-/** Every video in a playlist, 50 per page, 1 quota unit per page. */
+/**
+ * Every video in a playlist.
+ *
+ * Uses the Data API when a key is available — it is paginated and complete.
+ * Without a key it falls back to reading the playlist's own public page, so a
+ * pasted link can produce episode rows without a Google Cloud project first.
+ * The fallback refuses to return a truncated playlist rather than quietly
+ * shortening one; see scripts/lib/youtube-public.ts.
+ */
 export async function listPlaylistVideos(playlistId: string): Promise<YoutubeVideo[]> {
+  if (!process.env.YOUTUBE_API_KEY) return listPublicPlaylistVideos(playlistId);
+
   const videos: YoutubeVideo[] = [];
+  const seen = new Set<string>();
   let pageToken: string | undefined;
 
   do {
@@ -92,8 +105,15 @@ export async function listPlaylistVideos(playlistId: string): Promise<YoutubeVid
     });
     for (const item of data.items) {
       const videoId = item.snippet.resourceId.videoId;
-      // Deleted and private entries survive in playlists with an unusable id.
+      // Deleted and private entries survive in playlists with an unusable id,
+      // or with a usable one and a substituted title. Neither plays.
       if (!videoId || videoId.length !== 11) continue;
+      if (isUnplayableTitle(item.snippet.title)) continue;
+      // Playlist position defines episode numbering for a playlist-backed
+      // series, so a repeated video would shift every row after it.
+      if (seen.has(videoId)) continue;
+      seen.add(videoId);
+
       videos.push({
         youtubeId: videoId,
         title: item.snippet.title,

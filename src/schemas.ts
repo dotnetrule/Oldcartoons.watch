@@ -168,19 +168,55 @@ export const channelSourceSchema = z.object({
 
 export const channelsFileSchema = z.array(channelSourceSchema);
 
-export const playlistSourceSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1),
-  curator: z.string().min(1),
-  // Scoping is what keeps a third-party playlist from reaching series it has
-  // no business matching, and match.ts scopes with `covers.includes(slug)` —
-  // so an empty list is not a looser playlist, it is an inert one that ingests
-  // and then silently matches nothing.
-  covers: z.array(slugSchema).min(1, 'a playlist must name at least one series it covers'),
-  note: z.string(),
-});
+export const playlistSourceSchema = z
+  .object({
+    id: z.string().min(1),
+    // Null means "not looked up yet", not "has no title". An empty string
+    // would be a third state meaning the same thing, so it is rejected.
+    name: z.string().min(1).nullable().default(null),
+    curator: z.string().min(1).nullable().default(null),
+    // Scoping is what keeps a third-party playlist from reaching series it has
+    // no business matching, and match.ts scopes with `covers.includes(slug)` —
+    // so an empty list is not a looser playlist, it is an inert one that ingests
+    // and then silently matches nothing.
+    covers: z.array(slugSchema).min(1, 'a playlist must name at least one series it covers'),
+    // Absent in a hand-written entry means the ordinary candidate-pool
+    // behaviour, which is what every playlist did before this field existed.
+    episodesFor: slugSchema.nullable().default(null),
+    note: z.string(),
+  })
+  .superRefine((playlist, ctx) => {
+    // A playlist that owns a series' episode list but is not scoped to that
+    // series is self-contradictory: it would author the rows and then be
+    // filtered out of matching them.
+    if (playlist.episodesFor !== null && !playlist.covers.includes(playlist.episodesFor)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['episodesFor'],
+        message: `'${playlist.episodesFor}' is not in covers (${playlist.covers.join(', ')}) — a playlist cannot own the episode list of a series it is not scoped to`,
+      });
+    }
+  });
 
-export const playlistsFileSchema = z.array(playlistSourceSchema);
+export const playlistsFileSchema = z.array(playlistSourceSchema).superRefine((all, ctx) => {
+  const owners = new Map<string, number>();
+  all.forEach((playlist, index) => {
+    if (playlist.episodesFor === null) return;
+    const first = owners.get(playlist.episodesFor);
+    if (first === undefined) {
+      owners.set(playlist.episodesFor, index);
+      return;
+    }
+    // Two playlists both claiming to be the episode list means two orderings
+    // for one series. There is no correct way to merge them, so it fails here
+    // rather than letting whichever ran last win.
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: [index, 'episodesFor'],
+      message: `'${playlist.episodesFor}' already has its episode list owned by the playlist at index ${first}`,
+    });
+  });
+});
 
 export const queueCandidateSchema = z.object({
   youtubeId: youtubeIdSchema,

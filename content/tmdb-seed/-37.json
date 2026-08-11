@@ -1,19 +1,19 @@
 {
-  "fetchedAt": "2026-08-11T07:07:04.766Z",
+  "fetchedAt": "2026-08-11T07:07:04.767Z",
   "detail": {
-    "id": -15,
-    "name": "Samurai Pizza Cats",
-    "overview": "Three pizza-delivering, crime-fighting cats defend Little Tokyo, redubbed from Japanese with gleeful disregard for the original script.",
-    "first_air_date": "1990-11-02",
-    "last_air_date": "1991-12-31",
-    "number_of_episodes": 52,
+    "id": -37,
+    "name": "What's with Andy?",
+    "overview": "Andy Larkin, self-declared greatest prankster alive, spends every episode engineering an elaborate practical joke on the town of East Gackle — and spends the last few minutes of it being caught.",
+    "first_air_date": "2001",
+    "last_air_date": "2007",
+    "number_of_episodes": 47,
     "backdrop_path": null,
     "poster_path": null,
     "seasons": [
       {
         "season_number": 1,
         "name": "Season 1",
-        "episode_count": 51
+        "episode_count": 47
       }
     ]
   },
@@ -23,8 +23,8 @@
       "name": "Season 1",
       "episodes": [
         {
-          "id": -15001,
-          "name": "Stop Dragon My Cat Around!",
+          "id": -37001,
+          "name": "lieve pappa",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,
@@ -32,8 +32,8 @@
           "still_path": null
         },
         {
-          "id": -15002,
-          "name": "If You Knew Sushi Like I Know Sushi",
+          "id": -37002,
+          "name": "zoef door de lucht",
           "season_number": 1,
           "episode_number": 2,
           "air_date": null,
@@ -41,8 +41,8 @@
           "still_path": null
         },
         {
-          "id": -15003,
-          "name": "Underground Underwater Undercooked",
+          "id": -37003,
+          "name": "een erg slecht idee / kakkerlakken",
           "season_number": 1,
           "episode_number": 3,
           "air_date": null,
@@ -50,8 +50,8 @@
           "still_path": null
         },
         {
-          "id": -15004,
-          "name": "The Great Golden Cluck",
+          "id": -37004,
+          "name": "noodkotssmuller / knelbroek",
           "season_number": 1,
           "episode_number": 4,
           "air_date": null,
@@ -59,8 +59,8 @@
           "still_path": null
         },
         {
-          "id": -15005,
-          "name": "Let The Cellar Beware!",
+          "id": -37005,
+          "name": "mascotte spotten",
           "season_number": 1,
           "episode_number": 5,
           "air_date": null,
@@ -68,8 +68,8 @@
           "still_path": null
         },
         {
-          "id": -15006,
-          "name": "Singing Samurai Sensation",
+          "id": -37006,
+          "name": "het is maar vulling",
           "season_number": 1,
           "episode_number": 6,
           "air_date": null,
@@ -77,8 +77,8 @@
           "still_path": null
         },
         {
-          "id": -15007,
-          "name": "The Nuclear Potato",
+          "id": -37007,
+          "name": "plakke smakkers",
           "season_number": 1,
           "episode_number": 7,
           "air_date": null,
@@ -86,8 +86,8 @@
           "still_path": null
         },
         {
-          "id": -15008,
-          "name": "Kind of a Drag",
+          "id": -37008,
+          "name": "rijmtijd",
           "season_number": 1,
           "episode_number": 8,
           "air_date": null,
@@ -95,8 +95,8 @@
           "still_path": null
         },
         {
-          "id": -15009,
-          "name": "Double Trouble for Princess Vi",
+          "id": -37009,
+          "name": "stop de bom",
           "season_number": 1,
           "episode_number": 9,
           "air_date": null,
@@ -104,8 +104,8 @@
           "still_path": null
         },
         {
-          "id": -15010,
-          "name": "Hot & Kold Kitties",
+          "id": -37010,
+          "name": "plakke smakkers",
           "season_number": 1,
           "episode_number": 10,
           "air_date": null,
@@ -113,8 +113,8 @@
           "still_path": null
         },
         {
-          "id": -15011,
-          "name": "Candid Kitty",
+          "id": -37011,
+          "name": "voedselgevecht",
           "season_number": 1,
           "episode_number": 11,
           "air_date": null,
@@ -122,8 +122,8 @@
           "still_path": null
         },
         {
-          "id": -15012,
-          "name": "The Pizza Cats Are Only Human Part One",
+          "id": -37012,
+          "name": "onderbroeken",
           "season_number": 1,
           "episode_number": 12,
           "air_date": null,
@@ -131,8 +131,8 @@
           "still_path": null
         },
         {
-          "id": -15013,
-          "name": "The Pizza Cats Are Only Human Part Two",
+          "id": -37013,
+          "name": "leve het theater",
           "season_number": 1,
           "episode_number": 13,
           "air_date": null,
@@ -140,8 +140,8 @@
           "still_path": null
         },
         {
-          "id": -15014,
-          "name": "The Case of the Bogus Billionaire",
+          "id": -37014,
+          "name": "noodkotssmuller",
           "season_number": 1,
           "episode_number": 14,
           "air_date": null,
@@ -149,8 +149,8 @@
           "still_path": null
         },
         {
-          "id": -15015,
-          "name": "Big Cheese's I Q Corral",
+          "id": -37015,
+          "name": "een erg slecht idee",
           "season_number": 1,
           "episode_number": 15,
           "air_date": null,
@@ -158,8 +158,8 @@
           "still_path": null
         },
         {
-          "id": -15016,
-          "name": "Field of Screwballs",
+          "id": -37016,
+          "name": "het kwam van oost kukel",
           "season_number": 1,
           "episode_number": 16,
           "air_date": null,
@@ -167,8 +167,8 @@
           "still_path": null
         },
         {
-          "id": -15017,
-          "name": "Speedy's Double Time Trick",
+          "id": -37017,
+          "name": "feestje",
           "season_number": 1,
           "episode_number": 17,
           "air_date": null,
@@ -176,8 +176,8 @@
           "still_path": null
         },
         {
-          "id": -15018,
-          "name": "Samurai Charm School",
+          "id": -37018,
+          "name": "stemmingmakerij",
           "season_number": 1,
           "episode_number": 18,
           "air_date": null,
@@ -185,8 +185,8 @@
           "still_path": null
         },
         {
-          "id": -15019,
-          "name": "Drumming Up Trouble With A Big Bad Beat",
+          "id": -37019,
+          "name": "dollemansrit",
           "season_number": 1,
           "episode_number": 19,
           "air_date": null,
@@ -194,8 +194,8 @@
           "still_path": null
         },
         {
-          "id": -15020,
-          "name": "Pizza Bird Delivers!",
+          "id": -37020,
+          "name": "beste vijanden",
           "season_number": 1,
           "episode_number": 20,
           "air_date": null,
@@ -203,8 +203,8 @@
           "still_path": null
         },
         {
-          "id": -15021,
-          "name": "Big Cheese Shows His Filmy Substance",
+          "id": -37021,
+          "name": "drie keer niks",
           "season_number": 1,
           "episode_number": 21,
           "air_date": null,
@@ -212,8 +212,8 @@
           "still_path": null
         },
         {
-          "id": -15022,
-          "name": "Son of Big Cheese",
+          "id": -37022,
+          "name": "mascotte",
           "season_number": 1,
           "episode_number": 22,
           "air_date": null,
@@ -221,8 +221,8 @@
           "still_path": null
         },
         {
-          "id": -15023,
-          "name": "Gender Bender Butterflies!",
+          "id": -37023,
+          "name": "sokkenaap",
           "season_number": 1,
           "episode_number": 23,
           "air_date": null,
@@ -230,8 +230,8 @@
           "still_path": null
         },
         {
-          "id": -15024,
-          "name": "Cold and Crabby in Little Tokyo",
+          "id": -37024,
+          "name": "vakantiepret",
           "season_number": 1,
           "episode_number": 24,
           "air_date": null,
@@ -239,8 +239,8 @@
           "still_path": null
         },
         {
-          "id": -15025,
-          "name": "The Terror of Prisoner Island",
+          "id": -37025,
+          "name": "het geheime genootschap van zombies",
           "season_number": 1,
           "episode_number": 25,
           "air_date": null,
@@ -248,8 +248,8 @@
           "still_path": null
         },
         {
-          "id": -15026,
-          "name": "Pizza Cat Performance Review",
+          "id": -37026,
+          "name": "het wc papier fiasco",
           "season_number": 1,
           "episode_number": 26,
           "air_date": null,
@@ -257,8 +257,8 @@
           "still_path": null
         },
         {
-          "id": -15027,
-          "name": "Destructo Robots at Popular Prices",
+          "id": -37027,
+          "name": "torteldufjes",
           "season_number": 1,
           "episode_number": 27,
           "air_date": null,
@@ -266,8 +266,8 @@
           "still_path": null
         },
         {
-          "id": -15028,
-          "name": "No Talent Guido",
+          "id": -37028,
+          "name": "dat is vet andy",
           "season_number": 1,
           "episode_number": 28,
           "air_date": null,
@@ -275,8 +275,8 @@
           "still_path": null
         },
         {
-          "id": -15029,
-          "name": "All You Need is Love",
+          "id": -37029,
+          "name": "pinguin pijn",
           "season_number": 1,
           "episode_number": 29,
           "air_date": null,
@@ -284,8 +284,8 @@
           "still_path": null
         },
         {
-          "id": -15030,
-          "name": "Polly's Magical Flute",
+          "id": -37030,
+          "name": "andy ziet sterretjes",
           "season_number": 1,
           "episode_number": 30,
           "air_date": null,
@@ -293,8 +293,8 @@
           "still_path": null
         },
         {
-          "id": -15031,
-          "name": "Close Encounters of the Pig Kind",
+          "id": -37031,
+          "name": "de grote insluiting",
           "season_number": 1,
           "episode_number": 31,
           "air_date": null,
@@ -302,8 +302,8 @@
           "still_path": null
         },
         {
-          "id": -15032,
-          "name": "Big Cheese's High Definition TV",
+          "id": -37032,
+          "name": "jean thomas",
           "season_number": 1,
           "episode_number": 32,
           "air_date": null,
@@ -311,8 +311,8 @@
           "still_path": null
         },
         {
-          "id": -15033,
-          "name": "Pizza Delivery of Doom!",
+          "id": -37033,
+          "name": "het muzikale fruit",
           "season_number": 1,
           "episode_number": 33,
           "air_date": null,
@@ -320,8 +320,8 @@
           "still_path": null
         },
         {
-          "id": -15034,
-          "name": "Youth Is for Exploding",
+          "id": -37034,
+          "name": "burgepester",
           "season_number": 1,
           "episode_number": 34,
           "air_date": null,
@@ -329,8 +329,8 @@
           "still_path": null
         },
         {
-          "id": -15035,
-          "name": "Bad Bird Uncaged Part One",
+          "id": -37035,
+          "name": "scheve schaats",
           "season_number": 1,
           "episode_number": 35,
           "air_date": null,
@@ -338,8 +338,8 @@
           "still_path": null
         },
         {
-          "id": -15036,
-          "name": "Bad Bird Uncaged Part Two",
+          "id": -37036,
+          "name": "worstel en ga onder",
           "season_number": 1,
           "episode_number": 36,
           "air_date": null,
@@ -347,8 +347,8 @@
           "still_path": null
         },
         {
-          "id": -15037,
-          "name": "A Mission in Manhatta",
+          "id": -37037,
+          "name": "niet likken aan de gele sneeuw",
           "season_number": 1,
           "episode_number": 37,
           "air_date": null,
@@ -356,8 +356,8 @@
           "still_path": null
         },
         {
-          "id": -15038,
-          "name": "Unidentified Flying Oddballs",
+          "id": -37038,
+          "name": "appelgrap",
           "season_number": 1,
           "episode_number": 38,
           "air_date": null,
@@ -365,8 +365,8 @@
           "still_path": null
         },
         {
-          "id": -15039,
-          "name": "Princess Vi's Hippy Dippy Mom",
+          "id": -37039,
+          "name": "licht camera oeps",
           "season_number": 1,
           "episode_number": 39,
           "air_date": null,
@@ -374,8 +374,8 @@
           "still_path": null
         },
         {
-          "id": -15040,
-          "name": "A Wet and Wild Weekend",
+          "id": -37040,
+          "name": "zuster jen",
           "season_number": 1,
           "episode_number": 40,
           "air_date": null,
@@ -383,8 +383,8 @@
           "still_path": null
         },
         {
-          "id": -15041,
-          "name": "Episde 42 Kung Fu Kitty Kontest",
+          "id": -37041,
+          "name": "stroop",
           "season_number": 1,
           "episode_number": 41,
           "air_date": null,
@@ -392,8 +392,8 @@
           "still_path": null
         },
         {
-          "id": -15042,
-          "name": "Gone with the Ginzu",
+          "id": -37042,
+          "name": "hole in one",
           "season_number": 1,
           "episode_number": 42,
           "air_date": null,
@@ -401,8 +401,8 @@
           "still_path": null
         },
         {
-          "id": -15043,
-          "name": "A Little Bit O' Luck",
+          "id": -37043,
+          "name": "gedachtenspelletjes",
           "season_number": 1,
           "episode_number": 43,
           "air_date": null,
@@ -410,8 +410,8 @@
           "still_path": null
         },
         {
-          "id": -15044,
-          "name": "Samurai Savings Time",
+          "id": -37044,
+          "name": "andysaurus rex",
           "season_number": 1,
           "episode_number": 44,
           "air_date": null,
@@ -419,8 +419,8 @@
           "still_path": null
         },
         {
-          "id": -15045,
-          "name": "Phoney Baloney Cat",
+          "id": -37045,
+          "name": "de antwoorden",
           "season_number": 1,
           "episode_number": 45,
           "air_date": null,
@@ -428,8 +428,8 @@
           "still_path": null
         },
         {
-          "id": -15046,
-          "name": "The Cheese Who Stole Christmas",
+          "id": -37046,
+          "name": "idolen",
           "season_number": 1,
           "episode_number": 46,
           "air_date": null,
@@ -437,46 +437,10 @@
           "still_path": null
         },
         {
-          "id": -15047,
-          "name": "Emperor Fred Does Hard Time",
+          "id": -37047,
+          "name": "sportheld",
           "season_number": 1,
           "episode_number": 47,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15048,
-          "name": "Quake, Rattle & Roll",
-          "season_number": 1,
-          "episode_number": 48,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15049,
-          "name": "The Big Comet Caper Part One",
-          "season_number": 1,
-          "episode_number": 49,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15050,
-          "name": "The Big Comet Caper Part Two",
-          "season_number": 1,
-          "episode_number": 50,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15051,
-          "name": "The Cats Cop Cartoon Careers",
-          "season_number": 1,
-          "episode_number": 51,
           "air_date": null,
           "runtime": null,
           "still_path": null
