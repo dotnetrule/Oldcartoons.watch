@@ -15,6 +15,8 @@ import type {
   ChannelSource,
   ContentLanguage,
   Episode,
+  HistoricalGuide,
+  HistoricalSeriesSeed,
   IndexFile,
   Network,
   PublicEpisode,
@@ -30,6 +32,8 @@ import {
   broadcastDataFileSchema,
   channelsFileSchema,
   episodesFileSchema,
+  historicalGuidesFileSchema,
+  historicalSeriesSeedsFileSchema,
   indexFileSchema,
   networksFileSchema,
   overridesFileSchema,
@@ -100,7 +104,11 @@ function rotate<T>(values: T[], offset: number): T[] {
 /** Round-robin the available shows into a gapless repeating schedule. The
  * result is stored in broadcast.json and is fully reproducible from curated
  * content; the browser only resolves an absolute timestamp within it. */
-function buildSchedule(channel: BroadcastChannelSource, seeds: ScheduleSeed[]): BroadcastSchedule | null {
+function buildSchedule(
+  channel: BroadcastChannelSource,
+  seeds: ScheduleSeed[],
+  historicalGuide: HistoricalGuide | null = null,
+): BroadcastSchedule | null {
   if (seeds.length === 0) return null;
 
   const byShow = new Map<string, ScheduleSeed[]>();
@@ -111,18 +119,21 @@ function buildSchedule(channel: BroadcastChannelSource, seeds: ScheduleSeed[]): 
   }
 
   const channelHash = stableHash(channel.id);
-  const groups = rotate(
-    [...byShow.entries()]
-      .sort(([a], [b]) => a.localeCompare(b))
+  const guideOrder = new Map(historicalGuide?.seriesSlugs.map((slug, index) => [slug, index]) ?? []);
+  const sortedGroups = [...byShow.entries()]
+      .sort(([a], [b]) => {
+        if (!historicalGuide) return a.localeCompare(b);
+        return (guideOrder.get(a) ?? Number.MAX_SAFE_INTEGER) -
+          (guideOrder.get(b) ?? Number.MAX_SAFE_INTEGER) || a.localeCompare(b);
+      })
       .map(([slug, episodes]) => ({
         slug,
         episodes: rotate(
           episodes.sort((a, b) => a.season - b.season || a.episode - b.episode),
           stableHash(`${channel.id}:${slug}`),
         ),
-      })),
-    channelHash,
-  );
+      }));
+  const groups = historicalGuide ? sortedGroups : rotate(sortedGroups, channelHash);
 
   const ordered: ScheduleSeed[] = [];
   let row = 0;
@@ -163,7 +174,14 @@ function buildSchedule(channel: BroadcastChannelSource, seeds: ScheduleSeed[]): 
         episode: seed.episode,
         title: seed.episodeTitle,
       },
-      metadata: { runtimeEstimated: seed.runtime === null },
+      metadata: {
+        runtimeEstimated: seed.runtime === null,
+        historicalGuide: historicalGuide?.id ?? null,
+        requestedWeek: historicalGuide
+          ? `${historicalGuide.requestedFrom}/${historicalGuide.requestedTo}`
+          : null,
+        sourceCoverage: historicalGuide?.coverage ?? null,
+      },
     };
   });
 
@@ -176,7 +194,25 @@ function buildSchedule(channel: BroadcastChannelSource, seeds: ScheduleSeed[]): 
   };
 }
 
-function loadCache(source: SeriesSource): TmdbSeriesCache {
+function loadCache(source: SeriesSource, historicalSeed: HistoricalSeriesSeed | undefined): TmdbSeriesCache {
+  if (historicalSeed) {
+    return {
+      fetchedAt: 'historical-guide',
+      detail: {
+        id: source.tmdbId,
+        name: historicalSeed.name,
+        overview: historicalSeed.overview,
+        first_air_date: null,
+        last_air_date: null,
+        number_of_episodes: 0,
+        backdrop_path: null,
+        poster_path: null,
+        seasons: [],
+      },
+      seasons: [],
+      images: { backdrops: [], posters: [] },
+    };
+  }
   const path = seriesMetadataPath(source.tmdbId);
   const cache = readJson(path) as TmdbSeriesCache;
   if (cache.detail?.id !== source.tmdbId) {
@@ -210,6 +246,14 @@ function applyOverride(base: BaseSeries, override: Record<string, unknown>, slug
 function main(): void {
   const networks: Network[] = readValidated(contentPath('networks.json'), networksFileSchema);
   const seriesSources = readValidated(contentPath('series.json'), seriesSourceFileSchema);
+  const historicalSeriesSeeds: HistoricalSeriesSeed[] = readValidated(
+    contentPath('historical-series.json'),
+    historicalSeriesSeedsFileSchema,
+  );
+  const historicalGuides: HistoricalGuide[] = readValidated(
+    contentPath('historical-guides.json'),
+    historicalGuidesFileSchema,
+  );
   const episodes = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const overrides = readValidated(contentPath('overrides.json'), overridesFileSchema);
   const broadcastChannelSources = readValidated(
@@ -233,6 +277,29 @@ function main(): void {
   const networkSlugs = new Set(networks.map((n) => n.slug));
   const seriesByTmdbId = new Map(seriesSources.map((s) => [s.tmdbId, s]));
   const seriesSlugs = new Set(seriesSources.map((s) => s.slug));
+  const historicalSeriesByTmdbId = new Map(
+    historicalSeriesSeeds.map((seed) => [seed.tmdbId, seed]),
+  );
+  const channelIds = new Set(broadcastChannelSources.map((channel) => channel.id));
+
+  for (const seed of historicalSeriesSeeds) {
+    if (!seriesByTmdbId.has(seed.tmdbId)) {
+      throw new Error(`historical series seed ${seed.tmdbId} matches no series in content/series.json`);
+    }
+  }
+
+  for (const guide of historicalGuides) {
+    if (!networkSlugs.has(guide.networkSlug)) {
+      throw new Error(`historical guide '${guide.id}' references unknown network '${guide.networkSlug}'`);
+    }
+    if (guide.channelId !== null && !channelIds.has(guide.channelId)) {
+      throw new Error(`historical guide '${guide.id}' references unknown channel '${guide.channelId}'`);
+    }
+    const unknown = guide.seriesSlugs.filter((slug) => !seriesSlugs.has(slug));
+    if (unknown.length > 0) {
+      throw new Error(`historical guide '${guide.id}' references unknown series: ${unknown.join(', ')}`);
+    }
+  }
 
   for (const channel of broadcastChannelSources) {
     if (!networkSlugs.has(channel.networkSlug)) {
@@ -246,7 +313,10 @@ function main(): void {
   }
 
   for (const network of networks) {
-    if (!broadcastChannelSources.some((channel) => channel.networkSlug === network.slug)) {
+    if (
+      network.listed &&
+      !broadcastChannelSources.some((channel) => channel.networkSlug === network.slug)
+    ) {
       throw new Error(`network '${network.slug}' has no broadcast channel`);
     }
   }
@@ -309,10 +379,11 @@ function main(): void {
   const decades = new Set<string>();
 
   for (const source of seriesSources) {
-    const cache = loadCache(source);
+    const historicalSeed = historicalSeriesByTmdbId.get(source.tmdbId);
+    const cache = loadCache(source, historicalSeed);
     const { detail } = cache;
 
-    const firstAirYear = yearOf(detail.first_air_date);
+    const firstAirYear = historicalSeed?.firstAirYear ?? yearOf(detail.first_air_date);
     if (firstAirYear === null) {
       throw new Error(`series '${source.slug}' has no usable first_air_date — the schedule grid needs a decade`);
     }
@@ -397,7 +468,7 @@ function main(): void {
 
     seasons.sort((a, b) => a.season - b.season);
 
-    const lastAirYear = yearOf(detail.last_air_date) ?? firstAirYear;
+    const lastAirYear = historicalSeed?.lastAirYear ?? yearOf(detail.last_air_date) ?? firstAirYear;
     const decade = decadeOf(base.firstAirYear);
     decades.add(decade);
 
@@ -411,7 +482,7 @@ function main(): void {
       age: source.age,
       firstAirYear: base.firstAirYear,
       lastAirYear: Math.max(lastAirYear, base.firstAirYear),
-      firstAirDate: detail.first_air_date,
+      firstAirDate: historicalSeed ? null : detail.first_air_date,
       decade,
       episodeCount: detail.number_of_episodes,
       availableCount,
@@ -468,11 +539,17 @@ function main(): void {
   writeJson(`${PUBLIC_DATA_DIR}/index.json`, indexFileSchema.parse(index));
 
   const schedules = broadcastChannelSources.flatMap((channel) => {
+    const historicalGuide = historicalGuides.find((guide) => guide.channelId === channel.id) ?? null;
+    const guideSeries = historicalGuide ? new Set(historicalGuide.seriesSlugs) : null;
     const schedule = buildSchedule(
       channel,
       scheduleSeeds.filter(
-        (seed) => seed.networkSlug === channel.networkSlug && seed.language === channel.language,
+        (seed) =>
+          seed.networkSlug === channel.networkSlug &&
+          seed.language === channel.language &&
+          (!guideSeries || guideSeries.has(seed.showSlug)),
       ),
+      historicalGuide,
     );
     return schedule ? [schedule] : [];
   });

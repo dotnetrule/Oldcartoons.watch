@@ -1,11 +1,19 @@
 [
   {
-    "id": "vtm-flanders",
-    "networkSlug": "vtm",
-    "name": "VTM Vlaanderen",
-    "country": "BE",
+    "id": "nederland1-nl",
+    "networkSlug": "nederland1",
+    "name": "Nederland 1",
+    "country": "NL",
     "language": "nl",
-    "timezone": "Europe/Brussels"
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "nederland2-nl",
+    "networkSlug": "nederland2",
+    "name": "Nederland 2",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
   },
   {
     "id": "nederland3-nl",
@@ -16,59 +24,59 @@
     "timezone": "Europe/Amsterdam"
   },
   {
-    "id": "nickelodeon-nl",
-    "networkSlug": "nickelodeon",
-    "name": "Nickelodeon Nederland",
+    "id": "rtl4-nl",
+    "networkSlug": "rtl4",
+    "name": "RTL 4",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
   },
   {
-    "id": "adultswim-us",
-    "networkSlug": "adultswim",
-    "name": "Adult Swim VS",
-    "country": "US",
-    "language": "en",
-    "timezone": "America/New_York"
+    "id": "rtl5-nl",
+    "networkSlug": "rtl5",
+    "name": "RTL 5",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "sbs6-nl",
+    "networkSlug": "sbs6",
+    "name": "SBS 6",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "rtl7-nl",
+    "networkSlug": "rtl7",
+    "name": "RTL 7",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
   },
   {
     "id": "foxkids-nl",
     "networkSlug": "foxkids",
-    "name": "Fox Kids Nederland",
+    "name": "Jetix / Veronica",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
   },
   {
-    "id": "foxkids-uk",
-    "networkSlug": "foxkids",
-    "name": "Fox Kids VK",
-    "country": "GB",
-    "language": "en",
-    "timezone": "Europe/London"
-  },
-  {
-    "id": "cartoonnetwork-eu",
-    "networkSlug": "cartoonnetwork",
-    "name": "Cartoon Network Europa",
-    "country": "GB",
-    "language": "en",
-    "timezone": "Europe/London"
-  },
-  {
-    "id": "ketnet-flanders",
-    "networkSlug": "ketnet",
-    "name": "Ketnet Vlaanderen",
-    "country": "BE",
+    "id": "net5-nl",
+    "networkSlug": "net5",
+    "name": "Net 5",
+    "country": "NL",
     "language": "nl",
-    "timezone": "Europe/Brussels"
+    "timezone": "Europe/Amsterdam"
   },
   {
-    "id": "syndication-us",
-    "networkSlug": "syndication",
-    "name": "Losse uitzendingen VS",
-    "country": "US",
-    "language": "en",
-    "timezone": "America/New_York"
+    "id": "nickelodeon-nl",
+    "networkSlug": "nickelodeon",
+    "name": "Nickelodeon / Talpa",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
   }
 ]

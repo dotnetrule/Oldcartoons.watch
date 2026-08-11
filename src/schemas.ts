@@ -113,6 +113,7 @@ export const episodesFileSchema = z.array(episodeSchema).superRefine((all, ctx) 
 export const networkSchema = z.object({
   slug: slugSchema,
   name: z.string().min(1),
+  listed: z.boolean(),
   channelNumber: z.number().int().nonnegative(),
   colour: hexColourSchema,
   colourLight: hexColourSchema,
@@ -286,6 +287,44 @@ export const seriesSourceFileSchema = z
   .array(seriesSourceSchema)
   .refine((all) => new Set(all.map((s) => s.slug)).size === all.length, 'duplicate series slug')
   .refine((all) => new Set(all.map((s) => s.tmdbId)).size === all.length, 'duplicate series tmdbId');
+
+export const historicalSeriesSeedSchema = z
+  .object({
+    tmdbId: tmdbIdSchema.refine((id) => id < 0, 'a historical placeholder id must be negative'),
+    name: z.string().min(1),
+    overview: z.string().min(1),
+    firstAirYear: z.number().int().min(1900),
+    lastAirYear: z.number().int().min(1900),
+  })
+  .refine((seed) => seed.lastAirYear >= seed.firstAirYear, 'lastAirYear must not precede firstAirYear');
+
+export const historicalSeriesSeedsFileSchema = z
+  .array(historicalSeriesSeedSchema)
+  .refine((all) => new Set(all.map((seed) => seed.tmdbId)).size === all.length, 'duplicate historical series id');
+
+export const historicalGuideSchema = z.object({
+  id: slugSchema,
+  broadcaster: z.string().min(1),
+  networkSlug: slugSchema,
+  channelId: slugSchema.nullable(),
+  requestedFrom: z.string().date(),
+  requestedTo: z.string().date(),
+  coverage: z.enum(['direct', 'reconstructed', 'partial', 'not-yet-launched']),
+  evidenceDate: z.string().date().nullable(),
+  sourceUrls: z.array(z.string().url()),
+  note: z.string().min(1),
+  seriesSlugs: z.array(slugSchema),
+  excludedTitles: z.array(z.string().min(1)),
+});
+
+export const historicalGuidesFileSchema = z
+  .array(historicalGuideSchema)
+  .refine((all) => new Set(all.map((guide) => guide.id)).size === all.length, 'duplicate historical guide id')
+  .refine(
+    (all) => new Set(all.flatMap((guide) => guide.channelId ? [guide.channelId] : [])).size ===
+      all.filter((guide) => guide.channelId !== null).length,
+    'a live historical channel can only belong to one guide',
+  );
 
 export const channelSourceSchema = z.object({
   id: z.string().min(1),

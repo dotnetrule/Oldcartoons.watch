@@ -1,114 +1,182 @@
 [
   {
-    "slug": "vtm",
-    "name": "VTM",
+    "slug": "nederland1",
+    "name": "Nederland 1",
+    "listed": true,
+    "channelNumber": 1,
+    "colour": "#E64B3C",
+    "colourLight": "#A12D23",
+    "logo": "/networks/nederland1.svg",
+    "activeYears": [1951, 2005],
+    "note": "De eerste publieke televisiezender van Nederland, op voorkeuzepositie 1.",
+    "neutral": false
+  },
+  {
+    "slug": "nederland2",
+    "name": "Nederland 2",
+    "listed": true,
     "channelNumber": 2,
-    "colour": "#E838B0",
-    "colourLight": "#9C1F6E",
-    "logo": "/networks/vtm.svg",
-    "activeYears": [
-      1989,
-      2026
-    ],
-    "note": "De eerste commerciële zender van Vlaanderen, met elke middag volop tekenfilms.",
+    "colour": "#5A9BE6",
+    "colourLight": "#2863A7",
+    "logo": "/networks/nederland2.svg",
+    "activeYears": [1964, 2005],
+    "note": "De tweede publieke televisiezender van Nederland, op voorkeuzepositie 2.",
     "neutral": false
   },
   {
     "slug": "nederland3",
     "name": "Nederland 3",
+    "listed": true,
     "channelNumber": 3,
     "colour": "#4C8DF2",
     "colourLight": "#1E4E9C",
     "logo": "/networks/nederland3.svg",
-    "activeYears": [
-      1988,
-      2026
-    ],
-    "note": "De derde Nederlandse publieke zender en jarenlang de vaste plek voor jeugdtelevisie na school.",
+    "activeYears": [1988, 2005],
+    "note": "De derde publieke zender en de vaste plek voor Z@ppelin en jeugdtelevisie na school.",
     "neutral": false
   },
   {
-    "slug": "nickelodeon",
-    "name": "Nickelodeon",
-    "channelNumber": 30,
-    "colour": "#F2C94C",
-    "colourLight": "#8A6512",
-    "logo": "/networks/nickelodeon.svg",
-    "activeYears": [
-      1998,
-      2026
-    ],
-    "note": "De eerste Nickelodeon-zender voor Nederlandse en Vlaamse kijkers.",
+    "slug": "rtl4",
+    "name": "RTL 4",
+    "listed": true,
+    "channelNumber": 4,
+    "colour": "#F29B38",
+    "colourLight": "#A65D10",
+    "logo": "/networks/rtl4.svg",
+    "activeYears": [1989, 2005],
+    "note": "De commerciële familiezender van RTL, jarenlang het thuis van Telekids.",
     "neutral": false
   },
   {
-    "slug": "adultswim",
-    "name": "Adult Swim",
-    "channelNumber": 31,
-    "colour": "#4C8DF2",
-    "colourLight": "#1E4E9C",
-    "logo": "/networks/adultswim.svg",
-    "activeYears": [
-      2000,
-      2026
-    ],
-    "note": "Late herhalingen en eigenzinnige animatie voor de kijkers die met tekenfilms opgroeiden.",
+    "slug": "rtl5",
+    "name": "RTL 5",
+    "listed": true,
+    "channelNumber": 5,
+    "colour": "#8C74D9",
+    "colourLight": "#574099",
+    "logo": "/networks/rtl5.svg",
+    "activeYears": [1993, 2005],
+    "note": "De tweede Nederlandse RTL-zender, op voorkeuzepositie 5.",
+    "neutral": false
+  },
+  {
+    "slug": "sbs6",
+    "name": "SBS 6",
+    "listed": true,
+    "channelNumber": 6,
+    "colour": "#E9C842",
+    "colourLight": "#8B7110",
+    "logo": "/networks/sbs6.svg",
+    "activeYears": [1995, 2005],
+    "note": "De Nederlandse publiekszender van SBS, herkenbaar aan de 6 in naam en kanaalpositie.",
+    "neutral": false
+  },
+  {
+    "slug": "rtl7",
+    "name": "RTL 7",
+    "listed": true,
+    "channelNumber": 7,
+    "colour": "#4FC0A4",
+    "colourLight": "#247765",
+    "logo": "/networks/rtl7.svg",
+    "activeYears": [2005, 2005],
+    "note": "De opvolger van Yorin vanaf augustus 2005, op voorkeuzepositie 7.",
     "neutral": false
   },
   {
     "slug": "foxkids",
-    "name": "Fox Kids",
-    "channelNumber": 33,
+    "name": "Jetix / Veronica",
+    "listed": true,
+    "channelNumber": 8,
     "colour": "#4CD97A",
     "colourLight": "#1F7A3D",
     "logo": "/networks/foxkids.svg",
-    "activeYears": [
-      1997,
-      2005
-    ],
-    "note": "De Nederlandse en Vlaamse versie van het Amerikaanse middagblok na schooltijd.",
+    "activeYears": [1997, 2005],
+    "note": "Fox Kids werd in februari 2005 Jetix en deelde voorkeuzepositie 8 met Veronica.",
+    "neutral": false
+  },
+  {
+    "slug": "net5",
+    "name": "Net 5",
+    "listed": true,
+    "channelNumber": 9,
+    "colour": "#EE6C8A",
+    "colourLight": "#A12E50",
+    "logo": "/networks/net5.svg",
+    "activeYears": [1999, 2005],
+    "note": "De tweede zender van SBS Nederland, in deze zenderkaart op positie 9.",
+    "neutral": false
+  },
+  {
+    "slug": "nickelodeon",
+    "name": "Nickelodeon / Talpa",
+    "listed": true,
+    "channelNumber": 10,
+    "colour": "#F2C94C",
+    "colourLight": "#8A6512",
+    "logo": "/networks/nickelodeon.svg",
+    "activeYears": [2002, 2005],
+    "note": "Nickelodeon zond overdag uit op het kanaal dat vanaf augustus 2005 ’s avonds Talpa doorgaf.",
+    "neutral": false
+  },
+  {
+    "slug": "vtm",
+    "name": "VTM",
+    "listed": false,
+    "channelNumber": 42,
+    "colour": "#E838B0",
+    "colourLight": "#9C1F6E",
+    "logo": "/networks/vtm.svg",
+    "activeYears": [1989, 2005],
+    "note": "Vlaamse commerciële zender; bewaard als bronmetadata maar niet opgenomen in de Nederlandse zenderkaart.",
+    "neutral": false
+  },
+  {
+    "slug": "ketnet",
+    "name": "Ketnet",
+    "listed": false,
+    "channelNumber": 43,
+    "colour": "#3FE0D0",
+    "colourLight": "#0E7A6E",
+    "logo": "/networks/ketnet.svg",
+    "activeYears": [1997, 2005],
+    "note": "Vlaamse jeugdzender; bewaard als bronmetadata maar niet opgenomen in de Nederlandse zenderkaart.",
     "neutral": false
   },
   {
     "slug": "cartoonnetwork",
     "name": "Cartoon Network",
-    "channelNumber": 38,
+    "listed": false,
+    "channelNumber": 121,
     "colour": "#8A93A6",
     "colourLight": "#6B6A64",
     "logo": "/networks/cartoonnetwork.svg",
-    "activeYears": [
-      1993,
-      2026
-    ],
-    "note": "De Europese zender waarop de hele dag tekenfilms te zien waren.",
+    "activeYears": [1993, 2005],
+    "note": "Digitale themazender; niet opgenomen in de Nederlandse basisselectie 1–10.",
     "neutral": true
   },
   {
-    "slug": "ketnet",
-    "name": "Ketnet",
-    "channelNumber": 45,
-    "colour": "#3FE0D0",
-    "colourLight": "#0E7A6E",
-    "logo": "/networks/ketnet.svg",
-    "activeYears": [
-      1997,
-      2026
-    ],
-    "note": "De jeugdzender van de VRT voor heel Vlaanderen.",
-    "neutral": false
+    "slug": "adultswim",
+    "name": "Adult Swim",
+    "listed": false,
+    "channelNumber": 191,
+    "colour": "#4C8DF2",
+    "colourLight": "#1E4E9C",
+    "logo": "/networks/adultswim.svg",
+    "activeYears": [2000, 2005],
+    "note": "Niet opgenomen in de Nederlandse zenderkaart.",
+    "neutral": true
   },
   {
     "slug": "syndication",
     "name": "Losse uitzendingen",
-    "channelNumber": 99,
+    "listed": false,
+    "channelNumber": 192,
     "colour": "#8A93A6",
     "colourLight": "#6B6A64",
     "logo": "/networks/syndication.svg",
-    "activeYears": [
-      1979,
-      1996
-    ],
-    "note": "Programma’s die per omroep werden verkocht en niet bij één vaste zender hoorden.",
+    "activeYears": [1979, 1996],
+    "note": "Geen echte zender en daarom niet opgenomen in de zenderselectie.",
     "neutral": true
   }
 ]

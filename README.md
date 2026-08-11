@@ -5,6 +5,12 @@ jeugdtelevisie, bereikbaar via oldcartoons.watch. TV van Toen zet
 Nederlandstalige zenders en hun programmering voorop, bouwt vaste speelschema’s
 uit het archief en speelt de actuele uitzending via een YouTube-embed.
 
+De publieke zenderselectie is gebaseerd op de
+[TV Home-zenderkaart van september 2005](https://www.digitalekabeltelevisie.nl/nieuws/archives/pdf/tvhomezenderkaarokt2005.pdf):
+de Nederlandse basiszenders staan op de historische posities 1–10.
+Vlaamse, buitenlandse en fictieve archiefcategorieën blijven buiten deze
+selectie.
+
 **It hosts no video.** Every playback path is a `youtube-nocookie` embed.
 
 The UI came from a design handoff produced in Claude Design; the original bundle

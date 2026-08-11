@@ -142,7 +142,7 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
   <div class="guide">
     <header class="guide-head" :style="{ borderColor: C.border2 }">
       <div>
-        <span class="kicker" :style="{ color: accent }">NEDERLANDSE TELEVISIE VAN TOEN</span>
+        <span class="kicker" :style="{ color: accent }">NEDERLANDSE ZENDERKAART · SEPTEMBER 2005</span>
         <h1 :style="{ color: C.ink }">ZENDERS &amp; PROGRAMMERING</h1>
         <p :style="{ color: C.dim2 }">Kies een zender, zie wat er nu speelt en blader door de volledige dag.</p>
       </div>
@@ -153,8 +153,8 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
 
     <section class="stations" aria-labelledby="nl-zenders">
       <div class="section-head">
-        <h2 id="nl-zenders" :style="{ color: C.ink }">Nederlandstalige zenders</h2>
-        <span :style="{ color: C.dim }">NU OP TV</span>
+        <h2 id="nl-zenders" :style="{ color: C.ink }">Nederlandse zenders 1–10</h2>
+        <span :style="{ color: C.dim }">TV HOME · SEPT. 2005</span>
       </div>
       <div class="station-grid">
         <button

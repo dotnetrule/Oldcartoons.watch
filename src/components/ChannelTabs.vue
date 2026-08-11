@@ -12,11 +12,7 @@ const ui = useUiStore();
 const content = useContentStore();
 const C = computed(() => ui.C);
 const orderedNetworks = computed(() =>
-  [...content.networks].sort((a, b) => {
-    const aDutch = content.channelsForNetwork(a.slug).some((channel) => channel.language === 'nl');
-    const bDutch = content.channelsForNetwork(b.slug).some((channel) => channel.language === 'nl');
-    return Number(bDutch) - Number(aDutch) || a.channelNumber - b.channelNumber;
-  }),
+  content.networks.filter((network) => network.listed).sort((a, b) => a.channelNumber - b.channelNumber),
 );
 
 function go(slug: string): void {

@@ -49,6 +49,8 @@ export type Episode = {
 export type Network = {
   slug: string;
   name: string;
+  /** Whether this broadcaster belongs in the public historical channel strip. */
+  listed: boolean;
   /** Drives the channel strip ordering. */
   channelNumber: number;
   /** Hex, from the design token set. */
@@ -177,6 +179,40 @@ export type SeriesSource = {
   networkSlug: string;
   type: SeriesType;
   age: AgeBand;
+};
+
+/** Minimal metadata for a guide-derived catalog entry that has not been
+ * resolved against TMDB yet. Unlike a fabricated ISO date, separate year
+ * fields preserve exactly the precision the historical source gives us. */
+export type HistoricalSeriesSeed = {
+  tmdbId: number;
+  name: string;
+  overview: string;
+  firstAirYear: number;
+  lastAirYear: number;
+};
+
+export type HistoricalGuideCoverage =
+  | 'direct'
+  | 'reconstructed'
+  | 'partial'
+  | 'not-yet-launched';
+
+/** Provenance and the de-duplicated series result of one historical guide
+ * pass. A channel id opts the lineup into today's playable archive feeds. */
+export type HistoricalGuide = {
+  id: string;
+  broadcaster: string;
+  networkSlug: string;
+  channelId: string | null;
+  requestedFrom: string;
+  requestedTo: string;
+  coverage: HistoricalGuideCoverage;
+  evidenceDate: string | null;
+  sourceUrls: string[];
+  note: string;
+  seriesSlugs: string[];
+  excludedTitles: string[];
 };
 
 /** A whitelisted rights-holder channel. */

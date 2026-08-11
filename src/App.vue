@@ -26,8 +26,8 @@ const activeNetworkSlug = computed<string | null>(() => {
  * sells the conceit, so it tracks the real route. */
 const pageCode = computed(() => {
   if (route.name === 'zender') {
-    const i = content.networks.findIndex((n) => n.slug === route.params.slug);
-    return `2${pad2(i + 1)}`;
+    const network = content.network(String(route.params.slug));
+    return network ? `2${pad2(network.channelNumber)}` : '200';
   }
   if (route.name === 'programma') {
     const i = content.stubs.findIndex((s) => s.slug === route.params.slug);
@@ -68,6 +68,15 @@ const flashStyle = computed(() => ({
         Informatie over programma’s en afleveringen komt van
         <a :style="{ color: C.dim2 }" href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">TMDB</a>.
         Deze site gebruikt de TMDB-API, maar is niet verbonden aan of goedgekeurd door TMDB.
+      </span>
+      <span>
+        Zenderposities 1–10 volgens de
+        <a
+          :style="{ color: C.dim2 }"
+          href="https://www.digitalekabeltelevisie.nl/nieuws/archives/pdf/tvhomezenderkaarokt2005.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >TV Home-zenderkaart van september 2005</a>.
       </span>
     </footer>
   </div>
