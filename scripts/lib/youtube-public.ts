@@ -26,6 +26,10 @@ const PAGE_HEADERS: Record<string, string> = {
   'accept-language': 'en-US,en;q=0.9',
   'user-agent':
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  // Without these, a request from an EU-routed host is answered with a consent
+  // interstitial that carries no playlist at all. They record a consent
+  // decision, which is the same thing a browser sends after the dialog.
+  cookie: 'CONSENT=YES+cb; SOCS=CAISEwgDEgk0ODE3Nzk3MjQaAmVuIAEaBgiA_LyaBg',
 };
 
 /** Titles YouTube substitutes for entries that are no longer readable. They
@@ -35,6 +39,42 @@ const UNPLAYABLE_TITLES = new Set(['[private video]', '[deleted video]', '[unava
 
 export const isUnplayableTitle = (title: string): boolean =>
   UNPLAYABLE_TITLES.has(title.trim().toLowerCase());
+
+/**
+ * What the page actually contained, for when parsing finds nothing.
+ *
+ * YouTube reshapes these pages, and "no readable videos" on its own cannot
+ * tell a private playlist from a layout this parser has fallen behind. A
+ * census of the renderer keys present separates the two on the first failure
+ * instead of the third.
+ */
+function describePage(html: string, data: unknown): string {
+  const counts = new Map<string, number>();
+
+  const walk = (node: unknown): void => {
+    if (Array.isArray(node)) {
+      node.forEach(walk);
+      return;
+    }
+    if (!isObject(node)) return;
+    for (const [key, value] of Object.entries(node)) {
+      if (/(?:Renderer|ViewModel)$/.test(key)) counts.set(key, (counts.get(key) ?? 0) + 1);
+      walk(value);
+    }
+  };
+  walk(data);
+
+  const census = [...counts]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 15)
+    .map(([key, count]) => `${key}×${count}`)
+    .join(', ');
+
+  return (
+    `page ${html.length} bytes; ` +
+    (census ? `renderers seen: ${census}` : 'no renderer keys found in ytInitialData')
+  );
+}
 
 async function getPlaylistPage(playlistId: string): Promise<{ html: string; data: unknown }> {
   const url = `https://www.youtube.com/playlist?list=${encodeURIComponent(playlistId)}&hl=en`;
@@ -155,30 +195,56 @@ function readText(node: unknown): string | null {
   return null;
 }
 
+/** One playlist row, from whichever of the two shapes the page used. */
+function readEntry(entry: unknown): { youtubeId: string; title: string } | null {
+  if (!isObject(entry)) return null;
+
+  // The classic shape: `playlistVideoRenderer`, id and title side by side.
+  // The newer one: `lockupViewModel`, where the id is `contentId` and the
+  // title sits inside a nested metadata view model.
+  const videoId = entry['videoId'] ?? entry['contentId'];
+  if (typeof videoId !== 'string' || !/^[A-Za-z0-9_-]{11}$/.test(videoId)) return null;
+
+  const title =
+    readText(entry['title']) ??
+    // lockup titles are plain `{ content: "…" }` rather than runs/simpleText,
+    // and sit a few levels down under `metadata`.
+    (() => {
+      for (const candidate of collect(entry['metadata'] ?? entry, 'title')) {
+        const text = readText(candidate);
+        if (text) return text;
+        if (isObject(candidate) && typeof candidate['content'] === 'string') {
+          return candidate['content'];
+        }
+      }
+      return null;
+    })();
+
+  if (title === null || isUnplayableTitle(title)) return null;
+  return { youtubeId: videoId, title };
+}
+
 /** Read a public playlist's items without an API key. */
 export async function listPublicPlaylistVideos(playlistId: string): Promise<YoutubeVideo[]> {
-  const { data } = await getPlaylistPage(playlistId);
+  const { html, data } = await getPlaylistPage(playlistId);
 
   const videos: YoutubeVideo[] = [];
   const seen = new Set<string>();
 
-  for (const entry of collect(data, 'playlistVideoRenderer')) {
-    if (!isObject(entry)) continue;
+  const rows = [...collect(data, 'playlistVideoRenderer'), ...collect(data, 'lockupViewModel')];
 
-    const videoId = entry['videoId'];
-    if (typeof videoId !== 'string' || videoId.length !== 11) continue;
-
-    const title = readText(entry['title']);
-    if (title === null || isUnplayableTitle(title)) continue;
+  for (const row of rows) {
+    const entry = readEntry(row);
+    if (!entry) continue;
 
     // A playlist may list the same video twice. Position defines episode
     // numbering downstream, so a duplicate would shift every row after it.
-    if (seen.has(videoId)) continue;
-    seen.add(videoId);
+    if (seen.has(entry.youtubeId)) continue;
+    seen.add(entry.youtubeId);
 
     videos.push({
-      youtubeId: videoId,
-      title,
+      youtubeId: entry.youtubeId,
+      title: entry.title,
       // The playlist page carries neither the full description nor the upload
       // date. Nothing downstream needs them, and inventing either would put a
       // guess where the API path puts a fact.
@@ -190,7 +256,9 @@ export async function listPublicPlaylistVideos(playlistId: string): Promise<Yout
   if (videos.length === 0) {
     throw new Error(
       `playlist ${playlistId} yielded no readable videos.\n` +
-        `It may be private, empty, or region-blocked from this machine.`,
+        `It may be private, empty, or region-blocked from this machine — or the\n` +
+        `page shape may have moved on. ${describePage(html, data)}\n` +
+        `Setting YOUTUBE_API_KEY switches to the Data API and sidesteps all of this.`,
     );
   }
 
@@ -226,6 +294,7 @@ export async function getPublicPlaylistInfo(
   if (!name || !curator) {
     throw new Error(
       `could not read the title and owner of playlist ${playlistId} from its public page.\n` +
+        `${describePage(html, data)}\n` +
         `Pass --name "…" --curator "…" yourself, or set YOUTUBE_API_KEY.`,
     );
   }
