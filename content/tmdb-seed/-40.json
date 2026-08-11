@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-11T08:34:54.089Z",
+  "fetchedAt": "2026-08-11T14:29:21.311Z",
   "detail": {
     "id": -40,
     "name": "Bobby's World",
@@ -12,7 +12,7 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Seizoen 1",
+        "name": "Season 1",
         "episode_count": 81
       }
     ]
@@ -20,7 +20,7 @@
   "seasons": [
     {
       "season_number": 1,
-      "name": "Seizoen 1",
+      "name": "Season 1",
       "episodes": [
         {
           "id": -40001,
