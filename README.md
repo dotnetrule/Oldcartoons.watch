@@ -42,6 +42,7 @@ Two committed directories matter. Everything else is regenerable cache.
 ```
 content/networks.json    broadcasters — hand-curated, closed set
 content/broadcast-channels.json viewer-facing regional/historical TV feeds
+content/network-programmes.json series shown on each Dutch channel; duplicates allowed
 content/series.json      curated series list: slug, tmdbId, network, type, age
 content/episodes.json    curated YouTube ↔ TMDB matches
 content/overrides.json   sparse hand-authored corrections to TMDB metadata
@@ -321,10 +322,12 @@ always visible before a click, never discovered after one.
 
 ## Current state of this checkout
 
-The 48 series and 8 networks in `content/` are seeded so the app builds and
-runs today without API keys. Ten curated playlists currently provide 277
-playable episodes; every remaining gap stays visible instead of being presented
-as available.
+The 116 series and 15 source networks in `content/` are seeded so the app builds
+and runs today without API keys. `network-programmes.json` projects that
+catalogue onto the ten public Dutch channels: a series can occur on several
+channels and remains listed when it has no episodes. Ten curated playlists
+currently provide 277 playable episodes; every remaining gap stays visible
+instead of being presented as available.
 
 Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
 refuses outright. A plausible-looking positive id would make a mis-seeded

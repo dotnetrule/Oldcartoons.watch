@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
@@ -17,6 +17,7 @@ import type { Broadcast, BroadcastChannel, PublicEpisode } from '../types';
 
 const props = defineProps<{ slug: string }>();
 
+const route = useRoute();
 const router = useRouter();
 const ui = useUiStore();
 const content = useContentStore();
@@ -24,7 +25,16 @@ const C = computed(() => ui.C);
 
 // The route's beforeEnter has already awaited this file, so it is present.
 const series = computed(() => content.series(props.slug));
-const network = computed(() => content.network(series.value?.networkSlug));
+const network = computed(() => {
+  if (!series.value) return null;
+  const requested = typeof route.query.zender === 'string' ? route.query.zender : null;
+  const requestedNetwork = requested && series.value.networkSlugs.includes(requested)
+    ? content.network(requested)
+    : null;
+  if (requestedNetwork?.listed) return requestedNetwork;
+  const listedSlug = series.value.networkSlugs.find((slug) => content.network(slug)?.listed);
+  return content.network(listedSlug ?? series.value.networkSlug);
+});
 const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
 const seasons = computed(() => series.value?.seasons ?? []);
 
@@ -76,7 +86,7 @@ const episodes = computed<PublicEpisode[]>(() => seasons.value[activeSeasonIdx.v
 const nextBroadcast = computed<{ broadcast: Broadcast; channel: BroadcastChannel } | null>(() => {
   if (!series.value) return null;
   const candidates = content.liveChannels.flatMap((channel) => {
-    if (channel.networkSlug !== series.value?.networkSlug) return [];
+    if (!series.value?.networkSlugs.includes(channel.networkSlug)) return [];
     const schedule = content.scheduleForChannel(channel.id);
     const broadcast = schedule ? nextAiring(schedule, props.slug, Date.now()) : null;
     return broadcast ? [{ broadcast, channel }] : [];
@@ -118,7 +128,10 @@ const reportKey = (episode: PublicEpisode): string =>
 function goEpisode(episode: PublicEpisode): void {
   if (!isPlayable(episode)) return;
   ui.triggerFlicker();
-  void router.push(`/programma/${props.slug}/${episode.season}/${episode.episode}`);
+  void router.push({
+    path: `/programma/${props.slug}/${episode.season}/${episode.episode}`,
+    query: route.query,
+  });
 }
 
 function watchOnChannel(): void {

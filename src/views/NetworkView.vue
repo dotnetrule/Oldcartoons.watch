@@ -42,7 +42,7 @@ const yearsLabel = computed(() =>
 const series = computed<SeriesStub[]>(() =>
   network.value
     ? content.stubs
-        .filter((item) => item.networkSlug === network.value?.slug)
+        .filter((item) => item.networkSlugs.includes(props.slug))
         .sort(
           (a, b) =>
             Number(b.availableLanguages.includes('nl')) - Number(a.availableLanguages.includes('nl')) ||
@@ -76,7 +76,7 @@ function selectChannel(target: BroadcastChannel): void {
 
 function goSeries(slug: string): void {
   ui.triggerFlicker();
-  void router.push(`/programma/${slug}`);
+  void router.push({ path: `/programma/${slug}`, query: { zender: props.slug } });
 }
 
 function watchLive(): void {

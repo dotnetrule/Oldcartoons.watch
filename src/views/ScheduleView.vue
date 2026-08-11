@@ -122,7 +122,12 @@ function goLive(): void {
 }
 
 function goSeries(slug: string | undefined): void {
-  if (slug) void router.push(`/programma/${slug}`);
+  if (slug) {
+    void router.push({
+      path: `/programma/${slug}`,
+      query: channel.value ? { zender: channel.value.networkSlug } : {},
+    });
+  }
 }
 
 function cardTime(iso: string, target: BroadcastChannel): string {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import { formatAirDate, pad2 } from '../data/helpers';
@@ -10,6 +10,7 @@ import type { PublicEpisode } from '../types';
 
 const props = defineProps<{ slug: string; season: string; episode: string }>();
 
+const route = useRoute();
 const router = useRouter();
 const ui = useUiStore();
 const content = useContentStore();
@@ -20,7 +21,13 @@ const seasonNumber = computed(() => Number(props.season));
 const episodeNumber = computed(() => Number(props.episode));
 
 const series = computed(() => content.series(props.slug));
-const network = computed(() => content.network(series.value?.networkSlug));
+const network = computed(() => {
+  if (!series.value) return null;
+  const requested = typeof route.query.zender === 'string' ? route.query.zender : null;
+  if (requested && series.value.networkSlugs.includes(requested)) return content.network(requested);
+  const listedSlug = series.value.networkSlugs.find((slug) => content.network(slug)?.listed);
+  return content.network(listedSlug ?? series.value.networkSlug);
+});
 const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
 
 const season = computed(() => series.value?.seasons.find((s) => s.season === seasonNumber.value) ?? null);
@@ -42,7 +49,10 @@ const nextEpisode = computed<PublicEpisode | null>(() => {
 
 function playEpisode(target: PublicEpisode): void {
   if (target.status === 'missing') return;
-  void router.push(`/programma/${props.slug}/${target.season}/${target.episode}`);
+  void router.push({
+    path: `/programma/${props.slug}/${target.season}/${target.episode}`,
+    query: route.query,
+  });
 }
 
 function playNext(): void {
@@ -50,7 +60,7 @@ function playNext(): void {
 }
 
 function backToSeries(): void {
-  void router.push(`/programma/${props.slug}`);
+  void router.push({ path: `/programma/${props.slug}`, query: route.query });
 }
 
 /* ---------------------------------------------------------------- */

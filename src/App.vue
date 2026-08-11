@@ -17,7 +17,13 @@ const activeNetworkSlug = computed<string | null>(() => {
   if (route.name === 'zender') return String(route.params.slug);
   if (route.name === 'live') return content.channel(String(route.params.channelId))?.networkSlug ?? null;
   if (route.name === 'programma' || route.name === 'aflevering') {
-    return content.stub(String(route.params.slug))?.networkSlug ?? null;
+    const stub = content.stub(String(route.params.slug));
+    if (!stub) return null;
+    const requested = typeof route.query.zender === 'string' ? route.query.zender : null;
+    if (requested && stub.networkSlugs.includes(requested) && content.network(requested)?.listed) {
+      return requested;
+    }
+    return stub.networkSlugs.find((slug) => content.network(slug)?.listed) ?? null;
   }
   return null;
 });

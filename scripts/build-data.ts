@@ -19,6 +19,7 @@ import type {
   HistoricalSeriesSeed,
   IndexFile,
   Network,
+  NetworkProgrammeLineup,
   PublicEpisode,
   PublicSeason,
   PlaylistSource,
@@ -35,6 +36,7 @@ import {
   historicalGuidesFileSchema,
   historicalSeriesSeedsFileSchema,
   indexFileSchema,
+  networkProgrammeLineupsFileSchema,
   networksFileSchema,
   overridesFileSchema,
   playlistsFileSchema,
@@ -256,6 +258,10 @@ function main(): void {
     contentPath('historical-guides.json'),
     historicalGuidesFileSchema,
   );
+  const networkProgrammeLineups: NetworkProgrammeLineup[] = readValidated(
+    contentPath('network-programmes.json'),
+    networkProgrammeLineupsFileSchema,
+  );
   const episodes = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const overrides = readValidated(contentPath('overrides.json'), overridesFileSchema);
   const broadcastChannelSources = readValidated(
@@ -283,6 +289,7 @@ function main(): void {
     historicalSeriesSeeds.map((seed) => [seed.tmdbId, seed]),
   );
   const channelIds = new Set(broadcastChannelSources.map((channel) => channel.id));
+  const listedNetworkSlugs = new Set(networks.filter((network) => network.listed).map((network) => network.slug));
 
   for (const seed of historicalSeriesSeeds) {
     if (!seriesByTmdbId.has(seed.tmdbId)) {
@@ -300,6 +307,42 @@ function main(): void {
     const unknown = guide.seriesSlugs.filter((slug) => !seriesSlugs.has(slug));
     if (unknown.length > 0) {
       throw new Error(`historical guide '${guide.id}' references unknown series: ${unknown.join(', ')}`);
+    }
+  }
+
+  for (const lineup of networkProgrammeLineups) {
+    if (!listedNetworkSlugs.has(lineup.networkSlug)) {
+      throw new Error(`programme lineup references unlisted network '${lineup.networkSlug}'`);
+    }
+    const unknown = lineup.seriesSlugs.filter((slug) => !seriesSlugs.has(slug));
+    if (unknown.length > 0) {
+      throw new Error(
+        `programme lineup '${lineup.networkSlug}' references unknown series: ${unknown.join(', ')}`,
+      );
+    }
+  }
+  for (const networkSlug of listedNetworkSlugs) {
+    const lineup = networkProgrammeLineups.find((item) => item.networkSlug === networkSlug);
+    if (!lineup) {
+      throw new Error(`listed network '${networkSlug}' has no programme lineup`);
+    }
+    const programmeCount = new Set([
+      ...lineup.seriesSlugs,
+      ...seriesSources
+        .filter((series) => series.networkSlug === networkSlug)
+        .map((series) => series.slug),
+    ]).size;
+    if (programmeCount === 0) {
+      throw new Error(`listed network '${networkSlug}' has an empty programme lineup`);
+    }
+  }
+
+  const mappedNetworksBySeries = new Map<string, string[]>();
+  for (const lineup of networkProgrammeLineups) {
+    for (const seriesSlug of lineup.seriesSlugs) {
+      const memberships = mappedNetworksBySeries.get(seriesSlug) ?? [];
+      memberships.push(lineup.networkSlug);
+      mappedNetworksBySeries.set(seriesSlug, memberships);
     }
   }
 
@@ -480,6 +523,7 @@ function main(): void {
       name: base.name,
       overview: base.overview,
       networkSlug: base.networkSlug,
+      networkSlugs: [...new Set([base.networkSlug, ...(mappedNetworksBySeries.get(source.slug) ?? [])])],
       type: source.type,
       age: source.age,
       firstAirYear: base.firstAirYear,
@@ -499,17 +543,19 @@ function main(): void {
     for (const publicSeason of seriesFile.seasons) {
       for (const publicEpisode of publicSeason.episodes) {
         if (publicEpisode.status === 'missing' || publicEpisode.youtubeId === null) continue;
-        scheduleSeeds.push({
-          networkSlug: seriesFile.networkSlug,
-          language: languageByEpisode.get(`${publicEpisode.season}:${publicEpisode.episode}`)!,
-          showSlug: seriesFile.slug,
-          showTitle: seriesFile.name,
-          season: publicEpisode.season,
-          episode: publicEpisode.episode,
-          episodeTitle: publicEpisode.title,
-          runtime: publicEpisode.runtime,
-          youtubeId: publicEpisode.youtubeId,
-        });
+        for (const networkSlug of seriesFile.networkSlugs) {
+          scheduleSeeds.push({
+            networkSlug,
+            language: languageByEpisode.get(`${publicEpisode.season}:${publicEpisode.episode}`)!,
+            showSlug: seriesFile.slug,
+            showTitle: seriesFile.name,
+            season: publicEpisode.season,
+            episode: publicEpisode.episode,
+            episodeTitle: publicEpisode.title,
+            runtime: publicEpisode.runtime,
+            youtubeId: publicEpisode.youtubeId,
+          });
+        }
       }
     }
 
@@ -518,6 +564,7 @@ function main(): void {
       name: seriesFile.name,
       overview: seriesFile.overview,
       networkSlug: seriesFile.networkSlug,
+      networkSlugs: seriesFile.networkSlugs,
       type: seriesFile.type,
       age: seriesFile.age,
       firstAirYear: seriesFile.firstAirYear,
