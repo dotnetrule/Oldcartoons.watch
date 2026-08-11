@@ -29,6 +29,12 @@ export const youtubeCachePath = (id: string): string => join(YOUTUBE_CACHE_DIR, 
  *
  * This is a dispatch on whether the series is resolved yet, not a fallback:
  * exactly one location is correct for a given id, and a miss still throws.
+ *
+ * It does not cover every series. One kind has no file at all — a title lifted
+ * from an archived programme guide, described by content/historical-series.json
+ * — so callers reach series metadata through lib/series-metadata.ts, which owns
+ * the full three-way dispatch. Calling this directly is correct only where the
+ * series is already known to have a file.
  */
 export const seriesMetadataPath = (tmdbId: number): string =>
   tmdbId < 0 ? join(TMDB_SEED_DIR, `${tmdbId}.json`) : tmdbCachePath(tmdbId);

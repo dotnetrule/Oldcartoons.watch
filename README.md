@@ -155,6 +155,14 @@ npm run build-data   # merge, validate, split → public/data/
 the design, not a shortfall — heuristics chasing the tail cost more to maintain
 than the keystrokes they save. It never overwrites an existing decision.
 
+A series lifted from an archived programme guide passes through `match` without
+work. The guide proves a title was broadcast that week, not which episodes ran,
+so there is no episode list on the other side of the comparison — the same
+reason `--covers` matches nothing on a placeholder id. `scripts/lib/series-metadata.ts`
+is where the three metadata sources (TMDB cache, committed seed, guide entry)
+are told apart, so `match` and `build-data` cannot disagree about which a series
+has.
+
 Quota is 10,000 units/day. `playlistItems.list` and `videos.list` cost 1 unit
 per call, so a full refetch of thirty channels lands well under a thousand.
 

@@ -19,6 +19,7 @@ import { readdirSync } from 'node:fs';
 import type {
   Episode,
   EpisodeSource,
+  HistoricalSeriesSeed,
   PlaylistSource,
   QueueCandidate,
   QueueEntry,
@@ -26,6 +27,7 @@ import type {
 } from '../src/types';
 import {
   episodesFileSchema,
+  historicalSeriesSeedsFileSchema,
   playlistsFileSchema,
   queueFileSchema,
   seriesSourceFileSchema,
@@ -38,6 +40,7 @@ import {
   seriesMetadataPath,
   writeJson,
 } from './lib/paths';
+import { loadSeriesCache } from './lib/series-metadata';
 import type { TmdbSeriesCache } from './lib/tmdb';
 import { CONFIDENCE_THRESHOLD, scoreMatch } from './lib/similarity';
 import { derivePlaylistSeries } from './lib/playlist-episodes';
@@ -106,6 +109,13 @@ function main(): void {
   const seriesSources = readValidated(contentPath('series.json'), seriesSourceFileSchema);
   const existing = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
+  const historicalSeriesSeeds: HistoricalSeriesSeed[] = readValidated(
+    contentPath('historical-series.json'),
+    historicalSeriesSeedsFileSchema,
+  );
+  const historicalSeriesByTmdbId = new Map(
+    historicalSeriesSeeds.map((seed) => [seed.tmdbId, seed]),
+  );
   const youtubeSources = loadYoutubeSources();
 
   const today = new Date().toISOString().slice(0, 10);
@@ -151,7 +161,10 @@ function main(): void {
   for (const source of seriesSources) {
     if (episodeListOwner.has(source.slug)) continue;
 
-    const cache = readJson(seriesMetadataPath(source.tmdbId)) as TmdbSeriesCache;
+    // A guide-derived series comes back with no seasons, so the loop below runs
+    // zero times and it queues nothing — matching needs a TMDB episode list on
+    // the other side of the comparison, and a programme guide is not one.
+    const cache = loadSeriesCache(source, historicalSeriesByTmdbId.get(source.tmdbId));
 
     // A channel carries only its rights-holder's material, so it is open to
     // every series. A playlist is scoped by its `covers` list, which stops a

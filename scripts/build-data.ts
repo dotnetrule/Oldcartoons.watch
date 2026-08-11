@@ -25,7 +25,6 @@ import type {
   PlaylistSource,
   ScheduledBroadcast,
   SeriesFile,
-  SeriesSource,
   SeriesStub,
 } from '../src/types';
 import {
@@ -47,12 +46,10 @@ import {
   PUBLIC_DATA_DIR,
   contentPath,
   ensureDirs,
-  readJson,
   readValidated,
-  seriesMetadataPath,
   writeJson,
 } from './lib/paths';
-import type { TmdbSeriesCache } from './lib/tmdb';
+import { loadSeriesCache } from './lib/series-metadata';
 
 /** The normalized series object an override is merged over. Its key space is
  * exactly the Override key space — that is what makes the "every override key
@@ -196,35 +193,6 @@ function buildSchedule(
     cycleDurationSeconds: cursor,
     broadcasts,
   };
-}
-
-function loadCache(source: SeriesSource, historicalSeed: HistoricalSeriesSeed | undefined): TmdbSeriesCache {
-  if (historicalSeed) {
-    return {
-      fetchedAt: 'historical-guide',
-      detail: {
-        id: source.tmdbId,
-        name: historicalSeed.name,
-        overview: historicalSeed.overview,
-        first_air_date: null,
-        last_air_date: null,
-        number_of_episodes: 0,
-        backdrop_path: null,
-        poster_path: null,
-        seasons: [],
-      },
-      seasons: [],
-      images: { backdrops: [], posters: [] },
-    };
-  }
-  const path = seriesMetadataPath(source.tmdbId);
-  const cache = readJson(path) as TmdbSeriesCache;
-  if (cache.detail?.id !== source.tmdbId) {
-    throw new Error(
-      `${path} holds series ${cache.detail?.id}, not ${source.tmdbId} — re-run 'npm run fetch'`,
-    );
-  }
-  return cache;
 }
 
 /**
@@ -419,7 +387,7 @@ function main(): void {
 
   for (const source of seriesSources) {
     const historicalSeed = historicalSeriesByTmdbId.get(source.tmdbId);
-    const cache = loadCache(source, historicalSeed);
+    const cache = loadSeriesCache(source, historicalSeed);
     const { detail } = cache;
 
     const firstAirYear = historicalSeed?.firstAirYear ?? yearOf(detail.first_air_date);
