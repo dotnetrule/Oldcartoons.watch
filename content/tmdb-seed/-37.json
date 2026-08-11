@@ -1,17 +1,453 @@
 {
-  "fetchedAt": "2026-08-11",
+  "fetchedAt": "2026-08-11T07:04:07.637Z",
   "detail": {
     "id": -37,
     "name": "What's with Andy?",
-    "overview": "Andy Larkin, self-declared greatest prankster alive, spends every episode engineering an elaborate practical joke on the town of East Gackle \u2014 and spends the last few minutes of it being caught.",
+    "overview": "Andy Larkin, self-declared greatest prankster alive, spends every episode engineering an elaborate practical joke on the town of East Gackle — and spends the last few minutes of it being caught.",
     "first_air_date": "2001",
     "last_air_date": "2007",
-    "number_of_episodes": 0,
+    "number_of_episodes": 47,
     "backdrop_path": null,
     "poster_path": null,
-    "seasons": []
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 47
+      }
+    ]
   },
-  "seasons": [],
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -37001,
+          "name": "aflevering lieve pappa",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37002,
+          "name": "aflevering zoef door de lucht",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37003,
+          "name": "aflevering een erg slecht idee / kakkerlakken",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37004,
+          "name": "aflevering noodkotssmuller / knelbroek",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37005,
+          "name": "aflevering mascotte spotten",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37006,
+          "name": "aflevering het is maar vulling",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37007,
+          "name": "aflevering plakke smakkers",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37008,
+          "name": "aflevering rijmtijd",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37009,
+          "name": "aflevering stop de bom",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37010,
+          "name": "aflevering plakke smakkers",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37011,
+          "name": "aflevering voedselgevecht",
+          "season_number": 1,
+          "episode_number": 11,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37012,
+          "name": "onderbroeken",
+          "season_number": 1,
+          "episode_number": 12,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37013,
+          "name": "aflevering leve het theater",
+          "season_number": 1,
+          "episode_number": 13,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37014,
+          "name": "aflevering noodkotssmuller",
+          "season_number": 1,
+          "episode_number": 14,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37015,
+          "name": "aflevering een erg slecht idee",
+          "season_number": 1,
+          "episode_number": 15,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37016,
+          "name": "aflevering het kwam van oost kukel",
+          "season_number": 1,
+          "episode_number": 16,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37017,
+          "name": "aflevering feestje",
+          "season_number": 1,
+          "episode_number": 17,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37018,
+          "name": "aflevering stemmingmakerij",
+          "season_number": 1,
+          "episode_number": 18,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37019,
+          "name": "aflevering dollemansrit",
+          "season_number": 1,
+          "episode_number": 19,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37020,
+          "name": "aflevering beste vijanden",
+          "season_number": 1,
+          "episode_number": 20,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37021,
+          "name": "aflevering drie keer niks",
+          "season_number": 1,
+          "episode_number": 21,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37022,
+          "name": "aflevering mascotte",
+          "season_number": 1,
+          "episode_number": 22,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37023,
+          "name": "aflevering sokkenaap",
+          "season_number": 1,
+          "episode_number": 23,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37024,
+          "name": "aflevering vakantiepret",
+          "season_number": 1,
+          "episode_number": 24,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37025,
+          "name": "aflevering het geheime genootschap van zombies",
+          "season_number": 1,
+          "episode_number": 25,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37026,
+          "name": "aflevering het wc papier fiasco",
+          "season_number": 1,
+          "episode_number": 26,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37027,
+          "name": "aflevering torteldufjes",
+          "season_number": 1,
+          "episode_number": 27,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37028,
+          "name": "aflevering dat is vet andy",
+          "season_number": 1,
+          "episode_number": 28,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37029,
+          "name": "aflevering pinguin pijn",
+          "season_number": 1,
+          "episode_number": 29,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37030,
+          "name": "aflevering andy ziet sterretjes",
+          "season_number": 1,
+          "episode_number": 30,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37031,
+          "name": "aflevering de grote insluiting",
+          "season_number": 1,
+          "episode_number": 31,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37032,
+          "name": "aflevering jean thomas",
+          "season_number": 1,
+          "episode_number": 32,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37033,
+          "name": "aflevering het muzikale fruit",
+          "season_number": 1,
+          "episode_number": 33,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37034,
+          "name": "aflevering burgepester",
+          "season_number": 1,
+          "episode_number": 34,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37035,
+          "name": "aflevering scheve schaats",
+          "season_number": 1,
+          "episode_number": 35,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37036,
+          "name": "aflevering worstel en ga onder",
+          "season_number": 1,
+          "episode_number": 36,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37037,
+          "name": "aflevering niet likken aan de gele sneeuw",
+          "season_number": 1,
+          "episode_number": 37,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37038,
+          "name": "aflevering appelgrap",
+          "season_number": 1,
+          "episode_number": 38,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37039,
+          "name": "aflevering licht camera oeps",
+          "season_number": 1,
+          "episode_number": 39,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37040,
+          "name": "aflevering zuster jen",
+          "season_number": 1,
+          "episode_number": 40,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37041,
+          "name": "aflevering stroop",
+          "season_number": 1,
+          "episode_number": 41,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37042,
+          "name": "aflevering hole in one",
+          "season_number": 1,
+          "episode_number": 42,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37043,
+          "name": "aflevering gedachtenspelletjes",
+          "season_number": 1,
+          "episode_number": 43,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37044,
+          "name": "aflevering andysaurus rex",
+          "season_number": 1,
+          "episode_number": 44,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37045,
+          "name": "aflevering de antwoorden",
+          "season_number": 1,
+          "episode_number": 45,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37046,
+          "name": "aflevering idolen",
+          "season_number": 1,
+          "episode_number": 46,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -37047,
+          "name": "aflevering sportheld",
+          "season_number": 1,
+          "episode_number": 47,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        }
+      ]
+    }
+  ],
   "images": {
     "backdrops": [],
     "posters": []
