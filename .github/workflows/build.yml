@@ -1,0 +1,54 @@
+name: Build
+
+# The same build Vercel runs, on a runner that costs nothing to fail.
+#
+# `npm run build` is three gates in a row: the Zod schemas in build-data reject
+# content/ that does not describe a coherent archive, vue-tsc rejects source
+# that does not typecheck, and vite rejects the rest. All three already run on
+# every deploy — the only problem was that a *deployment* was the first thing to
+# run them, so half a change reaching Master was discovered by production
+# falling over rather than by a check.
+#
+# Half a change is the failure this guards: a reader committed without its data
+# file, or a required schema field committed without the code that emits it.
+# Each is fine in the editor and fatal at build time.
+#
+# It runs the whole script rather than its steps, so this and vercel.json cannot
+# drift apart. Nothing here needs YOUTUBE_API_KEY: the network half of the
+# pipeline lives in fetch/resolve-playlists, and build-data only reads content/.
+# Staying offline-clean is what makes this a fair rehearsal of the deploy.
+#
+# One blind spot. ingest.yml commits derived episodes with GITHUB_TOKEN, and
+# pushes so authenticated do not trigger workflow runs — so bot-written content/
+# is checked when it reaches a pull request, not when it lands on the branch.
+on:
+  push:
+    branches:
+      - Master
+  # Feature-branch pushes are covered here rather than above, which is the
+  # mirror of ingest.yml's branches-ignore: it runs everywhere except Master,
+  # this runs on Master and on anything proposed for it.
+  pull_request:
+  workflow_dispatch:
+
+# Unlike ingest.yml, which must not race itself to a branch, this writes
+# nothing — so superseding a run that is already stale is free.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
