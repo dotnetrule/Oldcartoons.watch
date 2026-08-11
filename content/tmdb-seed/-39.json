@@ -1,19 +1,19 @@
 {
-  "fetchedAt": "2026-08-11T08:34:54.088Z",
+  "fetchedAt": "2026-08-11T08:34:54.089Z",
   "detail": {
-    "id": -15,
-    "name": "Samurai Pizza Cats",
-    "overview": "Three pizza-delivering, crime-fighting cats defend Little Tokyo, redubbed from Japanese with gleeful disregard for the original script.",
-    "first_air_date": "1990-11-02",
-    "last_air_date": "1991-12-31",
-    "number_of_episodes": 52,
+    "id": -39,
+    "name": "Flint the Time Detective",
+    "overview": "De prehistorische jongen Flint wordt nieuw leven ingeblazen en sluit zich aan bij de Tijdpolitie. Samen met Sara en Tony reist hij door de geschiedenis om ontsnapte Time-Shifters te beschermen tegen de kwaadaardige Petra Fina.",
+    "first_air_date": "1998-10-01",
+    "last_air_date": "1999-06-24",
+    "number_of_episodes": 39,
     "backdrop_path": null,
     "poster_path": null,
     "seasons": [
       {
         "season_number": 1,
         "name": "Season 1",
-        "episode_count": 52
+        "episode_count": 39
       }
     ]
   },
@@ -23,8 +23,8 @@
       "name": "Season 1",
       "episodes": [
         {
-          "id": -15001,
-          "name": "Stop Dragon My Cat Around!",
+          "id": -39001,
+          "name": "Hammerhead Rock!",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,
@@ -32,8 +32,8 @@
           "still_path": null
         },
         {
-          "id": -15002,
-          "name": "If You Knew Sushi Like I Know Sushi",
+          "id": -39002,
+          "name": "Jitterbug",
           "season_number": 1,
           "episode_number": 2,
           "air_date": null,
@@ -41,8 +41,8 @@
           "still_path": null
         },
         {
-          "id": -15003,
-          "name": "Underground Underwater Undercooked",
+          "id": -39003,
+          "name": "Eldora",
           "season_number": 1,
           "episode_number": 3,
           "air_date": null,
@@ -50,8 +50,8 @@
           "still_path": null
         },
         {
-          "id": -15004,
-          "name": "The Great Golden Cluck",
+          "id": -39004,
+          "name": "Talen",
           "season_number": 1,
           "episode_number": 4,
           "air_date": null,
@@ -59,8 +59,8 @@
           "still_path": null
         },
         {
-          "id": -15005,
-          "name": "Let The Cellar Beware!",
+          "id": -39005,
+          "name": "Mosbee",
           "season_number": 1,
           "episode_number": 5,
           "air_date": null,
@@ -68,8 +68,8 @@
           "still_path": null
         },
         {
-          "id": -15006,
-          "name": "Singing Samurai Sensation",
+          "id": -39006,
+          "name": "Coconut",
           "season_number": 1,
           "episode_number": 6,
           "air_date": null,
@@ -77,8 +77,8 @@
           "still_path": null
         },
         {
-          "id": -15007,
-          "name": "The Nuclear Potato",
+          "id": -39007,
+          "name": "Bubblegum",
           "season_number": 1,
           "episode_number": 7,
           "air_date": null,
@@ -86,8 +86,8 @@
           "still_path": null
         },
         {
-          "id": -15008,
-          "name": "Kind of a Drag",
+          "id": -39008,
+          "name": "Lynx",
           "season_number": 1,
           "episode_number": 8,
           "air_date": null,
@@ -95,8 +95,8 @@
           "still_path": null
         },
         {
-          "id": -15009,
-          "name": "Double Trouble for Princess Vi",
+          "id": -39009,
+          "name": "Artie",
           "season_number": 1,
           "episode_number": 9,
           "air_date": null,
@@ -104,8 +104,8 @@
           "still_path": null
         },
         {
-          "id": -15010,
-          "name": "Hot & Kold Kitties",
+          "id": -39010,
+          "name": "Go Getalong",
           "season_number": 1,
           "episode_number": 10,
           "air_date": null,
@@ -113,8 +113,8 @@
           "still_path": null
         },
         {
-          "id": -15011,
-          "name": "Candid Kitty",
+          "id": -39011,
+          "name": "Batterball",
           "season_number": 1,
           "episode_number": 11,
           "air_date": null,
@@ -122,8 +122,8 @@
           "still_path": null
         },
         {
-          "id": -15012,
-          "name": "The Pizza Cats Are Only Human Part One",
+          "id": -39012,
+          "name": "Bindi",
           "season_number": 1,
           "episode_number": 12,
           "air_date": null,
@@ -131,8 +131,8 @@
           "still_path": null
         },
         {
-          "id": -15013,
-          "name": "The Pizza Cats Are Only Human Part Two",
+          "id": -39013,
+          "name": "Cavemen's Christmas",
           "season_number": 1,
           "episode_number": 13,
           "air_date": null,
@@ -140,8 +140,8 @@
           "still_path": null
         },
         {
-          "id": -15014,
-          "name": "Those Transformin' Felines",
+          "id": -39014,
+          "name": "Miss Iknow makes a House Call",
           "season_number": 1,
           "episode_number": 14,
           "air_date": null,
@@ -149,8 +149,8 @@
           "still_path": null
         },
         {
-          "id": -15015,
-          "name": "The Case of the Bogus Billionaire",
+          "id": -39015,
+          "name": "The Cardians",
           "season_number": 1,
           "episode_number": 15,
           "air_date": null,
@@ -158,8 +158,8 @@
           "still_path": null
         },
         {
-          "id": -15016,
-          "name": "Big Cheese's I Q Corral",
+          "id": -39016,
+          "name": "Plumella",
           "season_number": 1,
           "episode_number": 16,
           "air_date": null,
@@ -167,8 +167,8 @@
           "still_path": null
         },
         {
-          "id": -15017,
-          "name": "Field of Screwballs",
+          "id": -39017,
+          "name": "Wing",
           "season_number": 1,
           "episode_number": 17,
           "air_date": null,
@@ -176,8 +176,8 @@
           "still_path": null
         },
         {
-          "id": -15018,
-          "name": "Speedy's Double Time Trick",
+          "id": -39018,
+          "name": "Bindi-Master",
           "season_number": 1,
           "episode_number": 18,
           "air_date": null,
@@ -185,8 +185,8 @@
           "still_path": null
         },
         {
-          "id": -15019,
-          "name": "Samurai Charm School",
+          "id": -39019,
+          "name": "",
           "season_number": 1,
           "episode_number": 19,
           "air_date": null,
@@ -194,8 +194,8 @@
           "still_path": null
         },
         {
-          "id": -15020,
-          "name": "Drumming Up Trouble With A Big Bad Beat",
+          "id": -39020,
+          "name": "",
           "season_number": 1,
           "episode_number": 20,
           "air_date": null,
@@ -203,8 +203,8 @@
           "still_path": null
         },
         {
-          "id": -15021,
-          "name": "Pizza Bird Delivers!",
+          "id": -39021,
+          "name": "",
           "season_number": 1,
           "episode_number": 21,
           "air_date": null,
@@ -212,8 +212,8 @@
           "still_path": null
         },
         {
-          "id": -15022,
-          "name": "Big Cheese Shows His Filmy Substance",
+          "id": -39022,
+          "name": "",
           "season_number": 1,
           "episode_number": 22,
           "air_date": null,
@@ -221,8 +221,8 @@
           "still_path": null
         },
         {
-          "id": -15023,
-          "name": "Son of Big Cheese",
+          "id": -39023,
+          "name": "",
           "season_number": 1,
           "episode_number": 23,
           "air_date": null,
@@ -230,8 +230,8 @@
           "still_path": null
         },
         {
-          "id": -15024,
-          "name": "Gender Bender Butterflies!",
+          "id": -39024,
+          "name": "",
           "season_number": 1,
           "episode_number": 24,
           "air_date": null,
@@ -239,8 +239,8 @@
           "still_path": null
         },
         {
-          "id": -15025,
-          "name": "Cold and Crabby in Little Tokyo",
+          "id": -39025,
+          "name": "",
           "season_number": 1,
           "episode_number": 25,
           "air_date": null,
@@ -248,8 +248,8 @@
           "still_path": null
         },
         {
-          "id": -15026,
-          "name": "The Terror of Prisoner Island",
+          "id": -39026,
+          "name": "",
           "season_number": 1,
           "episode_number": 26,
           "air_date": null,
@@ -257,8 +257,8 @@
           "still_path": null
         },
         {
-          "id": -15027,
-          "name": "Pizza Cat Performance Review",
+          "id": -39027,
+          "name": "",
           "season_number": 1,
           "episode_number": 27,
           "air_date": null,
@@ -266,8 +266,8 @@
           "still_path": null
         },
         {
-          "id": -15028,
-          "name": "Destructo Robots at Popular Prices",
+          "id": -39028,
+          "name": "",
           "season_number": 1,
           "episode_number": 28,
           "air_date": null,
@@ -275,8 +275,8 @@
           "still_path": null
         },
         {
-          "id": -15029,
-          "name": "No Talent Guido",
+          "id": -39029,
+          "name": "",
           "season_number": 1,
           "episode_number": 29,
           "air_date": null,
@@ -284,8 +284,8 @@
           "still_path": null
         },
         {
-          "id": -15030,
-          "name": "All You Need is Love",
+          "id": -39030,
+          "name": "",
           "season_number": 1,
           "episode_number": 30,
           "air_date": null,
@@ -293,8 +293,8 @@
           "still_path": null
         },
         {
-          "id": -15031,
-          "name": "Polly's Magical Flute",
+          "id": -39031,
+          "name": "",
           "season_number": 1,
           "episode_number": 31,
           "air_date": null,
@@ -302,8 +302,8 @@
           "still_path": null
         },
         {
-          "id": -15032,
-          "name": "Close Encounters of the Pig Kind",
+          "id": -39032,
+          "name": "",
           "season_number": 1,
           "episode_number": 32,
           "air_date": null,
@@ -311,8 +311,8 @@
           "still_path": null
         },
         {
-          "id": -15033,
-          "name": "Big Cheese's High Definition TV",
+          "id": -39033,
+          "name": "",
           "season_number": 1,
           "episode_number": 33,
           "air_date": null,
@@ -320,8 +320,8 @@
           "still_path": null
         },
         {
-          "id": -15034,
-          "name": "Pizza Delivery of Doom!",
+          "id": -39034,
+          "name": "",
           "season_number": 1,
           "episode_number": 34,
           "air_date": null,
@@ -329,8 +329,8 @@
           "still_path": null
         },
         {
-          "id": -15035,
-          "name": "Youth Is for Exploding",
+          "id": -39035,
+          "name": "",
           "season_number": 1,
           "episode_number": 35,
           "air_date": null,
@@ -338,8 +338,8 @@
           "still_path": null
         },
         {
-          "id": -15036,
-          "name": "Bad Bird Uncaged Part One",
+          "id": -39036,
+          "name": "",
           "season_number": 1,
           "episode_number": 36,
           "air_date": null,
@@ -347,8 +347,8 @@
           "still_path": null
         },
         {
-          "id": -15037,
-          "name": "Bad Bird Uncaged Part Two",
+          "id": -39037,
+          "name": "",
           "season_number": 1,
           "episode_number": 37,
           "air_date": null,
@@ -356,8 +356,8 @@
           "still_path": null
         },
         {
-          "id": -15038,
-          "name": "A Mission in Manhatta",
+          "id": -39038,
+          "name": "",
           "season_number": 1,
           "episode_number": 38,
           "air_date": null,
@@ -365,127 +365,10 @@
           "still_path": null
         },
         {
-          "id": -15039,
-          "name": "Unidentified Flying Oddballs",
+          "id": -39039,
+          "name": "Final Episode",
           "season_number": 1,
           "episode_number": 39,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15040,
-          "name": "Princess Vi's Hippy Dippy Mom",
-          "season_number": 1,
-          "episode_number": 40,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15041,
-          "name": "A Wet and Wild Weekend",
-          "season_number": 1,
-          "episode_number": 41,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15042,
-          "name": "Episde 42 Kung Fu Kitty Kontest",
-          "season_number": 1,
-          "episode_number": 42,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15043,
-          "name": "Gone with the Ginzu",
-          "season_number": 1,
-          "episode_number": 43,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15044,
-          "name": "A Little Bit O' Luck",
-          "season_number": 1,
-          "episode_number": 44,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15045,
-          "name": "Samurai Savings Time",
-          "season_number": 1,
-          "episode_number": 45,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15046,
-          "name": "Phoney Baloney Cat",
-          "season_number": 1,
-          "episode_number": 46,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15047,
-          "name": "The Cheese Who Stole Christmas",
-          "season_number": 1,
-          "episode_number": 47,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15048,
-          "name": "Emperor Fred Does Hard Time",
-          "season_number": 1,
-          "episode_number": 48,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15049,
-          "name": "Quake, Rattle & Roll",
-          "season_number": 1,
-          "episode_number": 49,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15050,
-          "name": "The Big Comet Caper Part One",
-          "season_number": 1,
-          "episode_number": 50,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15051,
-          "name": "The Big Comet Caper Part Two",
-          "season_number": 1,
-          "episode_number": 51,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -15052,
-          "name": "The Cats Cop Cartoon Careers",
-          "season_number": 1,
-          "episode_number": 52,
           "air_date": null,
           "runtime": null,
           "still_path": null

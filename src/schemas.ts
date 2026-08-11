@@ -122,6 +122,131 @@ export const networkSchema = z.object({
   neutral: z.boolean(),
 });
 
+export const broadcastTypeSchema = z.enum([
+  'Episode',
+  'Movie',
+  'NetworkIdent',
+  'ShowBumper',
+  'Commercial',
+  'CommercialBlock',
+  'Promo',
+  'Trailer',
+  'Interstitial',
+]);
+
+export const broadcastChannelSourceSchema = z.object({
+  id: slugSchema,
+  networkSlug: slugSchema,
+  name: z.string().min(1),
+  country: z.string().length(2),
+  language: z.string().min(2),
+  timezone: z.string().min(1),
+});
+
+export const broadcastChannelSourcesFileSchema = z
+  .array(broadcastChannelSourceSchema)
+  .refine(
+    (channels) => new Set(channels.map((channel) => channel.id)).size === channels.length,
+    'duplicate broadcast channel id',
+  );
+
+export const broadcastChannelSchema = broadcastChannelSourceSchema.extend({
+  scheduleId: slugSchema.nullable(),
+});
+
+export const mediaAssetSchema = z.object({
+  id: z.string().min(1),
+  type: broadcastTypeSchema,
+  durationSeconds: z.number().int().positive(),
+  source: z.object({
+    provider: z.literal('youtube'),
+    id: youtubeIdSchema,
+  }),
+  networkSlug: slugSchema,
+  channelId: slugSchema,
+  showSlug: slugSchema.nullable(),
+});
+
+export const scheduledBroadcastSchema = z
+  .object({
+    id: z.string().min(1),
+    type: broadcastTypeSchema,
+    startsAtOffsetSeconds: z.number().int().nonnegative(),
+    endsAtOffsetSeconds: z.number().int().positive(),
+    mediaAsset: mediaAssetSchema,
+    show: z.object({ slug: slugSchema, title: z.string().min(1) }).nullable(),
+    episode: z
+      .object({
+        season: z.number().int().nonnegative(),
+        episode: z.number().int().positive(),
+        title: z.string().min(1),
+      })
+      .nullable(),
+    metadata: z.record(z.union([z.string(), z.number(), z.boolean(), z.null()])),
+  })
+  .refine(
+    (broadcast) => broadcast.endsAtOffsetSeconds > broadcast.startsAtOffsetSeconds,
+    'a broadcast must end after it starts',
+  );
+
+export const broadcastScheduleSchema = z
+  .object({
+    id: slugSchema,
+    channelId: slugSchema,
+    anchorAt: z.string().datetime(),
+    cycleDurationSeconds: z.number().int().positive(),
+    broadcasts: z.array(scheduledBroadcastSchema).min(1),
+  })
+  .superRefine((schedule, ctx) => {
+    let cursor = 0;
+    schedule.broadcasts.forEach((broadcast, index) => {
+      if (broadcast.startsAtOffsetSeconds !== cursor) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['broadcasts', index, 'startsAtOffsetSeconds'],
+          message: `timeline gap or overlap: expected ${cursor}`,
+        });
+      }
+      cursor = broadcast.endsAtOffsetSeconds;
+    });
+    if (cursor !== schedule.cycleDurationSeconds) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['cycleDurationSeconds'],
+        message: `cycle ends at ${cursor}, not ${schedule.cycleDurationSeconds}`,
+      });
+    }
+  });
+
+export const broadcastDataFileSchema = z
+  .object({
+    generatedAt: z.string().datetime(),
+    channels: z.array(broadcastChannelSchema),
+    schedules: z.array(broadcastScheduleSchema),
+  })
+  .superRefine((data, ctx) => {
+    const channelIds = new Set(data.channels.map((channel) => channel.id));
+    const scheduleIds = new Set(data.schedules.map((schedule) => schedule.id));
+    data.channels.forEach((channel, index) => {
+      if (channel.scheduleId !== null && !scheduleIds.has(channel.scheduleId)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['channels', index, 'scheduleId'],
+          message: `unknown schedule '${channel.scheduleId}'`,
+        });
+      }
+    });
+    data.schedules.forEach((schedule, index) => {
+      if (!channelIds.has(schedule.channelId)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['schedules', index, 'channelId'],
+          message: `unknown channel '${schedule.channelId}'`,
+        });
+      }
+    });
+  });
+
 export const networksFileSchema = z
   .array(networkSchema)
   .refine(

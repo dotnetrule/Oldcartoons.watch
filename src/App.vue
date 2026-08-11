@@ -15,6 +15,7 @@ const C = computed(() => ui.C);
 
 const activeNetworkSlug = computed<string | null>(() => {
   if (route.name === 'network') return String(route.params.slug);
+  if (route.name === 'live') return content.channel(String(route.params.channelId))?.networkSlug ?? null;
   if (route.name === 'series' || route.name === 'player') {
     return content.stub(String(route.params.slug))?.networkSlug ?? null;
   }
@@ -36,6 +37,10 @@ const pageCode = computed(() => {
     const i = content.stubs.findIndex((s) => s.slug === route.params.slug);
     return `4${pad2(i + 1)}·${pad2(Number(route.params.episode))}`;
   }
+  if (route.name === 'live') {
+    const i = content.channels.findIndex((channel) => channel.id === route.params.channelId);
+    return `5${pad2(i + 1)}`;
+  }
   return '100';
 });
 
@@ -56,8 +61,8 @@ const flashStyle = computed(() => ({
     </main>
     <footer class="ntv-footer" :style="{ borderColor: C.border, color: C.dim }">
       <span>
-        No video is hosted here. Every episode plays as an embed from the
-        rights-holder's own YouTube channel.
+        No video is hosted here. Every broadcast plays as an external
+        youtube-nocookie embed from a curated source.
       </span>
       <span>
         Series and episode metadata from

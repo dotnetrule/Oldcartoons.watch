@@ -78,6 +78,18 @@ const LEADING_EPISODE_WORD = /^(?:ep(?:isode)?|afl(?:evering)?)\b[\s.:|—–-]*
 const TRAILING_NOISE =
   /[\s\-–—|]*[([{]\s*(?:full\s*episode|full\s*episodes|full|hd|4k|1080p?|720p?|remastered|official|complete)\s*[)\]}]\s*$/i;
 
+/** Pipe- or dash-delimited source labels that some rights-holder uploads put
+ * directly in the title instead of wrapping in brackets. Removing one per
+ * cleanup pass lets a stack such as "| Full Episode | Classic 90s Cartoon |
+ * Kabillion" peel away without treating an ordinary subtitle as noise. */
+const TRAILING_SOURCE_LABEL =
+  /\s*(?:[-–—|]\s*)?(?:full\s*episode(?:\s*#?\d+)?|classic\s*90s\s*cartoon|kabillion)\s*$/i;
+
+/** Flint's playlist wraps real episode names in square brackets. Only unwrap
+ * when the brackets enclose the entire surviving title, so meaningful inner
+ * punctuation elsewhere remains untouched. */
+const BRACKETED_TITLE = /^\[\s*([^\[\]]+?)\s*\]$/;
+
 /**
  * Reduce an upload title to the episode title inside it.
  *
@@ -101,10 +113,16 @@ export function cleanEpisodeTitle(rawTitle: string, seriesName: string): string 
     title = title.replace(LEADING_EPISODE_NUMBER, '');
     title = title.replace(LEADING_EPISODE_WORD, '');
     title = title.replace(TRAILING_NOISE, '');
+    title = title.replace(TRAILING_SOURCE_LABEL, '');
     if (title === before) break;
   }
 
-  return title.replace(LEADING_SEPARATOR, '').replace(/[\s\-–—:|·•,_~]+$/, '').replace(/\s+/g, ' ').trim();
+  const cleaned = title
+    .replace(LEADING_SEPARATOR, '')
+    .replace(/[\s\-–—:|·•,_~]+$/, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return cleaned.match(BRACKETED_TITLE)?.[1]?.trim() ?? cleaned;
 }
 
 export type DerivedSeries = {

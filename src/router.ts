@@ -10,8 +10,12 @@ import { useContentStore } from './stores/content';
  * rejected load propagates: there is no fallback route. */
 async function loadSeriesData(slug: string): Promise<void> {
   const content = useContentStore();
-  await content.loadIndex();
-  await content.loadSeries(slug);
+  await Promise.all([content.loadIndex(), content.loadBroadcastData(), content.loadSeries(slug)]);
+}
+
+async function loadBroadcastData(): Promise<void> {
+  const content = useContentStore();
+  await Promise.all([content.loadIndex(), content.loadBroadcastData()]);
 }
 
 const routes: RouteRecordRaw[] = [
@@ -19,12 +23,21 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'schedule',
     component: ScheduleView,
+    beforeEnter: loadBroadcastData,
   },
   {
     path: '/network/:slug',
     name: 'network',
     component: NetworkView,
     props: true,
+    beforeEnter: loadBroadcastData,
+  },
+  {
+    path: '/watch/:channelId',
+    name: 'live',
+    component: () => import('./views/LivePlayerView.vue'),
+    props: true,
+    beforeEnter: loadBroadcastData,
   },
   {
     path: '/series/:slug',

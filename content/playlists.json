@@ -18,5 +18,85 @@
     ],
     "episodesFor": "whats-with-andy",
     "note": ""
+  },
+  {
+    "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4",
+    "name": "Flint the Time Detective: The Complete Series",
+    "curator": "Michael Rubalcava",
+    "covers": [
+      "flint-the-time-detective"
+    ],
+    "episodesFor": "flint-the-time-detective",
+    "note": "Engelstalige fallback; vervangen zodra een complete en stabiele Nederlandse playlist beschikbaar is."
+  },
+  {
+    "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp",
+    "name": "Bobby's World: The Complete Series (1990-1998)",
+    "curator": "Reuben Abrams",
+    "covers": [
+      "bobbys-world"
+    ],
+    "episodesFor": "bobbys-world",
+    "note": "Engelstalige fallback met afleveringen van Kabillion; vervangen zodra een complete en stabiele Nederlandse playlist beschikbaar is."
+  },
+  {
+    "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB",
+    "name": "Kids from Room 402",
+    "curator": "Televisienostalgie",
+    "covers": [
+      "kids-from-room-402"
+    ],
+    "episodesFor": "kids-from-room-402",
+    "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K",
+    "name": "Sesamstraat",
+    "curator": "Televisienostalgie",
+    "covers": [
+      "sesamstraat"
+    ],
+    "episodesFor": "sesamstraat",
+    "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLU4Lcri7Lk0q1nyiLkRab7ev-amwhkvja",
+    "name": "Jim Button",
+    "curator": "Televisienostalgie",
+    "covers": [
+      "jim-button"
+    ],
+    "episodesFor": "jim-button",
+    "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLU4Lcri7Lk0o1WjExmeMDc9IXmLD0YMQy",
+    "name": "Walter Melon",
+    "curator": "Televisienostalgie",
+    "covers": [
+      "walter-melon"
+    ],
+    "episodesFor": "walter-melon",
+    "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl",
+    "name": "De Bende van Vijf",
+    "curator": "Televisienostalgie",
+    "covers": [
+      "de-bende-van-vijf"
+    ],
+    "episodesFor": "de-bende-van-vijf",
+    "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLU4Lcri7Lk0rTxNemGkM3wSat9r4NEfwi",
+    "name": "Beugelbekkie",
+    "curator": "Televisienostalgie",
+    "covers": [
+      "beugelbekkie"
+    ],
+    "episodesFor": "beugelbekkie",
+    "note": "Nederlandstalige afleveringen."
   }
 ]

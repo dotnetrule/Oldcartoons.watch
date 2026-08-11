@@ -9,16 +9,22 @@
  */
 import { rmSync } from 'node:fs';
 import type {
+  BroadcastChannelSource,
+  BroadcastDataFile,
+  BroadcastSchedule,
   Episode,
   IndexFile,
   Network,
   PublicEpisode,
   PublicSeason,
+  ScheduledBroadcast,
   SeriesFile,
   SeriesSource,
   SeriesStub,
 } from '../src/types';
 import {
+  broadcastChannelSourcesFileSchema,
+  broadcastDataFileSchema,
   channelsFileSchema,
   episodesFileSchema,
   indexFileSchema,
@@ -58,6 +64,114 @@ const yearOf = (isoDate: string | null): number | null => {
 
 const decadeOf = (year: number): string => `${Math.floor(year / 10) * 10}s`;
 
+type ScheduleSeed = {
+  networkSlug: string;
+  showSlug: string;
+  showTitle: string;
+  season: number;
+  episode: number;
+  episodeTitle: string;
+  runtime: number | null;
+  youtubeId: string;
+};
+
+/** A small stable hash is enough here: it offsets regional channels so they
+ * do not broadcast the same episode at the same moment, without introducing
+ * build-time randomness. */
+function stableHash(value: string): number {
+  let hash = 2166136261;
+  for (const char of value) {
+    hash ^= char.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function rotate<T>(values: T[], offset: number): T[] {
+  if (values.length === 0) return [];
+  const at = offset % values.length;
+  return [...values.slice(at), ...values.slice(0, at)];
+}
+
+/** Round-robin the available shows into a gapless repeating schedule. The
+ * result is stored in broadcast.json and is fully reproducible from curated
+ * content; the browser only resolves an absolute timestamp within it. */
+function buildSchedule(channel: BroadcastChannelSource, seeds: ScheduleSeed[]): BroadcastSchedule | null {
+  if (seeds.length === 0) return null;
+
+  const byShow = new Map<string, ScheduleSeed[]>();
+  for (const seed of seeds) {
+    const bucket = byShow.get(seed.showSlug);
+    if (bucket) bucket.push(seed);
+    else byShow.set(seed.showSlug, [seed]);
+  }
+
+  const channelHash = stableHash(channel.id);
+  const groups = rotate(
+    [...byShow.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([slug, episodes]) => ({
+        slug,
+        episodes: rotate(
+          episodes.sort((a, b) => a.season - b.season || a.episode - b.episode),
+          stableHash(`${channel.id}:${slug}`),
+        ),
+      })),
+    channelHash,
+  );
+
+  const ordered: ScheduleSeed[] = [];
+  let row = 0;
+  while (groups.some((group) => row < group.episodes.length)) {
+    for (const group of groups) {
+      const episode = group.episodes[row];
+      if (episode) ordered.push(episode);
+    }
+    row += 1;
+  }
+
+  let cursor = 0;
+  const broadcasts: ScheduledBroadcast[] = ordered.map((seed, index) => {
+    // Playlist-authored archive entries honestly carry no runtime. A classic
+    // half-hour cartoon contains roughly 22 minutes of programme; the engine
+    // uses that conservative editorial slot until authoritative runtime data
+    // is available, without pretending it came from the upload itself.
+    const durationSeconds = Math.min(180 * 60, Math.max(5 * 60, (seed.runtime ?? 22) * 60));
+    const startsAtOffsetSeconds = cursor;
+    cursor += durationSeconds;
+    return {
+      id: `${channel.id}:${index}:${seed.showSlug}:s${seed.season}e${seed.episode}`,
+      type: 'Episode',
+      startsAtOffsetSeconds,
+      endsAtOffsetSeconds: cursor,
+      mediaAsset: {
+        id: `youtube:${seed.youtubeId}`,
+        type: 'Episode',
+        durationSeconds,
+        source: { provider: 'youtube', id: seed.youtubeId },
+        networkSlug: seed.networkSlug,
+        channelId: channel.id,
+        showSlug: seed.showSlug,
+      },
+      show: { slug: seed.showSlug, title: seed.showTitle },
+      episode: {
+        season: seed.season,
+        episode: seed.episode,
+        title: seed.episodeTitle,
+      },
+      metadata: { runtimeEstimated: seed.runtime === null },
+    };
+  });
+
+  return {
+    id: `${channel.id}-daily`,
+    channelId: channel.id,
+    anchorAt: '2000-01-01T00:00:00.000Z',
+    cycleDurationSeconds: cursor,
+    broadcasts,
+  };
+}
+
 function loadCache(source: SeriesSource): TmdbSeriesCache {
   const path = seriesMetadataPath(source.tmdbId);
   const cache = readJson(path) as TmdbSeriesCache;
@@ -94,6 +208,10 @@ function main(): void {
   const seriesSources = readValidated(contentPath('series.json'), seriesSourceFileSchema);
   const episodes = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const overrides = readValidated(contentPath('overrides.json'), overridesFileSchema);
+  const broadcastChannelSources = readValidated(
+    contentPath('broadcast-channels.json'),
+    broadcastChannelSourcesFileSchema,
+  );
 
   // The ingest whitelists are not inputs to this step, but they are hand-edited
   // and nothing else in a normal build would look at them — a bad edit would
@@ -105,6 +223,23 @@ function main(): void {
   const networkSlugs = new Set(networks.map((n) => n.slug));
   const seriesByTmdbId = new Map(seriesSources.map((s) => [s.tmdbId, s]));
   const seriesSlugs = new Set(seriesSources.map((s) => s.slug));
+
+  for (const channel of broadcastChannelSources) {
+    if (!networkSlugs.has(channel.networkSlug)) {
+      throw new Error(`broadcast channel '${channel.id}' references unknown network '${channel.networkSlug}'`);
+    }
+    try {
+      new Intl.DateTimeFormat('en', { timeZone: channel.timezone }).format(new Date(0));
+    } catch {
+      throw new Error(`broadcast channel '${channel.id}' has invalid timezone '${channel.timezone}'`);
+    }
+  }
+
+  for (const network of networks) {
+    if (!broadcastChannelSources.some((channel) => channel.networkSlug === network.slug)) {
+      throw new Error(`network '${network.slug}' has no broadcast channel`);
+    }
+  }
 
   for (const source of seriesSources) {
     if (!networkSlugs.has(source.networkSlug)) {
@@ -151,6 +286,7 @@ function main(): void {
   ensureDirs(PUBLIC_DATA_DIR);
 
   const stubs: SeriesStub[] = [];
+  const scheduleSeeds: ScheduleSeed[] = [];
   const decades = new Set<string>();
 
   for (const source of seriesSources) {
@@ -253,6 +389,22 @@ function main(): void {
 
     writeJson(`${PUBLIC_DATA_DIR}/series-${source.slug}.json`, seriesFileSchema.parse(seriesFile));
 
+    for (const publicSeason of seriesFile.seasons) {
+      for (const publicEpisode of publicSeason.episodes) {
+        if (publicEpisode.status === 'missing' || publicEpisode.youtubeId === null) continue;
+        scheduleSeeds.push({
+          networkSlug: seriesFile.networkSlug,
+          showSlug: seriesFile.slug,
+          showTitle: seriesFile.name,
+          season: publicEpisode.season,
+          episode: publicEpisode.episode,
+          episodeTitle: publicEpisode.title,
+          runtime: publicEpisode.runtime,
+          youtubeId: publicEpisode.youtubeId,
+        });
+      }
+    }
+
     stubs.push({
       slug: seriesFile.slug,
       name: seriesFile.name,
@@ -279,10 +431,36 @@ function main(): void {
 
   writeJson(`${PUBLIC_DATA_DIR}/index.json`, indexFileSchema.parse(index));
 
+  const schedules = broadcastChannelSources.flatMap((channel) => {
+    const schedule = buildSchedule(
+      channel,
+      scheduleSeeds.filter((seed) => seed.networkSlug === channel.networkSlug),
+    );
+    return schedule ? [schedule] : [];
+  });
+  const scheduleIdByChannel = new Map(schedules.map((schedule) => [schedule.channelId, schedule.id]));
+  const channelOrder = new Map(networks.map((network, index) => [network.slug, index]));
+  const broadcastData: BroadcastDataFile = {
+    generatedAt: index.generatedAt,
+    channels: broadcastChannelSources
+      .map((channel) => ({
+        ...channel,
+        scheduleId: scheduleIdByChannel.get(channel.id) ?? null,
+      }))
+      .sort(
+        (a, b) =>
+          (channelOrder.get(a.networkSlug) ?? 0) - (channelOrder.get(b.networkSlug) ?? 0) ||
+          a.name.localeCompare(b.name),
+      ),
+    schedules,
+  };
+  writeJson(`${PUBLIC_DATA_DIR}/broadcast.json`, broadcastDataFileSchema.parse(broadcastData));
+
   const playable = stubs.reduce((total, s) => total + s.availableCount, 0);
   console.log(
-    `emitted index.json + ${stubs.length} series files — ` +
-      `${networks.length} networks, ${index.decades.join('/')}, ${playable} playable episodes`,
+    `emitted index.json + broadcast.json + ${stubs.length} series files — ` +
+      `${networks.length} networks, ${broadcastData.channels.length} channels, ` +
+      `${schedules.length} live schedules, ${playable} playable episodes`,
   );
 }
 

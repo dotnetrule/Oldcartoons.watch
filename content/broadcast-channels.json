@@ -1,0 +1,74 @@
+[
+  {
+    "id": "vtm-flanders",
+    "networkSlug": "vtm",
+    "name": "VTM Flanders",
+    "country": "BE",
+    "language": "nl",
+    "timezone": "Europe/Brussels"
+  },
+  {
+    "id": "nederland3-nl",
+    "networkSlug": "nederland3",
+    "name": "Nederland 3",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "nickelodeon-nl",
+    "networkSlug": "nickelodeon",
+    "name": "Nickelodeon Netherlands",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "adultswim-us",
+    "networkSlug": "adultswim",
+    "name": "Adult Swim US",
+    "country": "US",
+    "language": "en",
+    "timezone": "America/New_York"
+  },
+  {
+    "id": "foxkids-nl",
+    "networkSlug": "foxkids",
+    "name": "Fox Kids Netherlands",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "foxkids-uk",
+    "networkSlug": "foxkids",
+    "name": "Fox Kids UK",
+    "country": "GB",
+    "language": "en",
+    "timezone": "Europe/London"
+  },
+  {
+    "id": "cartoonnetwork-eu",
+    "networkSlug": "cartoonnetwork",
+    "name": "Cartoon Network Europe",
+    "country": "GB",
+    "language": "en",
+    "timezone": "Europe/London"
+  },
+  {
+    "id": "ketnet-flanders",
+    "networkSlug": "ketnet",
+    "name": "Ketnet Flanders",
+    "country": "BE",
+    "language": "nl",
+    "timezone": "Europe/Brussels"
+  },
+  {
+    "id": "syndication-us",
+    "networkSlug": "syndication",
+    "name": "US Syndication",
+    "country": "US",
+    "language": "en",
+    "timezone": "America/New_York"
+  }
+]

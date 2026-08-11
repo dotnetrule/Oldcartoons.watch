@@ -1,6 +1,14 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import type { IndexFile, Network, SeriesFile, SeriesStub } from '../types';
+import type {
+  BroadcastChannel,
+  BroadcastDataFile,
+  BroadcastSchedule,
+  IndexFile,
+  Network,
+  SeriesFile,
+  SeriesStub,
+} from '../types';
 
 /**
  * The generated payload, and nothing else.
@@ -20,13 +28,20 @@ async function loadJson<T>(url: string): Promise<T> {
 export const useContentStore = defineStore('content', () => {
   const index = ref<IndexFile | null>(null);
   const seriesFiles = ref(new Map<string, SeriesFile>());
+  const broadcastData = ref<BroadcastDataFile | null>(null);
 
   let indexRequest: Promise<IndexFile> | null = null;
   const seriesRequests = new Map<string, Promise<SeriesFile>>();
+  let broadcastRequest: Promise<BroadcastDataFile> | null = null;
 
   const networks = computed<Network[]>(() => index.value?.networks ?? []);
   const stubs = computed<SeriesStub[]>(() => index.value?.series ?? []);
   const decades = computed<string[]>(() => index.value?.decades ?? []);
+  const channels = computed<BroadcastChannel[]>(() => broadcastData.value?.channels ?? []);
+  const schedules = computed<BroadcastSchedule[]>(() => broadcastData.value?.schedules ?? []);
+  const liveChannels = computed<BroadcastChannel[]>(() =>
+    channels.value.filter((channel) => channel.scheduleId !== null),
+  );
 
   /** index.json is the only payload the schedule route loads — the archive is
    * thousands of episodes and the grid needs stubs. */
@@ -56,6 +71,14 @@ export const useContentStore = defineStore('content', () => {
     return request;
   }
 
+  function loadBroadcastData(): Promise<BroadcastDataFile> {
+    broadcastRequest ??= loadJson<BroadcastDataFile>('/data/broadcast.json').then((data) => {
+      broadcastData.value = data;
+      return data;
+    });
+    return broadcastRequest;
+  }
+
   const networkBySlug = computed(() => new Map(networks.value.map((n) => [n.slug, n])));
 
   function network(slug: string | null | undefined): Network | null {
@@ -70,15 +93,42 @@ export const useContentStore = defineStore('content', () => {
     return slug ? seriesFiles.value.get(slug) ?? null : null;
   }
 
+  function channel(id: string | null | undefined): BroadcastChannel | null {
+    return id ? channels.value.find((item) => item.id === id) ?? null : null;
+  }
+
+  function channelsForNetwork(networkSlug: string | null | undefined): BroadcastChannel[] {
+    return networkSlug
+      ? channels.value.filter((item) => item.networkSlug === networkSlug)
+      : [];
+  }
+
+  function schedule(id: string | null | undefined): BroadcastSchedule | null {
+    return id ? schedules.value.find((item) => item.id === id) ?? null : null;
+  }
+
+  function scheduleForChannel(channelId: string | null | undefined): BroadcastSchedule | null {
+    return schedule(channel(channelId)?.scheduleId);
+  }
+
   return {
     index,
+    broadcastData,
     networks,
     stubs,
     decades,
+    channels,
+    schedules,
+    liveChannels,
     loadIndex,
     loadSeries,
+    loadBroadcastData,
     network,
     stub,
     series,
+    channel,
+    channelsForNetwork,
+    schedule,
+    scheduleForChannel,
   };
 });

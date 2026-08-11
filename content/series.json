@@ -257,5 +257,82 @@
     "networkSlug": "foxkids",
     "type": "Animation",
     "age": "Tween"
+  },
+  {
+    "slug": "shinzo",
+    "tmdbId": -38,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "flint-the-time-detective",
+    "tmdbId": -39,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "bobbys-world",
+    "tmdbId": -40,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "medabots",
+    "tmdbId": -41,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "digimon-adventure",
+    "tmdbId": -42,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "monster-rancher",
+    "tmdbId": -43,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "kids-from-room-402",
+    "tmdbId": -44,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "jim-button",
+    "tmdbId": -45,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "walter-melon",
+    "tmdbId": -46,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "de-bende-van-vijf",
+    "tmdbId": -47,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Kids"
+  },
+  {
+    "slug": "beugelbekkie",
+    "tmdbId": -48,
+    "networkSlug": "foxkids",
+    "type": "Animation",
+    "age": "Tween"
   }
 ]

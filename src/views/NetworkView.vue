@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
 import { episodeCountLabel, pad2, yearRangeLabel } from '../data/helpers';
-import type { SeriesStub } from '../types';
+import { broadcastProgress, formatChannelTime, nowAndNext } from '../broadcast/engine';
+import type { BroadcastChannel, SeriesStub } from '../types';
 
 const props = defineProps<{ slug: string }>();
 
@@ -13,176 +14,463 @@ const router = useRouter();
 const ui = useUiStore();
 const content = useContentStore();
 const C = computed(() => ui.C);
+const nowMs = ref(Date.now());
 
 const network = computed(() => content.network(props.slug));
 const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
+const channels = computed(() => content.channelsForNetwork(props.slug));
+const selectedChannelId = computed(() =>
+  ui.selectedChannelId(props.slug, channels.value.map((channel) => channel.id)),
+);
+const channel = computed(() => content.channel(selectedChannelId.value));
+const schedule = computed(() => content.scheduleForChannel(selectedChannelId.value));
+const lineUp = computed(() => (schedule.value ? nowAndNext(schedule.value, nowMs.value, 5) : []));
+const current = computed(() => lineUp.value[0] ?? null);
+const upcoming = computed(() => lineUp.value.slice(1));
 
 const yearsLabel = computed(() =>
   network.value ? yearRangeLabel(network.value.activeYears[0], network.value.activeYears[1]) : '',
 );
 
-/** One broadcaster, chronological. */
 const series = computed<SeriesStub[]>(() =>
   network.value
     ? content.stubs
-        .filter((s) => s.networkSlug === network.value?.slug)
+        .filter((item) => item.networkSlug === network.value?.slug)
         .sort((a, b) => a.firstAirYear - b.firstAirYear)
     : [],
 );
 
-const seriesYearsLabel = (s: SeriesStub): string => yearRangeLabel(s.firstAirYear, s.lastAirYear);
-const epLabel = (s: SeriesStub): string => episodeCountLabel(s.episodeCount);
+let clockTimer: ReturnType<typeof setInterval> | undefined;
+onMounted(() => {
+  clockTimer = setInterval(() => {
+    nowMs.value = Date.now();
+  }, 1_000);
+});
+onBeforeUnmount(() => clearInterval(clockTimer));
+
+const seriesYearsLabel = (item: SeriesStub): string =>
+  yearRangeLabel(item.firstAirYear, item.lastAirYear);
+const epLabel = (item: SeriesStub): string => episodeCountLabel(item.episodeCount);
+const time = (iso: string): string =>
+  channel.value ? formatChannelTime(iso, channel.value.timezone) : '';
+
+function selectChannel(target: BroadcastChannel): void {
+  ui.selectChannel(props.slug, target.id);
+}
 
 function goSeries(slug: string): void {
   ui.triggerFlicker();
   void router.push(`/series/${slug}`);
 }
+
+function watchLive(): void {
+  if (channel.value?.scheduleId) void router.push(`/watch/${channel.value.id}`);
+}
+
+function goGuide(): void {
+  if (channel.value?.scheduleId) {
+    void router.push({ name: 'schedule', query: { channel: channel.value.id } });
+  }
+}
 </script>
 
 <template>
-  <div v-if="network" class="bcast">
-    <div class="bcast-head" :style="{ borderColor: colour }">
-      <div class="mono dim" :style="{ color: C.dim }">
-        CH {{ pad2(network.channelNumber) }} · {{ yearsLabel }}
+  <div v-if="network" class="network-page">
+    <header class="network-head" :style="{ borderColor: colour }">
+      <img
+        :src="network.logo"
+        :alt="network.name"
+        :style="{ filter: ui.theme === 'dark' ? 'invert(1)' : 'none' }"
+      />
+      <div class="network-identity">
+        <span class="mono" :style="{ color: colour }">NETWORK {{ pad2(network.channelNumber) }} · {{ yearsLabel }}</span>
+        <h1 :style="{ color: C.ink }">{{ network.name }}</h1>
+        <p :style="{ color: C.dim2 }">{{ network.note }}</p>
       </div>
-      <h1 :style="{ color: C.ink }">{{ network.name }}</h1>
-      <div class="note" :style="{ color: C.dim2 }">{{ network.note }}</div>
-    </div>
+    </header>
 
-    <div v-if="ui.viewMode === 'listings'" class="bcast-list">
-      <div
-        v-for="s in series"
-        :key="s.slug"
-        class="bcast-row"
-        role="button"
-        tabindex="0"
-        :style="{ borderColor: C.border }"
-        @click="goSeries(s.slug)"
-        @keydown.enter="goSeries(s.slug)"
-      >
-        <span class="title" :style="{ color: C.ink }">{{ s.name }}</span>
-        <span class="mono dim" :style="{ color: C.dim }">{{ seriesYearsLabel(s) }} · {{ epLabel(s) }}</span>
+    <section class="channels">
+      <span class="section-label" :style="{ color: C.dim }">SELECT CHANNEL</span>
+      <div class="channel-buttons">
+        <button
+          v-for="item in channels"
+          :key="item.id"
+          :style="{
+            borderColor: item.id === selectedChannelId ? colour : C.border2,
+            background: item.id === selectedChannelId ? C.focusBg : 'transparent',
+            color: C.ink,
+          }"
+          @click="selectChannel(item)"
+        >
+          <strong>{{ item.name }}</strong>
+          <span :style="{ color: C.dim }">{{ item.country }} · {{ item.language.toUpperCase() }} · {{ item.timezone }}</span>
+          <i :style="{ color: item.scheduleId ? colour : C.dim }">{{ item.scheduleId ? 'ON AIR' : 'ARCHIVE PENDING' }}</i>
+        </button>
       </div>
-    </div>
+    </section>
 
-    <div v-else class="bcast-covers">
-      <div
-        v-for="s in series"
-        :key="s.slug"
-        class="cover-card"
-        role="button"
-        tabindex="0"
-        @click="goSeries(s.slug)"
-        @keydown.enter="goSeries(s.slug)"
-      >
-        <CoverImage
-          :title="s.name"
-          :file-path="s.poster"
-          size="w342"
-          :accent-color="colour"
-          class="cover-card-img"
-        />
-        <div class="cover-card-title" :style="{ color: C.ink }">{{ s.name }}</div>
-        <div class="mono dim" :style="{ color: C.dim }">{{ seriesYearsLabel(s) }} · {{ epLabel(s) }}</div>
+    <section v-if="channel && current" class="live-card" :style="{ borderColor: colour, background: C.bg2 }">
+      <div class="live-copy">
+        <span class="section-label" :style="{ color: colour }">● LIVE NOW · {{ channel.name }}</span>
+        <h2 :style="{ color: C.ink }">{{ current.show?.title }}</h2>
+        <p :style="{ color: C.dim2 }">{{ current.episode?.title }}</p>
+        <div class="live-time" :style="{ color: C.dim }">
+          <span>{{ time(current.startsAt) }}</span>
+          <div :style="{ background: C.border2 }">
+            <i :style="{ width: `${broadcastProgress(current, nowMs) * 100}%`, background: colour }"></i>
+          </div>
+          <span>{{ time(current.endsAt) }}</span>
+        </div>
+        <div class="live-actions">
+          <button :style="{ background: colour, color: C.chipFg }" @click="watchLive">WATCH LIVE →</button>
+          <button :style="{ borderColor: C.border2, color: C.dim2 }" @click="goGuide">FULL TV GUIDE</button>
+        </div>
       </div>
-    </div>
+
+      <div class="coming-up" :style="{ borderColor: C.border }">
+        <span class="section-label" :style="{ color: C.dim }">COMING UP</span>
+        <div v-for="item in upcoming" :key="`${item.id}-${item.startsAt}`" :style="{ borderColor: C.border }">
+          <time :style="{ color: C.dim }">{{ time(item.startsAt) }}</time>
+          <p>
+            <strong :style="{ color: C.ink }">{{ item.show?.title }}</strong>
+            <span :style="{ color: C.dim }">{{ item.episode?.title }}</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section v-else-if="channel" class="not-live" :style="{ color: C.dim, borderColor: C.border }">
+      <strong :style="{ color: C.ink }">This channel is not broadcasting yet.</strong>
+      <span>Its identity and programme archive are available, but no validated media schedule can be generated yet.</span>
+    </section>
+
+    <section class="archive">
+      <div class="archive-head" :style="{ borderColor: C.border }">
+        <div>
+          <span class="section-label" :style="{ color: C.dim }">PROGRAMME ARCHIVE</span>
+          <h2 :style="{ color: C.ink }">SHOWS ON {{ network.name }}</h2>
+        </div>
+        <span class="mono" :style="{ color: C.dim }">{{ series.length }} TITLES</span>
+      </div>
+
+      <div v-if="ui.viewMode === 'listings'" class="archive-list">
+        <div
+          v-for="item in series"
+          :key="item.slug"
+          class="archive-row"
+          role="button"
+          tabindex="0"
+          :style="{ borderColor: C.border }"
+          @click="goSeries(item.slug)"
+          @keydown.enter="goSeries(item.slug)"
+        >
+          <span class="title" :style="{ color: C.ink }">{{ item.name }}</span>
+          <span class="mono" :style="{ color: C.dim }">{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}</span>
+        </div>
+      </div>
+
+      <div v-else class="archive-covers">
+        <div
+          v-for="item in series"
+          :key="item.slug"
+          class="cover-card"
+          role="button"
+          tabindex="0"
+          @click="goSeries(item.slug)"
+          @keydown.enter="goSeries(item.slug)"
+        >
+          <CoverImage
+            :title="item.name"
+            :file-path="item.poster"
+            size="w342"
+            :accent-color="colour"
+            class="cover-card-img"
+          />
+          <strong :style="{ color: C.ink }">{{ item.name }}</strong>
+          <span class="mono" :style="{ color: C.dim }">{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}</span>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <style scoped>
-.bcast {
-  padding: 28px 20px 40px;
-  max-width: 960px;
+.network-page {
+  width: min(1080px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 30px 0 64px;
 }
 
-.bcast-head {
+.network-head {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 24px;
   border-left: 4px solid;
-  padding-left: 18px;
-  margin-bottom: 28px;
+  padding: 8px 0 8px 20px;
 }
 
-.bcast-head .mono {
-  font-size: 12px;
-  letter-spacing: 0.06em;
+.network-head img {
+  width: 90px;
+  height: 72px;
+  object-fit: contain;
 }
 
-.bcast-head h1 {
-  margin: 0;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 42px;
+.network-identity h1 {
+  margin: 2px 0;
+  font: 600 42px 'Oswald', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
 }
 
-.note {
-  font-family: 'Inter', sans-serif;
+.network-identity p {
+  max-width: 650px;
+  margin: 0;
   font-size: 14px;
-  max-width: 560px;
 }
 
-.bcast-list {
+.mono,
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.network-identity .mono,
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.09em;
+}
+
+.channels {
+  padding: 26px 0 18px;
+}
+
+.channel-buttons {
   display: flex;
-  flex-direction: column;
-}
-
-.bcast-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 14px;
-  padding: 14px 6px;
-  border-bottom: 1px solid;
-  cursor: pointer;
-  transition: background 120ms ease;
-}
-
-.bcast-row .title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 19px;
-}
-
-.bcast-row .mono {
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.bcast-covers {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-}
-
-.cover-card {
-  width: 200px;
-  cursor: pointer;
-  transition: transform 120ms ease;
-}
-
-.cover-card:hover {
-  transform: translateY(-2px);
-}
-
-.cover-card-img {
-  width: 200px;
-  height: 112px;
-  border-radius: 2px;
-}
-
-.cover-card-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 16px;
+  gap: 8px;
+  overflow-x: auto;
   margin-top: 8px;
 }
 
-.cover-card .mono {
-  font-size: 11px;
+.channel-buttons button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: none;
+  min-width: 230px;
+  padding: 10px 70px 10px 11px;
+  border: 1px solid;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
 }
 
-.mono {
-  font-family: 'IBM Plex Mono', monospace;
+.channel-buttons strong {
+  font: 15px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.channel-buttons span,
+.channel-buttons i {
+  font: 9px 'IBM Plex Mono', monospace;
+  font-style: normal;
+}
+
+.channel-buttons i {
+  position: absolute;
+  top: 11px;
+  right: 9px;
+}
+
+.live-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+  border: 1px solid;
+  border-top-width: 3px;
+}
+
+.live-copy {
+  padding: 24px;
+}
+
+.live-copy h2 {
+  margin: 6px 0 0;
+  font: 600 31px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.live-copy > p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.live-time {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 18px;
+  font: 10px 'IBM Plex Mono', monospace;
+}
+
+.live-time > div {
+  height: 3px;
+  flex: 1;
+}
+
+.live-time i {
+  display: block;
+  height: 100%;
+}
+
+.live-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.live-actions button {
+  border: 1px solid transparent;
+  padding: 8px 11px;
+  font: 700 10px 'IBM Plex Mono', monospace;
+  cursor: pointer;
+}
+
+.live-actions button:last-child {
+  background: transparent;
+}
+
+.coming-up {
+  padding: 20px;
+  border-left: 1px solid;
+}
+
+.coming-up > div {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid;
+}
+
+.coming-up time {
+  font: 10px 'IBM Plex Mono', monospace;
+}
+
+.coming-up p {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.coming-up strong {
+  font: 14px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.coming-up p span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+}
+
+.not-live {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 28px 20px;
+  border: 1px solid;
+  font-size: 12px;
+}
+
+.archive {
+  margin-top: 34px;
+}
+
+.archive-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+}
+
+.archive-head h2 {
+  margin: 2px 0 0;
+  font: 600 25px 'Oswald', sans-serif;
+}
+
+.archive-head > .mono {
+  font-size: 10px;
+}
+
+.archive-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 6px;
+  border-bottom: 1px solid;
+  cursor: pointer;
+}
+
+.archive-row .title {
+  font: 18px 'Oswald', sans-serif;
+}
+
+.archive-row .mono,
+.cover-card .mono {
+  font-size: 10px;
+}
+
+.archive-covers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 18px;
+  padding-top: 18px;
+}
+
+.cover-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.cover-card-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.cover-card strong {
+  margin-top: 7px;
+  font: 16px 'Oswald', sans-serif;
+}
+
+@media (max-width: 720px) {
+  .network-page {
+    width: calc(100% - 28px);
+    padding-top: 22px;
+  }
+
+  .network-head {
+    align-items: flex-start;
+    gap: 13px;
+    padding-left: 13px;
+  }
+
+  .network-head img {
+    width: 62px;
+    height: 50px;
+  }
+
+  .network-identity h1 {
+    font-size: 30px;
+  }
+
+  .live-card {
+    grid-template-columns: 1fr;
+  }
+
+  .coming-up {
+    border-top: 1px solid;
+    border-left: 0;
+  }
 }
 </style>

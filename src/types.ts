@@ -64,6 +64,91 @@ export type Network = {
   neutral: boolean;
 };
 
+/** A viewer-facing regional or historical television feed. Do not confuse
+ * this with `ChannelSource` below: that type describes a YouTube ingest
+ * source, while this type is part of the broadcast domain. */
+export type BroadcastChannel = {
+  id: string;
+  networkSlug: string;
+  name: string;
+  country: string;
+  language: string;
+  /** IANA timezone used by the guide and all on-air clock labels. */
+  timezone: string;
+  /** Null while this channel has no playable schedule in the archive. */
+  scheduleId: string | null;
+};
+
+export type BroadcastType =
+  | 'Episode'
+  | 'Movie'
+  | 'NetworkIdent'
+  | 'ShowBumper'
+  | 'Commercial'
+  | 'CommercialBlock'
+  | 'Promo'
+  | 'Trailer'
+  | 'Interstitial';
+
+export type MediaAsset = {
+  id: string;
+  type: BroadcastType;
+  durationSeconds: number;
+  source: {
+    provider: 'youtube';
+    id: string;
+  };
+  networkSlug: string;
+  channelId: string;
+  showSlug: string | null;
+};
+
+/** One immutable item in a repeating, build-generated channel timeline.
+ * Absolute `startsAt` and `endsAt` values are intentionally not stored: the
+ * broadcast engine materialises them for the requested timestamp. */
+export type ScheduledBroadcast = {
+  id: string;
+  type: BroadcastType;
+  startsAtOffsetSeconds: number;
+  endsAtOffsetSeconds: number;
+  mediaAsset: MediaAsset;
+  show: {
+    slug: string;
+    title: string;
+  } | null;
+  episode: {
+    season: number;
+    episode: number;
+    title: string;
+  } | null;
+  metadata: Record<string, string | number | boolean | null>;
+};
+
+export type BroadcastSchedule = {
+  id: string;
+  channelId: string;
+  /** Stable cycle origin. Together with the slots this makes every result
+   * reproducible for every viewer without a runtime scheduling backend. */
+  anchorAt: string;
+  cycleDurationSeconds: number;
+  broadcasts: ScheduledBroadcast[];
+};
+
+/** The engine's resolved answer to `channel + timestamp`. */
+export type Broadcast = Omit<ScheduledBroadcast, 'startsAtOffsetSeconds' | 'endsAtOffsetSeconds'> & {
+  startsAt: string;
+  endsAt: string;
+  scheduleId: string;
+  channelId: string;
+};
+
+/** public/data/broadcast.json — loaded by network, guide and live routes. */
+export type BroadcastDataFile = {
+  generatedAt: string;
+  channels: BroadcastChannel[];
+  schedules: BroadcastSchedule[];
+};
+
 /** Sparse. Holds only the keys that differ from TMDB, keyed by TMDB series id
  * in content/overrides.json. Every key must exist on the corresponding TMDB
  * object or the build fails — that catches typos and surfaces TMDB schema
@@ -95,6 +180,9 @@ export type ChannelSource = {
   name: string;
   note: string;
 };
+
+/** Hand-curated input from content/broadcast-channels.json. */
+export type BroadcastChannelSource = Omit<BroadcastChannel, 'scheduleId'>;
 
 /** A whitelisted third-party playlist. Same ingest path as a channel — the
  * only difference is provenance and the trust that follows from it. */

@@ -9,11 +9,19 @@
 
 export type YtPlayer = {
   destroy: () => void;
-  loadVideoById: (videoId: string) => void;
+  loadVideoById: (video: string | { videoId: string; startSeconds?: number }) => void;
   getPlayerState: () => number;
+  getCurrentTime: () => number;
+  getDuration: () => number;
+  seekTo: (seconds: number, allowSeekAhead: boolean) => void;
+  playVideo: () => void;
+  mute: () => void;
+  unMute: () => void;
+  isMuted: () => boolean;
 };
 
 type YtPlayerEvent = { data: number; target: YtPlayer };
+type YtPlayerErrorEvent = { data: number; target: YtPlayer };
 
 type YtNamespace = {
   Player: new (
@@ -25,6 +33,7 @@ type YtNamespace = {
       events?: {
         onReady?: (event: YtPlayerEvent) => void;
         onStateChange?: (event: YtPlayerEvent) => void;
+        onError?: (event: YtPlayerErrorEvent) => void;
       };
     },
   ) => YtPlayer;

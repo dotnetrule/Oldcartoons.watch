@@ -1,0 +1,761 @@
+{
+  "fetchedAt": "2026-08-11T08:34:54.089Z",
+  "detail": {
+    "id": -40,
+    "name": "Bobby's World",
+    "overview": "De vierjarige Bobby Generic bekijkt het dagelijkse gezinsleven door een grenzeloze fantasie. Gewone uitstapjes, klusjes en familiebezoeken veranderen in avonturen die alleen Bobby zo kan beleven.",
+    "first_air_date": "1990-09-08",
+    "last_air_date": "1998-02-23",
+    "number_of_episodes": 81,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 81
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -40001,
+          "name": "The Visit to Aunt Ruth's",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40002,
+          "name": "Uncle Ted's Excellent Adventure",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40003,
+          "name": "Adventures In Bobbysitting",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40004,
+          "name": "The Best One of the Mall",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40005,
+          "name": "My Dad Can Fix Anything",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40006,
+          "name": "Me and Roger",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40007,
+          "name": "The Big Sweep",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40008,
+          "name": "The Night of the Living Pumpkin",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40009,
+          "name": "Beach Blanket Bobby",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40010,
+          "name": "The Revenge of Dr. Noo",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40011,
+          "name": "In Search of the Ring Bear",
+          "season_number": 1,
+          "episode_number": 11,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40012,
+          "name": "See America Last",
+          "season_number": 1,
+          "episode_number": 12,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40013,
+          "name": "Bobby's Big Broadcast",
+          "season_number": 1,
+          "episode_number": 13,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40014,
+          "name": "Three Kids and a Baby",
+          "season_number": 1,
+          "episode_number": 14,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40015,
+          "name": "Suspects, Lies, and Videotape",
+          "season_number": 1,
+          "episode_number": 15,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40016,
+          "name": "Clubhouse Bobby",
+          "season_number": 1,
+          "episode_number": 16,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40017,
+          "name": "Nightmare on Bobby's Street",
+          "season_number": 1,
+          "episode_number": 17,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40018,
+          "name": "Caution: Bobby at Work",
+          "season_number": 1,
+          "episode_number": 18,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40019,
+          "name": "Total Recess",
+          "season_number": 1,
+          "episode_number": 19,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40020,
+          "name": "Chariots of Bobby",
+          "season_number": 1,
+          "episode_number": 20,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40021,
+          "name": "Bobby's Birthday Bash",
+          "season_number": 1,
+          "episode_number": 21,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40022,
+          "name": "Bobby's Tooth or Dare",
+          "season_number": 1,
+          "episode_number": 22,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40023,
+          "name": "Bobby's Big Move",
+          "season_number": 1,
+          "episode_number": 23,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40024,
+          "name": "Bad News Bobby",
+          "season_number": 1,
+          "episode_number": 24,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40025,
+          "name": "Swim By Me",
+          "season_number": 1,
+          "episode_number": 25,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40026,
+          "name": "The Play's the Thing",
+          "season_number": 1,
+          "episode_number": 26,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40027,
+          "name": "Fish Tales",
+          "season_number": 1,
+          "episode_number": 27,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40028,
+          "name": "The Music",
+          "season_number": 1,
+          "episode_number": 28,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40029,
+          "name": "Misery Loves Company",
+          "season_number": 1,
+          "episode_number": 29,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40030,
+          "name": "Bobby Phone Home",
+          "season_number": 1,
+          "episode_number": 30,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40031,
+          "name": "Baby Brother Blues",
+          "season_number": 1,
+          "episode_number": 31,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40032,
+          "name": "Bobby's Girl",
+          "season_number": 1,
+          "episode_number": 32,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40033,
+          "name": "Ill Effects",
+          "season_number": 1,
+          "episode_number": 33,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40034,
+          "name": "I Want My Mommy",
+          "season_number": 1,
+          "episode_number": 34,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40035,
+          "name": "The Hero",
+          "season_number": 1,
+          "episode_number": 35,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40036,
+          "name": "Uncle Ted's New Friend",
+          "season_number": 1,
+          "episode_number": 36,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40037,
+          "name": "The World Accordion to Bobby",
+          "season_number": 1,
+          "episode_number": 37,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40038,
+          "name": "Bobby Ties the Knot",
+          "season_number": 1,
+          "episode_number": 38,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40039,
+          "name": "Jets, Choo-Choos, and Cars",
+          "season_number": 1,
+          "episode_number": 39,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40040,
+          "name": "Karate Bobby",
+          "season_number": 1,
+          "episode_number": 40,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40041,
+          "name": "A Day With Dad",
+          "season_number": 1,
+          "episode_number": 41,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40042,
+          "name": "Psycho Bobby",
+          "season_number": 1,
+          "episode_number": 42,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40043,
+          "name": "The Smell of a Tattletale",
+          "season_number": 1,
+          "episode_number": 43,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40044,
+          "name": "It's My Party",
+          "season_number": 1,
+          "episode_number": 44,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40045,
+          "name": "One Clump Or Two",
+          "season_number": 1,
+          "episode_number": 45,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40046,
+          "name": "Bobby's Big Dream",
+          "season_number": 1,
+          "episode_number": 46,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40047,
+          "name": "Bobby, The Musical",
+          "season_number": 1,
+          "episode_number": 47,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40048,
+          "name": "Rebel Without a Clue",
+          "season_number": 1,
+          "episode_number": 48,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40049,
+          "name": "Geriatric Park",
+          "season_number": 1,
+          "episode_number": 49,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40050,
+          "name": "Harry Takes a Powder",
+          "season_number": 1,
+          "episode_number": 50,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40051,
+          "name": "Bobby's Big Boo Boo",
+          "season_number": 1,
+          "episode_number": 51,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40052,
+          "name": "Mom On Wheels",
+          "season_number": 1,
+          "episode_number": 52,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40053,
+          "name": "Weekend at Teddie's",
+          "season_number": 1,
+          "episode_number": 53,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40054,
+          "name": "Generics Under Construction",
+          "season_number": 1,
+          "episode_number": 54,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40055,
+          "name": "Mrs. Noogiefire",
+          "season_number": 1,
+          "episode_number": 55,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40056,
+          "name": "Bobby Slicker",
+          "season_number": 1,
+          "episode_number": 56,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40057,
+          "name": "No Sale",
+          "season_number": 1,
+          "episode_number": 57,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40058,
+          "name": "Who You Gonna Call?",
+          "season_number": 1,
+          "episode_number": 58,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40059,
+          "name": "Starring Bobby",
+          "season_number": 1,
+          "episode_number": 59,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40060,
+          "name": "The Truth About Aunt Ruth",
+          "season_number": 1,
+          "episode_number": 60,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40061,
+          "name": "Bobby Online",
+          "season_number": 1,
+          "episode_number": 61,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40062,
+          "name": "Bobby the Genius",
+          "season_number": 1,
+          "episode_number": 62,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40063,
+          "name": "Hooked On Caps",
+          "season_number": 1,
+          "episode_number": 63,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40064,
+          "name": "Bobby's Last Stand",
+          "season_number": 1,
+          "episode_number": 64,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40065,
+          "name": "Miracle On 34th St. & Rural Route 1",
+          "season_number": 1,
+          "episode_number": 65,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40066,
+          "name": "Just Plain Sleepless",
+          "season_number": 1,
+          "episode_number": 66,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40067,
+          "name": "Bobby, Lord of the Slopes",
+          "season_number": 1,
+          "episode_number": 67,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40068,
+          "name": "Time After Time",
+          "season_number": 1,
+          "episode_number": 68,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40069,
+          "name": "Independence Bobby",
+          "season_number": 1,
+          "episode_number": 69,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40070,
+          "name": "Bobby the Candidate",
+          "season_number": 1,
+          "episode_number": 70,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40071,
+          "name": "The Importance of Being Ernest",
+          "season_number": 1,
+          "episode_number": 71,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40072,
+          "name": "Bad Manners Bobby",
+          "season_number": 1,
+          "episode_number": 72,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40073,
+          "name": "Roger's Ransom",
+          "season_number": 1,
+          "episode_number": 73,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40074,
+          "name": "Cooties",
+          "season_number": 1,
+          "episode_number": 74,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40075,
+          "name": "Promises, Promises",
+          "season_number": 1,
+          "episode_number": 75,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40076,
+          "name": "Generics and Indian",
+          "season_number": 1,
+          "episode_number": 76,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40077,
+          "name": "It's a Generic Life",
+          "season_number": 1,
+          "episode_number": 77,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40078,
+          "name": "Cruisin' Bobby",
+          "season_number": 1,
+          "episode_number": 78,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40079,
+          "name": "Dad's Big Day",
+          "season_number": 1,
+          "episode_number": 79,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40080,
+          "name": "Blue Eggs and Bobby",
+          "season_number": 1,
+          "episode_number": 80,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -40081,
+          "name": "Back to the Furniture",
+          "season_number": 1,
+          "episode_number": 81,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "fetchedAt": "2026-08-11T00:00:00.000Z",
+  "detail": {
+    "id": -42,
+    "name": "Digimon Adventure",
+    "overview": "Een groep kinderen wordt tijdens een zomerkamp naar de Digitale Wereld getransporteerd. Met hun Digimon-partners moeten ze samenwerken, groeien en beide werelden beschermen tegen steeds gevaarlijkere tegenstanders.",
+    "first_air_date": "1999-03-07",
+    "last_air_date": "2000-03-26",
+    "number_of_episodes": 54,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": []
+  },
+  "seasons": [],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

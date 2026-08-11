@@ -1,8 +1,9 @@
 # oldcartoons.watch
 
-A teletext/CRT-styled TV guide for classic cartoons and kids' TV. It indexes
-archived television series and plays them through embedded YouTube uploads from
-rights-holder channels.
+A teletext/CRT-styled live TV simulator and guide for classic cartoons and
+kids' TV. It indexes archived television series, builds deterministic channel
+schedules, and plays the broadcast active at the viewer's current timestamp
+through an embedded YouTube upload.
 
 **It hosts no video.** Every playback path is a `youtube-nocookie` embed.
 
@@ -34,6 +35,7 @@ Two committed directories matter. Everything else is regenerable cache.
 
 ```
 content/networks.json    broadcasters — hand-curated, closed set
+content/broadcast-channels.json viewer-facing regional/historical TV feeds
 content/series.json      curated series list: slug, tmdbId, network, type, age
 content/episodes.json    curated YouTube ↔ TMDB matches
 content/overrides.json   sparse hand-authored corrections to TMDB metadata
@@ -46,6 +48,25 @@ data/tmdb/{id}.json      cached TMDB responses    — gitignored, disposable
 data/youtube/{id}.json   cached source dumps      — gitignored, disposable
 public/data/*.json       generated output         — gitignored, rebuilt on build
 ```
+
+## Broadcast engine
+
+The live player never selects an episode. Its input is a channel id and a
+timestamp; `src/broadcast/engine.ts` resolves those through the channel's
+generated schedule into one broadcast, one media asset, and an exact media
+offset. The same function feeds the network Now/Next panel, the daily EPG, and
+the player, so those surfaces cannot disagree about what is on air.
+
+`scripts/build-data.ts` round-robins validated playable episodes into a gapless,
+repeating schedule and writes it to `public/data/broadcast.json`. Its anchor,
+slot order and durations are stable, so a timestamp produces the same result
+for every viewer and a rebuild introduces no random programming changes.
+
+Viewer-facing broadcast channels are deliberately separate from
+`content/channels.json`: the latter remains the whitelist of YouTube ingest
+sources. A broadcast channel can exist with a null schedule while its media
+archive is still pending; the UI identifies that state instead of fabricating
+a fallback programme.
 
 `content/tmdb-seed/` and `data/tmdb/` look alike and are not. The latter is a
 real cache — a real TMDB response for a real id, rebuildable by `npm run fetch`,

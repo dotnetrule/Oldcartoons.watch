@@ -1,510 +1,440 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useUiStore } from '../stores/ui';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useContentStore } from '../stores/content';
-import CoverImage from '../components/CoverImage.vue';
-import { episodeCountLabel, initialsFor, pad2, yearRangeLabel } from '../data/helpers';
-import { AGE_FILTERS, COPY, TYPE_FILTERS, type AgeFilter, type TypeFilter } from '../data/themes';
-import type { Network, SeriesStub } from '../types';
+import { useUiStore } from '../stores/ui';
+import {
+  broadcastProgress,
+  broadcastsForChannelDay,
+  channelDateKey,
+  formatChannelTime,
+  formatGuideDate,
+  nowAndNext,
+  shiftDateKey,
+} from '../broadcast/engine';
+import { pad2 } from '../data/helpers';
+import type { BroadcastChannel } from '../types';
 
+const route = useRoute();
 const router = useRouter();
-const ui = useUiStore();
 const content = useContentStore();
+const ui = useUiStore();
 const C = computed(() => ui.C);
+const nowMs = ref(Date.now());
 
-const viewportW = ref(window.innerWidth);
-function onResize(): void {
-  viewportW.value = window.innerWidth;
-}
-onMounted(() => window.addEventListener('resize', onResize));
-onUnmounted(() => window.removeEventListener('resize', onResize));
-const isMobile = computed(() => viewportW.value < 760);
+const initialChannelId = (() => {
+  const fromQuery = typeof route.query.channel === 'string' ? route.query.channel : null;
+  if (fromQuery && content.liveChannels.some((channel) => channel.id === fromQuery)) return fromQuery;
+  const foxChannels = content.liveChannels.filter((channel) => channel.networkSlug === 'foxkids');
+  return ui.selectedChannelId('foxkids', foxChannels.map((channel) => channel.id))
+    ?? content.liveChannels[0]?.id
+    ?? null;
+})();
 
-function matchesFilter(s: SeriesStub): boolean {
-  return (
-    (ui.typeFilter === 'All' || s.type === ui.typeFilter) &&
-    (ui.ageFilter === 'All' || s.age === ui.ageFilter)
-  );
-}
+const selectedChannelId = ref<string | null>(initialChannelId);
+const channel = computed(() => content.channel(selectedChannelId.value));
+const schedule = computed(() => content.scheduleForChannel(selectedChannelId.value));
+const network = computed(() => content.network(channel.value?.networkSlug));
+const todayKey = computed(() =>
+  channel.value ? channelDateKey(nowMs.value, channel.value.timezone) : '',
+);
+const guideDate = ref(todayKey.value);
 
-const yearsLabel = (s: SeriesStub): string => yearRangeLabel(s.firstAirYear, s.lastAirYear);
-const epLabel = (s: SeriesStub): string => episodeCountLabel(s.episodeCount);
-
-function goSeries(slug: string): void {
-  ui.triggerFlicker();
-  void router.push(`/series/${slug}`);
-}
-
-function chipStyle(active: boolean) {
-  return {
-    background: active ? C.value.ink : 'transparent',
-    color: active ? C.value.chipFg : C.value.dim,
-    borderColor: C.value.border2,
-  };
-}
-
-/** Decades × networks. `colIdx` counts across a whole row rather than per
- * cell, which is what lets left/right arrow keys walk the row continuously
- * instead of stopping at every decade boundary. */
-const scheduleRows = computed(() =>
-  content.networks.map((net, rowIdx) => {
-    const netSeries = content.stubs.filter((s) => s.networkSlug === net.slug);
-    let colCounter = 0;
-    const cells = content.decades.map((dec) => {
-      const entries = netSeries
-        .filter((s) => s.decade === dec && matchesFilter(s))
-        .map((s) => ({ series: s, colIdx: colCounter++ }));
-      return { decade: dec, entries, empty: entries.length === 0 };
-    });
-    return { network: net, rowIdx, cells };
-  }),
+const guide = computed(() =>
+  channel.value && schedule.value && guideDate.value
+    ? broadcastsForChannelDay(schedule.value, guideDate.value, channel.value.timezone)
+    : [],
+);
+const liveItems = computed(() => (schedule.value ? nowAndNext(schedule.value, nowMs.value, 2) : []));
+const nowPlaying = computed(() => liveItems.value[0] ?? null);
+const nextPlaying = computed(() => liveItems.value[1] ?? null);
+const accent = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
+const dateLabel = computed(() =>
+  channel.value && guideDate.value
+    ? formatGuideDate(guideDate.value, channel.value.timezone)
+    : '',
 );
 
-const mobileGroups = computed(() =>
-  content.networks
-    .map((net) => ({
-      network: net,
-      items: content.stubs
-        .filter((s) => s.networkSlug === net.slug && matchesFilter(s))
-        .sort((a, b) => a.firstAirYear - b.firstAirYear),
-    }))
-    .filter((g) => g.items.length > 0),
-);
+let clockTimer: ReturnType<typeof setInterval> | undefined;
+onMounted(() => {
+  clockTimer = setInterval(() => {
+    nowMs.value = Date.now();
+  }, 1_000);
+});
+onBeforeUnmount(() => clearInterval(clockTimer));
 
-const previewSeries = computed(() => content.stub(ui.previewSlug));
-const previewNet = computed<Network | null>(() => content.network(previewSeries.value?.networkSlug));
-
-function handleGridKeyDown(e: KeyboardEvent, row: number, col: number): void {
-  const key = e.key;
-  if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(key)) return;
-  e.preventDefault();
-
-  const current = e.currentTarget as HTMLElement;
-  if (key === 'Enter' || key === ' ') {
-    current.click();
-    return;
-  }
-
-  const root = current.closest('[data-grid-root]');
-  if (!root) return;
-
-  let r = row;
-  let c = col;
-  if (key === 'ArrowRight') c++;
-  else if (key === 'ArrowLeft') c--;
-  else if (key === 'ArrowDown') r++;
-  else if (key === 'ArrowUp') r--;
-
-  let target: HTMLElement | null = null;
-  if (key === 'ArrowLeft' || key === 'ArrowRight') {
-    target = root.querySelector(`[data-row="${r}"][data-col="${c}"]`);
-  } else {
-    // Rows are ragged, so a vertical move lands on the nearest column at or
-    // left of the current one rather than falling off the end of a short row.
-    for (let cc = c; cc >= 0 && !target; cc--) {
-      target = root.querySelector(`[data-row="${r}"][data-col="${cc}"]`);
+watch(
+  () => route.query.channel,
+  (queryChannel) => {
+    if (
+      typeof queryChannel === 'string' &&
+      content.liveChannels.some((item) => item.id === queryChannel)
+    ) {
+      selectedChannelId.value = queryChannel;
     }
-    if (!target) target = root.querySelector(`[data-row="${r}"]`);
-  }
-  target?.focus();
+  },
+);
+
+watch(channel, (next, previous) => {
+  if (next && next.id !== previous?.id) guideDate.value = channelDateKey(Date.now(), next.timezone);
+});
+
+function selectChannel(target: BroadcastChannel): void {
+  selectedChannelId.value = target.id;
+  ui.selectChannel(target.networkSlug, target.id);
+  void router.replace({ query: { ...route.query, channel: target.id } });
+}
+
+function shiftDay(days: number): void {
+  if (guideDate.value) guideDate.value = shiftDateKey(guideDate.value, days);
+}
+
+function goToday(): void {
+  guideDate.value = todayKey.value;
+}
+
+function goLive(): void {
+  if (channel.value) void router.push(`/watch/${channel.value.id}`);
+}
+
+function goSeries(slug: string | undefined): void {
+  if (slug) void router.push(`/series/${slug}`);
+}
+
+function time(iso: string): string {
+  return channel.value ? formatChannelTime(iso, channel.value.timezone) : '';
+}
+
+function isCurrent(startsAt: string, endsAt: string): boolean {
+  return new Date(startsAt).getTime() <= nowMs.value && new Date(endsAt).getTime() > nowMs.value;
 }
 </script>
 
 <template>
-  <div class="sched">
-    <div class="sched-head" :style="{ borderBottom: C.titleRule }">
-      <h1 class="sched-title" :style="{ color: C.ink }">{{ COPY.schedule }}</h1>
-      <div class="sched-filters">
-        <div class="chipgroup">
-          <button
-            v-for="t in TYPE_FILTERS"
-            :key="t"
-            class="chip"
-            :style="chipStyle(t === ui.typeFilter)"
-            @click="ui.setTypeFilter(t as TypeFilter)"
-          >
-            {{ t }}
-          </button>
+  <div class="guide">
+    <header class="guide-head" :style="{ borderColor: C.border2 }">
+      <div>
+        <span class="kicker" :style="{ color: accent }">CONTINUOUS BROADCAST</span>
+        <h1 :style="{ color: C.ink }">TV GUIDE</h1>
+      </div>
+      <button v-if="channel" class="live-button" :style="{ background: accent, color: C.chipFg }" @click="goLive">
+        WATCH LIVE →
+      </button>
+    </header>
+
+    <nav class="channel-picker" aria-label="Live channels">
+      <button
+        v-for="item in content.liveChannels"
+        :key="item.id"
+        :class="{ active: item.id === selectedChannelId }"
+        :style="{
+          borderColor: item.id === selectedChannelId ? ui.netColour(content.network(item.networkSlug)!) : C.border2,
+          background: item.id === selectedChannelId ? C.focusBg : 'transparent',
+          color: C.ink,
+        }"
+        @click="selectChannel(item)"
+      >
+        <span :style="{ color: ui.netColour(content.network(item.networkSlug)!) }">
+          {{ pad2(content.network(item.networkSlug)?.channelNumber ?? 0) }}
+        </span>
+        <strong>{{ item.name }}</strong>
+        <small :style="{ color: C.dim }">{{ item.country }}</small>
+      </button>
+    </nav>
+
+    <section v-if="channel && schedule && nowPlaying && nextPlaying" class="on-air" :style="{ borderColor: accent, background: C.bg2 }">
+      <div class="on-air-label" :style="{ color: accent }">● ON AIR</div>
+      <div class="on-air-main">
+        <div>
+          <h2 :style="{ color: C.ink }">{{ nowPlaying.show?.title }}</h2>
+          <p :style="{ color: C.dim2 }">{{ nowPlaying.episode?.title }}</p>
         </div>
-        <div class="chipgroup">
-          <button
-            v-for="a in AGE_FILTERS"
-            :key="a"
-            class="chip"
-            :style="chipStyle(a === ui.ageFilter)"
-            @click="ui.setAgeFilter(a as AgeFilter)"
-          >
-            {{ a }}
-          </button>
+        <div class="on-air-times" :style="{ color: C.dim }">
+          {{ time(nowPlaying.startsAt) }}–{{ time(nowPlaying.endsAt) }}
         </div>
       </div>
-    </div>
-
-    <!-- Mobile: grouped list -->
-    <div v-if="isMobile" class="sched-mobile">
-      <div v-for="grp in mobileGroups" :key="grp.network.slug" class="mobile-group">
-        <div class="mobile-group-head" :style="{ borderColor: ui.netColour(grp.network) }">
-          <span class="mono" :style="{ color: ui.netColour(grp.network) }">{{ pad2(grp.network.channelNumber) }}</span>
-          <span class="netname" :style="{ color: C.ink }">{{ grp.network.name }}</span>
-        </div>
-        <div
-          v-for="s in grp.items"
-          :key="s.slug"
-          class="mobile-row"
-          :style="{ borderColor: C.border }"
-          @click="goSeries(s.slug)"
-        >
-          <CoverImage
-            v-if="ui.viewMode === 'covers'"
-            :title="s.name"
-            :file-path="s.poster"
-            size="w185"
-            :accent-color="ui.netColour(grp.network)"
-            class="mobile-cover"
-          />
-          <span class="mobile-title" :style="{ color: C.ink }">{{ s.name }}</span>
-          <span class="mono dim" :style="{ color: C.dim }">{{ yearsLabel(s) }} · {{ epLabel(s) }}</span>
-        </div>
+      <div class="progress" :style="{ background: C.border2 }">
+        <i :style="{ width: `${broadcastProgress(nowPlaying, nowMs) * 100}%`, background: accent }"></i>
       </div>
-    </div>
-
-    <!-- Desktop: schedule grid -->
-    <div v-else class="sched-desktop">
-      <div data-grid-root class="grid-root">
-        <div class="grid-headrow">
-          <div class="grid-corner"></div>
-          <div v-for="dec in content.decades" :key="dec" class="grid-dechead" :style="{ color: C.dim, borderColor: C.border2 }">
-            {{ dec }}
-          </div>
-        </div>
-        <div v-for="row in scheduleRows" :key="row.network.slug" class="grid-row">
-          <div
-            class="grid-netcell"
-            :style="{ borderTopColor: C.border, borderLeftColor: ui.netColour(row.network), background: C.rowStripe }"
-          >
-            <span class="mono" :style="{ color: ui.netColour(row.network) }">{{ pad2(row.network.channelNumber) }}</span>
-            <span class="netname" :style="{ color: C.ink }">{{ row.network.name }}</span>
-          </div>
-          <div v-for="cell in row.cells" :key="cell.decade" class="grid-cell" :style="{ borderColor: C.border }">
-            <span v-if="cell.empty" class="grid-empty" :style="{ color: C.dim }">—</span>
-            <div
-              v-for="entry in cell.entries"
-              :key="entry.series.slug"
-              class="grid-entry"
-              role="button"
-              tabindex="0"
-              :data-row="row.rowIdx"
-              :data-col="entry.colIdx"
-              @click="goSeries(entry.series.slug)"
-              @keydown="(e: KeyboardEvent) => handleGridKeyDown(e, row.rowIdx, entry.colIdx)"
-              @mouseenter="ui.setPreview(entry.series.slug)"
-              @focus="ui.setPreview(entry.series.slug)"
-            >
-              <CoverImage
-                v-if="ui.viewMode === 'covers'"
-                :title="entry.series.name"
-                :file-path="entry.series.poster"
-                size="w185"
-                :accent-color="ui.netColour(row.network)"
-                class="grid-cover"
-              />
-              <div class="grid-entry-text">
-                <div class="grid-entry-title" :style="{ color: C.ink }">{{ entry.series.name }}</div>
-                <div class="mono dim" :style="{ color: C.dim }">{{ yearsLabel(entry.series) }} · {{ epLabel(entry.series) }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="up-next" :style="{ color: C.dim }">
+        NEXT {{ time(nextPlaying.startsAt) }} · <strong :style="{ color: C.ink }">{{ nextPlaying.show?.title }}</strong>
+        <span>— {{ nextPlaying.episode?.title }}</span>
       </div>
-    </div>
+    </section>
 
-    <!-- Preview dock -->
-    <div class="preview-dock" :style="{ background: C.bg2, borderColor: C.border2 }">
-      <template v-if="previewSeries">
-        <div class="preview-thumb" :style="{ background: C.hoverBg, borderColor: C.border2 }">
-          <span class="preview-initials" :style="{ color: previewNet ? ui.netColour(previewNet) : C.dim }">
-            {{ initialsFor(previewSeries.name) }}
+    <section class="date-nav" :style="{ borderColor: C.border }">
+      <button :style="{ color: C.dim2, borderColor: C.border2 }" aria-label="Previous day" @click="shiftDay(-1)">←</button>
+      <div>
+        <strong :style="{ color: C.ink }">{{ dateLabel }}</strong>
+        <span v-if="channel" :style="{ color: C.dim }">{{ channel.timezone }}</span>
+      </div>
+      <input v-model="guideDate" type="date" :style="{ color: C.dim2, borderColor: C.border2, background: C.bg2 }" />
+      <button v-if="guideDate !== todayKey" :style="{ color: C.dim2, borderColor: C.border2 }" @click="goToday">TODAY</button>
+      <button :style="{ color: C.dim2, borderColor: C.border2 }" aria-label="Next day" @click="shiftDay(1)">→</button>
+    </section>
+
+    <section v-if="guide.length" class="epg" :style="{ borderColor: C.border }">
+      <article
+        v-for="item in guide"
+        :key="`${item.id}-${item.startsAt}`"
+        class="epg-row"
+        :class="{ current: isCurrent(item.startsAt, item.endsAt) }"
+        :style="{
+          borderColor: C.border,
+          background: isCurrent(item.startsAt, item.endsAt) ? C.focusBg : 'transparent',
+          borderLeftColor: isCurrent(item.startsAt, item.endsAt) ? accent : 'transparent',
+        }"
+        @click="goSeries(item.show?.slug)"
+      >
+        <time :style="{ color: isCurrent(item.startsAt, item.endsAt) ? accent : C.dim }">{{ time(item.startsAt) }}</time>
+        <div class="epg-copy">
+          <strong :style="{ color: C.ink }">{{ item.show?.title ?? item.type }}</strong>
+          <span :style="{ color: C.dim }">
+            {{ item.episode?.title }}
+            <template v-if="item.episode"> · S{{ pad2(item.episode.season) }}E{{ pad2(item.episode.episode) }}</template>
           </span>
         </div>
-        <div class="preview-info">
-          <div class="preview-title" :style="{ color: C.ink }">{{ previewSeries.name }}</div>
-          <div class="mono dim" :style="{ color: C.dim }">
-            {{ yearsLabel(previewSeries) }} · {{ previewNet?.name }} · {{ COPY.firstAired }}
-            {{ previewSeries.firstAirDate ?? '—' }} · {{ epLabel(previewSeries) }}
-          </div>
-        </div>
-      </template>
-      <span v-else class="mono dim" :style="{ color: C.dim }">{{ COPY.hoverHint }}</span>
+        <span class="type" :style="{ color: C.dim, borderColor: C.border2 }">{{ item.type }}</span>
+        <span v-if="isCurrent(item.startsAt, item.endsAt)" class="now" :style="{ color: accent }">NOW</span>
+      </article>
+    </section>
+
+    <div v-else class="empty" :style="{ color: C.dim }">
+      No broadcasts are scheduled for this channel.
     </div>
   </div>
 </template>
 
 <style scoped>
-.sched {
-  padding: 20px 20px 124px;
+.guide {
+  width: min(1040px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 30px 0 72px;
 }
 
-.sched-head {
+.guide-head {
   display: flex;
-  align-items: baseline;
+  align-items: end;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 16px;
-  padding-bottom: 10px;
+  gap: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid;
 }
 
-.sched-title {
-  margin: 0;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 34px;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
+.kicker,
+.on-air-label {
+  font: 11px 'IBM Plex Mono', monospace;
+  letter-spacing: 0.1em;
 }
 
-.sched-filters {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
+.guide-head h1 {
+  margin: 3px 0 0;
+  font: 600 38px 'Oswald', sans-serif;
+  letter-spacing: 0.02em;
 }
 
-.chipgroup {
-  display: flex;
-  gap: 4px;
-}
-
-.chip {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  padding: 5px 10px;
-  border: 1px solid;
+.live-button {
+  border: 0;
   border-radius: 2px;
-  cursor: pointer;
-  transition: background 120ms ease, color 120ms ease;
-}
-
-.mono {
-  font-family: 'IBM Plex Mono', monospace;
-}
-
-.dim {
-  font-size: 11px;
-}
-
-/* Mobile */
-.sched-mobile {
-  padding: 4px 0 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.mobile-group-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 0;
-  border-bottom: 2px solid;
-  margin-bottom: 8px;
-}
-
-.mobile-group-head .mono {
-  font-size: 13px;
-}
-
-.netname {
-  font-family: 'Oswald', sans-serif;
-  text-transform: uppercase;
-  font-size: 16px;
-  letter-spacing: 0.03em;
-}
-
-.mobile-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 4px;
-  border-bottom: 1px solid;
+  padding: 10px 14px;
+  font: 700 11px 'IBM Plex Mono', monospace;
+  letter-spacing: 0.06em;
   cursor: pointer;
 }
 
-.mobile-cover {
-  width: 64px;
-  height: 36px;
-  flex: none;
-}
-
-.mobile-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 17px;
-  flex: 1;
-}
-
-/* Desktop grid */
-.sched-desktop {
+.channel-picker {
+  display: flex;
+  gap: 8px;
   overflow-x: auto;
-  padding: 8px 0 24px;
+  padding: 18px 0;
 }
 
-.grid-root {
-  display: flex;
-  flex-direction: column;
-  min-width: 980px;
-}
-
-.grid-headrow {
-  display: flex;
-}
-
-.grid-corner {
-  width: 172px;
+.channel-picker button {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  gap: 8px;
   flex: none;
-}
-
-.grid-dechead {
-  flex: 1;
-  min-width: 200px;
-  font-family: 'Oswald', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 13px;
-  padding: 6px 10px;
-  border-bottom: 1px solid;
-}
-
-.grid-row {
-  display: flex;
-}
-
-.grid-netcell {
-  width: 172px;
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2px;
-  padding: 12px 10px;
-  border-top: 1px solid;
-  border-left: 3px solid;
-}
-
-.grid-netcell .mono {
-  font-size: 14px;
-}
-
-.grid-netcell .netname {
-  font-size: 15px;
-  line-height: 1.15;
-}
-
-.grid-cell {
-  flex: 1;
-  min-width: 200px;
-  padding: 8px 10px;
-  border-top: 1px solid;
-  border-left: 1px solid;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  justify-content: center;
-  min-height: 64px;
-}
-
-.grid-empty {
-  font-family: 'IBM Plex Mono', monospace;
-  opacity: 0.6;
-  font-size: 13px;
-}
-
-.grid-entry {
+  padding: 9px 11px;
+  border: 1px solid;
+  background: none;
   cursor: pointer;
-  padding: 3px 4px;
-  border-radius: 1px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.channel-picker strong {
+  font: 14px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.on-air {
+  padding: 18px 20px;
+  border: 1px solid;
+  border-left-width: 4px;
+}
+
+.on-air-main {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.on-air h2 {
+  margin: 0;
+  font: 600 27px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.on-air p {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.on-air-times,
+.up-next {
+  font: 11px 'IBM Plex Mono', monospace;
+}
+
+.progress {
+  height: 3px;
+  margin: 15px 0 10px;
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+}
+
+.up-next span {
+  margin-left: 4px;
+}
+
+.date-nav {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: background 120ms ease, transform 120ms ease;
+  padding: 20px 0 12px;
+  border-bottom: 1px solid;
 }
 
-.grid-entry:hover {
-  transform: translateX(1px);
-}
-
-.grid-cover {
-  width: 64px;
-  height: 36px;
-  flex: none;
-}
-
-.grid-entry-text {
-  min-width: 0;
-}
-
-.grid-entry-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 16px;
-  line-height: 1.15;
-  letter-spacing: 0.01em;
-}
-
-.grid-entry-text .mono {
-  font-size: 11px;
-  margin-top: 2px;
-}
-
-/* Preview dock */
-.preview-dock {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 104px;
-  border-top: 1px solid;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 0 20px;
-  z-index: 40;
-  transition: background 180ms ease, border-color 180ms ease;
-}
-
-.preview-thumb {
-  width: 72px;
-  height: 72px;
-  flex: none;
-  border: 1px solid;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.preview-initials {
-  font-family: 'Oswald', sans-serif;
-  font-size: 22px;
-}
-
-.preview-info {
+.date-nav > div {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  flex: 1;
   min-width: 0;
 }
 
-.preview-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 20px;
+.date-nav strong {
+  font: 18px 'Oswald', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
 }
 
-.preview-info .mono {
-  font-size: 12px;
+.date-nav span {
+  font: 10px 'IBM Plex Mono', monospace;
 }
 
-.preview-dock > .mono {
-  font-size: 12px;
+.date-nav button,
+.date-nav input {
+  min-height: 32px;
+  border: 1px solid;
+  background: transparent;
+  padding: 6px 10px;
+  font: 10px 'IBM Plex Mono', monospace;
+  cursor: pointer;
+}
+
+.epg {
+  border-bottom: 1px solid;
+}
+
+.epg-row {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto 42px;
+  align-items: center;
+  min-height: 60px;
+  padding: 9px 12px 9px 10px;
+  border-top: 1px solid;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+
+.epg-row time {
+  font: 700 13px 'IBM Plex Mono', monospace;
+}
+
+.epg-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.epg-copy strong {
+  font: 17px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.epg-copy span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.type {
+  padding: 3px 6px;
+  border: 1px solid;
+  font: 9px 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+}
+
+.now {
+  justify-self: end;
+  font: 700 10px 'IBM Plex Mono', monospace;
+}
+
+.empty {
+  padding: 50px 0;
+  text-align: center;
+  font: 12px 'IBM Plex Mono', monospace;
+}
+
+@media (max-width: 640px) {
+  .guide {
+    width: min(100% - 28px, 1040px);
+    padding-top: 20px;
+  }
+
+  .guide-head h1 {
+    font-size: 31px;
+  }
+
+  .on-air-main,
+  .date-nav {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .on-air-times {
+    width: 100%;
+  }
+
+  .date-nav > div {
+    min-width: calc(100% - 88px);
+  }
+
+  .epg-row {
+    grid-template-columns: 52px minmax(0, 1fr) 36px;
+    padding-left: 7px;
+  }
+
+  .type {
+    display: none;
+  }
+
+  .up-next span {
+    display: none;
+  }
 }
 </style>

@@ -1,5 +1,2098 @@
 [
   {
+    "tmdbEpisodeId": -48001,
+    "seriesId": -48,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": "jcGWeh3YUNI",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rTxNemGkM3wSat9r4NEfwi"
+    }
+  },
+  {
+    "tmdbEpisodeId": -48002,
+    "seriesId": -48,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": "FQBV0ZYtVjw",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rTxNemGkM3wSat9r4NEfwi"
+    }
+  },
+  {
+    "tmdbEpisodeId": -48003,
+    "seriesId": -48,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": "Quf0eOrela8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rTxNemGkM3wSat9r4NEfwi"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47001,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": "HJuRXhq_hFE",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47002,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": "rpWXLWy9Ty0",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47003,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": "_rJDiALhIZs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47004,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": "SsbI0UDJ8jI",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47005,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": "BufDzH1_NPA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47006,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": "32YJRjhzt78",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47007,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 7,
+    "youtubeId": "0KH3GG-u1FY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47008,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 8,
+    "youtubeId": "hDOwzNJ4BDY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47009,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 9,
+    "youtubeId": "PTA5hD18dY4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47010,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 10,
+    "youtubeId": "LDcRUQphvRw",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47011,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 11,
+    "youtubeId": "2ceUqQwHCTo",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47012,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 12,
+    "youtubeId": "svYy8AnFBTI",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -47013,
+    "seriesId": -47,
+    "season": 1,
+    "episode": 13,
+    "youtubeId": "XLAK_yyAkyw",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0qQrqrSFSzH6xtGCCrMHZyl"
+    }
+  },
+  {
+    "tmdbEpisodeId": -46001,
+    "seriesId": -46,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": "hV5vimxSZls",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0o1WjExmeMDc9IXmLD0YMQy"
+    }
+  },
+  {
+    "tmdbEpisodeId": -46002,
+    "seriesId": -46,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": "7BcJzvsBv5A",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0o1WjExmeMDc9IXmLD0YMQy"
+    }
+  },
+  {
+    "tmdbEpisodeId": -46003,
+    "seriesId": -46,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": "tx3VWn6Auwk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0o1WjExmeMDc9IXmLD0YMQy"
+    }
+  },
+  {
+    "tmdbEpisodeId": -46004,
+    "seriesId": -46,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": "bNlGTd4znC0",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0o1WjExmeMDc9IXmLD0YMQy"
+    }
+  },
+  {
+    "tmdbEpisodeId": -46005,
+    "seriesId": -46,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": "5YIXAdnex8A",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0o1WjExmeMDc9IXmLD0YMQy"
+    }
+  },
+  {
+    "tmdbEpisodeId": -46006,
+    "seriesId": -46,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": "rtN4fw0OU50",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0o1WjExmeMDc9IXmLD0YMQy"
+    }
+  },
+  {
+    "tmdbEpisodeId": -45001,
+    "seriesId": -45,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": "Xtyxbe1IHiE",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0q1nyiLkRab7ev-amwhkvja"
+    }
+  },
+  {
+    "tmdbEpisodeId": -45002,
+    "seriesId": -45,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": "rwv7ATNyiCQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0q1nyiLkRab7ev-amwhkvja"
+    }
+  },
+  {
+    "tmdbEpisodeId": -45003,
+    "seriesId": -45,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": "T67ABT2-_mA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0q1nyiLkRab7ev-amwhkvja"
+    }
+  },
+  {
+    "tmdbEpisodeId": -45004,
+    "seriesId": -45,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": "JNt9NlcRdL4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0q1nyiLkRab7ev-amwhkvja"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44001,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": "Fi6HdiSOc68",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44002,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": "faOdRSkXRNM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44003,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": "zvuP47t20kM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44004,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": "8hgWifmRx-s",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44005,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": "zeOFvFj1TSw",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44006,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": "kJZoSxyZWUM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44007,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 7,
+    "youtubeId": "NExCE7uCh-E",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44008,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 8,
+    "youtubeId": "L2lLSm3csto",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44009,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 9,
+    "youtubeId": "ujBg8GWB3cg",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44010,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 10,
+    "youtubeId": "KjTf6WQ9ZnU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44011,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 11,
+    "youtubeId": "rmPIXnN7L7w",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44012,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 12,
+    "youtubeId": "jf3f9O3PGro",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44013,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 13,
+    "youtubeId": "kTVKU0aCmYY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44014,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 14,
+    "youtubeId": "64sWFa_9qmM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -44015,
+    "seriesId": -44,
+    "season": 1,
+    "episode": 15,
+    "youtubeId": "wVXkatP6ABc",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0raWr4SMPnT5-d8x6jLiigB"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40001,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": "7G5-2bJGqow",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40002,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": "v-laocKxglw",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40003,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": "MMKGRKyWSBk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40004,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": "1MX1MkQqLBE",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40005,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": "dGV-SQOjNow",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40006,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": "czKChto0rVs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40007,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 7,
+    "youtubeId": "s1SDxyX5bvs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40008,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 8,
+    "youtubeId": "ZA8auXoI9gA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40009,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 9,
+    "youtubeId": "bum_VTsI-hs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40010,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 10,
+    "youtubeId": "vw1pDGu3xnk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40011,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 11,
+    "youtubeId": "ECHpX-g9jRM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40012,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 12,
+    "youtubeId": "cAm1LIZpeo0",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40013,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 13,
+    "youtubeId": "VedJQo2rlAk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40014,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 14,
+    "youtubeId": "JIAYQyUO5S8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40015,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 15,
+    "youtubeId": "WMSQztdvzh4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40016,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 16,
+    "youtubeId": "cZswZUnSgIs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40017,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 17,
+    "youtubeId": "tfIW3e-7Xk4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40018,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 18,
+    "youtubeId": "38RTIyB7b1I",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40019,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 19,
+    "youtubeId": "1IaYLDFP0cY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40020,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 20,
+    "youtubeId": "40opu9UaItQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40021,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 21,
+    "youtubeId": "ttiVm03GvaI",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40022,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 22,
+    "youtubeId": "WTEN0YCPT1Y",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40023,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 23,
+    "youtubeId": "kaF2ANK6k7Q",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40024,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 24,
+    "youtubeId": "t5Nq_EiUEH8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40025,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 25,
+    "youtubeId": "bkqVyfV9CHY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40026,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 26,
+    "youtubeId": "ILhaLJvcggg",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40027,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 27,
+    "youtubeId": "Gh5QYd3PbLU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40028,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 28,
+    "youtubeId": "bs3n5_gNH6M",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40029,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 29,
+    "youtubeId": "D3ZPbBNik5Y",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40030,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 30,
+    "youtubeId": "8ils_m9vifs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40031,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 31,
+    "youtubeId": "5nHJl6rTRIA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40032,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 32,
+    "youtubeId": "dq_ApFb02ro",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40033,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 33,
+    "youtubeId": "60T3jljFsiQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40034,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 34,
+    "youtubeId": "jL1OFn0_eUE",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40035,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 35,
+    "youtubeId": "SxkqbMZKAF4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40036,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 36,
+    "youtubeId": "fFsGcpbBqH8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40037,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 37,
+    "youtubeId": "xGJvPKMDn6Q",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40038,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 38,
+    "youtubeId": "3PsRQeVe2sc",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40039,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 39,
+    "youtubeId": "cV6dCu9hJR0",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40040,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 40,
+    "youtubeId": "_PWez_wiFss",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40041,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 41,
+    "youtubeId": "-FqFiWMY8QA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40042,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 42,
+    "youtubeId": "fPgmiiiEEgk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40043,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 43,
+    "youtubeId": "7SdRXfiL8H0",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40044,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 44,
+    "youtubeId": "Xa7z-FjR8HY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40045,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 45,
+    "youtubeId": "umrmDCc55ow",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40046,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 46,
+    "youtubeId": "nUBmptAfO54",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40047,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 47,
+    "youtubeId": "9t6RBaueYg8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40048,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 48,
+    "youtubeId": "ghv2lJ0lVSY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40049,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 49,
+    "youtubeId": "PSI9mX6RuMQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40050,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 50,
+    "youtubeId": "6KXS-dk5uJY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40051,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 51,
+    "youtubeId": "_xqHdQ9W_e8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40052,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 52,
+    "youtubeId": "UX3vChNozZ4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40053,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 53,
+    "youtubeId": "S3y_1r37VmY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40054,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 54,
+    "youtubeId": "VzdHnai8dio",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40055,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 55,
+    "youtubeId": "iH5DSI8YUDQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40056,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 56,
+    "youtubeId": "A4kV_qjZ058",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40057,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 57,
+    "youtubeId": "n5b-Mrx-HR8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40058,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 58,
+    "youtubeId": "AeY9ca5uJEY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40059,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 59,
+    "youtubeId": "9r2tn4gOzZM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40060,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 60,
+    "youtubeId": "vRanqX7j1-0",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40061,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 61,
+    "youtubeId": "n-X_jfzfU_w",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40062,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 62,
+    "youtubeId": "lnYI599ZNng",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40063,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 63,
+    "youtubeId": "U7eb6lEti_M",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40064,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 64,
+    "youtubeId": "-TRA1vy0y6M",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40065,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 65,
+    "youtubeId": "yxl7eEdGhIU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40066,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 66,
+    "youtubeId": "qQozFMQ3n98",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40067,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 67,
+    "youtubeId": "-5oi-yh3MyA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40068,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 68,
+    "youtubeId": "eevCk12M4c0",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40069,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 69,
+    "youtubeId": "ovMWH5c0DgQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40070,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 70,
+    "youtubeId": "q_vWDvzyKjA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40071,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 71,
+    "youtubeId": "a1vXX3OrRDQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40072,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 72,
+    "youtubeId": "68xyc9Q_BGU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40073,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 73,
+    "youtubeId": "pa6hnLg5uqA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40074,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 74,
+    "youtubeId": "KySNjo5xIps",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40075,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 75,
+    "youtubeId": "rzma_gjEjNU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40076,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 76,
+    "youtubeId": "SJ_L1Vd-Coo",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40077,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 77,
+    "youtubeId": "pFTJH2IdU38",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40078,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 78,
+    "youtubeId": "aHKtte04-VM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40079,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 79,
+    "youtubeId": "KKPn-lz_1o4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40080,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 80,
+    "youtubeId": "85lzK1u5RS4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -40081,
+    "seriesId": -40,
+    "season": 1,
+    "episode": 81,
+    "youtubeId": "ydAym-kHovs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLV4Ztn9euy7QUvEaQCkMup4TVQlsVLqtp"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39001,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": "r_7Guil7eMY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39002,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": "u0Y7pc5MEzA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39003,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": "uCJyrL4QyUs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39004,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": "NKlD0yJUMPc",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39005,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": "p-dM3v9PDes",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39006,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": "ysTIdS8vcmw",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39007,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 7,
+    "youtubeId": "hJYs4pyWAv0",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39008,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 8,
+    "youtubeId": "Zc27cjnz4Ww",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39009,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 9,
+    "youtubeId": "ZDfTfBzaVhY",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39010,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 10,
+    "youtubeId": "WrpXB9t8qLo",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39011,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 11,
+    "youtubeId": "NZ_t80ALOuU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39012,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 12,
+    "youtubeId": "EDlok4on8lk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39013,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 13,
+    "youtubeId": "eyc1bVz-NPU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39014,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 14,
+    "youtubeId": "TZ6r2n8I41g",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39015,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 15,
+    "youtubeId": "ow4Trom2lX8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39016,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 16,
+    "youtubeId": "FV4cKWOxi-g",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39017,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 17,
+    "youtubeId": "VPr8ShOTkRc",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39018,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 18,
+    "youtubeId": "w1Lj6vF_yUM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39019,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 19,
+    "youtubeId": "k3YOzU5zylI",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39020,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 20,
+    "youtubeId": "YoNcfWjFOVg",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39021,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 21,
+    "youtubeId": "fSMWvTbZ48A",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39022,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 22,
+    "youtubeId": "X7jOlSEBoJQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39023,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 23,
+    "youtubeId": "F-t259N2hVk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39024,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 24,
+    "youtubeId": "1sskZXiosvI",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39025,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 25,
+    "youtubeId": "veCjswj1VvU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39026,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 26,
+    "youtubeId": "v-cbFxFmB4Q",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39027,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 27,
+    "youtubeId": "27lFPWpFCiI",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39028,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 28,
+    "youtubeId": "5Anmr1Gb7jQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39029,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 29,
+    "youtubeId": "R537Y9nji8k",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39030,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 30,
+    "youtubeId": "LKme3XjLN8o",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39031,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 31,
+    "youtubeId": "qRzL6_vg7sU",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39032,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 32,
+    "youtubeId": "GJa3alWRkY4",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39033,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 33,
+    "youtubeId": "lUvER5ArMJ8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39034,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 34,
+    "youtubeId": "FlGu4FUPUzs",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39035,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 35,
+    "youtubeId": "zhq7NT8TGQ8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39036,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 36,
+    "youtubeId": "c7P85YVHVRA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39037,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 37,
+    "youtubeId": "inhrj30FZUQ",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39038,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 38,
+    "youtubeId": "FrZ0QSrbvYk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
+    "tmdbEpisodeId": -39039,
+    "seriesId": -39,
+    "season": 1,
+    "episode": 39,
+    "youtubeId": "6luwnEab8Is",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLJsHRnFwQpSlsw9a-xZCD2_giYKU0VPy4"
+    }
+  },
+  {
     "tmdbEpisodeId": -37001,
     "seriesId": -37,
     "season": 1,
@@ -784,7 +2877,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 14,
-    "youtubeId": "ZB7vYvOxZnY",
+    "youtubeId": "1A2KTXUWvMg",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -797,7 +2890,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 15,
-    "youtubeId": "wcBvvnyGUe4",
+    "youtubeId": "ZB7vYvOxZnY",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -810,7 +2903,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 16,
-    "youtubeId": "urIKwjSqQGc",
+    "youtubeId": "wcBvvnyGUe4",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -823,7 +2916,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 17,
-    "youtubeId": "NEYYjeGn18k",
+    "youtubeId": "urIKwjSqQGc",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -836,7 +2929,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 18,
-    "youtubeId": "R7sk12jTSA0",
+    "youtubeId": "NEYYjeGn18k",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -849,7 +2942,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 19,
-    "youtubeId": "HWljK2OtMbU",
+    "youtubeId": "R7sk12jTSA0",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -862,7 +2955,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 20,
-    "youtubeId": "apRdOXz6eVQ",
+    "youtubeId": "HWljK2OtMbU",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -875,7 +2968,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 21,
-    "youtubeId": "LMmQXVtTF74",
+    "youtubeId": "apRdOXz6eVQ",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -888,7 +2981,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 22,
-    "youtubeId": "RsjrkY0f1nw",
+    "youtubeId": "LMmQXVtTF74",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -901,7 +2994,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 23,
-    "youtubeId": "2WTCWZDiTuM",
+    "youtubeId": "RsjrkY0f1nw",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -914,7 +3007,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 24,
-    "youtubeId": "9QFaM7UUmag",
+    "youtubeId": "2WTCWZDiTuM",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -927,7 +3020,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 25,
-    "youtubeId": "WPKOnX7435E",
+    "youtubeId": "9QFaM7UUmag",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -940,7 +3033,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 26,
-    "youtubeId": "_2SLuMPuHgU",
+    "youtubeId": "WPKOnX7435E",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -953,7 +3046,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 27,
-    "youtubeId": "uj05mK9H1FI",
+    "youtubeId": "_2SLuMPuHgU",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -966,7 +3059,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 28,
-    "youtubeId": "M3BhxftT6c0",
+    "youtubeId": "uj05mK9H1FI",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -979,7 +3072,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 29,
-    "youtubeId": "JRAg7UEbPsI",
+    "youtubeId": "M3BhxftT6c0",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -992,7 +3085,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 30,
-    "youtubeId": "rtbS0KVvwxE",
+    "youtubeId": "JRAg7UEbPsI",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1005,7 +3098,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 31,
-    "youtubeId": "Z-P009TXoDA",
+    "youtubeId": "rtbS0KVvwxE",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1018,7 +3111,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 32,
-    "youtubeId": "flzexa7_wXA",
+    "youtubeId": "Z-P009TXoDA",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1031,7 +3124,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 33,
-    "youtubeId": "yoiYkZw7mz8",
+    "youtubeId": "flzexa7_wXA",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1044,7 +3137,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 34,
-    "youtubeId": "Jtvod1cN-9I",
+    "youtubeId": "yoiYkZw7mz8",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1057,7 +3150,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 35,
-    "youtubeId": "6I7hYcTg16U",
+    "youtubeId": "Jtvod1cN-9I",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1070,7 +3163,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 36,
-    "youtubeId": "aGXSSqlnRy4",
+    "youtubeId": "6I7hYcTg16U",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1083,7 +3176,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 37,
-    "youtubeId": "uor2WelRaoc",
+    "youtubeId": "aGXSSqlnRy4",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1096,7 +3189,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 38,
-    "youtubeId": "jDR-jee9CLM",
+    "youtubeId": "uor2WelRaoc",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1109,7 +3202,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 39,
-    "youtubeId": "K9ekyAamIXg",
+    "youtubeId": "jDR-jee9CLM",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1122,7 +3215,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 40,
-    "youtubeId": "3RTQ9QQPE-A",
+    "youtubeId": "K9ekyAamIXg",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1135,7 +3228,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 41,
-    "youtubeId": "gjD3ns98-qg",
+    "youtubeId": "3RTQ9QQPE-A",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1148,7 +3241,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 42,
-    "youtubeId": "Cjj3C-J3ypo",
+    "youtubeId": "gjD3ns98-qg",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1161,7 +3254,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 43,
-    "youtubeId": "ygXDzi4PcC4",
+    "youtubeId": "Cjj3C-J3ypo",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1174,7 +3267,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 44,
-    "youtubeId": "-QEUmqBVc8c",
+    "youtubeId": "ygXDzi4PcC4",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1187,7 +3280,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 45,
-    "youtubeId": "DzF8GpN18NI",
+    "youtubeId": "-QEUmqBVc8c",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1200,7 +3293,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 46,
-    "youtubeId": "lW7mjYJ0zOs",
+    "youtubeId": "DzF8GpN18NI",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1213,7 +3306,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 47,
-    "youtubeId": "klBxgph-_Y4",
+    "youtubeId": "lW7mjYJ0zOs",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1226,7 +3319,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 48,
-    "youtubeId": "86nrCSZ_Y2s",
+    "youtubeId": "klBxgph-_Y4",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1239,7 +3332,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 49,
-    "youtubeId": "QmWt7zjCR5U",
+    "youtubeId": "86nrCSZ_Y2s",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1252,7 +3345,7 @@
     "seriesId": -15,
     "season": 1,
     "episode": 50,
-    "youtubeId": "DGdH1VEufUc",
+    "youtubeId": "QmWt7zjCR5U",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
@@ -1265,12 +3358,246 @@
     "seriesId": -15,
     "season": 1,
     "episode": 51,
+    "youtubeId": "DGdH1VEufUc",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLsVrIqEkJoylev4yM2hFkrHwS_An094Yb"
+    }
+  },
+  {
+    "tmdbEpisodeId": -15052,
+    "seriesId": -15,
+    "season": 1,
+    "episode": 52,
     "youtubeId": "86ZpbLgACKM",
     "status": "available",
     "checkedAt": "2026-08-11",
     "source": {
       "kind": "playlist",
       "id": "PLsVrIqEkJoylev4yM2hFkrHwS_An094Yb"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1001,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 1,
+    "youtubeId": "s0dh19yw_hg",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1002,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 2,
+    "youtubeId": "z8eSadffE5Q",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1003,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 3,
+    "youtubeId": "D7798bMEgsI",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1004,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 4,
+    "youtubeId": "2ruhdfUfHow",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1005,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 5,
+    "youtubeId": "6jclIyJkwfg",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1006,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 6,
+    "youtubeId": "aohv1F-giq8",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1007,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 7,
+    "youtubeId": "etE61Wq_STk",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1008,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 8,
+    "youtubeId": "supRKWFL4lw",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1009,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 9,
+    "youtubeId": "qIIgjEd7Z5k",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1010,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 10,
+    "youtubeId": "uDKmDGQc418",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1011,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 11,
+    "youtubeId": "w9kwEAwkT3Y",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1012,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 12,
+    "youtubeId": "NJIEgZN6-sw",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1013,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 13,
+    "youtubeId": "ngJ9ZpNpQYA",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1014,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 14,
+    "youtubeId": "_2lbLTSwy0A",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1015,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 15,
+    "youtubeId": "PHt1FDrfLdg",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1016,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 16,
+    "youtubeId": "ElsZyEYXRIM",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
+    }
+  },
+  {
+    "tmdbEpisodeId": -1017,
+    "seriesId": -1,
+    "season": 1,
+    "episode": 17,
+    "youtubeId": "4_X7d_8TELg",
+    "status": "available",
+    "checkedAt": "2026-08-11",
+    "source": {
+      "kind": "playlist",
+      "id": "PLU4Lcri7Lk0rdzi-1zZanJXjFRQVtje5K"
     }
   }
 ]

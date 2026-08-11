@@ -6,7 +6,8 @@ import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
 import { episodeCountLabel, formatAirDate, pad2, yearRangeLabel } from '../data/helpers';
 import { AVAILABILITY_LABELS, COPY } from '../data/themes';
-import type { PublicEpisode } from '../types';
+import { formatChannelTime, nextAiring } from '../broadcast/engine';
+import type { Broadcast, BroadcastChannel, PublicEpisode } from '../types';
 
 const props = defineProps<{ slug: string }>();
 
@@ -36,6 +37,35 @@ const epLabel = computed(() => (series.value ? episodeCountLabel(series.value.ep
 
 const episodes = computed<PublicEpisode[]>(() => seasons.value[activeSeasonIdx.value]?.episodes ?? []);
 
+const nextBroadcast = computed<{ broadcast: Broadcast; channel: BroadcastChannel } | null>(() => {
+  if (!series.value) return null;
+  const candidates = content.liveChannels.flatMap((channel) => {
+    if (channel.networkSlug !== series.value?.networkSlug) return [];
+    const schedule = content.scheduleForChannel(channel.id);
+    const broadcast = schedule ? nextAiring(schedule, props.slug, Date.now()) : null;
+    return broadcast ? [{ broadcast, channel }] : [];
+  });
+  return candidates.sort(
+    (a, b) => new Date(a.broadcast.startsAt).getTime() - new Date(b.broadcast.startsAt).getTime(),
+  )[0] ?? null;
+});
+
+const nextBroadcastLabel = computed(() => {
+  const item = nextBroadcast.value;
+  if (!item) return 'No upcoming broadcast scheduled';
+  const startsAt = new Date(item.broadcast.startsAt);
+  if (startsAt.getTime() <= Date.now() && new Date(item.broadcast.endsAt).getTime() > Date.now()) {
+    return `On air now · until ${formatChannelTime(item.broadcast.endsAt, item.channel.timezone)}`;
+  }
+  const date = new Intl.DateTimeFormat('en-GB', {
+    timeZone: item.channel.timezone,
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }).format(startsAt);
+  return `Next broadcast ${date} · ${formatChannelTime(startsAt, item.channel.timezone)}`;
+});
+
 /** Availability is on the row before the click, never discovered after one. */
 function tagFor(episode: PublicEpisode): { label: string; colour: string } {
   return {
@@ -53,6 +83,11 @@ function goEpisode(episode: PublicEpisode): void {
   if (!isPlayable(episode)) return;
   ui.triggerFlicker();
   void router.push(`/series/${props.slug}/${episode.season}/${episode.episode}`);
+}
+
+function watchOnChannel(): void {
+  const target = nextBroadcast.value?.channel;
+  if (target) void router.push(`/watch/${target.id}`);
 }
 
 function report(e: Event, episode: PublicEpisode): void {
@@ -87,6 +122,21 @@ function report(e: Event, episode: PublicEpisode): void {
     </div>
 
     <div class="synopsis" :style="{ color: C.dim2 }">{{ series.overview }}</div>
+
+    <div v-if="network" class="broadcast-cta" :style="{ borderColor: C.border, background: C.bg2 }">
+      <div>
+        <span class="mono" :style="{ color: colour }">{{ nextBroadcast?.channel.name ?? network.name }}</span>
+        <strong :style="{ color: C.ink }">{{ nextBroadcastLabel }}</strong>
+        <small v-if="nextBroadcast" :style="{ color: C.dim }">{{ nextBroadcast.broadcast.episode?.title }}</small>
+      </div>
+      <button
+        :disabled="!nextBroadcast"
+        :style="{ background: nextBroadcast ? colour : C.border2, color: C.chipFg }"
+        @click="watchOnChannel"
+      >
+        WATCH ON {{ network.name.toUpperCase() }} →
+      </button>
+    </div>
 
     <div v-if="seasons.length > 1" class="season-tabs">
       <button
@@ -193,6 +243,51 @@ function report(e: Event, episode: PublicEpisode): void {
   line-height: 1.5;
 }
 
+.broadcast-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  max-width: 860px;
+  margin: 14px 24px 2px;
+  padding: 14px 16px;
+  border: 1px solid;
+}
+
+.broadcast-cta > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.broadcast-cta .mono {
+  font: 10px 'IBM Plex Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.broadcast-cta strong {
+  font: 17px 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.broadcast-cta small {
+  font-size: 11px;
+}
+
+.broadcast-cta button {
+  flex: none;
+  border: 0;
+  padding: 9px 12px;
+  font: 700 10px 'IBM Plex Mono', monospace;
+  cursor: pointer;
+}
+
+.broadcast-cta button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
 .season-tabs {
   display: flex;
   gap: 6px;
@@ -277,6 +372,16 @@ function report(e: Event, episode: PublicEpisode): void {
 
   .synopsis {
     padding: 16px 14px 4px;
+  }
+
+  .broadcast-cta {
+    align-items: stretch;
+    flex-direction: column;
+    margin: 12px 14px 0;
+  }
+
+  .broadcast-cta button {
+    align-self: flex-start;
   }
 
   .season-tabs {
