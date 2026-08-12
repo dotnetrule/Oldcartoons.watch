@@ -1,19 +1,19 @@
 {
-  "fetchedAt": "2026-08-12T21:09:43.464Z",
+  "fetchedAt": "2026-08-12T21:09:43.466Z",
   "detail": {
-    "id": -45,
-    "name": "Jim Button",
-    "overview": "Jim Button en machinist Luke verlaten het kleine eiland Morrowland en reizen met hun locomotief Emma door een wereld vol vreemde landen, draken en nieuwe vrienden.",
-    "first_air_date": "1999-08-26",
-    "last_air_date": "2000-09-30",
-    "number_of_episodes": 52,
+    "id": -54,
+    "name": "Dennis the Menace",
+    "overview": "Uit de historische Nederlandse tv-gids geïmporteerde catalogusvermelding voor Dennis the Menace. Afleveringen worden afzonderlijk geïndexeerd zodra een controleerbare bron beschikbaar is.",
+    "first_air_date": null,
+    "last_air_date": null,
+    "number_of_episodes": 3,
     "backdrop_path": null,
     "poster_path": null,
     "seasons": [
       {
         "season_number": 1,
         "name": "Season 1",
-        "episode_count": 4
+        "episode_count": 3
       }
     ]
   },
@@ -23,8 +23,8 @@
       "name": "Season 1",
       "episodes": [
         {
-          "id": -45001,
-          "name": "een verrassingspakket",
+          "id": -54001,
+          "name": "Dennis aflevering 1 - Weg met de oude verf (NL)",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,
@@ -32,8 +32,8 @@
           "still_path": null
         },
         {
-          "id": -45002,
-          "name": "de mooie gevangene",
+          "id": -54002,
+          "name": "Dennis aflevering 2 - Lopende band van slag (NL)",
           "season_number": 1,
           "episode_number": 2,
           "air_date": null,
@@ -41,19 +41,10 @@
           "still_path": null
         },
         {
-          "id": -45003,
-          "name": "Mandala",
+          "id": -54003,
+          "name": "Dennis aflevering 3 - Privé detective",
           "season_number": 1,
           "episode_number": 3,
-          "air_date": null,
-          "runtime": null,
-          "still_path": null
-        },
-        {
-          "id": -45004,
-          "name": "het vertrek",
-          "season_number": 1,
-          "episode_number": 4,
           "air_date": null,
           "runtime": null,
           "still_path": null

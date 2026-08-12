@@ -1,19 +1,19 @@
 {
-  "fetchedAt": "2026-08-12T21:09:43.461Z",
+  "fetchedAt": "2026-08-12T21:09:43.467Z",
   "detail": {
-    "id": -15,
-    "name": "Samurai Pizza Cats",
-    "overview": "Drie pizzabezorgende misdaadbestrijders verdedigen Little Tokyo in een uitbundige bewerking die zich weinig aantrekt van het oorspronkelijke Japanse script.",
-    "first_air_date": "1990-11-02",
-    "last_air_date": "1991-12-31",
-    "number_of_episodes": 52,
+    "id": -83,
+    "name": "Shin Chan",
+    "overview": "Uit de historische Nederlandse tv-gids geïmporteerde catalogusvermelding voor Shin Chan. Afleveringen worden afzonderlijk geïndexeerd zodra een controleerbare bron beschikbaar is.",
+    "first_air_date": null,
+    "last_air_date": null,
+    "number_of_episodes": 58,
     "backdrop_path": null,
     "poster_path": null,
     "seasons": [
       {
         "season_number": 1,
         "name": "Season 1",
-        "episode_count": 51
+        "episode_count": 58
       }
     ]
   },
@@ -23,8 +23,8 @@
       "name": "Season 1",
       "episodes": [
         {
-          "id": -15001,
-          "name": "Stop Dragon My Cat Around!",
+          "id": -83001,
+          "name": "Crayon Shin chan 001a Vadertje en Moedertje spelen upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,
@@ -32,8 +32,8 @@
           "still_path": null
         },
         {
-          "id": -15002,
-          "name": "If You Knew Sushi Like I Know Sushi",
+          "id": -83002,
+          "name": "Crayon Shin chan 002c Pap is zijn wenkbrauwen verloren upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 2,
           "air_date": null,
@@ -41,8 +41,8 @@
           "still_path": null
         },
         {
-          "id": -15003,
-          "name": "Underground Underwater Undercooked",
+          "id": -83003,
+          "name": "Crayon Shin chan 003a Logeren bij Juf Dori upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 3,
           "air_date": null,
@@ -50,8 +50,8 @@
           "still_path": null
         },
         {
-          "id": -15004,
-          "name": "The Great Golden Cluck",
+          "id": -83004,
+          "name": "Crayon Shin chan 003b Ik ontmoet Hishi upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 4,
           "air_date": null,
@@ -59,8 +59,8 @@
           "still_path": null
         },
         {
-          "id": -15005,
-          "name": "Let The Cellar Beware!",
+          "id": -83005,
+          "name": "Crayon Shin chan 005a Ik wil koekjes! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 5,
           "air_date": null,
@@ -68,8 +68,8 @@
           "still_path": null
         },
         {
-          "id": -15006,
-          "name": "Singing Samurai Sensation",
+          "id": -83006,
+          "name": "Crayon Shin chan 005c Mam loopt weg upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 6,
           "air_date": null,
@@ -77,8 +77,8 @@
           "still_path": null
         },
         {
-          "id": -15007,
-          "name": "The Nuclear Potato",
+          "id": -83007,
+          "name": "Crayon Shin chan 006a Krijgen wij een scheiding upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 7,
           "air_date": null,
@@ -86,8 +86,8 @@
           "still_path": null
         },
         {
-          "id": -15008,
-          "name": "Kind of a Drag",
+          "id": -83008,
+          "name": "Crayon Shin chan 006c Het softbaltoernooi deel 2 upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 8,
           "air_date": null,
@@ -95,8 +95,8 @@
           "still_path": null
         },
         {
-          "id": -15009,
-          "name": "Double Trouble for Princess Vi",
+          "id": -83009,
+          "name": "Crayon Shin chan 007a Ik word gerecycled upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 9,
           "air_date": null,
@@ -104,8 +104,8 @@
           "still_path": null
         },
         {
-          "id": -15010,
-          "name": "Hot & Kold Kitties",
+          "id": -83010,
+          "name": "Crayon Shin chan 008a Ballonnenpret upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 10,
           "air_date": null,
@@ -113,8 +113,8 @@
           "still_path": null
         },
         {
-          "id": -15011,
-          "name": "Candid Kitty",
+          "id": -83011,
+          "name": "Crayon Shin chan 008b De gevonden portemonnee upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 11,
           "air_date": null,
@@ -122,8 +122,8 @@
           "still_path": null
         },
         {
-          "id": -15012,
-          "name": "The Pizza Cats Are Only Human Part One",
+          "id": -83012,
+          "name": "Crayon Shin chan 008c Een dagje naar de stad upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 12,
           "air_date": null,
@@ -131,8 +131,8 @@
           "still_path": null
         },
         {
-          "id": -15013,
-          "name": "The Pizza Cats Are Only Human Part Two",
+          "id": -83013,
+          "name": "Crayon Shin chan 009a We gaan op vakantie upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 13,
           "air_date": null,
@@ -140,8 +140,8 @@
           "still_path": null
         },
         {
-          "id": -15014,
-          "name": "The Case of the Bogus Billionaire",
+          "id": -83014,
+          "name": "Crayon Shin chan 009b Vakantiepret upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 14,
           "air_date": null,
@@ -149,8 +149,8 @@
           "still_path": null
         },
         {
-          "id": -15015,
-          "name": "Big Cheese's I Q Corral",
+          "id": -83015,
+          "name": "Crayon Shin chan 009c Pap stort in upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 15,
           "air_date": null,
@@ -158,8 +158,8 @@
           "still_path": null
         },
         {
-          "id": -15016,
-          "name": "Field of Screwballs",
+          "id": -83016,
+          "name": "Crayon Shin chan 010b Hartstikke raak upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 16,
           "air_date": null,
@@ -167,8 +167,8 @@
           "still_path": null
         },
         {
-          "id": -15017,
-          "name": "Speedy's Double Time Trick",
+          "id": -83017,
+          "name": "Crayon Shin chan 014b Het spookhuis upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 17,
           "air_date": null,
@@ -176,8 +176,8 @@
           "still_path": null
         },
         {
-          "id": -15018,
-          "name": "Samurai Charm School",
+          "id": -83018,
+          "name": "Crayon Shin chan 014c Mam gaat staken upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 18,
           "air_date": null,
@@ -185,8 +185,8 @@
           "still_path": null
         },
         {
-          "id": -15019,
-          "name": "Drumming Up Trouble With A Big Bad Beat",
+          "id": -83019,
+          "name": "Crayon Shin chan 015b Pap zijn vriendinnetje upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 19,
           "air_date": null,
@@ -194,8 +194,8 @@
           "still_path": null
         },
         {
-          "id": -15020,
-          "name": "Pizza Bird Delivers!",
+          "id": -83020,
+          "name": "Crayon Shin chan 016a De geweldige laatkomer upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 20,
           "air_date": null,
@@ -203,8 +203,8 @@
           "still_path": null
         },
         {
-          "id": -15021,
-          "name": "Big Cheese Shows His Filmy Substance",
+          "id": -83021,
+          "name": "Crayon Shin chan 016c Ik kan niet slapen upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 21,
           "air_date": null,
@@ -212,8 +212,8 @@
           "still_path": null
         },
         {
-          "id": -15022,
-          "name": "Son of Big Cheese",
+          "id": -83022,
+          "name": "Crayon Shin chan 018a Ik speel met pap upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 22,
           "air_date": null,
@@ -221,8 +221,8 @@
           "still_path": null
         },
         {
-          "id": -15023,
-          "name": "Gender Bender Butterflies!",
+          "id": -83023,
+          "name": "Crayon Shin chan 018b We gaan wandelen upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 23,
           "air_date": null,
@@ -230,8 +230,8 @@
           "still_path": null
         },
         {
-          "id": -15024,
-          "name": "Cold and Crabby in Little Tokyo",
+          "id": -83024,
+          "name": "Crayon Shin chan 022c Ik hou van vieze boekjes upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 24,
           "air_date": null,
@@ -239,8 +239,8 @@
           "still_path": null
         },
         {
-          "id": -15025,
-          "name": "The Terror of Prisoner Island",
+          "id": -83025,
+          "name": "Crayon Shin chan 023b Lucky is ziek upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 25,
           "air_date": null,
@@ -248,8 +248,8 @@
           "still_path": null
         },
         {
-          "id": -15026,
-          "name": "Pizza Cat Performance Review",
+          "id": -83026,
+          "name": "Crayon Shin chan 026a Jij bent hem upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 26,
           "air_date": null,
@@ -257,8 +257,8 @@
           "still_path": null
         },
         {
-          "id": -15027,
-          "name": "Destructo Robots at Popular Prices",
+          "id": -83027,
+          "name": "Crayon Shin chan 026c Ons afspraakje met Ricky upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 27,
           "air_date": null,
@@ -266,8 +266,8 @@
           "still_path": null
         },
         {
-          "id": -15028,
-          "name": "No Talent Guido",
+          "id": -83028,
+          "name": "Crayon Shin chan 029c Ik speel met meneer Enzo upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 28,
           "air_date": null,
@@ -275,8 +275,8 @@
           "still_path": null
         },
         {
-          "id": -15029,
-          "name": "All You Need is Love",
+          "id": -83029,
+          "name": "Crayon Shin chan 031b Mams is haar sleutel kwijt! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 29,
           "air_date": null,
@@ -284,8 +284,8 @@
           "still_path": null
         },
         {
-          "id": -15030,
-          "name": "Polly's Magical Flute",
+          "id": -83030,
+          "name": "Crayon Shin chan 031c Van moeder ruilen! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 30,
           "air_date": null,
@@ -293,8 +293,8 @@
           "still_path": null
         },
         {
-          "id": -15031,
-          "name": "Close Encounters of the Pig Kind",
+          "id": -83031,
+          "name": "Crayon Shin chan 033a Krijg ik nu een broertje, of hoe zit dat upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 31,
           "air_date": null,
@@ -302,8 +302,8 @@
           "still_path": null
         },
         {
-          "id": -15032,
-          "name": "Big Cheese's High Definition TV",
+          "id": -83032,
+          "name": "Crayon Shin chan 033b Ik help de striptekenaar! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 32,
           "air_date": null,
@@ -311,8 +311,8 @@
           "still_path": null
         },
         {
-          "id": -15033,
-          "name": "Pizza Delivery of Doom!",
+          "id": -83033,
+          "name": "Crayon Shin chan 034b Mams komt erachter! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 33,
           "air_date": null,
@@ -320,8 +320,8 @@
           "still_path": null
         },
         {
-          "id": -15034,
-          "name": "Youth Is for Exploding",
+          "id": -83034,
+          "name": "Crayon Shin chan 034c Debuut in het park! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 34,
           "air_date": null,
@@ -329,8 +329,8 @@
           "still_path": null
         },
         {
-          "id": -15035,
-          "name": "Bad Bird Uncaged Part One",
+          "id": -83035,
+          "name": "Crayon Shin chan 035a Daisy draaft rond! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 35,
           "air_date": null,
@@ -338,8 +338,8 @@
           "still_path": null
         },
         {
-          "id": -15036,
-          "name": "Bad Bird Uncaged Part Two",
+          "id": -83036,
+          "name": "Crayon Shin chan 035b De drie ogige hond upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 36,
           "air_date": null,
@@ -347,8 +347,8 @@
           "still_path": null
         },
         {
-          "id": -15037,
-          "name": "A Mission in Manhatta",
+          "id": -83037,
+          "name": "Crayon Shin chan 035c Wie heeft er slaap nodig upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 37,
           "air_date": null,
@@ -356,8 +356,8 @@
           "still_path": null
         },
         {
-          "id": -15038,
-          "name": "Unidentified Flying Oddballs",
+          "id": -83038,
+          "name": "Crayon Shin chan 038c Zoeken naar zusjes upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 38,
           "air_date": null,
@@ -365,8 +365,8 @@
           "still_path": null
         },
         {
-          "id": -15039,
-          "name": "Princess Vi's Hippy Dippy Mom",
+          "id": -83039,
+          "name": "Crayon Shin chan 039a De tortelduifjes vechten upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 39,
           "air_date": null,
@@ -374,8 +374,8 @@
           "still_path": null
         },
         {
-          "id": -15040,
-          "name": "A Wet and Wild Weekend",
+          "id": -83040,
+          "name": "Crayon Shin chan 039b Alleen thuis upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 40,
           "air_date": null,
@@ -383,8 +383,8 @@
           "still_path": null
         },
         {
-          "id": -15041,
-          "name": "Episde 42 Kung Fu Kitty Kontest",
+          "id": -83041,
+          "name": "Crayon Shin chan 042a Ieder zijn droom upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 41,
           "air_date": null,
@@ -392,8 +392,8 @@
           "still_path": null
         },
         {
-          "id": -15042,
-          "name": "Gone with the Ginzu",
+          "id": -83042,
+          "name": "Crayon Shin chan 046a Ik heb stijl upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 42,
           "air_date": null,
@@ -401,8 +401,8 @@
           "still_path": null
         },
         {
-          "id": -15043,
-          "name": "A Little Bit O' Luck",
+          "id": -83043,
+          "name": "Crayon Shin chan 046b De schildpad en de hazen upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 43,
           "air_date": null,
@@ -410,8 +410,8 @@
           "still_path": null
         },
         {
-          "id": -15044,
-          "name": "Samurai Savings Time",
+          "id": -83044,
+          "name": "Crayon Shin chan 050a Overspelletjes upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 44,
           "air_date": null,
@@ -419,8 +419,8 @@
           "still_path": null
         },
         {
-          "id": -15045,
-          "name": "Phoney Baloney Cat",
+          "id": -83045,
+          "name": "Crayon Shin chan 050b Geld voor onderkruipers upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 45,
           "air_date": null,
@@ -428,8 +428,8 @@
           "still_path": null
         },
         {
-          "id": -15046,
-          "name": "The Cheese Who Stole Christmas",
+          "id": -83046,
+          "name": "Crayon Shin chan 050c Shin in de hulpverlening upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 46,
           "air_date": null,
@@ -437,8 +437,8 @@
           "still_path": null
         },
         {
-          "id": -15047,
-          "name": "Emperor Fred Does Hard Time",
+          "id": -83047,
+          "name": "Crayon Shin chan 051a De Wedstrijd upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 47,
           "air_date": null,
@@ -446,8 +446,8 @@
           "still_path": null
         },
         {
-          "id": -15048,
-          "name": "Quake, Rattle & Roll",
+          "id": -83048,
+          "name": "Crayon Shin chan 080c Dotty, De Schoolverlater! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 48,
           "air_date": null,
@@ -455,8 +455,8 @@
           "still_path": null
         },
         {
-          "id": -15049,
-          "name": "The Big Comet Caper Part One",
+          "id": -83049,
+          "name": "Crayon Shin chan 085a Ik Eet Noodlesoep! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 49,
           "air_date": null,
@@ -464,8 +464,8 @@
           "still_path": null
         },
         {
-          "id": -15050,
-          "name": "The Big Comet Caper Part Two",
+          "id": -83050,
+          "name": "Crayon Shin chan 087b Ik Wil Vlees Eten! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 50,
           "air_date": null,
@@ -473,10 +473,73 @@
           "still_path": null
         },
         {
-          "id": -15051,
-          "name": "The Cats Cop Cartoon Careers",
+          "id": -83051,
+          "name": "Crayon Shin chan 089a De Driewieler Race! upscaled Nederlands NL",
           "season_number": 1,
           "episode_number": 51,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -83052,
+          "name": "Crayon Shin chan 091a Thee Voor Drie! upscaled Nederlands NL",
+          "season_number": 1,
+          "episode_number": 52,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -83053,
+          "name": "Crayon Shin chan 091b Sumoworstelaar! upscaled Nederlands NL",
+          "season_number": 1,
+          "episode_number": 53,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -83054,
+          "name": "Crayon Shin chan 097a Ik Word Model! upscaled Nederlands NL",
+          "season_number": 1,
+          "episode_number": 54,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -83055,
+          "name": "Crayon Shin chan 102b Een Dubbele Opa Dag! upscaled Nederlands NL",
+          "season_number": 1,
+          "episode_number": 55,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -83056,
+          "name": "Crayon Shin chan 104b Ik Plaag Tubasso! upscaled Nederlands NL",
+          "season_number": 1,
+          "episode_number": 56,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -83057,
+          "name": "Crayon Shin chan 110b Zweten In De Spitstrein! upscaled Nederlands NL",
+          "season_number": 1,
+          "episode_number": 57,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -83058,
+          "name": "Crayon Shin chan 110c Bij Papa Op Het Werk! upscaled Nederlands NL",
+          "season_number": 1,
+          "episode_number": 58,
           "air_date": null,
           "runtime": null,
           "still_path": null

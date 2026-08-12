@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-10",
+  "fetchedAt": "2026-08-12T21:09:43.460Z",
   "detail": {
     "id": -10,
     "name": "Teenage Mutant Ninja Turtles",
@@ -9,9 +9,40 @@
     "number_of_episodes": 193,
     "backdrop_path": null,
     "poster_path": null,
-    "seasons": []
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 2
+      }
+    ]
   },
-  "seasons": [],
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -10001,
+          "name": "TMNT Aflevering 1 - Vernieuwing doet goed",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -10002,
+          "name": "TMNT Aflevering 2 - De betere muizenval",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        }
+      ]
+    }
+  ],
   "images": {
     "backdrops": [],
     "posters": []

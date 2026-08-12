@@ -1,0 +1,248 @@
+{
+  "fetchedAt": "2026-08-12T21:09:43.470Z",
+  "detail": {
+    "id": -117,
+    "name": "De Tofu's",
+    "overview": "Frans-Canadese tekenfilmserie over een gezin dat volledig ecologisch leeft: van het stroomnet af, eigen moestuin, een windmolen voor de elektriciteit en kleren van schapenwol. In Nederland uitgezonden door Jetix.",
+    "first_air_date": null,
+    "last_air_date": null,
+    "number_of_episodes": 24,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 24
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -117001,
+          "name": "mega city kids doen het op z'n tofus",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117002,
+          "name": "schat van de beauvillage rivier",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117003,
+          "name": "microchips vs macroshcapen",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117004,
+          "name": "de wraak van pompoenen",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117005,
+          "name": "luduvudu",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117006,
+          "name": "niet langer bang voor yang",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117007,
+          "name": "06a Prime Time Paniek",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117008,
+          "name": "03a Alleen Voor Vogels",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117009,
+          "name": "ChiChi de snelheidsduivel",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117010,
+          "name": "06b Hup Met De Geit",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117011,
+          "name": "03b Alarmhaan",
+          "season_number": 1,
+          "episode_number": 11,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117012,
+          "name": "10a Stedelijke Jungle",
+          "season_number": 1,
+          "episode_number": 12,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117013,
+          "name": "04a Grote Jongens Huilen Ook",
+          "season_number": 1,
+          "episode_number": 13,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117014,
+          "name": "08b Bezetting Van Het Burgerpaleis",
+          "season_number": 1,
+          "episode_number": 14,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117015,
+          "name": "09b Extreem Bio Gebabbel",
+          "season_number": 1,
+          "episode_number": 15,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117016,
+          "name": "01a Modejeuk",
+          "season_number": 1,
+          "episode_number": 16,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117017,
+          "name": "10b Bezoek Van De Grote Eenheid",
+          "season_number": 1,
+          "episode_number": 17,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117018,
+          "name": "09a Een Rijzende Ster",
+          "season_number": 1,
+          "episode_number": 18,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117019,
+          "name": "Tofu's de ark van Buba",
+          "season_number": 1,
+          "episode_number": 19,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117020,
+          "name": "11a Het Slechte Lenteritueel",
+          "season_number": 1,
+          "episode_number": 20,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117021,
+          "name": "07a Dat Zal Een Man Van Je Maken",
+          "season_number": 1,
+          "episode_number": 21,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117022,
+          "name": "Tofu - Aflevering 1",
+          "season_number": 1,
+          "episode_number": 22,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117023,
+          "name": "Tofu - Aflevering 2",
+          "season_number": 1,
+          "episode_number": 23,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -117024,
+          "name": "Tofu - Aflevering 3",
+          "season_number": 1,
+          "episode_number": 24,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

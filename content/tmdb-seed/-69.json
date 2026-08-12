@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-08-12T21:09:43.465Z",
+  "fetchedAt": "2026-08-12T21:09:43.466Z",
   "detail": {
-    "id": -47,
-    "name": "De Bende van Vijf",
-    "overview": "De Miller-vijfling Karl, Harold, Krystal, Karly en Austin lijkt nauwelijks op elkaar, maar beleeft met vijf uitgesproken persoonlijkheden steeds nieuwe avonturen.",
-    "first_air_date": "2001-04-14",
-    "last_air_date": "2002-03-30",
-    "number_of_episodes": 50,
+    "id": -69,
+    "name": "Life with Louie",
+    "overview": "Uit de historische Nederlandse tv-gids geïmporteerde catalogusvermelding voor Life with Louie. Afleveringen worden afzonderlijk geïndexeerd zodra een controleerbare bron beschikbaar is.",
+    "first_air_date": null,
+    "last_air_date": null,
+    "number_of_episodes": 13,
     "backdrop_path": null,
     "poster_path": null,
     "seasons": [
@@ -23,8 +23,8 @@
       "name": "Season 1",
       "episodes": [
         {
-          "id": -47001,
-          "name": "opa komt op bezoek",
+          "id": -69001,
+          "name": "A Christmas Surprise for Mrs Stillman",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,
@@ -32,8 +32,8 @@
           "still_path": null
         },
         {
-          "id": -47002,
-          "name": "zes op de versiertoer",
+          "id": -69002,
+          "name": "Dad Gets Canned",
           "season_number": 1,
           "episode_number": 2,
           "air_date": null,
@@ -41,8 +41,8 @@
           "still_path": null
         },
         {
-          "id": -47003,
-          "name": "zomerkerstman",
+          "id": -69003,
+          "name": "Inundation",
           "season_number": 1,
           "episode_number": 3,
           "air_date": null,
@@ -50,8 +50,8 @@
           "still_path": null
         },
         {
-          "id": -47004,
-          "name": "liefdeslessen",
+          "id": -69004,
+          "name": "Lake Winnibigoshish",
           "season_number": 1,
           "episode_number": 4,
           "air_date": null,
@@ -59,8 +59,8 @@
           "still_path": null
         },
         {
-          "id": -47005,
-          "name": "dinosaurus, waar?",
+          "id": -69005,
+          "name": "A Fish Called Pepper",
           "season_number": 1,
           "episode_number": 5,
           "air_date": null,
@@ -68,8 +68,8 @@
           "still_path": null
         },
         {
-          "id": -47006,
-          "name": "dinosaurus, daar!",
+          "id": -69006,
+          "name": "Behind Every Good Coach",
           "season_number": 1,
           "episode_number": 6,
           "air_date": null,
@@ -77,8 +77,8 @@
           "still_path": null
         },
         {
-          "id": -47007,
-          "name": "audrey miller",
+          "id": -69007,
+          "name": "Miracle in Cedar Knoll",
           "season_number": 1,
           "episode_number": 7,
           "air_date": null,
@@ -86,8 +86,8 @@
           "still_path": null
         },
         {
-          "id": -47008,
-          "name": "karly en de gemaskerde man",
+          "id": -69008,
+          "name": "Allergy Shots",
           "season_number": 1,
           "episode_number": 8,
           "air_date": null,
@@ -95,8 +95,8 @@
           "still_path": null
         },
         {
-          "id": -47009,
-          "name": "de trouwklokken luiden",
+          "id": -69009,
+          "name": "The Fourth Thursday in November",
           "season_number": 1,
           "episode_number": 9,
           "air_date": null,
@@ -104,8 +104,8 @@
           "still_path": null
         },
         {
-          "id": -47010,
-          "name": "dagboek ellende",
+          "id": -69010,
+          "name": "The Deer",
           "season_number": 1,
           "episode_number": 10,
           "air_date": null,
@@ -113,8 +113,8 @@
           "still_path": null
         },
         {
-          "id": -47011,
-          "name": "een boek vol geld",
+          "id": -69011,
+          "name": "Winter competition",
           "season_number": 1,
           "episode_number": 11,
           "air_date": null,
@@ -122,8 +122,8 @@
           "still_path": null
         },
         {
-          "id": -47012,
-          "name": "de geheime kamer",
+          "id": -69012,
+          "name": "Cooking and winning !!",
           "season_number": 1,
           "episode_number": 12,
           "air_date": null,
@@ -131,8 +131,8 @@
           "still_path": null
         },
         {
-          "id": -47013,
-          "name": "de eerste schooldag",
+          "id": -69013,
+          "name": "Born in a Rambler",
           "season_number": 1,
           "episode_number": 13,
           "air_date": null,
