@@ -17,6 +17,11 @@ The UI came from a design handoff produced in Claude Design; the original bundle
 (prototype HTML/CSS/JS, chat transcript, notes) is kept in [`design/`](./design)
 for reference.
 
+This README explains why the project is built the way it is.
+[`AGENTS.md`](./AGENTS.md) is the working brief for anyone — human or agent —
+doing the routine jobs: adding playlists, adding a series, and what the CI
+workflows do on their behalf.
+
 ## The governing idea
 
 Every network call happens at build time or in CI. There is no backend, no
