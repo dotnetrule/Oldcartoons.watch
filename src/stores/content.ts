@@ -47,15 +47,44 @@ export const useContentStore = defineStore('content', () => {
    * bookkeeping buckets for material with no established channel, and those
    * are never shown to a viewer as a channel. */
   const realNetworks = computed<Network[]>(() => networks.value.filter((network) => network.real));
-  const realNetworkSlugs = computed(() => new Set(realNetworks.value.map((network) => network.slug)));
 
-  /** One feed per real network: what the channel map draws a card for.
-   * Archive weeks belong to a network page, not to the map. */
-  const primaryChannels = computed<BroadcastChannel[]>(() =>
-    channels.value.filter(
-      (channel) => channel.kind === 'primary' && realNetworkSlugs.value.has(channel.networkSlug),
-    ),
+  /**
+   * Networks with at least one programme that has a playable episode.
+   *
+   * A station whose whole line-up is still gaps is a station this archive
+   * cannot show anything on. Drawing it anyway produces a card that never
+   * lights up and a page that lists titles and plays none of them, which reads
+   * as a broken channel rather than an honest one — so it is left off the
+   * channel map and the tab strip until something on it can be watched.
+   *
+   * This is about the archive, not about the schedule: a network whose
+   * episodes exist but are not in its own language has programmes to show on
+   * its page even while its live feed stays dark, and it keeps its place.
+   */
+  const stockedNetworkSlugs = computed(
+    () => new Set(stubs.value.flatMap((stub) => (stub.availableCount > 0 ? stub.networkSlugs : []))),
   );
+
+  /** Real networks that have something to watch. */
+  const stockedNetworks = computed<Network[]>(() =>
+    realNetworks.value.filter((network) => stockedNetworkSlugs.value.has(network.slug)),
+  );
+
+  /** The tab strip: stocked stations of the Dutch channel map, in position order. */
+  const listedNetworks = computed<Network[]>(() =>
+    [...stockedNetworks.value]
+      .filter((network) => network.listed)
+      .sort((a, b) => a.channelNumber - b.channelNumber),
+  );
+
+  /** One feed per stocked network: what the channel map draws a card for.
+   * Archive weeks belong to a network page, not to the map. */
+  const primaryChannels = computed<BroadcastChannel[]>(() => {
+    const shown = new Set(stockedNetworks.value.map((network) => network.slug));
+    return channels.value.filter(
+      (channel) => channel.kind === 'primary' && shown.has(channel.networkSlug),
+    );
+  });
 
   /** index.json is the only payload the schedule route loads — the archive is
    * thousands of episodes and the grid needs stubs. */
@@ -140,6 +169,8 @@ export const useContentStore = defineStore('content', () => {
     schedules,
     liveChannels,
     realNetworks,
+    stockedNetworks,
+    listedNetworks,
     primaryChannels,
     loadIndex,
     loadSeries,
