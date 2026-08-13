@@ -10,6 +10,8 @@ import {
   NOCOOKIE_HOST,
   allowIframeFullscreen,
   loadYoutubeApi,
+  preferAudioLanguage,
+  type AudioPreference,
   type YtPlayer,
 } from '../player/youtubeApi';
 import AudioTrackNotice from '../components/AudioTrackNotice.vue';
@@ -49,12 +51,39 @@ const episode = computed<PublicEpisode | null>(
  * The archive is Dutch-first, so on demand there is only ever one language
  * worth switching to. The live player asks a sharper version of this question,
  * because there the station decides which language the broadcast is *for*.
+ *
+ * Read only for the notice, and only as a second opinion: `audioLanguages` is
+ * what `npm run scan-audio` measured, which is a scan that has to be run and
+ * committed and on most rows has not been. The switch below does not consult
+ * it — it asks the player, which knows about the video in front of it.
  */
 const dubbedAudio = computed(() => {
   const current = episode.value;
   if (!current || current.defaultAudioLanguage === 'nl') return null;
   return current.audioLanguages.includes('nl') ? ('nl' as const) : null;
 });
+
+/**
+ * What became of the attempt to start this video in Dutch.
+ *
+ * Null while the answer is still being worked out, which is also why the
+ * notice keys off `unsupported` alone: a notice that appeared on every video
+ * and then vanished on the ones that switched would be worse than the switch.
+ */
+const audioPreference = ref<AudioPreference | null>(null);
+
+/**
+ * Whether to tell the viewer where the audio menu is.
+ *
+ * Only when the player refused to say anything about its tracks *and* the scan
+ * recorded a Nederlands track on this video — those two together are the case
+ * the notice was written for. When the player did answer, it is the better
+ * witness: `unavailable` means there is no Dutch on this upload and pointing at
+ * a menu that cannot deliver it would be a lie.
+ */
+const showAudioNotice = computed(
+  () => dubbedAudio.value !== null && audioPreference.value === 'unsupported',
+);
 
 /**
  * The next playable episode in *this* season. When the season ends, playback
@@ -98,6 +127,26 @@ function destroyPlayer(): void {
   player?.destroy();
   player = null;
   playerVideoId = null;
+  audioPreference.value = null;
+}
+
+/**
+ * Put this video on its Nederlands track, if it has one and the embed allows
+ * it. Runs per video rather than per player, because the track list belongs to
+ * the video and `loadVideoById` replaces it.
+ */
+function applyAudioPreference(target: YtPlayer, videoId: string): void {
+  // A late `onReady` for an episode the viewer has already left must not clear
+  // the state of the one they are on — that state is what the notice reads,
+  // and nothing would come along to set it again.
+  if (playerVideoId !== videoId) return;
+  audioPreference.value = null;
+  void preferAudioLanguage(target, 'nl', () => playerVideoId === videoId).then((result) => {
+    // The rail moves fast and the wait above is seconds long; an answer about
+    // an episode the viewer has already left is not an answer about this one.
+    if (playerVideoId !== videoId) return;
+    audioPreference.value = result;
+  });
 }
 
 async function syncPlayer(videoId: string | null): Promise<void> {
@@ -112,6 +161,7 @@ async function syncPlayer(videoId: string | null): Promise<void> {
   if (player) {
     playerVideoId = videoId;
     player.loadVideoById(videoId);
+    applyAudioPreference(player, videoId);
     return;
   }
 
@@ -124,13 +174,17 @@ async function syncPlayer(videoId: string | null): Promise<void> {
   player = new YT.Player(element, {
     host: NOCOOKIE_HOST,
     videoId,
-    // `hl` sets the player's own interface language. It is not an audio-track
-    // control — YouTube offers none — but it is what makes the settings menu
-    // read "Audiotrack" instead of "Audio track", which is the wording
-    // AudioTrackNotice points the viewer at.
+    // `hl` sets the player's own interface language, not the audio: YouTube
+    // has no player parameter for the track. It still earns its place — it is
+    // what makes the settings menu read "Audiotrack" instead of "Audio track",
+    // which is the wording AudioTrackNotice points the viewer at on the embeds
+    // where the switch below cannot be made for them.
     playerVars: { rel: 0, modestbranding: 1, playsinline: 1, hl: 'nl' },
     events: {
-      onReady: (event) => allowIframeFullscreen(event.target),
+      onReady: (event) => {
+        allowIframeFullscreen(event.target);
+        applyAudioPreference(event.target, videoId);
+      },
       onStateChange: (event) => {
         if (event.data === YT.PlayerState.ENDED) playNext();
       },
@@ -166,7 +220,7 @@ onBeforeUnmount(destroyPlayer);
             {{ AVAILABILITY_LABELS.missing }}
           </div>
         </div>
-        <AudioTrackNotice v-if="dubbedAudio" :language="dubbedAudio" />
+        <AudioTrackNotice v-if="showAudioNotice && dubbedAudio" :language="dubbedAudio" />
         <!-- The screen's own controls. YouTube's bar sits at the bottom edge of
              the embed, which on a wide window used to be below the fold: the
              viewer had to scroll to find the one button that would have fixed

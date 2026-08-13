@@ -19,6 +19,8 @@ import {
   NOCOOKIE_HOST,
   allowIframeFullscreen,
   loadYoutubeApi,
+  preferAudioLanguage,
+  type AudioPreference,
   type YtPlayer,
 } from '../player/youtubeApi';
 
@@ -111,6 +113,30 @@ const dubbedAudio = computed(() => {
   const value = current.value?.metadata['dubbedAudio'];
   return value === 'nl' || value === 'en' ? value : null;
 });
+
+/**
+ * The language this station broadcasts in, which is what the player is asked
+ * for on every slot.
+ *
+ * Not `dubbedAudio`: that is only set when the video disagrees with the
+ * station, and a station whose videos already agree still wants its own
+ * language pinned — an English upload that quietly gained a Nederlands track
+ * should not start speaking Dutch on an English channel.
+ */
+const broadcastLanguage = computed(() => {
+  const value = current.value?.metadata['audioLanguage'];
+  return value === 'nl' || value === 'en' ? value : null;
+});
+
+/** What became of the attempt to put this broadcast on the station's language.
+ * Null until the answer is in — see PlayerView for why the notice waits. */
+const audioPreference = ref<AudioPreference | null>(null);
+
+/** The notice is for the one case the switch cannot cover: an embed that will
+ * not talk about its tracks, on a broadcast the build knows is dubbed. */
+const showAudioNotice = computed(
+  () => dubbedAudio.value !== null && audioPreference.value === 'unsupported',
+);
 
 /** Nothing is on the screen worth watching: the picture gives way to a card. */
 const isInterlude = computed(
@@ -225,6 +251,27 @@ function destroyPlayer(): void {
   loadedKey = null;
   playerReady.value = false;
   isPlaying.value = false;
+  audioPreference.value = null;
+}
+
+/**
+ * Put the loaded broadcast on the station's language when the video carries a
+ * track for it. Per broadcast rather than per player: one player instance
+ * outlives many slots, and the track list belongs to the video.
+ */
+function applyAudioPreference(target: YtPlayer, key: string | null): void {
+  // As in PlayerView: a late answer about a slot that has handed over must not
+  // wipe the state of the one now on air.
+  if (key === null || loadedKey !== key) return;
+  audioPreference.value = null;
+  const language = broadcastLanguage.value;
+  if (!language) return;
+  void preferAudioLanguage(target, language, () => loadedKey === key).then((result) => {
+    // A live channel hands over on its own schedule, and this waits seconds.
+    // An answer about the slot that just ended is not about the one on air.
+    if (loadedKey !== key) return;
+    audioPreference.value = result;
+  });
 }
 
 function keepPlayerLive(): void {
@@ -270,6 +317,7 @@ async function syncPlayer(): Promise<void> {
     loadedKey = key;
     playerReady.value = false;
     player.loadVideoById({ videoId, startSeconds: offset });
+    applyAudioPreference(player, key);
     return;
   }
 
@@ -306,6 +354,7 @@ async function syncPlayer(): Promise<void> {
       onReady: (event) => {
         playerReady.value = true;
         allowIframeFullscreen(event.target);
+        applyAudioPreference(event.target, loadedKey);
         // Browsers reject autoplay with sound after an asynchronous route
         // transition. Muted autoplay is permitted; the explicit sound button
         // below restores audio from a real user gesture.
@@ -463,7 +512,7 @@ onBeforeUnmount(() => {
         <!-- Above the picture rather than inside the overlay: the overlay
              fades itself out after a few seconds, and this is the one thing on
              screen a viewer may need to read after the menu has gone. -->
-        <div v-if="dubbedAudio && !isInterlude" class="audio-notice-slot">
+        <div v-if="showAudioNotice && dubbedAudio && !isInterlude" class="audio-notice-slot">
           <AudioTrackNotice :language="dubbedAudio" />
         </div>
         <div v-if="!playerReady && !isInterlude" class="tuning" :style="{ color: C.dim }">
