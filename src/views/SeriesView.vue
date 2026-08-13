@@ -12,6 +12,7 @@ import {
   type SeriesArchiveStatus,
 } from '../data/series-status';
 import { AVAILABILITY_LABELS, COPY } from '../data/themes';
+import { AGE_COPY, isBlockedByAge } from '../data/age';
 import { formatChannelTime, nextAiring } from '../broadcast/engine';
 import type { Broadcast, BroadcastChannel, PublicEpisode } from '../types';
 
@@ -120,13 +121,23 @@ function tagFor(episode: PublicEpisode): { label: string; colour: string } {
   };
 }
 
+/** Reachable by typing the URL, or by following a link made before the ceiling
+ * was lowered. The page still renders — the archive should not pretend the
+ * series does not exist — but nothing on it plays. */
+const isLocked = computed(() => isBlockedByAge(series.value?.age, ui.ageFilter));
+
+/** Availability only. The lock is a separate question, asked at the click:
+ * folding it in here would make every row of a locked series claim its video
+ * was never found, which is a different and untrue thing to say. */
 const isPlayable = (episode: PublicEpisode): boolean => episode.status !== 'missing';
+
+const isOpenable = (episode: PublicEpisode): boolean => isPlayable(episode) && !isLocked.value;
 
 const reportKey = (episode: PublicEpisode): string =>
   `${props.slug}-${episode.season}-${episode.episode}`;
 
 function goEpisode(episode: PublicEpisode): void {
-  if (!isPlayable(episode)) return;
+  if (!isOpenable(episode)) return;
   ui.triggerFlicker();
   void router.push({
     path: `/programma/${props.slug}/${episode.season}/${episode.episode}`,
@@ -135,6 +146,7 @@ function goEpisode(episode: PublicEpisode): void {
 }
 
 function watchOnChannel(): void {
+  if (isLocked.value) return;
   const target = nextBroadcast.value?.channel;
   if (target) void router.push(`/kijken/${target.id}`);
 }
@@ -178,6 +190,18 @@ function report(e: Event, episode: PublicEpisode): void {
 
     <div class="synopsis" :style="{ color: C.dim2 }">{{ series.overview }}</div>
 
+    <!-- Reached by URL or by a link made before the ceiling was lowered. The
+         page keeps its name, years and episode list — the archive says what it
+         holds — and says in one line why none of it opens. -->
+    <div
+      v-if="isLocked"
+      class="age-lock"
+      :style="{ borderColor: C.border2, background: C.bg2, color: C.dim2 }"
+    >
+      <strong :style="{ color: C.ink }">{{ AGE_COPY.locked }}</strong>
+      <span>{{ AGE_COPY.seriesNotice }}</span>
+    </div>
+
     <section
       v-if="needsDutchSource"
       class="source-search"
@@ -215,8 +239,8 @@ function report(e: Event, episode: PublicEpisode): void {
         <small v-if="nextBroadcast" :style="{ color: C.dim }">{{ nextBroadcast.broadcast.episode?.title }}</small>
       </div>
       <button
-        :disabled="!nextBroadcast"
-        :style="{ background: nextBroadcast ? colour : C.border2, color: C.chipFg }"
+        :disabled="!nextBroadcast || isLocked"
+        :style="{ background: nextBroadcast && !isLocked ? colour : C.border2, color: C.chipFg }"
         @click="watchOnChannel"
       >
         KIJK OP {{ network.name.toUpperCase() }} →
@@ -241,18 +265,21 @@ function report(e: Event, episode: PublicEpisode): void {
 
     <div class="episodes">
       <div v-for="ep in episodes" :key="`${ep.season}-${ep.episode}`" class="ep-block">
-        <div class="ep-row" :style="{ borderColor: C.border, opacity: isPlayable(ep) ? 1 : 0.55 }">
+        <div class="ep-row" :style="{ borderColor: C.border, opacity: isOpenable(ep) ? 1 : 0.55 }">
           <span class="mono ep-num" :style="{ color: C.dim }">{{ ep.episode }}</span>
           <span
             class="ep-title"
-            :style="{ color: C.ink, cursor: isPlayable(ep) ? 'pointer' : 'default' }"
+            :style="{ color: C.ink, cursor: isOpenable(ep) ? 'pointer' : 'default' }"
             @click="goEpisode(ep)"
             >{{ ep.title }}</span
           >
           <span class="mono ep-meta" :style="{ color: C.dim }">
             {{ ep.runtime ? `${ep.runtime} min · ` : '' }}{{ formatAirDate(ep.airDate) }}
           </span>
-          <span class="mono ep-tag" :style="{ color: tagFor(ep).colour }">{{ tagFor(ep).label }}</span>
+          <span
+            class="mono ep-tag"
+            :style="{ color: isLocked ? C.dim : tagFor(ep).colour }"
+          >{{ isLocked ? AGE_COPY.locked : tagFor(ep).label }}</span>
         </div>
         <!-- The gap is information: a missing episode keeps its row, title and
              air date, and says plainly that no upload was found. -->
@@ -333,6 +360,25 @@ function report(e: Event, episode: PublicEpisode): void {
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   line-height: 1.5;
+}
+
+.age-lock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  margin: 14px 24px 0;
+  padding: 12px 14px;
+  border: 1px solid;
+  border-radius: 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.age-lock strong {
+  font: 700 11px 'IBM Plex Mono', monospace;
+  letter-spacing: 0.08em;
 }
 
 .source-search {

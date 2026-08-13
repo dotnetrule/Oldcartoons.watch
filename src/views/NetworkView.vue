@@ -14,6 +14,7 @@ import {
   type SeriesArchiveStatus,
 } from '../data/series-status';
 import { broadcastProgress, formatChannelTime, nowAndNext } from '../broadcast/engine';
+import { AGE_COPY, isBlockedByAge } from '../data/age';
 import type { BroadcastChannel, SeriesStub } from '../types';
 
 const props = defineProps<{ slug: string }>();
@@ -75,9 +76,14 @@ function selectChannel(target: BroadcastChannel): void {
   ui.selectChannel(props.slug, target.id);
 }
 
-function goSeries(slug: string): void {
+const isLocked = (item: SeriesStub): boolean => isBlockedByAge(item.age, ui.ageFilter);
+
+function goSeries(item: SeriesStub): void {
+  // A locked title stays in the list — hiding it would make the archive look
+  // smaller than it is — but it does not open.
+  if (isLocked(item)) return;
   ui.triggerFlicker();
-  void router.push({ path: `/programma/${slug}`, query: { zender: props.slug } });
+  void router.push({ path: `/programma/${item.slug}`, query: { zender: props.slug } });
 }
 
 function watchLive(): void {
@@ -177,18 +183,22 @@ function goGuide(): void {
           v-for="item in series"
           :key="item.slug"
           class="archive-row"
+          :class="{ locked: isLocked(item) }"
           role="button"
-          tabindex="0"
+          :tabindex="isLocked(item) ? -1 : 0"
+          :aria-disabled="isLocked(item)"
+          :title="isLocked(item) ? AGE_COPY.lockedHint : undefined"
           :style="{ borderColor: C.border }"
-          @click="goSeries(item.slug)"
-          @keydown.enter="goSeries(item.slug)"
+          @click="goSeries(item)"
+          @keydown.enter="goSeries(item)"
         >
           <span class="title" :style="{ color: C.ink }">
             <SeriesStatusDot :status="statusFor(item)" :label="statusLabelFor(item)" />
             {{ item.name }}
           </span>
           <span class="mono" :style="{ color: C.dim }">
-            <template v-if="item.availableLanguages.includes('nl')">NEDERLANDS · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
+            <template v-if="isLocked(item)">{{ AGE_COPY.locked }} · </template>
+            <template v-else-if="item.availableLanguages.includes('nl')">NEDERLANDS · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
           </span>
         </div>
       </div>
@@ -198,10 +208,13 @@ function goGuide(): void {
           v-for="item in series"
           :key="item.slug"
           class="cover-card"
+          :class="{ locked: isLocked(item) }"
           role="button"
-          tabindex="0"
-          @click="goSeries(item.slug)"
-          @keydown.enter="goSeries(item.slug)"
+          :tabindex="isLocked(item) ? -1 : 0"
+          :aria-disabled="isLocked(item)"
+          :title="isLocked(item) ? AGE_COPY.lockedHint : undefined"
+          @click="goSeries(item)"
+          @keydown.enter="goSeries(item)"
         >
           <CoverImage
             :title="item.name"
@@ -215,7 +228,8 @@ function goGuide(): void {
             {{ item.name }}
           </strong>
           <span class="mono" :style="{ color: C.dim }">
-            <template v-if="item.availableLanguages.includes('nl')">NEDERLANDS · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
+            <template v-if="isLocked(item)">{{ AGE_COPY.locked }} · </template>
+            <template v-else-if="item.availableLanguages.includes('nl')">NEDERLANDS · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
           </span>
         </div>
       </div>
@@ -489,6 +503,22 @@ function goGuide(): void {
 .cover-card strong {
   margin-top: 7px;
   font: 16px 'Oswald', sans-serif;
+}
+
+/* A title above the viewer's ceiling keeps its place in the list — the archive
+ * is no smaller than it was — but it is visibly out of reach and does not
+ * open. Greying it is the whole signal, so it has to survive both themes: the
+ * opacity is on the row, not on a colour token. */
+.archive-row.locked,
+.cover-card.locked {
+  opacity: 0.34;
+  cursor: not-allowed;
+}
+
+.archive-row.locked .title,
+.cover-card.locked strong {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
 }
 
 @media (max-width: 720px) {

@@ -11,6 +11,8 @@ import {
   nextBroadcast,
 } from '../broadcast/engine';
 import { broadcastTypeLabel, countryLabel } from '../data/helpers';
+import { AGE_COPY, isBlockedByAge } from '../data/age';
+import type { Broadcast } from '../types';
 import { useFullscreen } from '../player/fullscreen';
 import {
   NOCOOKIE_HOST,
@@ -64,8 +66,40 @@ const playerKey = computed(() =>
   current.value ? `${current.value.id}@${current.value.startsAt}` : null,
 );
 const hasMediaError = computed(() => failedBroadcastId.value === playerKey.value);
+
+/**
+ * The viewer's age setting against what is on air.
+ *
+ * The schedule is generated at build time and is the same for everyone, so a
+ * per-viewer setting cannot rewrite it. The lock is here instead, where a
+ * television's own parental lock is: the programme still airs, this set just
+ * does not show it. It lifts by itself, because `current` is recomputed from
+ * the clock every second and the next programme is asked the same question.
+ */
+const isLockedBroadcast = (item: Broadcast | null): boolean =>
+  isBlockedByAge(content.stub(item?.show?.slug)?.age, ui.ageFilter);
+
+const isLocked = computed(() => isLockedBroadcast(current.value));
+
+/** What the card counts down to. Walking the cycle rather than taking the very
+ * next slot, because two locked programmes in a row would otherwise promise a
+ * picture that does not arrive. Bounded by the cycle: a channel that is locked
+ * end to end has no answer, and the card says that instead. */
+const nextAllowed = computed<Broadcast | null>(() => {
+  const cycle = schedule.value;
+  let item = current.value;
+  if (!cycle || !item) return null;
+  for (let step = 0; step < cycle.broadcasts.length; step += 1) {
+    item = nextBroadcast(cycle, item);
+    if (!isLockedBroadcast(item)) return item;
+  }
+  return null;
+});
+
 /** Nothing is on the screen worth watching: the picture gives way to a card. */
-const isInterlude = computed(() => hasMediaError.value || mediaExhausted.value);
+const isInterlude = computed(
+  () => hasMediaError.value || mediaExhausted.value || isLocked.value,
+);
 
 /**
  * The menu only gets out of the way once there is something to watch. While the
@@ -204,6 +238,14 @@ async function syncPlayer(): Promise<void> {
     destroyPlayer();
     return;
   }
+  // Torn down rather than paused or hidden. A paused player still holds the
+  // video, and a hidden one still carries its sound — neither is a lock. The
+  // watcher below calls back the moment an allowed programme starts, and the
+  // player is rebuilt then.
+  if (isLocked.value) {
+    destroyPlayer();
+    return;
+  }
   if (loadedKey === key || failedBroadcastId.value === key) return;
 
   const videoId = item.mediaAsset.source.id;
@@ -291,7 +333,10 @@ function goGuide(): void {
 
 function goLive(): void {
   nowMs.value = Date.now();
-  if (!player) {
+  // The clock moved, so ask again — the slot that was locked a minute ago may
+  // have handed over to one that plays. If it has not, syncPlayer keeps the
+  // player torn down and the card stays.
+  if (!player || isLocked.value) {
     void syncPlayer();
     return;
   }
@@ -353,6 +398,14 @@ watch(
   { immediate: true, flush: 'post' },
 );
 
+// Lowering the ceiling has to take effect on what is already playing, not only
+// on the next programme. Raising it again has to give the picture back without
+// waiting for the slot to end, which is why this leads back to syncPlayer
+// rather than only tearing down.
+watch(isLocked, () => {
+  void syncPlayer();
+});
+
 // Whichever way the answer changed, the menu should be on screen and the timer
 // should match the new situation: armed while it may hide, cleared while not.
 watch(canHideOverlay, () => showOverlay());
@@ -389,7 +442,22 @@ onBeforeUnmount(() => {
         <div v-if="!playerReady && !isInterlude" class="tuning" :style="{ color: C.dim }">
           AFSTEMMEN OP {{ channel.name.toUpperCase() }}…
         </div>
-        <div v-if="isInterlude" class="signal" :style="{ color: C.ink }">
+        <!-- The lock comes first: while it holds, whether the video would also
+             have failed or run out is beside the point, and saying "signal
+             interrupted" over a programme that was deliberately withheld would
+             be the wrong reason. -->
+        <div v-if="isLocked" class="signal" :style="{ color: C.ink }">
+          <NetworkLogo :network="network" :size="88" decorative />
+          <strong>{{ AGE_COPY.liveHeading }}</strong>
+          <span :style="{ color: C.dim }">
+            {{ titleFor(current) }} {{ AGE_COPY.liveNotice }}
+            <template v-if="nextAllowed">
+              Om {{ timeFor(nextAllowed.startsAt) }} begint {{ titleFor(nextAllowed) }}.
+            </template>
+            <template v-else>{{ AGE_COPY.wholeCycle }}</template>
+          </span>
+        </div>
+        <div v-else-if="isInterlude" class="signal" :style="{ color: C.ink }">
           <NetworkLogo :network="network" :size="88" decorative />
           <strong>{{ hasMediaError ? 'SIGNAAL ONDERBROKEN' : 'EINDE UITZENDING' }}</strong>
           <span :style="{ color: C.dim }">

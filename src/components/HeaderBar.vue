@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { COPY, THEME_OPTS, VIEW_OPTS } from '../data/themes';
+import { AGE_COPY, AGE_OPTS } from '../data/age';
 
 defineProps<{ pageCode?: string }>();
 
@@ -48,6 +49,19 @@ function chipStyle(active: boolean) {
           class="ntv-chip"
           :style="chipStyle(opt.id === ui.viewMode)"
           @click="ui.setViewMode(opt.id)"
+        >
+          {{ opt.label }}
+        </button>
+      </div>
+      <div class="ntv-chipgroup" role="group" :aria-label="AGE_COPY.chipGroup">
+        <span class="ntv-chiplabel" :style="{ color: C.dim }">LEEFTIJD</span>
+        <button
+          v-for="opt in AGE_OPTS"
+          :key="opt.id"
+          class="ntv-chip"
+          :style="chipStyle(opt.id === ui.ageFilter)"
+          :aria-pressed="opt.id === ui.ageFilter"
+          @click="ui.setAgeFilter(opt.id)"
         >
           {{ opt.label }}
         </button>
@@ -98,7 +112,16 @@ function chipStyle(active: boolean) {
 
 .ntv-chipgroup {
   display: flex;
+  align-items: center;
   gap: 3px;
+}
+
+.ntv-chiplabel {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  margin-right: 3px;
+  white-space: nowrap;
 }
 
 .ntv-chip {
