@@ -61,9 +61,16 @@ jobs:
       # --youtube-only because every series in content/ still carries a
       # placeholder TMDB id, which the TMDB half refuses by design. Drop the
       # flag once real ids land.
+      #
+      # The TMDB credentials are passed anyway, so that dropping the flag — or
+      # dispatching a scoped `--series` run — is a one-line change rather than
+      # a debugging session about a missing key. Either secret alone is enough;
+      # `scripts/lib/tmdb.ts` prefers the read access token.
       - name: Fetch sources
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          TMDB_READONLY_KEY: ${{ secrets.TMDB_READONLY_KEY }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: npm run fetch -- --youtube-only
 
       - name: Derive episodes
