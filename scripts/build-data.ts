@@ -258,6 +258,12 @@ function buildSchedule(
         // the difference between those two that the viewer has to be told
         // about.
         dubbedAudio: seed.defaultLanguage === channel.language ? null : channel.language,
+        // The language this station broadcasts in, said plainly and always —
+        // `dubbedAudio` above only speaks up when the video disagrees with it,
+        // so it cannot be what the player asks for. Preferring a track is not
+        // a correction of anything; it is the station's language, every slot,
+        // whether or not the upload already happened to be in it.
+        audioLanguage: channel.language,
         historicalGuide: historicalGuide?.id ?? null,
         requestedWeek: historicalGuide
           ? `${historicalGuide.requestedFrom}/${historicalGuide.requestedTo}`

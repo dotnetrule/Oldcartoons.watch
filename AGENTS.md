@@ -178,13 +178,35 @@ read and the backlog is what waits. Do not "fix" that ordering into file order
 — `episodes.json` is grouped by series in an order unrelated to when a source
 was added, and a limited run over it would never reach today's playlist.
 
-**The remainder to be honest about: an embed cannot choose an audio track.**
-There is no player parameter and no IFrame API call for it, and a logged-out
-viewer normally gets the upload's original. So a dubbed episode on a Dutch
-channel starts in English until the viewer opens the player's own menu.
-`src/components/AudioTrackNotice.vue` says so on screen, and the archive marks
-these series `dubbed` rather than green — Dutch that plays only after a click
-is not a Nederlandse bron, and the call to find one stays open.
+**The remainder: choosing the track is possible, but only unofficially.**
+YouTube documents no way to do it — no player parameter, no supported IFrame
+API call — and a logged-out viewer normally gets the upload's original. The
+player object does carry undocumented `getAvailableAudioTracks` /
+`setAudioTrack` methods, and `preferAudioLanguage` in
+`src/player/youtubeApi.ts` uses them: both players ask for their language on
+every video, and where the embed answers, a Nederlandse dub is switched on
+before the viewer sees anything.
+
+Written to survive their removal, because nothing promises they will stay.
+The methods are optional on `YtPlayer`, an absent or throwing one reports
+`unsupported`, and `unsupported` is the only outcome that brings back
+`src/components/AudioTrackNotice.vue` — which is the behaviour the site had
+before any of this existed. The other outcomes are informative rather than
+apologetic: `unavailable` means the player listed its tracks and this video has
+no Dutch one, so the notice would be pointing at a menu that cannot deliver.
+
+Which language is asked for differs by player, and neither reads the scan:
+
+| player | asks for | why |
+| --- | --- | --- |
+| `PlayerView` | always `nl` | the archive is Dutch-first, and on demand there is no station to speak for |
+| `LivePlayerView` | `Broadcast.metadata.audioLanguage` | the station's own language, on every slot — `dubbedAudio` only speaks up when the video disagrees, so it cannot be what is asked for. An English channel must not start speaking Dutch because an upload quietly gained a track. |
+
+The scan stays the record of what the archive *knows*, and it is still what
+colours a series `dubbed` rather than green — Dutch that a viewer may yet have
+to click for is not a Nederlandse bron, and the call to find one stays open.
+But the switch does not consult it: the player knows the video in front of it,
+and `audioLanguages: null` on a row nobody has scanned is no reason not to ask.
 
 ## Adding a series that does not exist yet
 
