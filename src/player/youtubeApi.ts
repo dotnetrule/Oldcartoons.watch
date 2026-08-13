@@ -10,6 +10,9 @@
 export type YtPlayer = {
   destroy: () => void;
   loadVideoById: (video: string | { videoId: string; startSeconds?: number }) => void;
+  /** The API replaces the mount element with this iframe, so it is the only
+   * handle on the embed once a player exists. */
+  getIframe?: () => HTMLIFrameElement | null;
   getPlayerState: () => number;
   getCurrentTime: () => number;
   getDuration: () => number;
