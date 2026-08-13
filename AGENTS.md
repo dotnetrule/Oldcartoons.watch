@@ -44,7 +44,7 @@ cost time if you rediscover them by hand.
 Do this from the repo root, on the session's designated branch.
 
 ```sh
-# 1. whitelist — one command per playlist, one series each
+# 1. whitelist — one command per playlist
 npm run add-playlist -- "<playlist url>" --episodes-for <slug> --language nl|en \
   --note "why this source, in Dutch"
 
@@ -53,6 +53,23 @@ npm run build-data
 
 # 3. commit and push; ingest.yml does the rest on a runner
 ```
+
+**Several playlists may make up one series' list.** Run the command once per
+playlist with the same `--episodes-for`; their videos are laid end to end **in
+the order content/playlists.json lists them**, and that order is the episode
+order. Where a playlist sits in the file is a decision, not a formality — so
+whitelist them in the order you want them numbered. A video an earlier playlist
+already contributed is dropped rather than numbered twice.
+
+**`--max-duration <seconds>` keeps compilations out.** Playlists of short-form
+children's shows routinely mix the episodes with hour-long compilations of
+those same episodes. Both are real uploads; only one is an episode, and a
+compilation ingested as a row claims a 45-minute slot replaying what the rows
+around it already carry. The ceiling cuts on the *measured* length, before
+anything is numbered, so the surviving numbers stay contiguous — and a video
+whose length the source never stated is kept, because the point is not to
+guess. Every cut video is named in the ingest log. Only meaningful alongside
+`--episodes-for`; the schema rejects it otherwise.
 
 `--episodes-for` says *the playlist **is** that series' episode list*: playlist
 order becomes episode order, video titles become episode titles, and
@@ -67,7 +84,9 @@ What `add-playlist` refuses, all deliberately:
   the next section.
 - auto-generated `RD…` mixes (built per viewer, not a stable list)
 - a duplicate id, or a slug not in `content/series.json`
-- a second playlist claiming a series whose list another one already owns
+- `--max-duration` without `--episodes-for` — the candidate-pool path numbers
+  TMDB's episodes, never the uploads, so a ceiling there would look like it was
+  working and do nothing
 
 The playlist's title and curator are looked up over the network, so here they
 land as `null`, meaning *not looked up yet*. That is expected and not an error.

@@ -11,7 +11,14 @@
  * A playlist named as `episodesFor` a series takes the other route: the
  * playlist is the list. Its order is the episode order and its titles are the
  * episode titles, which is exactly what a curator asserts by publishing an
- * ordered playlist of one show.
+ * ordered playlist of one show. Several playlists may make up one list; they
+ * arrive here already flattened in whitelist order, each video still carrying
+ * the playlist it came from.
+ *
+ * Two kinds of video are cut before anything is numbered: one an earlier
+ * playlist already contributed, and one longer than its playlist's stated
+ * ceiling — a compilation of the same episodes, which is a real upload but not
+ * an episode. Cutting first is what keeps the surviving numbers contiguous.
  *
  * Two facts are deliberately not invented here. A video's upload date is not
  * an air date, and a playlist carries no editorial runtime, so both stay null
@@ -131,8 +138,19 @@ export function cleanEpisodeTitle(rawTitle: string, seriesName: string): string 
 export type DerivedSeries = {
   /** Regenerated metadata seed, written back to content/tmdb-seed/. */
   cache: TmdbSeriesCache;
-  /** One record per playlist item, all playable. */
+  /** One record per contributed video, all playable. */
   episodes: Episode[];
+  /** Videos left out, and why — reported by the caller. Never silent: a
+   * dropped item that nobody mentions looks exactly like a playlist that was
+   * always this short. */
+  skipped: SkippedVideo[];
+};
+
+export type SkippedVideo = {
+  video: YoutubeVideo;
+  reason: 'too-long' | 'duplicate';
+  /** The playlist the video came from, for a log line that names it. */
+  playlistId: string | null;
 };
 
 /**
@@ -140,17 +158,37 @@ export type DerivedSeries = {
  * provenance.
  *
  * A playlist is one source holding many episodes: every row points back at the
- * playlist, and a playlist that starts rotting is dropped as a unit. A
- * hand-picked set is the opposite — the videos have nothing in common but the
- * person who chose them, so each episode points at its own video and can be
- * dropped alone.
+ * playlist it came from, and a playlist that starts rotting is dropped as a
+ * unit — which stays true when several playlists make up one list, because
+ * each row names its own. A hand-picked set is the opposite: the videos have
+ * nothing in common but the person who chose them, so each episode points at
+ * its own video and can be dropped alone.
  */
 export type EpisodeListOrigin =
-  | { kind: 'playlist'; id: string }
+  | { kind: 'playlists'; ids: string[] }
   | { kind: 'videos'; label: string };
 
 const originLabel = (origin: EpisodeListOrigin): string =>
-  origin.kind === 'playlist' ? `playlist ${origin.id}` : `video set '${origin.label}'`;
+  origin.kind === 'playlists'
+    ? origin.ids.length === 1
+      ? `playlist ${origin.ids[0]}`
+      : `playlists ${origin.ids.join(' + ')}`
+    : `video set '${origin.label}'`;
+
+/**
+ * One video and the playlist it was contributed by.
+ *
+ * A series' list can be assembled from several playlists, so the caller hands
+ * over videos already flattened in whitelist order with their provenance
+ * attached, rather than one anonymous array.
+ */
+export type SourcedVideo = {
+  video: YoutubeVideo;
+  /** Null for a hand-picked set: there is no playlist to name. */
+  playlistId: string | null;
+  /** Length ceiling of the playlist this came from, null for none. */
+  maxDurationSeconds: number | null;
+};
 
 /**
  * Derive a series' episode list and metadata seed from the source that owns it.
@@ -163,7 +201,7 @@ export function derivePlaylistSeries(args: {
   source: SeriesSource;
   seriesName: string;
   existing: TmdbSeriesCache;
-  videos: YoutubeVideo[];
+  videos: SourcedVideo[];
   origin: EpisodeListOrigin;
   today: string;
 }): DerivedSeries {
@@ -174,16 +212,48 @@ export function derivePlaylistSeries(args: {
       `${originLabel(origin)} owns the episode list for '${source.slug}' but cached zero videos — re-run 'npm run fetch'`,
     );
   }
-  if (videos.length > MAX_EPISODES) {
+
+  // Both cuts happen before anything is numbered, so the episode numbers that
+  // survive run 1, 2, 3 … with no hole where a dropped video used to be.
+  const skipped: SkippedVideo[] = [];
+  const seen = new Set<string>();
+  const kept = videos.filter(({ video, playlistId, maxDurationSeconds }) => {
+    if (seen.has(video.youtubeId)) {
+      skipped.push({ video, reason: 'duplicate', playlistId });
+      return false;
+    }
+    // A ceiling is a comparison against a measurement. When the source stated
+    // no length there is nothing to compare, and dropping the video on the
+    // suspicion that it might be long would be the guess this filter exists to
+    // avoid — so it is kept, and the caller says so.
+    if (
+      maxDurationSeconds !== null &&
+      video.durationSeconds !== null &&
+      video.durationSeconds > maxDurationSeconds
+    ) {
+      skipped.push({ video, reason: 'too-long', playlistId });
+      return false;
+    }
+    seen.add(video.youtubeId);
+    return true;
+  });
+
+  if (kept.length === 0) {
     throw new Error(
-      `${originLabel(origin)} has ${videos.length} videos, past the ${MAX_EPISODES} an episode list can number for one series`,
+      `${originLabel(origin)} owns the episode list for '${source.slug}' but every one of its ` +
+        `${videos.length} videos was filtered out — check the maxDurationSeconds ceiling`,
+    );
+  }
+  if (kept.length > MAX_EPISODES) {
+    throw new Error(
+      `${originLabel(origin)} has ${kept.length} videos, past the ${MAX_EPISODES} an episode list can number for one series`,
     );
   }
 
   const tmdbEpisodes: TmdbEpisode[] = [];
   const episodes: Episode[] = [];
 
-  videos.forEach((video, index) => {
+  kept.forEach(({ video, playlistId }, index) => {
     const position = index + 1;
     const id = derivedEpisodeId(source.tmdbId, position);
 
@@ -213,9 +283,9 @@ export function derivePlaylistSeries(args: {
       status: 'available',
       checkedAt: today,
       source:
-        origin.kind === 'playlist'
-          ? { kind: 'playlist', id: origin.id }
-          : { kind: 'video', id: video.youtubeId },
+        playlistId === null
+          ? { kind: 'video', id: video.youtubeId }
+          : { kind: 'playlist', id: playlistId },
     });
   });
 
@@ -233,5 +303,5 @@ export function derivePlaylistSeries(args: {
     images: existing.images ?? { backdrops: [], posters: [] },
   };
 
-  return { cache, episodes };
+  return { cache, episodes, skipped };
 }

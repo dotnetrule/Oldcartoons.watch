@@ -288,6 +288,19 @@ export type PlaylistSource = {
    * the playlist. The slug must also appear in `covers`.
    */
   episodesFor: string | null;
+  /**
+   * Longest video this playlist may contribute, in seconds, or null for no
+   * ceiling.
+   *
+   * Curated playlists of short-form children's shows routinely mix the
+   * episodes with hour-long compilations of those same episodes. Both are
+   * legitimate uploads, but only one of them is an episode: a compilation
+   * ingested as a row claims a 45-minute broadcast slot and replays material
+   * the rows around it already carry. Length is what separates the two — an
+   * episode of Peppa runs five minutes and a compilation runs fifty — and it
+   * is measured rather than claimed, which is what makes it safe to cut on.
+   */
+  maxDurationSeconds: number | null;
   note: string;
 };
 

@@ -85,6 +85,7 @@ type Args = {
   input: string;
   covers: string[];
   episodesFor: string | null;
+  maxDurationSeconds: number | null;
   name?: string;
   curator?: string;
   language: ContentLanguage;
@@ -121,7 +122,10 @@ function parseArgs(argv: string[]): Args {
     throw new Error(
       'usage: npm run add-playlist -- "<youtube url or playlist id>" --episodes-for <slug>\n' +
         '   or: npm run add-playlist -- "<youtube url or playlist id>" --covers slug[,slug]\n' +
-        "optional: --language nl|en (default: nl)",
+        'optional: --language nl|en (default: nl)\n' +
+        '          --max-duration <seconds>  leave out anything longer, so a\n' +
+        '                                    compilation of the episodes does not\n' +
+        '                                    become one of them',
     );
   }
 
@@ -165,10 +169,29 @@ function parseArgs(argv: string[]): Args {
     throw new Error(`--language must be 'nl' or 'en', got '${language}'`);
   }
 
+  const maxDurationRaw = flags.get('max-duration')?.trim();
+  const maxDurationSeconds = maxDurationRaw === undefined ? null : Number(maxDurationRaw);
+  if (
+    maxDurationSeconds !== null &&
+    (!Number.isInteger(maxDurationSeconds) || maxDurationSeconds <= 0)
+  ) {
+    throw new Error(`--max-duration must be a whole number of seconds, got '${maxDurationRaw}'`);
+  }
+  // The ceiling cuts videos out of an episode list. There is no episode list on
+  // the candidate-pool path, so the flag would look like it was working and do
+  // nothing at all.
+  if (maxDurationSeconds !== null && episodesFor === null) {
+    throw new Error(
+      '--max-duration only applies to a playlist that owns an episode list.\n' +
+        'Add --episodes-for <slug>, or drop the ceiling.',
+    );
+  }
+
   return {
     input,
     covers,
     episodesFor,
+    maxDurationSeconds,
     ...(flags.has('name') ? { name: flags.get('name') } : {}),
     ...(flags.has('curator') ? { curator: flags.get('curator') } : {}),
     language,
@@ -248,6 +271,7 @@ async function main(): Promise<void> {
     language: args.language,
     covers: args.covers,
     episodesFor: args.episodesFor,
+    maxDurationSeconds: args.maxDurationSeconds,
     note: args.note,
   };
 
@@ -259,7 +283,21 @@ async function main(): Promise<void> {
   console.log(`  id      ${id}`);
   console.log(`  covers  ${args.covers.join(', ')}`);
   console.log(`  language ${args.language}`);
-  if (args.episodesFor) console.log(`  owns the episode list for  ${args.episodesFor}`);
+  if (args.maxDurationSeconds !== null) {
+    console.log(`  skips anything longer than  ${args.maxDurationSeconds}s`);
+  }
+  if (args.episodesFor) {
+    // Several playlists may make up one series' list, and where this one sits
+    // in the file is where its episodes sit in the numbering. Saying so here is
+    // the only place a curator finds out without reading the JSON.
+    const group = playlists.filter((p) => p.episodesFor === args.episodesFor);
+    console.log(
+      group.length === 0
+        ? `  owns the episode list for  ${args.episodesFor}`
+        : `  joins the episode list for ${args.episodesFor} as source ${group.length + 1} of ${group.length + 1} — ` +
+            `its videos are numbered after the ${group.length} playlist${group.length === 1 ? '' : 's'} already there`,
+    );
+  }
 
   // A playlist-backed series needs no TMDB fetch, so the next step is the
   // whole rest of the pipeline in one line.
