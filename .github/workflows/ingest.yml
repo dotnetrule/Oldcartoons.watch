@@ -96,6 +96,17 @@ jobs:
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
+          # Did anything about the *episodes* change, or only bookkeeping?
+          # Every run rewrites `fetchedAt` in each seed file, so `content/` is
+          # never quiet and "there is a commit" says nothing on its own. The
+          # episode list is the thing a person is waiting on, so that is what
+          # gets reported.
+          if git diff --quiet -- content/episodes.json; then
+            echo 'episodes=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'episodes=true' >> "$GITHUB_OUTPUT"
+          fi
+
           if git diff --quiet -- content/; then
             echo 'nothing changed — content/ already matches the sources'
             echo 'committed=false' >> "$GITHUB_OUTPUT"
@@ -144,6 +155,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMITTED: ${{ steps.commit.outputs.committed }}
+          EPISODES: ${{ steps.commit.outputs.episodes }}
           SHA: ${{ steps.commit.outputs.sha }}
           PLAYABLE: ${{ steps.commit.outputs.playable }}
           STATUS: ${{ job.status }}
@@ -161,8 +173,14 @@ jobs:
 
           if [ "$STATUS" != 'success' ]; then
             verdict='**De ingest is mislukt.** Merge deze branch nog niet — de afleveringen die erbij horen staan er niet op.'
-          elif [ "$COMMITTED" = 'true' ]; then
+          elif [ "$EPISODES" = 'true' ]; then
             verdict="**Klaar. Mergen kan nu veilig.** De afleveringen staan op deze branch in \`$SHA\`; het archief telt er $PLAYABLE speelbaar."
+          elif [ "$COMMITTED" = 'true' ]; then
+            # A commit that touched no episode is bookkeeping — every run
+            # rewrites `fetchedAt` in the seed files. Saying "the episodes are
+            # on this branch" here would be true and useless, and a status that
+            # cries wolf is one nobody reads.
+            verdict="**Klaar, geen nieuwe afleveringen.** Alleen bijwerkboekhouding veranderde (\`$SHA\`); de bronnen leverden niets wat er nog niet stond. Mergen kan."
           else
             verdict='**Klaar, niets veranderd.** `content/` kwam al overeen met de bronnen, dus er valt niets te wachten en mergen kan.'
           fi
