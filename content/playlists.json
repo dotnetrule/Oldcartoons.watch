@@ -370,5 +370,17 @@
     "episodesFor": "peppa-big",
     "maxDurationSeconds": 900,
     "note": "Nederlands nagesynchroniseerde afleveringen van Peppa Big."
+  },
+  {
+    "id": "PLRcHmntfmJ8CnSmj4C284-a1euH518aQa",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "pokemon"
+    ],
+    "episodesFor": "pokemon",
+    "maxDurationSeconds": null,
+    "note": "Engelstalige uploads met een Nederlands audiospoor; welke afleveringen dat spoor dragen wordt per video gemeten door scan-audio."
   }
 ]

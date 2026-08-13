@@ -33,11 +33,16 @@ cost time if you rediscover them by hand.
    than its own video is not a cosmetic error: the live player seeks past the
    end of the file and the viewer gets a black screen with a buffer bar that
    restarts forever.
-6. **Language is a safety field, not a label.** `build-data.ts` only schedules
-   an episode on a channel whose language matches. Marking an English playlist
-   `nl` puts English audio on a Dutch station; marking a Dutch one `en` only
-   keeps it out of the schedule. When unsure, pick `en` — the failure is
-   quieter and reversible with one field.
+6. **Language is a safety field, not a label — and a source only sets half of
+   it.** A source's `language` is the track that plays by default, and it is
+   the only language claim anyone makes by hand. The other half is measured:
+   `scan-audio` reads each video's audio tracks into `Episode.audioLanguages`,
+   and `build-data.ts` schedules an episode on a channel whose language is in
+   *either*. So an English playlist carrying a Nederlandse dub belongs on a
+   Dutch station and still gets `--language en`. Marking that playlist `nl`
+   would be a lie about every video in it, including the ones with no dub.
+   When unsure, pick `en` — the failure is quieter and reversible with one
+   field.
 
 ## Adding playlists (the common job)
 
@@ -142,6 +147,37 @@ skipped: dropping it quietly would renumber every episode after it.
 One series, one list: a slug may not appear in both `videos.json` and a
 playlist's `episodesFor`. Both `match` and the build gate refuse that.
 
+## Playlists whose videos carry a Dutch dub
+
+A YouTube upload can hold more than one audio track — an English original with
+a Nederlandse dub beside it — and no part of the Data API will say so.
+`snippet.defaultAudioLanguage` names the track that plays by default and stops
+there. The list only exists in the watch page's `ytInitialPlayerResponse`, so
+`readAudioTrackLanguages` in `scripts/lib/youtube-public.ts` reads it from the
+same blob `readWatchPageDuration` already parses, and `scripts/scan-audio-tracks.ts`
+walks the archive with it.
+
+Three states, and the middle one is why re-runs are cheap:
+
+| `Episode.audioLanguages` | means |
+| --- | --- |
+| `null` | not looked up yet — the next run picks it up |
+| `[]` | looked up; the page described its streams and named one track |
+| `['en','nl']` | the languages on offer, the default one included |
+
+Whitelist such a playlist as `--language en`, because that is the track that
+plays. The Dutch comes from the scan, per video, and `build-data.ts` then puts
+those episodes on a Dutch station. Both `ingest.yml` and `health-check.yml` run
+the scan, so a video that gains a dub later is picked up without anyone asking.
+
+**The remainder to be honest about: an embed cannot choose an audio track.**
+There is no player parameter and no IFrame API call for it, and a logged-out
+viewer normally gets the upload's original. So a dubbed episode on a Dutch
+channel starts in English until the viewer opens the player's own menu.
+`src/components/AudioTrackNotice.vue` says so on screen, and the archive marks
+these series `dubbed` rather than green — Dutch that plays only after a click
+is not a Nederlandse bron, and the call to find one stays open.
+
 ## Adding a series that does not exist yet
 
 A playlist can only be scoped to a slug already in `content/series.json`. A new
@@ -192,9 +228,9 @@ inside a programme, never station-shaped.
 
 | workflow | fires on | what it does |
 | --- | --- | --- |
-| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. |
+| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `scan-audio` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. |
 | `build.yml` | push to Master, every pull request, `workflow_dispatch` | `npm run build` — the same three gates Vercel runs (Zod, `vue-tsc`, vite), on a runner that costs nothing to fail. Needs no secrets. |
-| `health-check.yml` | weekly cron (Mondays 05:00 UTC), `workflow_dispatch` | Re-checks every matched video. Gone or un-embeddable flips the episode to `missing`. Opens a **pull request** rather than pushing, because removing episodes should be reviewed. |
+| `health-check.yml` | weekly cron (Mondays 05:00 UTC), `workflow_dispatch` | Re-checks every matched video, then reads the audio tracks of any it has not read yet. Gone or un-embeddable flips the episode to `missing`. Opens a **pull request** rather than pushing, because removing episodes should be reviewed. |
 
 Because ingest commits with `GITHUB_TOKEN`, bot-written `content/` is validated
 when it reaches a pull request, not when it lands on the branch. Expect the
@@ -232,6 +268,7 @@ npm run dev          # dev server; /admin exists only here
 npm run add-playlist -- "<url>" --episodes-for <slug> --language nl|en
 npm run fetch        # needs network
 npm run match        # needs data/youtube/ from fetch
+npm run scan-audio   # needs network; reads each video's audio tracks (--all, --limit N)
 npm run resolve-playlists  # needs network; fills in playlist title + curator
 ```
 

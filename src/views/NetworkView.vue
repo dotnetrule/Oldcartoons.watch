@@ -65,6 +65,18 @@ const seriesYearsLabel = (item: SeriesStub): string =>
   yearRangeLabel(item.firstAirYear, item.lastAirYear);
 const epLabel = (item: SeriesStub): string => episodeCountLabel(item.episodeCount);
 const statusFor = (item: SeriesStub): SeriesArchiveStatus => seriesArchiveStatus(item);
+
+/**
+ * How the row claims its Dutch, or null when it has none.
+ *
+ * A dub the viewer has to pick in the player is Dutch a station can schedule
+ * and not a Nederlandse upload, and this row is the only place a browsing
+ * viewer sees the difference before clicking.
+ */
+const dutchLabel = (item: SeriesStub): string | null => {
+  if (!item.availableLanguages.includes('nl')) return null;
+  return item.dubbedLanguages.includes('nl') ? 'NEDERLANDS (AUDIOSPOOR)' : 'NEDERLANDS';
+};
 const statusLabelFor = (item: SeriesStub): string => seriesArchiveStatusLabel(item);
 const statusLegend = (
   Object.entries(SERIES_STATUS_META) as [SeriesArchiveStatus, { label: string }][]
@@ -198,7 +210,7 @@ function goGuide(): void {
           </span>
           <span class="mono" :style="{ color: C.dim }">
             <template v-if="isLocked(item)">{{ AGE_COPY.locked }} · </template>
-            <template v-else-if="item.availableLanguages.includes('nl')">NEDERLANDS · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
+            <template v-else-if="dutchLabel(item)">{{ dutchLabel(item) }} · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
           </span>
         </div>
       </div>
@@ -229,7 +241,7 @@ function goGuide(): void {
           </strong>
           <span class="mono" :style="{ color: C.dim }">
             <template v-if="isLocked(item)">{{ AGE_COPY.locked }} · </template>
-            <template v-else-if="item.availableLanguages.includes('nl')">NEDERLANDS · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
+            <template v-else-if="dutchLabel(item)">{{ dutchLabel(item) }} · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
           </span>
         </div>
       </div>

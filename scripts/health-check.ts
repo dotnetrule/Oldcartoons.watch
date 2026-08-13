@@ -49,14 +49,19 @@ async function main(): Promise<void> {
     const live = statuses.get(ep.youtubeId);
     const checked = { ...ep, checkedAt: today };
 
+    // Everything a dropped row knew about its video goes with the video:
+    // provenance, and the audio tracks that were read off it. Keeping a track
+    // list behind would leave a claim about a file nobody can open.
+    const dropped = { status: 'missing', youtubeId: null, source: null, audioLanguages: null } as const;
+
     if (!live) {
       changes.push({ episode: ep, from: ep.status, to: 'missing', reason: 'video is gone' });
-      return { ...checked, status: 'missing', youtubeId: null, source: null };
+      return { ...checked, ...dropped };
     }
 
     if (!live.embeddable) {
       changes.push({ episode: ep, from: ep.status, to: 'missing', reason: 'embedding disabled' });
-      return { ...checked, status: 'missing', youtubeId: null, source: null };
+      return { ...checked, ...dropped };
     }
 
     const status: Episode['status'] = isRegionLocked(live) ? 'region-locked' : 'available';

@@ -52,6 +52,26 @@ export type Episode = {
   checkedAt: string;
   /** Null exactly when youtubeId is null. */
   source: EpisodeSource | null;
+  /**
+   * Every spoken language this video carries an audio track for, written by
+   * `scripts/scan-audio-tracks.ts`.
+   *
+   * A YouTube upload can carry a dub alongside its original audio, and the
+   * source it came from cannot say so: `PlaylistSource.language` describes the
+   * track that plays by default, which is one fact about a whole collection.
+   * Which dubs exist is a fact about one video, so it is measured per video and
+   * stored here.
+   *
+   * Three states, and the difference between the last two is what makes the
+   * scan repeatable:
+   *   • null  — not looked up yet
+   *   • []    — looked up, and this video has only its default track
+   *   • [..]  — looked up; these are the languages on offer, default included
+   *
+   * Null exactly when youtubeId is null, for the same reason `source` is: a
+   * row with no video has nothing to have tracks.
+   */
+  audioLanguages: ContentLanguage[] | null;
 };
 
 export type Network = {
@@ -363,6 +383,17 @@ export type PublicEpisode = {
   youtubeId: string | null;
   /** TMDB file_path for the episode still. */
   still: string | null;
+  /**
+   * The track that plays without the viewer doing anything — the language of
+   * the source this episode came from. Null when there is no video.
+   */
+  defaultAudioLanguage: ContentLanguage | null;
+  /**
+   * Every language this video has an audio track for, `defaultAudioLanguage`
+   * included. Empty when there is no video, or when the tracks have not been
+   * read yet — the player treats both the same way, by saying nothing.
+   */
+  audioLanguages: ContentLanguage[];
 };
 
 export type PublicSeason = {
@@ -387,9 +418,17 @@ export type SeriesFile = {
   decade: string;
   episodeCount: number;
   availableCount: number;
-  /** Languages found among the currently playable episode sources. Empty
-   * exactly when there are no playable episodes. */
+  /** Languages a viewer can hear this series in. Empty exactly when there are
+   * no playable episodes. Includes languages that are only reachable as an
+   * extra audio track — see `dubbedLanguages` for that distinction. */
   availableLanguages: ContentLanguage[];
+  /**
+   * The subset of `availableLanguages` that no episode plays by default: they
+   * exist as a dub on the video and the viewer may have to pick them in the
+   * player. Kept apart so the archive's status dot cannot call a series
+   * "compleet in het Nederlands" on the strength of an English upload.
+   */
+  dubbedLanguages: ContentLanguage[];
   /** TMDB file_path. */
   backdrop: string | null;
   poster: string | null;
@@ -414,6 +453,7 @@ export type SeriesStub = {
   episodeCount: number;
   availableCount: number;
   availableLanguages: ContentLanguage[];
+  dubbedLanguages: ContentLanguage[];
   poster: string | null;
 };
 

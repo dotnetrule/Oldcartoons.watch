@@ -69,6 +69,13 @@ jobs:
       - name: Derive episodes
         run: npm run match
 
+      # Which languages each new video can be heard in. One watch page per
+      # video and no API key involved, so it runs after matching rather than
+      # inside fetch, and only over rows nothing has read yet. A page that will
+      # not talk leaves the row unread for next time; it never fails the run.
+      - name: Read audio tracks
+        run: npm run scan-audio
+
       # The Zod gate. A bad ingest fails here rather than being committed.
       - name: Validate
         run: npm run build-data
