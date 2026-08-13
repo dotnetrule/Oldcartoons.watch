@@ -73,8 +73,15 @@ jobs:
       # video and no API key involved, so it runs after matching rather than
       # inside fetch, and only over rows nothing has read yet. A page that will
       # not talk leaves the row unread for next time; it never fails the run.
+      #
+      # Bounded, because this is the loop a person waits on. Unbounded it would
+      # try the whole archive on a runner that has never scanned one — a page
+      # each, thousands of them — and turn a two-minute ingest into an hour.
+      # The ceiling is safe because the scan reads least-read sources first: a
+      # playlist this very run whitelisted is at the front of the queue, so it
+      # is always the newcomer that gets read and the backlog that waits.
       - name: Read audio tracks
-        run: npm run scan-audio
+        run: npm run scan-audio -- --limit 200
 
       # The Zod gate. A bad ingest fails here rather than being committed.
       - name: Validate
