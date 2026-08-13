@@ -26,6 +26,7 @@ import type {
   ScheduledBroadcast,
   SeriesFile,
   SeriesStub,
+  TmdbMetadataFile,
   VideoSetSource,
 } from '../src/types';
 import {
@@ -42,6 +43,7 @@ import {
   playlistsFileSchema,
   seriesFileSchema,
   seriesSourceFileSchema,
+  tmdbMetadataFileSchema,
   videoSetsFileSchema,
 } from '../src/schemas';
 import {
@@ -313,6 +315,10 @@ function main(): void {
   );
   const episodes = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const overrides = readValidated(contentPath('overrides.json'), overridesFileSchema);
+  const tmdbMetadata: TmdbMetadataFile = readValidated(
+    contentPath('tmdb-metadata.json'),
+    tmdbMetadataFileSchema,
+  );
   const broadcastChannelSources = readValidated(
     contentPath('broadcast-channels.json'),
     broadcastChannelSourcesFileSchema,
@@ -495,6 +501,20 @@ function main(): void {
     }
   }
 
+  for (const placeholderId of Object.keys(tmdbMetadata.matches)) {
+    const source = seriesByTmdbId.get(Number(placeholderId));
+    if (!source) {
+      throw new Error(
+        `TMDB metadata keyed ${placeholderId} matches no series in content/series.json`,
+      );
+    }
+    if (source.tmdbId > 0) {
+      throw new Error(
+        `TMDB metadata for '${source.slug}' is keyed by a real id — npm run fetch owns resolved series`,
+      );
+    }
+  }
+
   // Index episodes by series so each series file is a single pass, and so an
   // episode pointing at a series that no longer exists is caught rather than
   // silently dropped.
@@ -538,6 +558,7 @@ function main(): void {
     const historicalSeed = historicalSeriesByTmdbId.get(source.tmdbId);
     const cache = loadSeriesCache(source, historicalSeed);
     const { detail } = cache;
+    const metadata = tmdbMetadata.matches[String(source.tmdbId)];
 
     const firstAirYear = historicalSeed?.firstAirYear ?? yearOf(detail.first_air_date);
     if (firstAirYear === null) {
@@ -547,9 +568,9 @@ function main(): void {
     const base = applyOverride(
       {
         name: detail.name,
-        overview: detail.overview,
+        overview: metadata?.overview || detail.overview,
         firstAirYear,
-        backdrop: detail.backdrop_path,
+        backdrop: metadata?.backdrop ?? detail.backdrop_path,
         networkSlug: source.networkSlug,
       },
       overrides[String(source.tmdbId)] ?? {},
@@ -671,7 +692,10 @@ function main(): void {
 
     seasons.sort((a, b) => a.season - b.season);
 
-    const lastAirYear = historicalSeed?.lastAirYear ?? yearOf(detail.last_air_date) ?? firstAirYear;
+    const lastAirYear =
+      historicalSeed?.lastAirYear ??
+      yearOf(metadata?.lastAirDate ?? detail.last_air_date) ??
+      firstAirYear;
     const decade = decadeOf(base.firstAirYear);
     decades.add(decade);
 
@@ -686,14 +710,15 @@ function main(): void {
       age: source.age,
       firstAirYear: base.firstAirYear,
       lastAirYear: Math.max(lastAirYear, base.firstAirYear),
-      firstAirDate: historicalSeed ? null : detail.first_air_date,
+      firstAirDate: metadata?.firstAirDate ?? (historicalSeed ? null : detail.first_air_date),
       decade,
       episodeCount: detail.number_of_episodes,
       availableCount,
       availableLanguages,
       dubbedLanguages,
       backdrop: base.backdrop,
-      poster: detail.poster_path,
+      poster: metadata?.poster ?? detail.poster_path,
+      genres: metadata?.genres ?? detail.genres?.map((genre) => genre.name).filter(Boolean) ?? [],
       seasons,
     };
 

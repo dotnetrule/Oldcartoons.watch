@@ -232,6 +232,27 @@ export type HistoricalSeriesSeed = {
   lastAirYear: number;
 };
 
+/** Build-time TMDB metadata attached to a placeholder series without changing
+ * the negative id that owns its curated episode list. The positive id records
+ * the reviewed upstream match; the remaining fields are a refreshable cache
+ * committed with content so a deploy never needs the API token. */
+export type TmdbSeriesMetadata = {
+  tmdbId: number;
+  name: string;
+  originalName: string;
+  overview: string;
+  firstAirDate: string | null;
+  lastAirDate: string | null;
+  backdrop: string | null;
+  poster: string | null;
+  genres: string[];
+};
+
+export type TmdbMetadataFile = {
+  fetchedAt: string;
+  matches: Record<string, TmdbSeriesMetadata>;
+};
+
 /** Additional historical broadcaster memberships. A programme keeps one
  * canonical source network, while this list lets it appear on every Dutch
  * channel that carried it. The same slug may deliberately occur in multiple
@@ -432,6 +453,8 @@ export type SeriesFile = {
   /** TMDB file_path. */
   backdrop: string | null;
   poster: string | null;
+  /** Localized TMDB genre labels. Empty for a catalogue entry with no match. */
+  genres: string[];
   seasons: PublicSeason[];
 };
 

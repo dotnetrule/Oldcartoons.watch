@@ -1,0 +1,1700 @@
+{
+  "fetchedAt": "2026-08-13T19:55:53.500Z",
+  "matches": {
+    "-1": {
+      "tmdbId": 19240,
+      "name": "Sesamstraat",
+      "originalName": "Sesamstraat",
+      "overview": "Sesamstraat is a children's television show in the Netherlands, spin off the popular U.S. children's program Sesame Street.",
+      "firstAirDate": "1976-01-04",
+      "lastAirDate": "1976-01-04",
+      "backdrop": "/7bdIDN5CuMx46MWCkBnXwna1gI4.jpg",
+      "poster": "/2t5dyEhgg2rcSRVhrDtV4ssEFmo.jpg",
+      "genres": []
+    },
+    "-3": {
+      "tmdbId": 10583,
+      "name": "Pinwheel",
+      "originalName": "Pinwheel",
+      "overview": "Pinwheel is a children's television show that aired on the Nickelodeon cable network from 1977 to 1989. The show was the original program featured on the Nickelodeon network.",
+      "firstAirDate": "1977-12-01",
+      "lastAirDate": "1977-12-01",
+      "backdrop": null,
+      "poster": "/mQcwiJBo7OALSBV9cLOVTZgsfkU.jpg",
+      "genres": [
+        "Kids"
+      ]
+    },
+    "-4": {
+      "tmdbId": 7768,
+      "name": "Star Blazers",
+      "originalName": "Star Blazers",
+      "overview": "Star Blazers is an American animated television series adaptation of the Japanese anime series, Space Battleship Yamato I, II, and III. Star Blazers was first broadcast in the United States in 1979. Significantly, it was the first popular English-translated anime that had an overarching plot and storyline that required the episodes to be shown in order. It dealt with somewhat more mature themes than other productions aimed at the same target audience at the time. As a result, it paved the way for future arc-based, plot-driven anime translations.",
+      "firstAirDate": "1974-10-06",
+      "lastAirDate": "1979-04-07",
+      "backdrop": "/7pxXNRupwmoS3nCiz6UrnPSg4Zy.jpg",
+      "poster": "/udfwCjRBqrFff6c7Lobdd8MNiBH.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Action & Adventure",
+        "Drama",
+        "Animatie"
+      ]
+    },
+    "-5": {
+      "tmdbId": 91841,
+      "name": "Tik Tak",
+      "originalName": "Tik Tak",
+      "overview": "Tik Tak is een Belgisch kinderprogramma dat uitgezonden werd van 1981 tot 1997 op de toenmalige BRT. Er werden 366 afleveringen opgenomen (goed voor 1 aflevering per dag, met 1 extra aflevering voor schrikkeljaren). Elke aflevering begint met schaapjes (en de occasionele hond of kat) die bij zonsondergang op een plateau ronddraaien met op de achtergrond een speeldoosje dat \"Slaap kindje slaap\" speelt en in het midden soms een mannetje en eindigt met een schaduwfiguur (Ann Ricour), die allerlei avonturen beleeft in vijf verschillende kleurboeken.",
+      "firstAirDate": "1981-01-01",
+      "lastAirDate": "2020-10-22",
+      "backdrop": "/iHPh1QI9tlaZb7LK1lvU3BVJjI8.jpg",
+      "poster": "/6CculGQ5g5hpzx2MCcfaScK6Jhy.jpg",
+      "genres": [
+        "Kids"
+      ]
+    },
+    "-6": {
+      "tmdbId": 61564,
+      "name": "Merlina",
+      "originalName": "Merlina",
+      "overview": "De avonturen van Merlina, Pol, Ann en Napoleon spelen zich af op het detectivebureau ‘Merlina’. Ze helpen graag mensen die hun hulp inroepen en komen daarbij regelmatig in aanraking met de schurk Sardonis.",
+      "firstAirDate": "1983-01-08",
+      "lastAirDate": "1988-01-02",
+      "backdrop": "/wpkx840m7AXwWsueWaF7yWF5Igk.jpg",
+      "poster": "/oJvYWuL94S4n6KAICe0sexYp3UL.jpg",
+      "genres": [
+        "Familie"
+      ]
+    },
+    "-7": {
+      "tmdbId": 931,
+      "name": "He-Man and the Masters of the Universe",
+      "originalName": "He-Man and the Masters of the Universe",
+      "overview": "Wanneer Adam, Prins van de planeet Eternia, zijn magische zwaard opheft, verandert hij in He-Man (de machtigste man in het universum). Met zijn bondgenoten en vrienden vecht hij tegen de kwaadaardige Skeletor en zijn handlangers om de geheimen van Castle Greyskull te beschermen.",
+      "firstAirDate": "1983-09-05",
+      "lastAirDate": "1984-12-08",
+      "backdrop": "/evgm79NS64RjQ4F1BjZzoOj7D2L.jpg",
+      "poster": "/tawmMe0D3ncyzEmmfMraGucXBCA.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-8": {
+      "tmdbId": 4035,
+      "name": "Inspector Gadget",
+      "originalName": "Inspector Gadget",
+      "overview": "Inspecteur Gadget bestrijdt misdaad en corruptie. Met de hulp van zijn gadgets, zijn slimme nichtje Penny en zijn trouwe hond Brain, lukt het hem altijd om zijn vijanden te verslaan.",
+      "firstAirDate": "1983-09-05",
+      "lastAirDate": "1985-11-13",
+      "backdrop": "/vWaIxifDJeKXq4igHTOE5epqcop.jpg",
+      "poster": "/j9ePYXtL3giEJq6ZVh4kDaUU0o4.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-9": {
+      "tmdbId": 720,
+      "name": "Ducktales",
+      "originalName": "DuckTales",
+      "overview": "DuckTales biedt een schat aan pret en sensatie! Gewapend met zijn geluksdubbeltje speurt Dagobert Duck samen met zijn neefjes Kwik, Kwek en Kwak naar een schat aan familiepret. Of ze nou door de tijd reizen om het tegen de slechte Zwarte Ridder op te nemen, of door de woestijn trekken om Donald Duck uit de greep van een kwaadaardige mummie te redden, de DuckTales-groep laat geen middel onbeproefd in hun zoektocht naar avontuur.",
+      "firstAirDate": "1987-09-18",
+      "lastAirDate": "1990-11-28",
+      "backdrop": "/myI4QvUU18UiGglr6NEjNkciXOk.jpg",
+      "poster": "/muplnM90daPCQ5Bn1olcwN1EO22.jpg",
+      "genres": [
+        "Animatie",
+        "Mysterie",
+        "Sci-Fi & Fantasy",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-10": {
+      "tmdbId": 160,
+      "name": "Teenage Mutant Ninja Turtles",
+      "originalName": "Teenage Mutant Ninja Turtles",
+      "overview": "Vanuit het riool komen de Ninja Turtles New York binnen en vechten ze tegen kwaadaardige krachten die hun verbeelding te boven gaan. Ga samen met de broers Leonardo, Raphael, Donatello en Michelangelo de strijd aan tegen robot-Kraangs, gemuteerde slechteriken en de meedogenloze leider van de Foot Clan, Shredder.",
+      "firstAirDate": "1987-12-14",
+      "lastAirDate": "1996-11-02",
+      "backdrop": "/s1Kr1RntP2b8MdUKTYJxNmcVEBP.jpg",
+      "poster": "/AaihPizftZo5YCqzEgHMwkceaEo.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-11": {
+      "tmdbId": 12080,
+      "name": "Het Klokhuis",
+      "originalName": "Het Klokhuis",
+      "overview": "Het Klokhuis is een educatief jeugdprogramma van de NTR, dat iedere week van maandag tot en met vrijdag in de vooravond wordt uitgezonden op NPO Zapp. Het Klokhuis leert kinderen in de leeftijdscategorie van 7 tot 12 jaar over de wereld om hen heen, in de breedste zin van het woord.",
+      "firstAirDate": "1988-01-03",
+      "lastAirDate": "2023-01-12",
+      "backdrop": null,
+      "poster": "/imty8r9QohtmaNMa2uiJAAg7Aly.jpg",
+      "genres": [
+        "Kids",
+        "Familie"
+      ]
+    },
+    "-12": {
+      "tmdbId": 66191,
+      "name": "Postbus X",
+      "originalName": "Postbus X",
+      "overview": "Postbus X was een Vlaamse jeugdreeks, een spin-off van 'Merlina', die van 1988 tot 1994 te zien was op de BRTN. Auteur was Dick Durver en de regie was in handen van Gie Lavigne. De opnamen voor de serie vonden grotendeels plaats in en om Hasselt.",
+      "firstAirDate": "1989-01-02",
+      "lastAirDate": "1993-12-29",
+      "backdrop": "/cat8jUGpFw6RdfPzyOnGYNmL7We.jpg",
+      "poster": "/x04OJNk98RF5gbha6WuHiFNW1hM.jpg",
+      "genres": [
+        "Kids",
+        "Drama"
+      ]
+    },
+    "-13": {
+      "tmdbId": 478,
+      "name": "Captain Planet and the Planeteers",
+      "originalName": "Captain Planet and the Planeteers",
+      "overview": "Eco-schurken opgelet: Captain Planet is hier om de dag te redden! Onder begeleiding van Gaia komen vijf Planeteers - die Aarde, Vuur, Water, Wind en Hart vertegenwoordigen - samen om onze planeet te verdedigen tegen vernietiging van het milieu. Met hun krachten gebundeld, wordt het team de oplossing voor vervuiling!",
+      "firstAirDate": "1990-09-15",
+      "lastAirDate": "1996-05-11",
+      "backdrop": "/fnBiI05I0eFqPWUHvC0NdYz3skM.jpg",
+      "poster": "/oTUdMgcSs3duIjoWBiZlgtVUNN3.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-14": {
+      "tmdbId": 33088,
+      "name": "Samson en Gert",
+      "originalName": "Samson en Gert",
+      "overview": "Samson & Gert is en Vlaams kinderprogramma gemaakt door Studio 100 en gaat over een sprekende hond genaamd Samson en zijn baasje Gert.",
+      "firstAirDate": "1990-09-02",
+      "lastAirDate": "2014-12-25",
+      "backdrop": "/oNUblzQC62ra2vSCRIeQyVr1lHv.jpg",
+      "poster": "/99kGWN0jMMbFoRWs6SVFk1XicLH.jpg",
+      "genres": [
+        "Kids"
+      ]
+    },
+    "-15": {
+      "tmdbId": 10797,
+      "name": "キャッ党 忍伝 てやんでえ",
+      "originalName": "キャッ党 忍伝 てやんでえ",
+      "overview": "De setting is een Japans ogend dorp genaamd 'Little Tokyo', waar de Pizza Cats een pizza-fastfoodbedrijf runnen. Little Tokyo wordt bevolkt door allerlei dieren. De officiële gouverneur van de stad is de keizer, maar sinds hij gek is geworden, zorgt een raad voor het welzijn van het dorp. Een van de leden van deze raad heet Seymour 'Big' Cheese, die in het geheim de controle over het dorp wil overnemen. Het pizza-afhaalrestaurant is slechts een dekmantel voor hun ware werk... Wanneer het kwaad op de loer ligt, worden de Pizza Cats op het gevaar afgevuurd vanaf de op wapens lijkende klokkentoren die boven uit hun restaurant tevoorschijn komt.",
+      "firstAirDate": "1990-02-01",
+      "lastAirDate": "1991-02-12",
+      "backdrop": "/qpoSCjwxyScuBOpisnA3NujVvAs.jpg",
+      "poster": "/dQff5hHKuok3TRPFhlu24DvKJte.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Action & Adventure",
+        "Kids"
+      ]
+    },
+    "-16": {
+      "tmdbId": 1830,
+      "name": "Tiny Toon Adventures",
+      "originalName": "Tiny Toon Adventures",
+      "overview": "Follow the adventures of a group of young cartoon characters who attend the Acme Looniversity to become the next generation of characters from the Looney Tunes series.",
+      "firstAirDate": "1990-09-14",
+      "lastAirDate": "1992-12-06",
+      "backdrop": "/svFh88hKUiH8W5P936noyLC9L6F.jpg",
+      "poster": "/j9B9RmerM2b39s7xzW6g4vN5B1m.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie",
+        "Kids"
+      ]
+    },
+    "-17": {
+      "tmdbId": 3022,
+      "name": "Ratjetoe",
+      "originalName": "Rugrats",
+      "overview": "Rugrats is een tekenfilmserie over vier cool baby's. Alle vier hebben zij hun eigen ideeën. De geluierde Tommy Zoetzuur, de bangige Dickie Finkers en de tweeling Phil en Lil met hun hondje Spike bekijken de wereld op een hele andere manier. Samen beleven ze grote avonturen en voeren ze een dagelijkse strijd tegen de oudere Angeliekje.",
+      "firstAirDate": "1991-08-11",
+      "lastAirDate": "2004-08-01",
+      "backdrop": "/fKpfCR3l0WukHTkI6Z2ySX1if4P.jpg",
+      "poster": "/wmsINbZuEBLNP2Z26Xffx5NHJpW.jpg",
+      "genres": [
+        "Familie",
+        "Animatie",
+        "Kids",
+        "Komedie"
+      ]
+    },
+    "-18": {
+      "tmdbId": 2098,
+      "name": "Batman: The Animated Series",
+      "originalName": "Batman: The Animated Series",
+      "overview": "Bruce Wayne belooft de moord op zijn ouders te wreken en wijdt zijn leven aan het uitroeien van de misdaad in Gotham City als de gemaskerde burgerwacht 'Batman'.",
+      "firstAirDate": "1992-09-05",
+      "lastAirDate": "1995-09-15",
+      "backdrop": "/4QnFxk03yAn7U2ZTL5oMCCqxlPc.jpg",
+      "poster": "/lBomQFW1vlm1yUYMNSbFZ45R4Ox.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Drama",
+        "Mysterie"
+      ]
+    },
+    "-19": {
+      "tmdbId": 926,
+      "name": "Scooby Doo Where Are You!",
+      "originalName": "Scooby-Doo, Where Are You!",
+      "overview": "Fred, Daphne, Velma, Shaggy en de pratende hond, Scooby-Doo, reizen met het Mystery Machine-busje, op zoek naar vreemde mysteries om op te lossen.",
+      "firstAirDate": "1969-09-13",
+      "lastAirDate": "1978-12-23",
+      "backdrop": "/cuGHiBCIS8cUbnsV1TecOg9Z9Nd.jpg",
+      "poster": "/lTzUSCtXR77CmGmEHcaxpxu2b4h.jpg",
+      "genres": [
+        "Animatie",
+        "Mysterie",
+        "Komedie",
+        "Familie",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-20": {
+      "tmdbId": 82,
+      "name": "Animaniacs",
+      "originalName": "Animaniacs",
+      "overview": "De twee Warner Brothers Yakko en Wakko en hun Warner-zuster Dot waren (vermoedelijk) gemaakt in de jaren dertig, maar hun tekenfilms waren te ondeugend voor het grote publiek. De drie Warners werden opgesloten in de watertoren van de studio totdat ze in de jaren 90 ontsnapten. Daar rennen ze wild rond en veroorzaken overal chaos!",
+      "firstAirDate": "1993-09-13",
+      "lastAirDate": "1998-05-25",
+      "backdrop": "/8TThBwlIZnzCFkj21rv5Nv2lTNG.jpg",
+      "poster": "/c1b2UtrhbMOdHKISB2ZvINo9eyc.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Komedie",
+        "Familie"
+      ]
+    },
+    "-21": {
+      "tmdbId": 5687,
+      "name": "De Smurfen",
+      "originalName": "The Smurfs",
+      "overview": "De Smurfen zijn stripfiguren bedacht door Peyo en mee vormgegeven door Yvan Delporte, waarrond een franchise is opgebouwd. Ze werden ontworpen als nevenpersonages in de reeks Johan en Pirrewiet en kregen in 1959 een eigen stripreeks. Later dienden de stripfiguren ook als inspiratie voor een tekenfilmreeks en een liveactionfilm. Tevens werd er heel wat muziek en merchandising uitgebracht onder naam van de Smurfen.",
+      "firstAirDate": "1981-09-12",
+      "lastAirDate": "1989-12-02",
+      "backdrop": "/1szJqm8ksrwbPheLfEZn2ohTGbg.jpg",
+      "poster": "/3qTJaUVCnBOt2GX7PUx3EvZhbWk.jpg",
+      "genres": [
+        "Animatie",
+        "Familie",
+        "Sci-Fi & Fantasy",
+        "Kids",
+        "Komedie"
+      ]
+    },
+    "-22": {
+      "tmdbId": 2328,
+      "name": "Power Rangers",
+      "originalName": "Power Rangers",
+      "overview": "Een team tieners met karakter wordt gerekruteerd om Angel Grove te redden van de boze heks Rita Repulsa en later Lord Zedd, keizer van alles wat hij ziet, en zijn horde monsters.",
+      "firstAirDate": "1993-08-28",
+      "lastAirDate": "2023-09-29",
+      "backdrop": "/i01wnWz0Z3rMATqbkAVLHEaGbNP.jpg",
+      "poster": "/qx3SJlAp2RK656TusqKx1qEqVMW.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-24": {
+      "tmdbId": 236623,
+      "name": "Big & Betsy",
+      "originalName": "Big en Betsy",
+      "overview": "Big & Betsy is een Vlaamse kinderserie op tv die bedacht werd door Danny Verbiest, Gert Verhulst en Hans Bourlon. Het programma is een productie van het Belgische productiebedrijf Studio 100. Het programma was voor het eerst op televisie te zien als presentatieonderdeel op 6 april 1999",
+      "firstAirDate": "2000-11-05",
+      "lastAirDate": "2003-02-23",
+      "backdrop": null,
+      "poster": "/65z98yKl5aLwWC1lfpP5MQBJgaD.jpg",
+      "genres": []
+    },
+    "-25": {
+      "tmdbId": 4229,
+      "name": "Dexter's Laboratory",
+      "originalName": "Dexter's Laboratory",
+      "overview": "Ondanks zijn jonge leeftijd is Dexter een genie met een geheim laboratorium op zijn kamer, achter zijn boekenkast. Zijn ouders mogen niets van zijn geheime laboratorium weten, maar zijn zusje Dee Dee weet het wel en probeert van Dexters lab steeds weer een puinhoop te maken.",
+      "firstAirDate": "1996-04-28",
+      "lastAirDate": "2003-11-20",
+      "backdrop": "/ec04M36HKCokAsdJWqx18uKRzoP.jpg",
+      "poster": "/inJJn8lUPWdvdy2h259UnoHWVqC.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-26": {
+      "tmdbId": 2405,
+      "name": "Johnny Bravo",
+      "originalName": "Johnny Bravo",
+      "overview": "Of we nu de zielige verhalen van Johnny moeten aanhoren wanneer hij alleen thuis is of we zien onze geliefde held die probeert Frans te leren, we zullen weer veel lol hebben als Johnny al zijn charmes in de strijd gooit om eindelijk eens verkering te krijgen.",
+      "firstAirDate": "1997-07-07",
+      "lastAirDate": "2004-08-27",
+      "backdrop": "/tZPxvddk59GhIA8yxjQpLGVRQ2R.jpg",
+      "poster": "/obbdeoOk8XSXzJrWGiBbaeMMSMl.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie"
+      ]
+    },
+    "-27": {
+      "tmdbId": 13687,
+      "name": "Kabouter Plop",
+      "originalName": "Kabouter Plop",
+      "overview": "Kabouter Plop woont in de Melkherberg in het grote Kabouterbos. De beste vrienden van Kabouter Plop zijn Klus, Lui, Kwebbel, Smul en Smal. Samen beleven ze de gekste avonturen in de Melkherberg en in het grote Kabouterbos.",
+      "firstAirDate": "1997-08-27",
+      "lastAirDate": "2002-01-31",
+      "backdrop": "/8OsvEJvH8Hd6GFDWHtR6JYuEjzJ.jpg",
+      "poster": "/712lPs4C23Q1tmUySdc9PUU8UoR.jpg",
+      "genres": [
+        "Kids",
+        "Komedie"
+      ]
+    },
+    "-28": {
+      "tmdbId": 8930,
+      "name": "Les Kikekoi",
+      "originalName": "Les Kikekoi",
+      "overview": "The Why Why Family is a French cartoon television series for children, which originally aired in 1996, written by Annabelle Perrichon and François-Emmanuel Porché and produced by Saban Entertainment and CineGroupe. Later, in 1998, the show was broadcast in the United States by Fox. Character design and others are vintage and comedy elements are also included throughout the episodes.",
+      "firstAirDate": "1996-01-01",
+      "lastAirDate": "1996-06-24",
+      "backdrop": "/5wabcdTH25RzFh5egXlBKEMplza.jpg",
+      "poster": "/kNU73wn44MduD9Ged4vptR2BcI3.jpg",
+      "genres": [
+        "Komedie",
+        "Animatie"
+      ]
+    },
+    "-29": {
+      "tmdbId": 4574,
+      "name": "X-Men",
+      "originalName": "X-Men",
+      "overview": "De X-Men zijn een eliteteam van mutanten, genetisch begaafde mensen met superkrachten, gezworen te vechten voor mutantenrechten tegen vijandige overheidsinstanties, terwijl ze tegelijkertijd de mensheid beschermen tegen mutantensupremacist Magneto die het menselijk ras wil vernietigen in ruil voor de wreedheden begaan tegen de mutantsoort.",
+      "firstAirDate": "1992-10-31",
+      "lastAirDate": "1997-09-20",
+      "backdrop": "/8GlKBQJTFZp9mpLXJrmNCtdTyxx.jpg",
+      "poster": "/2OFwsFhAobczgJWnVdwd9oZAF2N.jpg",
+      "genres": [
+        "Kids",
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Action & Adventure"
+      ]
+    },
+    "-30": {
+      "tmdbId": 384,
+      "name": "Doug",
+      "originalName": "Doug",
+      "overview": "Doug Funnie experiences common predicaments while attending school in his new hometown of Bluffington, Virginia.",
+      "firstAirDate": "1991-08-18",
+      "lastAirDate": "1999-06-26",
+      "backdrop": "/9coN2jb3hdDZzN6vxI26cMhElwS.jpg",
+      "poster": "/fEzGDVHsUlOhU59EKSePobldyIf.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-32": {
+      "tmdbId": 504,
+      "name": "The Ren & Stimpy Show",
+      "originalName": "The Ren & Stimpy Show",
+      "overview": "Ren en Stimpy zijn een mismatch gemaakt in de animatiehemel en hebben niets gemeen dan een levenslange vriendschap en een ongelooflijke gave om in de problemen te komen. Ga met ze mee in hun bizarre en grove wereld voor bizarre situaties, gekoppeld aan hilarische grappen.",
+      "firstAirDate": "1991-08-11",
+      "lastAirDate": "1995-12-16",
+      "backdrop": "/c8m4NAE774Vsn5AZvn2bFarUtDX.jpg",
+      "poster": "/u4YZhMms48mgP756hniUcw6PQPU.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Komedie",
+        "Familie"
+      ]
+    },
+    "-33": {
+      "tmdbId": 607,
+      "name": "The Powerpuff Girls",
+      "originalName": "The Powerpuff Girls",
+      "overview": "The Powerpuff Girls is een geanimeerde televisieserie over Blossom, Bubbles en Buttercup, drie meisjes in de kleuterklas met superkrachten, en hun 'vader', de slimme wetenschapper Professor Utonium, die allemaal in de fictieve stad Townsville, VS, wonen. De meisjes worden regelmatig opgeroepen door de kinderlijke en naïeve burgemeester van de stad om met hun krachten nabijgelegen criminelen te helpen bestrijden.",
+      "firstAirDate": "1998-11-18",
+      "lastAirDate": "2005-03-25",
+      "backdrop": "/gnK2nptRXra4RnKgGqAWFSqP5aG.jpg",
+      "poster": "/468mmhMd21pY4Yx0S0woqeEcxtL.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Komedie",
+        "Kids",
+        "Familie"
+      ]
+    },
+    "-34": {
+      "tmdbId": 251,
+      "name": "Adult Swim: Aqua Teen Hunger Force",
+      "originalName": "Aqua Teen Hunger Force",
+      "overview": "Ten eerste het zijn geen tieners. Ten tweede heeft de gehele show niets met water te maken. En 'Hunger Force' dan? Dat is er waarschijnlijk ook bij verzonnen. Wat is het dan? Het zijn de avonturen van een milkshake, bakje met friet en een gehaktbal! Elke keer beleven Master, Meatwad en Frylock de meest bizarre avonturen en jij mag met ze mee.",
+      "firstAirDate": "2000-12-30",
+      "lastAirDate": "2023-12-17",
+      "backdrop": "/5QWdGKrPWJQ3WcafuYA2PXL6uQG.jpg",
+      "poster": "/jCWOkfMLsT2sGHadCkmR65MWtJu.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ]
+    },
+    "-35": {
+      "tmdbId": 416,
+      "name": "Harvey Birdman, Attorney at Law",
+      "originalName": "Harvey Birdman, Attorney at Law",
+      "overview": "In Harvey Birdman, Attorney at Law speelt ex-superheld Harvey T. Birdman van Birdman en het Galaxy Trio een rol als advocaat die voor een advocatenkantoor werkt, samen met andere tekenfilmsterren uit de Hanna-Barbera-tekenfilmserie uit de jaren 60 en 70. Op dezelfde manier bestaan ​​de klanten van Harvey voornamelijk uit personages uit de Hanna-Barbera-tekenfilmserie uit dezelfde tijd. Veel van Birdmans vijanden uit zijn voormalige tekenfilmserie werden ook advocaten, die vaak de tegengestelde kant van een bepaalde zaak vertegenwoordigden.",
+      "firstAirDate": "2000-12-30",
+      "lastAirDate": "2007-07-22",
+      "backdrop": "/2CqC0XVbK2mdEkVVDDKXi1jWG0M.jpg",
+      "poster": "/tBVSDa48aOcq7vF0xLFprRWZgbh.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Komedie",
+        "Action & Adventure",
+        "Misdaad"
+      ]
+    },
+    "-36": {
+      "tmdbId": 334,
+      "name": "Sealab 2021",
+      "originalName": "Sealab 2021",
+      "overview": "Het is het jaar 2021. Diep onder het oceaanoppervlak doemt een enorm, magnifiek hightech complex op: Sealab. Een multinationaal wetenschappelijk station met een jaarlijks budget van in de biljoenen, bemand door een bonte verzameling ontevredenen en sukkels die ongeschikt waren voor werk in de particuliere sector. Ze laten eigenlijk geen onderzoek doen, maar brengen hun tijd door met onderling kibbelen of gewoon gek doen. De bemanning heeft hun ongelukkige leider, kapitein Murphy, tot onderwerping gemanipuleerd en is tevreden met het besturen van de overheidsklok, waarbij ze dikke, gevaarlijke loonstrookjes binnenhalen.",
+      "firstAirDate": "2000-12-21",
+      "lastAirDate": "2005-04-25",
+      "backdrop": "/e1WQUxuwgfwEEKPQ49wqxKf5fqA.jpg",
+      "poster": "/eA4JJfHZ6DdfPd3BCu5qWm99Fl5.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ]
+    },
+    "-37": {
+      "tmdbId": 1762,
+      "name": "What's with Andy?",
+      "originalName": "What's with Andy?",
+      "overview": "Andy Larkin is de ultieme grappenmaker. Of hij nu spijbelt van school door te doen alsof hij dood is, of de tijd verdrijft door tuinkabouters te ontvoeren, Andy is een echte meester in het grappenvak. Niemand is veilig voor de kunstjes van Andy, vooral zijn zus Jen en de schoolpestkoppen Lik en Leech niet.",
+      "firstAirDate": "2001-06-30",
+      "lastAirDate": "2007-03-04",
+      "backdrop": "/dlYopEinoLtl1BW0B06zDEeGD07.jpg",
+      "poster": "/yWMKHpgUHcru7kOxEdNQmhPjhuJ.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-38": {
+      "tmdbId": 21175,
+      "name": "マシュランボー",
+      "originalName": "マシュランボー",
+      "overview": "Shinzo, known as Mushrambo in Japan, is an anime produced by Toei Animation and based on the Chinese legend Journey to the West. In the series, creatures known as Enterrans take over Earth and rename it in their own image: Enterra. Now three Enterrans have to protect the last human in order to restore the human race. The anime focuses primarily on the adventures they undergo while working to accomplish this task.",
+      "firstAirDate": "2000-02-05",
+      "lastAirDate": "2000-09-23",
+      "backdrop": "/KSxxz5Fuv1dLspqZNZnp2CuYCI.jpg",
+      "poster": "/oiAajUalnrbXDSFXjtD2LYSW2zg.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ]
+    },
+    "-39": {
+      "tmdbId": 8908,
+      "name": "時空探偵ゲンシクン",
+      "originalName": "時空探偵ゲンシクン",
+      "overview": "Tijd dief Petra Fina reist met haar twee 25e-eeuwse assistenten door de tijd om de geschiedenis voor de Heer van het Duister te verknoeien en de Tijdengelen te stelen die door de tijd verspreid zijn. Op een van hun reizen naar het stenen tijdperk ontmoeten ze Flint Hammerhead en zijn vader, die ze in steen veranderen om een engel van hen te nemen. In de 25e eeuw worden de twee mensen uit het stenen tijdperk opnieuw opgegraven en nieuw leven ingeblazen door Bernie Goodman in de tijdpolitie. Dit geeft Flint bovenmenselijke kracht, terwijl zijn vader een sprekende steen blijft en hem in de toekomst als hamer zal dienen.",
+      "firstAirDate": "1998-10-01",
+      "lastAirDate": "2000-12-17",
+      "backdrop": "/cLdFnsC2zzm1L7qNSXaP0uDipYe.jpg",
+      "poster": "/gPv55aUDOtvof7plfCmLwWdQ8Ic.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Komedie",
+        "Mysterie",
+        "Sci-Fi & Fantasy",
+        "Misdaad"
+      ]
+    },
+    "-40": {
+      "tmdbId": 1767,
+      "name": "Bobby's World",
+      "originalName": "Bobby's World",
+      "overview": "Bobby Generic lives in a typical suburban neighborhood and uses his overactive imagination to discover a world of daring adventure, incredible wonder and lots of laughs — all in pint-sized perspective.",
+      "firstAirDate": "1990-09-08",
+      "lastAirDate": "1998-02-23",
+      "backdrop": "/4cKT4tpP5xuuqfI9BWCdfIzKDXs.jpg",
+      "poster": "/zrcPIkzTim0ICyc6h81LfmBSQgB.jpg",
+      "genres": [
+        "Kids",
+        "Animatie",
+        "Familie",
+        "Komedie"
+      ]
+    },
+    "-41": {
+      "tmdbId": 11235,
+      "name": "メダロット",
+      "originalName": "メダロット",
+      "overview": "Medabots speelt zich af in de nabije toekomst en draait om de supergeladen strijdavonturen van een groep kinderen en hun huisdierenrobots. Gevoed door kunstmatige intelligentie en een gespecialiseerd arsenaal aan krachtige wapens, strijden Medabots tegen elkaar in spannende Robattles, waarbij de winnaars Medaparts overnemen van de verslagen Medabot.",
+      "firstAirDate": "1999-07-02",
+      "lastAirDate": "2001-03-30",
+      "backdrop": "/wbrbdpdEBuNCtgiqL9xObpma1zu.jpg",
+      "poster": "/ahzidbJO3YZKD0F1Yfe7s7SPD3e.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Action & Adventure",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-42": {
+      "tmdbId": 31654,
+      "name": "Digimon: Digital Monsters",
+      "originalName": "デジモンアドベンチャー",
+      "overview": "Tijdens een zomerkamp worden zeven kinderen getransporteerd naar een vreemde digitale wereld. In deze nieuwe wereld sluiten ze vriendschap met wezens die zichzelf Digimon noemen en die zijn geboren om hun wereld te verdedigen tegen verschillende kwade krachten.",
+      "firstAirDate": "1999-03-07",
+      "lastAirDate": "2001-03-25",
+      "backdrop": "/naP3oYVX0vSxpx0HjUkdeKbkfiA.jpg",
+      "poster": "/AlPYAJYkSfvVYAXK1a3gZqpWwda.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-43": {
+      "tmdbId": 15130,
+      "name": "モンスターファーム",
+      "originalName": "モンスターファーム",
+      "overview": "Genki is een jongen die graag de Monster Rancher-spellen speelt en op een dag wordt hij getransporteerd naar de wereld van de videogame, waar hij het meisje Holly en de monsters Mochi, Suezo, Golem, Tiger en Hare ontmoet. Samen zoeken ze naar een manier om de Phoenix weer tot leven te wekken, het enige monster dat de kwaadaardige Moo kan tegenhouden.",
+      "firstAirDate": "1999-08-30",
+      "lastAirDate": "2001-10-07",
+      "backdrop": "/ttuBTSrNq4GSZyN01aPOvXYoOR3.jpg",
+      "poster": "/lzh49cRWKSjNm98Cov0bBDvBww7.jpg",
+      "genres": [
+        "Animatie",
+        "Familie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-44": {
+      "tmdbId": 11191,
+      "name": "The Kids from Room 402",
+      "originalName": "The Kids from Room 402",
+      "overview": "The Kids from Room 402 is a television program that originally aired on Fox Family in the USA starting in 1999, previously aired on Teletoon, and currently airs in the UK.\n\nThe show is focused primarily on the students from Room 402, as the title implies. Miss Graves, the teacher, is usually shown as an interlocutor in the problems and injustices that are inflicted upon the students, whether the dilemmas be internal or external. Each show usually ends with a substantiated moral or lesson, resulting from such aforementioned situations.\n\nThe show is based on the children's book, The Kids from Room 402, by Betty Paraskevas and Michael Paraskevas. It was developed for television by Cindy Begel and Lesa Kite, who wrote all 52 episodes.",
+      "firstAirDate": "2000-08-29",
+      "lastAirDate": "2001-12-22",
+      "backdrop": "/mRE2oKVhIWmU3PQcA2r8421vmPY.jpg",
+      "poster": "/hrhvKp7A3WSsJ7JRInL0z1IhIqV.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie"
+      ]
+    },
+    "-45": {
+      "tmdbId": 63820,
+      "name": "Jim Button",
+      "originalName": "Jim Knopf",
+      "overview": "Jim Button and his best friend Luke live on an island called Tomorrow Land (Morrow Land). Because there is no place on the island will have to be demolished all the rails for a home for Jim. Hence Luke decides which driver is about to leave the island with his trusty locomotive Emma. Jim hears this, he decides to go with Luke. They have no idea what dangers lurk in the world in which they arrive. They come on the road against pirates, “Wild 13” that have captured princess Lisi Mandala and taken to Bleak Land (Sorrow Land), where the mighty dragon lady dominates Knar Stand. After they make to come into Mandala they know Poemkin emperor, father of Lisi; deceitful prime minister Pi Pa Poo and his sidekick Meewentee, Jooviloopiebluu the imperial cook and his grandson Ping Pong.",
+      "firstAirDate": "1999-11-12",
+      "lastAirDate": "2000-01-02",
+      "backdrop": null,
+      "poster": "/oIldv7CW0olYohcDZXrdaDAF9k7.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-46": {
+      "tmdbId": 11718,
+      "name": "Achille Talon",
+      "originalName": "Achille Talon",
+      "overview": "Walter Melon is a 1998 animated TV show, very loosely adapted from the Franco-Belgian comic and television series Achille Talon. The show aired in the United States on the Fox Family Channel during 1998 and 1999. Produced and funded by France 2, Saban's and Scottish Television",
+      "firstAirDate": "1997-09-07",
+      "lastAirDate": "1998-08-30",
+      "backdrop": "/ydQZRa1dbd6dTLjRZD6QgyZKmrI.jpg",
+      "poster": "/x89SkYhVP70o3FY4OAFUFtyLni.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ]
+    },
+    "-47": {
+      "tmdbId": 16821,
+      "name": "Bende van Vijf",
+      "originalName": "ゴーゴー五つ子 ら・ん・ど",
+      "overview": "De kinderen van het gezin Miller - Karly, Karl, Harold, Krystal en Austin - zijn ongeveer tegelijk geboren. Samen vormen ze de beroemde Bende van Vijf. Maar voor een vijfling lijken ze erg weinig op elkaar. Karl, de oudste, is de stoere bink. Harold is de boekenwurm. Krystal wil later filmster worden. Karly wil de aarde redden. En Austin, de jongste, droomt van een carriere als superheld. Wat een bende!",
+      "firstAirDate": "2001-04-14",
+      "lastAirDate": "2002-03-23",
+      "backdrop": "/4V7W5bvHuqbuD2xuKXzAreDHhto.jpg",
+      "poster": "/8G4MwaOQYdeHzpuDJEPPcII5uoa.jpg",
+      "genres": [
+        "Animatie"
+      ]
+    },
+    "-48": {
+      "tmdbId": 1763,
+      "name": "Beugelbekkie",
+      "originalName": "Braceface",
+      "overview": "De serie draait om het doen en laten van het blonde pubermeisje Sharon Spitz, wier leven sterk wordt beïnvloed door haar beugel. Met de beugel is ze verwikkeld in een voortdurende haat-liefdeverhouding aangezien deze haar zowel negatief beïnvloedt alswel mysterieuze krachten geeft die zo nu en dan handig van pas komen.",
+      "firstAirDate": "2001-06-02",
+      "lastAirDate": "2006-01-01",
+      "backdrop": "/KZ5UO4sjonu8vrim6dDctlvjW3.jpg",
+      "poster": "/gpV3zWEmiHZ5eEi3QXr00JpR0Xu.jpg",
+      "genres": [
+        "Drama",
+        "Animatie",
+        "Komedie"
+      ]
+    },
+    "-49": {
+      "tmdbId": 3898,
+      "name": "Peter Pan & the Pirates",
+      "originalName": "Peter Pan & the Pirates",
+      "overview": "Neverland is een fantastische plek waar kinderen niet opgroeien. Wendy, Michel en al hun vrienden zijn door Peter Pan, 'het kind dat nooit volwassen is geworden', naar deze prachtige plek gebracht en zullen met hem duizend spannende maar ook gevaarlijke avonturen beleven. Gelukkig zullen Peter's boosaardigheid, maar ook zijn gevechtsvaardigheden en zijn vermogen om in de lucht te zweven (die hij zijn kinderen heeft bijgebracht) deze kleine mensen vaak uit de meest gevaarlijke situaties halen, terwijl het niet zijn vriend Tinkerbell is die dat doet! Deze laatste is bovendien verliefd op Peter, die alleen oog lijkt te hebben voor Wendy...",
+      "firstAirDate": "1990-09-10",
+      "lastAirDate": "1991-12-01",
+      "backdrop": "/t2wUxsG6f570M5V4AhlL7sRMcAD.jpg",
+      "poster": "/4TMhCkPiBmSUyY16JecA05PAIkx.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ]
+    },
+    "-50": {
+      "tmdbId": 20494,
+      "name": "昆虫物語みなしごハッチ",
+      "originalName": "昆虫物語みなしごハッチ",
+      "overview": "De kleine Hutchi is sinds zijn geboorte opgevoed door zijn tante en zal op een dag ontdekken dat hij eigenlijk de zoon is van de bijenkoningin, die kort voor de bevalling verdween. De weesprins gaat vervolgens op zoek naar zijn moeder, waar ze ook is, en gaat op avontuur. Hij zal kennis nemen van een vijandige en gevaarlijke omgeving en geconfronteerd worden met veel vreugde en verdriet, en met duizend gevaren, terwijl hij het leven om hem heen ontdekt.",
+      "firstAirDate": "1970-04-07",
+      "lastAirDate": "1971-12-28",
+      "backdrop": "/i0HZ2FIxZJdf7PIm7CbntWMTRIY.jpg",
+      "poster": "/sBkZOj7ZUjvP2pwqzp2REVqWkYC.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ]
+    },
+    "-52": {
+      "tmdbId": 60572,
+      "name": "Pokémon",
+      "originalName": "ポケットモンスター",
+      "overview": "Verken de wereld van Pokémon met Ash Ketchum en zijn partner, Pikachu. Samen streven ze naar het ultieme doel van Ash: een Pokémon-meester worden.",
+      "firstAirDate": "1997-04-01",
+      "lastAirDate": "2023-03-24",
+      "backdrop": "/yYpQV25I7XB6S0POJOScPjxYWV5.jpg",
+      "poster": "/uoBwsiZNyOFDBh9WdDhpxc2JERM.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-54": {
+      "tmdbId": 3518,
+      "name": "Dennis de bengel",
+      "originalName": "Dennis the Menace",
+      "overview": "Meneer Wilson heeft schoon genoeg van Dennis en zijn kattenkwaad. Wanneer hij op televisie een aanbieding ziet voor een luxecruise, boekt hij de reis meteen. Hij weet echter niet dat de vader en moeder van Dennis net zo'n reis hebben gewonnen bij een wedstrijd in het winkelcentrum. Nu zit hij drie weken lang met Dennis opgescheept. Intussen maakt Dennis kennis met de mooie prinses Liana, die koningin wordt van het tropische eiland Mimosa. Ze heeft nog geen kroon, maar wel een bijzondere ring. De boeven Jinks en Hector, die ook aan boord zijn, hebben hun oog laten vallen op de ring... maar dat is buiten Dennis gerekend!",
+      "firstAirDate": "1985-09-09",
+      "lastAirDate": "1988-03-26",
+      "backdrop": "/x22cZj1Y2cGuBNsP5zHaRJAkJMS.jpg",
+      "poster": "/5Qs4gD2tbgBQy0GdAKqUOIPkyXc.jpg",
+      "genres": [
+        "Kids",
+        "Animatie",
+        "Komedie",
+        "Action & Adventure"
+      ]
+    },
+    "-55": {
+      "tmdbId": 41729,
+      "name": "Action Man",
+      "originalName": "Action Man",
+      "overview": "Action Man is a member of an elite multinational task force named Action Force who fight against the terrorist Dr. X and his \"Council of Doom\".",
+      "firstAirDate": "1995-09-23",
+      "lastAirDate": "1996-12-15",
+      "backdrop": "/99XRiErqxaKazBcDA01TXwJr656.jpg",
+      "poster": "/4Cp5mhe2lJG5zdfX7L7zvCmajtK.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure"
+      ]
+    },
+    "-57": {
+      "tmdbId": 2264,
+      "name": "De Troetelbeertjes",
+      "originalName": "The Care Bears",
+      "overview": "De Troetelbeertjes wonen op een magische plek boven de wolken en de regenboog, genaamd Troetelland. Deze schattige, kleurrijke wezentjes zorgen goed voor alle kinderen van de wereld. Wanneer ze kunnen helpen, komen ze onmiddellijk in actie. Ieder Troetelbeertje heeft zijn eigen speciale gave.",
+      "firstAirDate": "1985-09-14",
+      "lastAirDate": "1988-12-10",
+      "backdrop": "/lyw9kEctO7msqLbe8DgxEbo6OYp.jpg",
+      "poster": "/cEfqYEzVlnBLnT36GJ3y8Jm5gAO.jpg",
+      "genres": [
+        "Kids",
+        "Animatie",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-58": {
+      "tmdbId": 10491,
+      "name": "森の陽気な小人たち ベルフィーとリルビット",
+      "originalName": "森の陽気な小人たち ベルフィーとリルビット",
+      "overview": "The Littl' Bits is a Japanese anime television series with 26 episodes, produced in 1980 by Tatsunoko Productions in Japan. First shown on TV Tokyo, its Saban-produced English translation was featured on the children's television station Nick Jr. from 1991 to 1995 alongside other children's anime series such as Adventures of the Little Koala, Maya the Bee, Noozles, The Mysterious Cities of Gold.\n\nDue to their similar size and naming scheme, an analogy is often drawn between the Littl' Bits and the Smurfs.",
+      "firstAirDate": "1980-01-07",
+      "lastAirDate": "1980-07-07",
+      "backdrop": "/4v5GezqgTpkFaVVIG3xaIz5mCFF.jpg",
+      "poster": "/3GipuVlUB1KWhAmx3Sepc28Tnf6.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-59": {
+      "tmdbId": 301959,
+      "name": "Pokémon Flippo Update",
+      "originalName": "Pokémon Flippo Update",
+      "overview": "Dutch Fox Kids show dedicated to the Pokémon Flippo fad.",
+      "firstAirDate": "2001-04-09",
+      "lastAirDate": "2002-02-06",
+      "backdrop": null,
+      "poster": "/pXFaB5KvX4l4TCeFT7G0k63NBo.jpg",
+      "genres": []
+    },
+    "-61": {
+      "tmdbId": 35073,
+      "name": "Princesse Sissi",
+      "originalName": "Princesse Sissi",
+      "overview": "De turbulente romance tussen de jonge Beierse hertogsdochter Sissi en de dappere Weense prins Franz-Joseph begint bij kasteel Possenhofen, de zomerresidentie van Sissi's familie. Hier in de alpiene idylle van de Beierse bergen ontmoeten de twee elkaar, worden verliefd en worden al snel blootgesteld aan allerlei vijandelijkheden.",
+      "firstAirDate": "1997-10-29",
+      "lastAirDate": "1999-01-20",
+      "backdrop": "/2TPT4HmiNJD341SFBdHI4HRyPJT.jpg",
+      "poster": "/bLc00UOW5TTI0NylclTt3gtUlnm.jpg",
+      "genres": [
+        "Animatie",
+        "Drama",
+        "Komedie"
+      ]
+    },
+    "-63": {
+      "tmdbId": 369,
+      "name": "Masked Rider",
+      "originalName": "Masked Rider",
+      "overview": "Dex may look like a handsome teenage boy, but he's really the Masked Rider - an alien superhero sent, along with his mischievous pet Ferbus, to protect the Earth from Count Dregon and his creatures of crime!",
+      "firstAirDate": "1995-09-17",
+      "lastAirDate": "1996-11-20",
+      "backdrop": "/nsPPWbViq7GDh23AVsA39EXp0Ez.jpg",
+      "poster": "/tQAw8TkUvCxAZztRNBYmg9U4lCu.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-64": {
+      "tmdbId": 3471,
+      "name": "Big Wolf on Campus",
+      "originalName": "Big Wolf on Campus",
+      "overview": "Tommy wordt een week voor het begin van zijn laatste jaar gebeten door een weerwolf tijdens een kampeertrip. Nadat hij een weerwolf is geworden, vecht hij tegen bovennatuurlijke entiteiten om zijn geboorteplaats Pleasantville veilig te houden.",
+      "firstAirDate": "1999-04-02",
+      "lastAirDate": "2002-05-04",
+      "backdrop": "/83W83LZNPdA9iRQ23iHhgdBklYt.jpg",
+      "poster": "/vc6kIm1FUNIgF85um9GUh94cdOv.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Drama",
+        "Komedie"
+      ]
+    },
+    "-65": {
+      "tmdbId": 105114,
+      "name": "Iznogoud",
+      "originalName": "Iznogoud",
+      "overview": "Iznogoud is the Grand Vizier a.k.a. second in command Sultan of Baghdad Haroun El Plassid (a pun on the historical Caliph, Harun al-Rashid) and his sole aim in life is to overthrow the Sultan and take his place. Iznogoud is always assisted in his plans by his faithful henchman, Wa'at Alahf. But he's ultimately unsuccessful, and his plans always fall apart in a hilarious way, usually backfireing at him, while the Sultan goes unharmed.",
+      "firstAirDate": "1995-10-11",
+      "lastAirDate": "1997-10-05",
+      "backdrop": "/wtbrc2ug2YGjFs73vrTKsL1uzso.jpg",
+      "poster": "/oG70sIlmqlue5GkIF8FeNxJyjUC.jpg",
+      "genres": [
+        "Komedie",
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Kids",
+        "Action & Adventure"
+      ]
+    },
+    "-67": {
+      "tmdbId": 10079,
+      "name": "Spider-Man Unlimited",
+      "originalName": "Spider-Man Unlimited",
+      "overview": "Spider-Man travels to Counter-Earth to rescue a Terran shuttle crew trapped there and discovers a tyrannical & warped version of his world.",
+      "firstAirDate": "1999-10-02",
+      "lastAirDate": "2001-03-31",
+      "backdrop": "/z0szinMWegbR2cH9zIxaBKy2C5b.jpg",
+      "poster": "/hNdf1WmFil9IV7rabBe6PnAmYnI.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-68": {
+      "tmdbId": 4064,
+      "name": "The Secret Files of the Spy Dogs",
+      "originalName": "The Secret Files of the Spy Dogs",
+      "overview": "The Secret Files of the Spy Dogs is a children's animated series, produced by Saban Entertainment, that aired on Fox Kids from 1998 until it was cancelled in 1999.",
+      "firstAirDate": "1998-09-12",
+      "lastAirDate": "1999-03-06",
+      "backdrop": "/zBXxAUozTMTTRoI0Vi1IpFxQ20m.jpg",
+      "poster": "/jYVS8pFKHoboJYRnetisDn4e3uL.jpg",
+      "genres": [
+        "Animatie"
+      ]
+    },
+    "-69": {
+      "tmdbId": 4251,
+      "name": "Life with Louie",
+      "originalName": "Life with Louie",
+      "overview": "Life with Louie is een Amerikaanse animatieserie. De show is gebaseerd op de kindertijd van stand-upcomedian Louie Anderson, die opgroeide met zijn gezin in Wisconsin.",
+      "firstAirDate": "1994-12-24",
+      "lastAirDate": "1998-03-03",
+      "backdrop": "/a2NGvoGgHhEbrXve1L88oQRfG8y.jpg",
+      "poster": "/myyLrufbm0iDF0kOwpgWbw3G8pQ.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids",
+        "Familie"
+      ]
+    },
+    "-70": {
+      "tmdbId": 16953,
+      "name": "Mad Jack the Pirate",
+      "originalName": "Mad Jack the Pirate",
+      "overview": "The adventures of the rather unsuccessful and cowardly Pirate Jack who despite his failures never doubts his own excellence and his dim-witted anthropomorphic rat sidekick Snuk as they sail the seas on their ship the Sea Chicken.",
+      "firstAirDate": "1998-09-12",
+      "lastAirDate": "1999-02-27",
+      "backdrop": "/A5ubnoApIpREvtpwxhwMFXqaedj.jpg",
+      "poster": "/6Cq9tmamf37gEKiMR1hXeKkOia2.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-71": {
+      "tmdbId": 3370,
+      "name": "Eek! The Cat",
+      "originalName": "Eek! The Cat",
+      "overview": "Koombaya, it's Eek the cat and all his friends. Annabelle, Eek's 800-pound girlfriend, Sharky the vicious but lovable sharkdog, and Elmo the elk. Plus you can watch the Terrible Thunderlizards try to make Bill and Scooter, the cavemen, extinct. Plus there's Klutter who's, well, we're not exactly sure what Klutter is, but watch and find out for yourself.",
+      "firstAirDate": "1992-09-11",
+      "lastAirDate": "1997-08-01",
+      "backdrop": "/TH5eoVmj8NM3l7RYu9p8aBbYx0.jpg",
+      "poster": "/scqjDAOkZiswdZwG5Z1C9LKyLwr.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ]
+    },
+    "-72": {
+      "tmdbId": 4045,
+      "name": "Eerie Indiana",
+      "originalName": "Eerie, Indiana",
+      "overview": "Deze serie vertelt het verhaal van een rustige buitenwijk dat het centrum is voor vreemde gebeurtenissen van de hele planeet. Marshall, die net verhuisd is naar Eerie, lijkt de enige te zijn, samen met zijn beste vriend Simon Holmes, die de merkwaardige verschijnselen in het alledaagse leven van Eerie opmerkt. Marschall en Simon bergen het tastbare bewijs van hun avonturen op in een zelfgemaakt Eerie griezelmuseum en hopen zo op een dag de ongelovige buitenwereld ervan te overtuigen dat er iets raars aan de hand is in Eerie.",
+      "firstAirDate": "1991-09-15",
+      "lastAirDate": "1993-12-09",
+      "backdrop": "/9vhz9uJyvsiHHQj521zVkudol2R.jpg",
+      "poster": "/sr8CmrtnPTJSYtNyMxvWHRaweSN.jpg",
+      "genres": [
+        "Mysterie",
+        "Sci-Fi & Fantasy",
+        "Komedie"
+      ]
+    },
+    "-73": {
+      "tmdbId": 5835,
+      "name": "Goosebumps",
+      "originalName": "Goosebumps",
+      "overview": "Alles kan griezelig worden in deze horror anthologiereeks, gebaseerd op de bestverkochte boeken van de meester van de kinder horror, R.L. Stine. Bekijk in elke aflevering wat er gebeurt als gewone kinderen in enge situaties terechtkomen, en hoe ze eraan werken om hun angsten onder ogen te zien en te overwinnen.",
+      "firstAirDate": "1995-10-27",
+      "lastAirDate": "1998-11-16",
+      "backdrop": "/gN3gG8m1QfdKiQ5crRO5a0J7ObL.jpg",
+      "poster": "/km7uuxaU4mzp49Hpt5hxnLx7p6F.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Mysterie",
+        "Kids",
+        "Komedie"
+      ]
+    },
+    "-74": {
+      "tmdbId": 2136,
+      "name": "Big Bad BeetleBorgs",
+      "originalName": "Big Bad BeetleBorgs",
+      "overview": "When three kids explore Charterville's haunted Hillhurst Mansion on a dare, they discover a lot more than they bargain for! The trio find a wild and wacky phasm named Flabber, who changes their lives forever when he grants their wish to become the superheroes they've read about in BeetleBorgs comics. However, not only does Flabber grant the kids' wish, but he also accidentally facilitates the escape of supervillains from the comic books as well! Now it's up to these three newly tapped superheroes - aided by a friendly neighborhood phasm and armed with fantastic powers and awesome vehicles - to save the world from the forces of darkness that threaten the peace and harmony of all mankind.",
+      "firstAirDate": "1996-09-07",
+      "lastAirDate": "1998-03-02",
+      "backdrop": "/bkDJm5MHw9ttRnUk2fd43eBPpao.jpg",
+      "poster": "/aIHIj3VxKTlhdeclpnw1dT9581w.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-75": {
+      "tmdbId": 11241,
+      "name": "Breaker High",
+      "originalName": "Breaker High",
+      "overview": "Breaker High is a Canadian teen comedy-drama series that ran from 1997 to 1998, airing on YTV in Canada and on UPN in the United States.",
+      "firstAirDate": "1997-09-15",
+      "lastAirDate": "1998-03-30",
+      "backdrop": "/YwU9XbPZpMWb7xblTOlTbS2GLF.jpg",
+      "poster": "/35YWQuXBqPDRpDuh6nnw42dKkdU.jpg",
+      "genres": [
+        "Komedie",
+        "Drama"
+      ]
+    },
+    "-77": {
+      "tmdbId": 11041,
+      "name": "Pecola",
+      "originalName": "Pecola",
+      "overview": "The show stars Pecola, a curious and hyperactive penguin who tries to help the people of Cube Town but often wreaks havoc instead. Pecola is an orphaned penguin who lives with Pecolias, his grandfather. Cube Town is a small, isolated coastal village that contains an art museum, a beach, a lighthouse, and a canal. It is located adjacent to Crescent Bay surrounded by the Rookery Mountains coastal range and serviced by regular ships which deliver mail, food, and other supplies, as well as occasional tourists from a nearby metropolis named Cubic City. The heights above it lead into Glacier Valley which is snowbound even during summer.",
+      "firstAirDate": "2001-09-03",
+      "lastAirDate": "2002-09-18",
+      "backdrop": null,
+      "poster": "/4bn9pp0ka0Wk31h9v0A6MRwOsMc.jpg",
+      "genres": [
+        "Animatie"
+      ]
+    },
+    "-78": {
+      "tmdbId": 1458,
+      "name": "Franklin",
+      "originalName": "Franklin",
+      "overview": "Franklin is een Canadese educatieve animatieserie, gebaseerd op de Franklin the Turtle-boeken van Brenda Clark en Paulette Bourgeois. De televisieserie is vernoemd naar de hoofdpersoon, Franklin the Turtle. Het werd geproduceerd door PolyGram Television, Alphanim, LuxAnimation, Nelvana, Neurones Enterprises, Reader's Digest for Young Families, TF1, Funbag Animation Studios, Europool, Mini TFO en Family Channel, en gesyndiceerd door Summit Entertainment.",
+      "firstAirDate": "1997-11-03",
+      "lastAirDate": "2004-08-08",
+      "backdrop": "/yWHVK0Gswv2mH8V7fsJ2wshBJRO.jpg",
+      "poster": "/ep0ol2okz8IB8T0LxhfJMXvJ3Mk.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Familie"
+      ]
+    },
+    "-80": {
+      "tmdbId": 16613,
+      "name": "Tractor Tom",
+      "originalName": "Tractor Tom",
+      "overview": "Tractor Tom has adventures on Fi's farm with his friends, Dusty, Matt, Buzz, Wheezy and others.",
+      "firstAirDate": "2002-02-09",
+      "lastAirDate": "2004-11-18",
+      "backdrop": "/tVeK1PbEBJlN10afscMzRnESBon.jpg",
+      "poster": "/shazUtf0SuQpSun5llZQdg6e7kc.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ]
+    },
+    "-81": {
+      "tmdbId": 13871,
+      "name": "De Koala Broertjes",
+      "originalName": "The Koala Brothers",
+      "overview": "De Koala Broertjes Frank en Buster hebben een missie, ze doen namelijk niets liever dan anderen helpen. Vanuit hun achterland in Australië vliegen ze elke dag met hun kleine vliegtuigje naar iedereen die hulp nodig heeft.",
+      "firstAirDate": "2003-10-01",
+      "lastAirDate": "2005-12-21",
+      "backdrop": "/kYSnJixKzgH5LZzlXnGOadPGHjM.jpg",
+      "poster": "/wY8rYjBURMpCBtAwR7PuLJVMaJT.jpg",
+      "genres": [
+        "Familie",
+        "Animatie",
+        "Kids"
+      ]
+    },
+    "-82": {
+      "tmdbId": 2808,
+      "name": "Totally Spies",
+      "originalName": "Totally Spies !",
+      "overview": "Drie bijdehante vriendinnen reizen als geheim agent de wereld rond en proberen tegelijkertijd hun middelbareschoolopleiding te volgen.",
+      "firstAirDate": "2002-04-03",
+      "lastAirDate": "2024-11-30",
+      "backdrop": "/gbmN2y9Dqm6XKEev1kd8GkGLLn.jpg",
+      "poster": "/zvEit6c2zC2PosXROb85jZwb0gx.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Komedie",
+        "Action & Adventure"
+      ]
+    },
+    "-83": {
+      "tmdbId": 30623,
+      "name": "Shin-chan",
+      "originalName": "クレヨンしんちゃん",
+      "overview": "Shin Chan is het meest ondeugende jongentje uit de buurt. Hoor je het stemmetje in je hoofd dat je vertelt dat je te ver bent gegaan? Daar heeft Shin Chan totaal geen last van! Samen met zijn vriendjes en zijn hondje Lucky heeft hij de grootste lol, vooral als er iets misgaat!",
+      "firstAirDate": "1992-04-13",
+      "lastAirDate": "2018-09-21",
+      "backdrop": "/70xTjXpb0kfOhTRJqKwDYSG8Kle.jpg",
+      "poster": "/hHEW7BZbufaM0erzk0jtW5bB3gn.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ]
+    },
+    "-84": {
+      "tmdbId": 4575,
+      "name": "Lizzie McGuire",
+      "originalName": "Lizzie McGuire",
+      "overview": "Lizzie McGuire heeft geweldige vrienden, geweldige familie en zelfs geweldige vijanden. Haar grappige geanimeerde alter ego geeft je een kijkje in haar hoofd en laat zien wat Lizzie echt denkt. Kijk hoe Lizzie en haar beste vrienden Gordo en Miranda de middelbare school proberen door te komen zonder hun waardigheid te verliezen, terwijl Lizzie thuis voortdurend gepest wordt door haar broertje Matt. Haar lieve, soms domme ouders helpen haar altijd uit de brand als het misgaat en zijn er altijd voor een goed gesprek.",
+      "firstAirDate": "2001-01-12",
+      "lastAirDate": "2004-02-14",
+      "backdrop": "/9TDtNdKwwJKAbddufpFlfUgBiCl.jpg",
+      "poster": "/cmDw5meY7NvMjqdHyaz9NuYx0ns.jpg",
+      "genres": [
+        "Komedie",
+        "Kids",
+        "Familie"
+      ]
+    },
+    "-85": {
+      "tmdbId": 10926,
+      "name": "Sonic X",
+      "originalName": "ソニックX",
+      "overview": "Sonic en zijn vrienden werken samen met de 12-jarige Christopher om alle Chaos Emeralds te verzamelen en de kwaadaardige Dr. Eggman te verslaan.",
+      "firstAirDate": "2003-04-06",
+      "lastAirDate": "2009-08-06",
+      "backdrop": "/8Ep5ppQvqFvaMQrX3ENmM4jpNPI.jpg",
+      "poster": "/rZmLS9jb8BI3rZrd5jDTlVs8o8J.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Komedie"
+      ]
+    },
+    "-86": {
+      "tmdbId": 69758,
+      "name": "Der Wunschpunsch",
+      "originalName": "Der Wunschpunsch",
+      "overview": "Beëlzebub Irrwitzer en zijn onbeminde tante Tyrannja Vamperl zijn magiërs die namens Maledictus Made, de minister van de buitenste duisternis, samen de mensen van Micropolis moeten vernietigen vanuit hun villa Nightmare. Hiervoor gebruiken ze de wenspunch, waarvan ze ieder de helft hebben, en waarmee ze ieder op een andere manier de wereld van mensen vreselijk veranderen. De kat Maurizio di Mauro, de raaf Jakob Krakel en de andere dierenvrienden hebben slechts korte tijd om de gevolgen van de nare vloeken ongedaan te maken.",
+      "firstAirDate": "2001-11-09",
+      "lastAirDate": "2002-07-04",
+      "backdrop": "/t66CgE2CeKqXHy2D4rWyAN3amre.jpg",
+      "poster": "/iivixcQi6c13pPbAVvl4vDX7Kyz.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ]
+    },
+    "-88": {
+      "tmdbId": 902,
+      "name": "遊☆戯☆王デュエルモンスターズ",
+      "originalName": "遊☆戯☆王デュエルモンスターズ",
+      "overview": "Pestkoppen richten zich vaak op iemand die zwak is – iemand die precies op Yûgi Muto lijkt. Hij koestert zijn Millenniumpuzzel, een oud Egyptisch artefact dat naar de spelwinkel van zijn grootvader werd gebracht. In de overtuiging dat het oplossen van de puzzel hem zijn wens zal vervullen, voltooit hij de puzzel en laat hij een nieuwe persoonlijkheid in hem los, de ziel van de 'King of Games'. De nieuwe persoonlijkheid genaamd Yami Yûgi is precies het tegenovergestelde van Yûgi. Bij enig onrecht jegens hem neemt Yami Yûgi het lichaam van Yûgi over en dwingt de tegenstander tot een 'Schaduwspel'.",
+      "firstAirDate": "2000-04-18",
+      "lastAirDate": "2004-09-29",
+      "backdrop": "/gJYZBM200Flldo6im3EEdXslR1j.jpg",
+      "poster": "/dJas6Y7lXzgPHgr4ro0qCOTgNiM.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure"
+      ]
+    },
+    "-89": {
+      "tmdbId": 17070,
+      "name": "Funky Cops",
+      "originalName": "Funky Cops",
+      "overview": "Ace Anderson and Dick Kowalski are two semi-competent cops in San Francisco during the late 1970s. They show more attention towards appearing cool and disco dancing, but finish the cases by the end of the day. They are assisted by their disgruntled police chief Captain Dobbs, plucky reporter Miss Lee, and fellow disco lover Boogaloo.",
+      "firstAirDate": "2002-05-04",
+      "lastAirDate": "2003-10-04",
+      "backdrop": "/3se16klo7d0rQeWeBjBSRpjEdva.jpg",
+      "poster": "/cTYvcZdxIPNxElAmDuXo6iNxDpj.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Misdaad"
+      ]
+    },
+    "-90": {
+      "tmdbId": 1570,
+      "name": "De avonturen van Kuifje",
+      "originalName": "The Adventures of Tintin",
+      "overview": "De onverschrokken jonge reporter Kuifje en zijn trouwe hondje Bobbie reizen de wereld rond, vergezeld door een kleurrijke cast van personages, met name de onstuimige Kapitein Haddock, de slimme maar verstrooide Professor Zonnebloem en de detective tweeling Jansen en Janssen.",
+      "firstAirDate": "1991-10-02",
+      "lastAirDate": "1992-09-28",
+      "backdrop": "/e9pwnvHUVtP7jg4icWXYRWF2uc9.jpg",
+      "poster": "/kLYJAaW1URpKGUVlkwLefR39QIe.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Mysterie"
+      ]
+    },
+    "-91": {
+      "tmdbId": 65392,
+      "name": "Lucky Luke",
+      "originalName": "Lucky Luke",
+      "overview": "De stripserie draait om de rondzwervende cowboy Lucky Luke, die overal waar hij komt, helpt om onrecht en misdaad te bestrijden. Hij staat vooral bekend om het feit dat hij sneller schiet dan zijn schaduw. De overige hoofdpersonages zijn Lukes trouwe paard Jolly Jumper, de domste hond ter wereld Rataplan en de boevenbende De Daltons.",
+      "firstAirDate": "1984-10-20",
+      "lastAirDate": "1992-03-22",
+      "backdrop": "/wgTsNZde9WDayQAXDmZqtgdvyg9.jpg",
+      "poster": "/3dCO02aOGaKTdwDJaXtqlGa1GlF.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie",
+        "Western",
+        "Kids"
+      ]
+    },
+    "-92": {
+      "tmdbId": 16665,
+      "name": "Zoop",
+      "originalName": "Zoop",
+      "overview": "Zoop speelt zich af in de dierentuin, waarbij een groep jongeren centraal staan die een opleiding tot dierenverzorger volgen. De jongeren wonen op de campus bij de dierentuin en de verhaallijnen zijn deels geïnspireerd door de omgeving en de dieren.",
+      "firstAirDate": "2004-04-07",
+      "lastAirDate": "2006-07-07",
+      "backdrop": "/nhrVJCYCHBW8qPmiCataasny74I.jpg",
+      "poster": "/31bXktXwM87PxnJdpAn7YV8CbZj.jpg",
+      "genres": [
+        "Drama",
+        "Komedie"
+      ]
+    },
+    "-93": {
+      "tmdbId": 2010,
+      "name": "Yakkity Yak",
+      "originalName": "Yakkity Yak",
+      "overview": "Yakkity Yak is an Australian/American/Canadian animated television series created by Mark Gravas that ran on Nickelodeon from November 9, 2002 to December 12, 2003. The show was known for its extreme lack of reality, and for its extreme silliness and featured a style of animation which broke with past Nickelodeon tradition. The show features an anthropomorphic yak named Yakkity who wants to make it to stardom by becoming a comedian. Along the way, he has adventures with his two best friends Keo and Lemony, a young human girl.",
+      "firstAirDate": "2003-04-06",
+      "lastAirDate": "2004-01-28",
+      "backdrop": "/3lJtQYfMaG7HmQoy4pLoliBlhOu.jpg",
+      "poster": "/5KjpWIwtxMlWiwtguhBu0CNwNhW.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ]
+    },
+    "-94": {
+      "tmdbId": 17352,
+      "name": "Argaï, la prophétie",
+      "originalName": "Argaï, la prophétie",
+      "overview": "Een heks genaamd \"de Zwarte Koningin\" betovert jonge meisjes en steelt hun jeugd en schoonheid om onsterfelijk te worden. In 1250 betoverde ze met name Angèle, de verloofde van prins Argaï. Deze laatste, geholpen door een boek vol profetieën, verlaat zijn tijd om de toekomst te bereiken en zijn geliefde te redden. Bij aankomst in New York in 2075 ontmoet hij Oscar Lampoule, Barnabé en Miss Moon. Zij zullen hem helpen het tegengif te creëren dat Angèle kan doen ontwaken.",
+      "firstAirDate": "2000-09-02",
+      "lastAirDate": "2001-02-24",
+      "backdrop": "/mRXtoMlIvwcMFZNrirwa3Zq0nLB.jpg",
+      "poster": "/OSpGJs9nM7ySFepD54Qnl33zbJ.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-95": {
+      "tmdbId": 11671,
+      "name": "Sweet Valley High",
+      "originalName": "Sweet Valley High",
+      "overview": "Twins Jessica and Liz face the ups and downs of life at Sweet Valley High.",
+      "firstAirDate": "1994-09-05",
+      "lastAirDate": "1997-10-14",
+      "backdrop": "/wdvHiWNSeR9xTGWuxmOhBc6rpQ4.jpg",
+      "poster": "/rkdEnsWEJuNREP1DUFNqy6zKbmk.jpg",
+      "genres": [
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-96": {
+      "tmdbId": 4630,
+      "name": "Fairly Odd Parents",
+      "originalName": "The Fairly OddParents",
+      "overview": "De serie gaat over het tienjarige jongetje Timmy dat in de fictieve stad Dimmsdale woont. Hij heeft het zwaar te verduren: Ouders die nooit naar hem luisteren, en een gemene oppas genaamd Vicky, die hem onderdrukt als een slaaf. Doordat men in de feeënwereld merkt dat hij ongelukkig is, krijgt hij op een dag twee feeënpeetouders (Engels: Fairy Godparents) toegewezen; de onnozele fee Cosmo en zijn intelligente vrouw Wanda. Door met hun toverkunsten Timmy's wensen te laten uitkomen, proberen ze hem te helpen en gelukkiger te maken. De magie die Cosmo en Wanda gebruiken om Timmy te helpen, veroorzaakt meestal echter alleen nog maar meer rommel. In het begin zijn de wensen best leuk, maar langzamerhand begint het uit de hand te lopen. Uiteindelijk komt het allemaal weer goed.",
+      "firstAirDate": "2001-03-30",
+      "lastAirDate": "2017-07-26",
+      "backdrop": "/rMKFsYeK3LPJGk9xqUHhGdqA4aB.jpg",
+      "poster": "/3ryMj7tIvVtiXyI2tLvHYTjOjq4.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-98": {
+      "tmdbId": 20959,
+      "name": "Calimero",
+      "originalName": "カリメロ",
+      "overview": "Calimero is in Nederland toch wel een van de beroemdste tekenfilmfiguren. Wie kent Calimero, het zwarte kuiken met een eierdop op z'n kop nou niet? Het is alweer een wat oudere tekenfilmserie maar de nieuwe generatie kent Calimero ook wel van de vele mixen die op de begintune zijn gemaakt. Het blijft ook een leuke serie voor jong en oud.",
+      "firstAirDate": "1974-10-15",
+      "lastAirDate": "1975-09-30",
+      "backdrop": "/ylVMRyy5dA8l4ZB1c1m8pEQK8SS.jpg",
+      "poster": "/arGrH3uEpW2DonslsBfyUzboyEP.jpg",
+      "genres": [
+        "Animatie",
+        "Familie",
+        "Kids"
+      ]
+    },
+    "-99": {
+      "tmdbId": 2304,
+      "name": "Thomas de stoomlocomotief",
+      "originalName": "Thomas & Friends",
+      "overview": "Thomas en zijn vrienden zijn locomotieven op het eiland Sodor. Samen voeren ze allerlei opdrachten uit en beleven ze spannende en leerrijke avonturen.",
+      "firstAirDate": "1984-10-09",
+      "lastAirDate": "2021-01-20",
+      "backdrop": "/lJLxh0QRIxSas5XxztoNF1Hr8Bt.jpg",
+      "poster": "/ca9LIUVwRSHPEHlLXR8gihRcE7.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ]
+    },
+    "-100": {
+      "tmdbId": 35150,
+      "name": "Bassie & Adriaan",
+      "originalName": "Bassie & Adriaan",
+      "overview": "Bassie & Adriaan is een Nederlands Circus en TV duo dat in hun avonturen voor jong en oud de kinderen meeneemt in hun wereld van grappen, spanning en avontuur. Gezellige grappen, spanning met boeven en leerzame avonturen en reizen door Nederland, Europa en Amerika zorgen voor een tijdloos kijkplezier voor jong en oud.",
+      "firstAirDate": "1978-01-10",
+      "lastAirDate": "1995-09-15",
+      "backdrop": "/yawd9ak0qGMPevP7ZUFE76Z1VqC.jpg",
+      "poster": "/mVTtWDtl2xEeZDtyP387sc0edP9.jpg",
+      "genres": [
+        "Komedie",
+        "Familie"
+      ]
+    },
+    "-101": {
+      "tmdbId": 387,
+      "name": "SpongeBob SquarePants",
+      "originalName": "SpongeBob SquarePants",
+      "overview": "SpongeBob is een vierkante gele zeespons en woont in een grote ananas heel diep in de oceaan. In de plaats Bikinibroek woont hij met zijn vrienden en zijn huisdier, Gerrit de slak. Samen met Octo bakt SpongeBob krabburgers in de Krokante Krab, zijn lievelingswerk! Voor een potje 'Catch a Bubble' mag je hem en Patrick absoluut wakker maken. Hij is naïef en optimistisch en heeft het beste met iedereen voor, maar werkt zich altijd weer in de nesten.",
+      "firstAirDate": "1999-05-01",
+      "lastAirDate": "2026-08-07",
+      "backdrop": "/aasp5EmwclAQbwfGABWLTNLhjwB.jpg",
+      "poster": "/5h0EU2lqBb03dp5vtRuUHJwqzem.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie"
+      ]
+    },
+    "-102": {
+      "tmdbId": 4345,
+      "name": "Saved by the Bell",
+      "originalName": "Saved by the Bell",
+      "overview": "De sympathieke intrigant Zack Morris leidt zijn vrienden op avonturen op de Bayside High School in Californië. De vrienden moeten omgaan met relaties, eindexamens, schooldansen, scheidingen en meer, terwijl ze vaak hun directeur, meneer Richard Belding, frustreren, die zijn best doet om ze onder controle te houden.",
+      "firstAirDate": "1989-08-20",
+      "lastAirDate": "1993-05-22",
+      "backdrop": "/d0nAuGAH5EIQDLTs7dJcQOubpha.jpg",
+      "poster": "/9YC576fs6XQR2pfPDJn4kcmG8T5.jpg",
+      "genres": [
+        "Familie",
+        "Komedie"
+      ]
+    },
+    "-103": {
+      "tmdbId": 605,
+      "name": "Sabrina",
+      "originalName": "Sabrina, the Teenage Witch",
+      "overview": "Amerikaanse (USA) serie over een tienermeisje dat een heks is en daarmee moet leren leven.",
+      "firstAirDate": "1996-09-27",
+      "lastAirDate": "2003-04-24",
+      "backdrop": "/4PhaaA593zHfAyYUIXVWTih3qcD.jpg",
+      "poster": "/nNhj3coHNVVJPVM7fm5PEYVTCMO.jpg",
+      "genres": [
+        "Komedie",
+        "Familie",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-104": {
+      "tmdbId": 657,
+      "name": "Rocko's Modern Life",
+      "originalName": "Rocko's Modern Life",
+      "overview": "Rocko is a wallaby who has emigrated to America from Australia. He lives in O-Town and tries to get through life but, of course, comes across a multitude of dilemmas and misadventures he must get through. Other characters include Rocko's best friend, Heffer, a steer who has been raised by wolves, Filbert, a paranoid hypochondriac turtle, Rocko's faithful (but none-too-bright) dog Spunky, and Ed Bighead who detests Rocko and hates having him for a next door neighbor. On this show, Rocko has such adventures as trying to adapt to a new vacuum cleaner, having Heffer move in temporarily after his parents kick him out, and going to a movie theater.",
+      "firstAirDate": "1993-09-18",
+      "lastAirDate": "1996-11-24",
+      "backdrop": "/gukyN6QKyApB9kXpnluvMMNNzNS.jpg",
+      "poster": "/ydi5M4Dq10Doi9PPkkN95T8ao7Z.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-105": {
+      "tmdbId": 2009,
+      "name": "Rocket Power",
+      "originalName": "Rocket Power",
+      "overview": "Rocket Power is een tekenfilmserie over het leven van de goede vrienden Otto, Reggie, Twister en Squid. Ze wonen allemaal in de fictieve stad Ocean Shores in Californië. Ze leven met maar 1 doel: avonturen beleven op hun skateboards, mountainbikes en rolschaatsen.",
+      "firstAirDate": "1999-08-16",
+      "lastAirDate": "2004-07-30",
+      "backdrop": "/oBGchglw5lgrW7jc5UYK7IHsi4X.jpg",
+      "poster": "/pPyzV7oPo7hvJlKqXp9wI0bS2FP.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie",
+        "Kids"
+      ]
+    },
+    "-106": {
+      "tmdbId": 1835,
+      "name": "Kenan & Kel",
+      "originalName": "Kenan & Kel",
+      "overview": "Set in Chicago, the show follows the kid-friendly misadventures of two high-school friends who are always scheming and dreaming. Kenan, who works at a grocery store, constantly devises crazy plans to strike it rich, while orange-soda-loving buddy Kel is always dragged along for the ride despite his track record for messing things up.",
+      "firstAirDate": "1996-08-17",
+      "lastAirDate": "2000-07-15",
+      "backdrop": "/i9ynM8JIvA0zs8hKImeq9D1SUtx.jpg",
+      "poster": "/ftRkgMhF1CofVSLMeonh9Hjz7a4.jpg",
+      "genres": [
+        "Familie",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-107": {
+      "tmdbId": 544,
+      "name": "KaBlam!",
+      "originalName": "KaBlam!",
+      "overview": "KaBlam! is een sketch-komedietelevisieserie die liep van 1996 tot 2000. Het bevat een verzameling korte films in verschillende animatiestijlen, overbrugd door de karakters Henry en June, die de korte films introduceren en hun eigen avonturen beleven. De show eindigde zijn driejarige run negen maanden minder dan vier jaar op 22 januari 2000.",
+      "firstAirDate": "1996-10-11",
+      "lastAirDate": "2000-01-22",
+      "backdrop": "/ahec3QrHcCBS3qMMwoXDRTrt4ls.jpg",
+      "poster": "/qdWa6JE3nsVoqfSga4aGTSiuFmf.jpg",
+      "genres": [
+        "Kids",
+        "Komedie",
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Familie",
+        "Mysterie"
+      ]
+    },
+    "-108": {
+      "tmdbId": 2129,
+      "name": "De Avonturen van Jimmy Neutron: Wonderkind",
+      "originalName": "The Adventures of Jimmy Neutron: Boy Genius",
+      "overview": "Jimmy Neutron is de slimste jongen van de stad. Als genie denkt Jimmy dat de meeste dingen kunnen worden opgelost met de uitvinding van een nieuw apparaatje. Maar Jimmy kiest meestal de makkelijke uitweg, en zijn averechtse gadgets resulteren in komische avonturen.",
+      "firstAirDate": "2002-07-20",
+      "lastAirDate": "2006-11-25",
+      "backdrop": "/1BQqYdAAwTo1HBnXJrCNj6DQ9B3.jpg",
+      "poster": "/dxUNSVBU03LuVSZ3rriui6a7Xvk.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure",
+        "Kids"
+      ]
+    },
+    "-109": {
+      "tmdbId": 537,
+      "name": "Hey Arnold!",
+      "originalName": "Hey Arnold!",
+      "overview": "Stap in het dagelijks leven van Arnold, een vierdeklasser met een groot voorstellingsvermogen en een hoofd in de vorm van een rugbybal.",
+      "firstAirDate": "1996-10-07",
+      "lastAirDate": "2004-06-08",
+      "backdrop": "/6neiLkVRYIVbbRTLhlSLtt8o5di.jpg",
+      "poster": "/c1Yv042okfvMdT1Ulwlat9Tj70B.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Drama",
+        "Familie"
+      ]
+    },
+    "-112": {
+      "tmdbId": 6510,
+      "name": "Cousin Skeeter",
+      "originalName": "Cousin Skeeter",
+      "overview": "With the help of his strange cousin Skeeter, Bobby learns life lessons and tackles the ups and downs of growing up.",
+      "firstAirDate": "1998-09-01",
+      "lastAirDate": "2001-05-19",
+      "backdrop": "/yS7PBe4lRWUUzF3v5QoI9xd2npq.jpg",
+      "poster": "/hT0snY4PrqgroNEpkl7zwmJg7la.jpg",
+      "genres": [
+        "Komedie",
+        "Familie",
+        "Kids"
+      ]
+    },
+    "-113": {
+      "tmdbId": 1567,
+      "name": "CatDog",
+      "originalName": "CatDog",
+      "overview": "Catdog is een heel bijzonder dier, namelijk een soort Siamese tweeling met twee hoofden. Aan de ene kant is dat een kat, die heel intelligent en rustig is. Aan de andere kant is dat een hond, die een beetje naïef en erg enthousiast is. Ondanks dat Cat en Dog erg verschillen in karakter zijn het de grootste vrienden.",
+      "firstAirDate": "1998-04-04",
+      "lastAirDate": "2005-06-15",
+      "backdrop": "/ujmeZPV9A5AdwfTEuRWR1eqOMDR.jpg",
+      "poster": "/fkSCg9negcHAVO3gXohqEidqrsX.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-114": {
+      "tmdbId": 1760,
+      "name": "As Told by Ginger",
+      "originalName": "As Told by Ginger",
+      "overview": "Brugklasser Ginger Houtslag heeft het niet makkelijk. Ze is reuze onzeker in haar nieuwe wereld waarin alles draait om de tofste kleren en de juiste vrienden. Gelukkig heeft Ginger veel steun aan haar twee vriendinnen Pauline en Merel. Maar ook Sophie, het populairste meisje van de school, eist veel van haar aandacht. Ginger vindt het maar lastig om steeds te moeten kiezen tussen populariteit en vriendschap. Gelukkig kan ze haar twijfels en troubles heerlijk van zich afschrijven in haar dagboek! ",
+      "firstAirDate": "2000-10-25",
+      "lastAirDate": "2006-11-14",
+      "backdrop": "/lXQpWlN24cxwBjNvqOUju2WouDg.jpg",
+      "poster": "/l8BkBllw4hKOpbHxWRQSOC0lF4o.jpg",
+      "genres": [
+        "Familie",
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-115": {
+      "tmdbId": 10821,
+      "name": "Blue's Clues",
+      "originalName": "Blue's Clues",
+      "overview": "Blue's Clues is a colorful and learning series that is targeted at the younger crowd, but can be enjoyed by all. The host, Steve Burns, invites viewers daily into the Blue's Clues house to help him out, learn and have fun. The show is based around the host looking for three clues that Blue provides by labelling them with a pawprint to figure something out and in the process, having an adventure.",
+      "firstAirDate": "1996-09-08",
+      "lastAirDate": "2006-08-06",
+      "backdrop": "/m94lERZlYkFyn3wzoMwLUBeriRI.jpg",
+      "poster": "/dSCi1cLsKiQ7713m8Lf9J8iHbRH.jpg",
+      "genres": [
+        "Kids",
+        "Komedie",
+        "Animatie",
+        "Familie"
+      ]
+    },
+    "-116": {
+      "tmdbId": 79,
+      "name": "Dora",
+      "originalName": "Dora the Explorer",
+      "overview": "De avonturen van Dora de Ontdekker spelen zich af in de Zuid-Amerikaanse jungle. Aapje Boots, haar rugzakje en de zingende kaart helpen haar altijd uit de brand.",
+      "firstAirDate": "2000-08-14",
+      "lastAirDate": "2019-08-09",
+      "backdrop": "/uEPbIAmsZENHL5B50WNYSyItFjf.jpg",
+      "poster": "/iaJNOSpEQgU4yePsbcC6yxneRNF.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Familie",
+        "Kids"
+      ]
+    },
+    "-117": {
+      "tmdbId": 3634,
+      "name": "De Tofu's",
+      "originalName": "Les Tofou",
+      "overview": "Vegetarische ouders, twee kinderen en een oma; zij vormen de Tofu's. Ze proberen zo ecologisch mogelijk te leven.",
+      "firstAirDate": "2004-01-01",
+      "lastAirDate": "2005-01-01",
+      "backdrop": "/japwUdut8WGe0H6DOWueRe4FOyY.jpg",
+      "poster": "/tKD1mOQ08Mf6dHgKiL83zZgQENd.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids",
+        "Familie"
+      ]
+    },
+    "-118": {
+      "tmdbId": 3320,
+      "name": "Biker Mice from Mars",
+      "originalName": "Biker Mice from Mars",
+      "overview": "Op de planeet Mars woont een ras van antropomorfe muizen, wiens cultuur sterk lijkt op die van de mensen. Al geruime tijd voeren deze muizen oorlog tegen de Plutarkians, een ras van visachtige aliens die de planeet willen veroveren. Op een dag slagen drie van de laatste nog vrije muizen, Throttle, Modo en Vinnie, erin te ontsnappen. Hun ruimteschip wordt echter neergeschoten en ze storten neer op aarde in de stad Chicago. Al snel blijkt dat enkele Plutarikans zich reeds in de aardse samenleving hebben gemengd om deze van binnenuit te vernietigen. Nu ze toch op aarde zitten, besluiten de drie muizen de aarde tegen de Plutarkians te beschermen.",
+      "firstAirDate": "1993-09-18",
+      "lastAirDate": "1996-02-24",
+      "backdrop": "/7O1f7OWj61quryRpuGIGj4Y7jq7.jpg",
+      "poster": "/gBnbkQ7t6Ctri0A4nKDYWqIVF3f.jpg",
+      "genres": [
+        "Kids",
+        "Animatie",
+        "Action & Adventure",
+        "Komedie",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-120": {
+      "tmdbId": 12225,
+      "name": "Peppa Big",
+      "originalName": "Peppa Pig",
+      "overview": "Peppa Pig is een tekenfilmserie over een heel lief klein varkentje dat bij kleine broertje George, haar moeder en pappa varken woont. Peppa speelt het liefste spelletjes, kleed zichzelf heel mooi, maakt mooie uitstapjes en springt het liefst in modderbaden. Haar avonturen eindigen altijd vrolijk, met groot knorrig gelach. Peppa maakt de leukste avonturen mee met haar vriendjes en vriendinnetjes.",
+      "firstAirDate": "2004-05-31",
+      "lastAirDate": "2025-08-11",
+      "backdrop": "/fnyS6gOv9tTjhHPl4A1aKEDgWEG.jpg",
+      "poster": "/iwKVo3HlsyVNXCzFEkd0xHz3kGi.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ]
+    },
+    "-121": {
+      "tmdbId": 2005,
+      "name": "De Nieuwe Avonturen van Winnie de Poeh",
+      "originalName": "The New Adventures of Winnie the Pooh",
+      "overview": "Winnie de Poeh is de knuffelbeer van Janneman Robinson, kan praten net als de andere speeldieren en woont in het Honderd Bunderbos. Poeh, Janneman Robinson en Knorretje beleven in de verhalen van Milne eenvoudige avonturen die bijvoorbeeld als motief hebben dat Poeh van honing houdt, dat er een nieuw dier in het bos is komen wonen, of dat de dieren op ontdekkingstocht gaan.",
+      "firstAirDate": "1988-09-10",
+      "lastAirDate": "1991-10-07",
+      "backdrop": "/pFRX1VUIm0j7a9VI1lQke9tOMZY.jpg",
+      "poster": "/iJFbF43bN1HX5EZl4OFAVmJDl1u.jpg",
+      "genres": [
+        "Familie",
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ]
+    },
+    "-31": {
+      "tmdbId": 3022,
+      "name": "Ratjetoe",
+      "originalName": "Rugrats",
+      "overview": "Rugrats is een tekenfilmserie over vier cool baby's. Alle vier hebben zij hun eigen ideeën. De geluierde Tommy Zoetzuur, de bangige Dickie Finkers en de tweeling Phil en Lil met hun hondje Spike bekijken de wereld op een hele andere manier. Samen beleven ze grote avonturen en voeren ze een dagelijkse strijd tegen de oudere Angeliekje.",
+      "firstAirDate": "1991-08-11",
+      "lastAirDate": "2004-08-01",
+      "backdrop": "/fKpfCR3l0WukHTkI6Z2ySX1if4P.jpg",
+      "poster": "/wmsINbZuEBLNP2Z26Xffx5NHJpW.jpg",
+      "genres": [
+        "Familie",
+        "Animatie",
+        "Kids",
+        "Komedie"
+      ]
+    },
+    "-51": {
+      "tmdbId": 66695,
+      "name": "The Triplets",
+      "originalName": "Les Tres Bessones",
+      "overview": "De drieling Anna, Tessa en Heleen gaan regelmatig in de fout. Gelukkig is er een 'heks', die hen altijd weer op die fouten weet te wijzen. Om de meisjes een lesje te leren, plaatst de heks hen in een bekend sprookje.",
+      "firstAirDate": "1995-04-17",
+      "lastAirDate": "2003-12-23",
+      "backdrop": "/iiSsAwhnnEt3BtKwjWJYGyTsSCU.jpg",
+      "poster": "/yHLVEYOdNbtD6UPFJEZBc4i5sMj.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ]
+    },
+    "-56": {
+      "tmdbId": 2328,
+      "name": "Power Rangers",
+      "originalName": "Power Rangers",
+      "overview": "Een team tieners met karakter wordt gerekruteerd om Angel Grove te redden van de boze heks Rita Repulsa en later Lord Zedd, keizer van alles wat hij ziet, en zijn horde monsters.",
+      "firstAirDate": "1993-08-28",
+      "lastAirDate": "2023-09-29",
+      "backdrop": "/i01wnWz0Z3rMATqbkAVLHEaGbNP.jpg",
+      "poster": "/qx3SJlAp2RK656TusqKx1qEqVMW.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ]
+    },
+    "-66": {
+      "tmdbId": 208749,
+      "name": "La bruixa avorrida",
+      "originalName": "La bruixa avorrida",
+      "overview": "",
+      "firstAirDate": "1998-10-01",
+      "lastAirDate": "1998-10-01",
+      "backdrop": "/vfXoeIiFk0q7g9GvGQRDcGJ28ng.jpg",
+      "poster": "/rreqd1ZxgNbsWy3a92ZyIMe3hB2.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ]
+    },
+    "-110": {
+      "tmdbId": 2408,
+      "name": "The Wild Thornberrys",
+      "originalName": "The Wild Thornberrys",
+      "overview": "Eliza Thornberry is een ongewoon kind, dat met haar ouders, Nigel en Marrianne, in een camper de wereld rondreist en voortdurend in de natuur leeft. Eliza heeft ook het buitengewone vermogen om met dieren te praten, waardoor ze kan helpen omgaan met de verschillende bedreigingen waarvan ze het slachtoffer zijn.",
+      "firstAirDate": "1998-09-01",
+      "lastAirDate": "2004-06-11",
+      "backdrop": "/nVj1LYX8uOsdGVb9LcLN4YUTkDs.jpg",
+      "poster": "/6SHAvvwmOFJwFhbkAqa6MjsiO7P.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Action & Adventure",
+        "Kids",
+        "Familie"
+      ]
+    },
+    "-111": {
+      "tmdbId": 3579,
+      "name": "Boze Bevers",
+      "originalName": "The Angry Beavers",
+      "overview": "De twee bevers Boris en Benno zijn broers. Na de komst van een nieuw bevernest verlaten ze hun ouderlijk huis en gaan ze gezamenlijk in hun eigen dam wonen. De broers maken allerlei avonturen mee en hebben regelmatig ruzie. Maar als het erop aan komt dan helpen ze elkaar altijd.",
+      "firstAirDate": "1997-04-19",
+      "lastAirDate": "2001-01-27",
+      "backdrop": "/ta4Py9F1nHmttpAYEg4vB8wN08z.jpg",
+      "poster": "/vdupZNabYGn4fBVLChRTMOWoZRJ.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ]
+    },
+    "-62": {
+      "tmdbId": 105121,
+      "name": "Saban's Adventures of Oliver Twist",
+      "originalName": "Saban's Adventures of Oliver Twist",
+      "overview": "Oliver Twist is een Frans-Amerikaanse animatieserie waarin de weeshond Oliver op zoek is naar zijn moeder maar daarvoor wel uit handen moet blijven van de meester van het werkhuis.",
+      "firstAirDate": "1996-02-01",
+      "lastAirDate": "1997-01-23",
+      "backdrop": "/dY1ZSEsiKXThSHgTGN6m5Y2l6Hw.jpg",
+      "poster": "/w25cXPW1jJFX2Fj6OEY8Tf8ddbF.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Action & Adventure"
+      ]
+    }
+  }
+}

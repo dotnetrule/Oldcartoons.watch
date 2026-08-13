@@ -4,22 +4,46 @@
  * than no cache at all — the build must stop where the data stops.
  */
 
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { ROOT } from './paths';
+
 const API_BASE = 'https://api.themoviedb.org/3';
 
 export const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p';
 
-function apiKey(): string {
+// `tsx` does not read Vite's env files. Load the repository-local file here,
+// in build-time code only, so neither credential can enter the browser bundle.
+const envPath = join(ROOT, '.env');
+if (
+  !process.env.TMDB_API_TOKEN &&
+  !process.env.TMDB_READ_ONLY_KEY &&
+  !process.env.TMDB_API_KEY &&
+  existsSync(envPath)
+) {
+  process.loadEnvFile(envPath);
+}
+
+function authentication(url: URL): Record<string, string> {
+  const token = process.env.TMDB_API_TOKEN ?? process.env.TMDB_READ_ONLY_KEY;
+  if (token) return { Authorization: `Bearer ${token}`, Accept: 'application/json' };
+
   const key = process.env.TMDB_API_KEY;
-  if (!key) throw new Error('TMDB_API_KEY is not set — cannot fetch TMDB metadata');
-  return key;
+  if (key) {
+    url.searchParams.set('api_key', key);
+    return { Accept: 'application/json' };
+  }
+
+  throw new Error(
+    'TMDB_API_TOKEN (or TMDB_READ_ONLY_KEY) or TMDB_API_KEY is not set — cannot fetch TMDB metadata',
+  );
 }
 
 async function tmdbGet<T>(path: string, params: Record<string, string> = {}): Promise<T> {
   const url = new URL(API_BASE + path);
-  url.searchParams.set('api_key', apiKey());
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
 
-  const res = await fetch(url);
+  const res = await fetch(url, { headers: authentication(url) });
   if (!res.ok) {
     throw new Error(`TMDB ${path} failed: ${res.status} ${res.statusText}`);
   }
@@ -29,13 +53,30 @@ async function tmdbGet<T>(path: string, params: Record<string, string> = {}): Pr
 export type TmdbSeriesDetail = {
   id: number;
   name: string;
+  original_name?: string;
   overview: string;
   first_air_date: string | null;
   last_air_date: string | null;
   number_of_episodes: number;
   backdrop_path: string | null;
   poster_path: string | null;
+  genres?: { id: number; name: string }[];
   seasons: { season_number: number; name: string; episode_count: number }[];
+};
+
+export type TmdbSeriesSearchResult = {
+  id: number;
+  name: string;
+  original_name: string;
+  overview: string;
+  first_air_date: string | null;
+  backdrop_path: string | null;
+  poster_path: string | null;
+  genre_ids: number[];
+};
+
+type TmdbSearchResponse = {
+  results: TmdbSeriesSearchResult[];
 };
 
 export type TmdbEpisode = {
@@ -82,8 +123,15 @@ export type TmdbSeriesCache = {
   images: TmdbImages;
 };
 
-export const getSeriesDetail = (id: number): Promise<TmdbSeriesDetail> =>
-  tmdbGet<TmdbSeriesDetail>(`/tv/${id}`);
+export const getSeriesDetail = (id: number, language?: string): Promise<TmdbSeriesDetail> =>
+  tmdbGet<TmdbSeriesDetail>(`/tv/${id}`, language ? { language } : {});
+
+export const searchSeries = (query: string, language = 'nl-NL'): Promise<TmdbSeriesSearchResult[]> =>
+  tmdbGet<TmdbSearchResponse>('/search/tv', {
+    query,
+    language,
+    include_adult: 'false',
+  }).then((response) => response.results);
 
 export const getSeason = (id: number, season: number): Promise<TmdbSeason> =>
   tmdbGet<TmdbSeason>(`/tv/${id}/season/${season}`);

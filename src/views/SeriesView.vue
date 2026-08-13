@@ -170,6 +170,8 @@ function report(e: Event, episode: PublicEpisode): void {
         :file-path="series.backdrop"
         size="w1280"
         :accent-color="colour"
+        loading="eager"
+        fetch-priority="high"
         class="hero-img"
       />
       <div
@@ -185,6 +187,9 @@ function report(e: Event, episode: PublicEpisode): void {
         <h1>{{ series.name }}</h1>
         <div class="mono hero-meta">
           <span>{{ yearsLabel }} · {{ epLabel }}</span>
+          <span v-if="series.genres.length" class="hero-genres">
+            {{ series.genres.join(' · ') }}
+          </span>
           <span class="hero-status">
             <SeriesStatusDot :status="archiveStatus" :label="archiveStatusLabel" />
             {{ archiveStatusLabel }}
@@ -356,6 +361,10 @@ function report(e: Event, episode: PublicEpisode): void {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  margin-left: 8px;
+}
+
+.hero-genres {
   margin-left: 8px;
 }
 
@@ -575,6 +584,10 @@ function report(e: Event, episode: PublicEpisode): void {
   }
 
   .hero-status {
+    margin-left: 0;
+  }
+
+  .hero-genres {
     margin-left: 0;
   }
 

@@ -158,9 +158,19 @@ Build-time only — see [`.env.example`](./.env.example). The app never reads
 them; only `scripts/` and CI do.
 
 ```sh
-TMDB_API_KEY=...      # npm run fetch
+TMDB_API_TOKEN=...    # npm run enrich-tmdb, npm run fetch (recommended)
+TMDB_READ_ONLY_KEY=... # accepted alias for the read token
+TMDB_API_KEY=...      # alternative TMDB v3 key
 YOUTUBE_API_KEY=...   # npm run fetch, npm run health-check
 ```
+
+Placeholder series keep their negative ids because those ids own the curated
+episode lists. `npm run enrich-tmdb` safely matches their catalogue title and
+air year, fetches localized descriptions, genres, posters and textless
+backdrops, and writes the refreshable result to `content/tmdb-metadata.json`.
+Ambiguous matches are reported and left unchanged; set a reviewed result with
+`npm run enrich-tmdb -- --match slug=1234`. This step reads `.env` locally, and
+the generated static app receives only image paths and public metadata.
 
 ## Pipeline
 

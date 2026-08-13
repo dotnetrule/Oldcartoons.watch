@@ -320,6 +320,23 @@ export const historicalSeriesSeedsFileSchema = z
   .array(historicalSeriesSeedSchema)
   .refine((all) => new Set(all.map((seed) => seed.tmdbId)).size === all.length, 'duplicate historical series id');
 
+export const tmdbSeriesMetadataSchema = z.object({
+  tmdbId: z.number().int().positive(),
+  name: z.string().min(1),
+  originalName: z.string().min(1),
+  overview: z.string(),
+  firstAirDate: z.string().date().nullable(),
+  lastAirDate: z.string().date().nullable(),
+  backdrop: z.string().startsWith('/').nullable(),
+  poster: z.string().startsWith('/').nullable(),
+  genres: z.array(z.string().min(1)),
+});
+
+export const tmdbMetadataFileSchema = z.object({
+  fetchedAt: z.string().datetime(),
+  matches: z.record(z.string().regex(/^-\d+$/), tmdbSeriesMetadataSchema),
+});
+
 export const networkProgrammeLineupSchema = z.object({
   networkSlug: slugSchema,
   seriesSlugs: z.array(slugSchema),
@@ -563,6 +580,7 @@ export const seriesFileSchema = z.object({
   dubbedLanguages: z.array(contentLanguageSchema),
   backdrop: z.string().startsWith('/').nullable(),
   poster: z.string().startsWith('/').nullable(),
+  genres: z.array(z.string().min(1)),
   seasons: z.array(publicSeasonSchema),
 });
 

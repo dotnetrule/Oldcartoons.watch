@@ -11,6 +11,7 @@
     "add-playlist": "tsx scripts/add-playlist.ts",
     "resolve-playlists": "tsx scripts/resolve-playlists.ts",
     "fetch": "tsx scripts/fetch.ts",
+    "enrich-tmdb": "tsx scripts/enrich-tmdb.ts",
     "match": "tsx scripts/match.ts",
     "scan-audio": "tsx scripts/scan-audio-tracks.ts",
     "build-data": "tsx scripts/build-data.ts",

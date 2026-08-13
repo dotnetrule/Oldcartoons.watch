@@ -17,8 +17,16 @@ const props = withDefaults(
     filePath?: string | null;
     size?: string;
     accentColor?: string;
+    loading?: 'eager' | 'lazy';
+    fetchPriority?: 'high' | 'low' | 'auto';
   }>(),
-  { filePath: null, size: 'w500', accentColor: '#8A93A6' },
+  {
+    filePath: null,
+    size: 'w500',
+    accentColor: '#8A93A6',
+    loading: 'lazy',
+    fetchPriority: 'auto',
+  },
 );
 
 const src = computed(() => (props.filePath ? tmdbImage(props.filePath, props.size) : null));
@@ -27,7 +35,13 @@ const initials = computed(() => initialsFor(props.title));
 
 <template>
   <div class="ntv-cover">
-    <img v-if="src" :src="src" :alt="title" loading="lazy" />
+    <img
+      v-if="src"
+      :src="src"
+      :alt="title"
+      :loading="loading"
+      :fetchpriority="fetchPriority"
+    />
     <div v-else class="ntv-cover-empty" :style="{ color: accentColor }" :title="title">
       <span>{{ initials }}</span>
     </div>
