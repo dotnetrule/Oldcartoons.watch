@@ -474,5 +474,12 @@
     "overview": "Uit de historische Nederlandse tv-gids geïmporteerde catalogusvermelding voor Dora. Afleveringen worden afzonderlijk geïndexeerd zodra een controleerbare bron beschikbaar is.",
     "firstAirYear": 2000,
     "lastAirYear": 2019
+  },
+  {
+    "tmdbId": -117,
+    "name": "De Tofu's",
+    "overview": "Frans-Canadese tekenfilmserie over een gezin dat volledig ecologisch leeft: van het stroomnet af, eigen moestuin, een windmolen voor de elektriciteit en kleren van schapenwol. In Nederland uitgezonden door Jetix.",
+    "firstAirYear": 2004,
+    "lastAirYear": 2005
   }
 ]

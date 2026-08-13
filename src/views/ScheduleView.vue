@@ -55,12 +55,16 @@ const otherChannelCards = computed(() => channelCards.value.filter((item) => ite
 
 /** Preserved weeks of a real station's own schedule. They are listed apart
  * from the channel map and labelled by the station they came off, so no one
- * reads them as extra channels that never existed. */
+ * reads them as extra channels that never existed — which means a week can
+ * only be listed while the station it names is. */
+const shownNetworkSlugs = computed(
+  () => new Set(content.stockedNetworks.map((network) => network.slug)),
+);
 const archiveCards = computed(() =>
   content.channels
     .filter((item) => item.kind === 'archive' && item.scheduleId !== null)
     .map((item) => ({ channel: item, network: content.network(item.networkSlug)! }))
-    .filter((item) => item.network.real)
+    .filter((item) => shownNetworkSlugs.value.has(item.network.slug))
     .sort(
       (a, b) =>
         a.network.channelNumber - b.network.channelNumber ||
@@ -176,9 +180,9 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
       </button>
     </header>
 
-    <section class="stations" aria-labelledby="nl-zenders">
+    <section v-if="dutchChannelCards.length" class="stations" aria-labelledby="nl-zenders">
       <div class="section-head">
-        <h2 id="nl-zenders" :style="{ color: C.ink }">Nederlandse zenders 1–10</h2>
+        <h2 id="nl-zenders" :style="{ color: C.ink }">Nederlandse zenders</h2>
         <span :style="{ color: C.dim }">TV HOME · SEPT. 2005</span>
       </div>
       <div class="station-grid">

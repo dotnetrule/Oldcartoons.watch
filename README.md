@@ -17,6 +17,11 @@ The UI came from a design handoff produced in Claude Design; the original bundle
 (prototype HTML/CSS/JS, chat transcript, notes) is kept in [`design/`](./design)
 for reference.
 
+This README explains why the project is built the way it is.
+[`AGENTS.md`](./AGENTS.md) is the working brief for anyone — human or agent —
+doing the routine jobs: adding playlists, adding a series, and what the CI
+workflows do on their behalf.
+
 ## The governing idea
 
 Every network call happens at build time or in CI. There is no backend, no
@@ -95,6 +100,24 @@ build rather than reaching a viewer as a station.
 two more channels, so the map draws one card per `primary` feed and the weeks
 are listed apart from it, each labelled with the station it came off. Exactly
 one primary per network is a build rule.
+
+### And only stations with something to show
+
+Being a real station earns a place in `content/`, not a card on the map. A
+station is drawn only while at least one of its programmes has a playable
+episode — `stockedNetworks` in `src/stores/content.ts` — and disappears from
+the channel map, the tab strip and the archive-week list until then.
+
+That is a rule about the archive, not about the schedule. A network whose
+episodes exist but are not in its own language keeps its card: its page lists
+programmes that play, and only its live feed is still dark, which the card says
+in as many words. A network where nothing plays at all has no such page to
+offer, and a card that never lights up reads as a broken channel rather than an
+honest gap — the gaps worth showing are episode-shaped, inside a programme, not
+station-shaped.
+
+Curation stays in `content/`: a station that empties out is hidden rather than
+deleted, and comes back by itself the moment a source fills it in.
 
 Network marks in `public/networks/` are identification plates — the station's
 real name and on-air colour, set in a neutral condensed face — rather than
@@ -201,6 +224,23 @@ playlist carries no runtime, so both stay empty rather than becoming
 plausible-looking wrong values. A curated playlist is a flat ordered list — it
 asserts sequence and nothing about season boundaries — so everything lands in
 season 1.
+
+#### A guide listing can acquire an episode list
+
+`content/historical-series.json` holds titles lifted from historical Dutch TV
+guides: the show's name, what it was, and the years it ran. A guide records a
+year rather than a date, and says nothing whatever about episodes, so a listing
+starts with an empty one and its page is a catalogue entry.
+
+That is a statement about the guide, not a ceiling on the series. A guide says
+what the show **is**; a curated playlist says what its episodes **are**, and
+`--episodes-for` works on a listing exactly as it does on a seeded series.
+`scripts/lib/series-metadata.ts` is the single place both `match.ts` and
+`build-data.ts` ask where a series' metadata comes from: identity always from
+the guide, episodes from `content/tmdb-seed/{id}.json` once a playlist has
+written one. A playlist knows the order of a show's episodes and does not know
+the show, so nothing it writes may overrule the name, description or years the
+guide recorded.
 
 Unlike a matched or hand-resolved episode, a playlist-derived one is **not** a
 final decision: the decision lives in the playlist and is re-read on every run,
@@ -348,12 +388,18 @@ always visible before a click, never discovered after one.
 
 ## Current state of this checkout
 
-The 116 series and 15 source networks in `content/` are seeded so the app builds
+The 117 series and 15 source networks in `content/` are seeded so the app builds
 and runs today without API keys. `network-programmes.json` projects that
 catalogue onto the ten public Dutch channels: a series can occur on several
-channels and remains listed when it has no episodes. Ten curated playlists
-currently provide 277 playable episodes; every remaining gap stays visible
-instead of being presented as available.
+channels and remains listed when it has no episodes. Twenty curated playlists
+are whitelisted; every remaining gap stays visible instead of being presented as
+available.
+
+Ten of those playlists are already ingested and provide 277 playable episodes.
+The ten added most recently carry only their ids so far — this checkout has no
+route to youtube.com, so `.github/workflows/ingest.yml` resolves their titles
+and pulls their episodes in on a runner. Until that lands, the stations they
+fill stay hidden by the rule above rather than appearing empty.
 
 Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
 refuses outright. A plausible-looking positive id would make a mis-seeded

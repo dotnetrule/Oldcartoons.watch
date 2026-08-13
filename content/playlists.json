@@ -108,5 +108,115 @@
     ],
     "episodesFor": "beugelbekkie",
     "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLUundpgmbogWHF8eARydQlfwcuHGPuE84",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "shin-chan"
+    ],
+    "episodesFor": "shin-chan",
+    "note": "Aangeleverd als bron voor Shin chan; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLipgHg_5Vqy3SH6cv1GBA9ESuX48X_dTF",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "the-tofus"
+    ],
+    "episodesFor": "the-tofus",
+    "note": "Aangeleverd als bron voor De Tofu's; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLb73EPRCB--vEDbAzCVyij13zSKI-Vg6C",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "tmnt"
+    ],
+    "episodesFor": "tmnt",
+    "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLb73EPRCB--vX8z0qjKkHKLAHv46pC28A",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "dennis-the-menace"
+    ],
+    "episodesFor": "dennis-the-menace",
+    "note": "Nederlandstalige afleveringen van Dennis de Bengel."
+  },
+  {
+    "id": "PLV4Ztn9euy7SMHIv951xtDD4Ce3zUUozx",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "life-with-louie"
+    ],
+    "episodesFor": "life-with-louie",
+    "note": "Engelstalige fallback; vervangen zodra een complete Nederlandse playlist beschikbaar is."
+  },
+  {
+    "id": "PL3DZDfUJJy6ZxhAqUSkCstmsxrsRzGLir",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "kenan-and-kel"
+    ],
+    "episodesFor": "kenan-and-kel",
+    "note": "Aangeleverd als bron voor Kenan & Kel; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLR7cCYIe3HoXF_M80aBoPzZNW7c_wZQcl",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "calimero"
+    ],
+    "episodesFor": "calimero",
+    "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLiZCl6XIGf-gs83oI0437YN4KEFTFTIlF",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "saved-by-the-bell"
+    ],
+    "episodesFor": "saved-by-the-bell",
+    "note": "Aangeleverd als bron voor Saved by the Bell; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLXeJfwGnv8YKBsQXOFLzZ_7MGyQ1QxceK",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "rockos-modern-life"
+    ],
+    "episodesFor": "rockos-modern-life",
+    "note": "Aangeleverd als bron voor Rocko's Modern Life; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLv8gpXY5S5lihat3vkYqaCo-slfsMn63K",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "fairly-oddparents"
+    ],
+    "episodesFor": "fairly-oddparents",
+    "note": "Aangeleverd als bron voor The Fairly OddParents; taal nog niet geverifieerd."
   }
 ]

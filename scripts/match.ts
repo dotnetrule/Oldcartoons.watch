@@ -19,6 +19,7 @@ import { readdirSync } from 'node:fs';
 import type {
   Episode,
   EpisodeSource,
+  HistoricalSeriesSeed,
   PlaylistSource,
   QueueCandidate,
   QueueEntry,
@@ -26,6 +27,7 @@ import type {
 } from '../src/types';
 import {
   episodesFileSchema,
+  historicalSeriesSeedsFileSchema,
   playlistsFileSchema,
   queueFileSchema,
   seriesSourceFileSchema,
@@ -38,7 +40,7 @@ import {
   seriesMetadataPath,
   writeJson,
 } from './lib/paths';
-import type { TmdbSeriesCache } from './lib/tmdb';
+import { loadSeriesCache } from './lib/series-metadata';
 import { CONFIDENCE_THRESHOLD, scoreMatch } from './lib/similarity';
 import { derivePlaylistSeries } from './lib/playlist-episodes';
 import type { YoutubeSourceCache } from './fetch';
@@ -71,6 +73,7 @@ function loadYoutubeSources(): YoutubeSourceCache[] {
 function rebuildFromPlaylist(
   source: SeriesSource,
   playlist: PlaylistSource,
+  historicalSeed: HistoricalSeriesSeed | undefined,
   youtubeSources: YoutubeSourceCache[],
   today: string,
 ): Episode[] {
@@ -83,7 +86,7 @@ function rebuildFromPlaylist(
   }
 
   const seedPath = seriesMetadataPath(source.tmdbId);
-  const existing = readJson(seedPath) as TmdbSeriesCache;
+  const existing = loadSeriesCache(source, historicalSeed);
 
   const { cache, episodes } = derivePlaylistSeries({
     source,
@@ -107,6 +110,14 @@ function main(): void {
   const existing = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
   const youtubeSources = loadYoutubeSources();
+  // A series lifted from a historical TV guide has its identity here rather
+  // than in a metadata file; loadSeriesCache needs it to answer for that series
+  // at all, whether the answer is an empty episode list or one a playlist wrote.
+  const historicalSeedById = new Map<number, HistoricalSeriesSeed>(
+    readValidated(contentPath('historical-series.json'), historicalSeriesSeedsFileSchema).map(
+      (seed) => [seed.tmdbId, seed],
+    ),
+  );
 
   const today = new Date().toISOString().slice(0, 10);
 
@@ -123,7 +134,9 @@ function main(): void {
   for (const source of seriesSources) {
     const owner = episodeListOwner.get(source.slug);
     if (!owner) continue;
-    derived.push(...rebuildFromPlaylist(source, owner, youtubeSources, today));
+    derived.push(
+      ...rebuildFromPlaylist(source, owner, historicalSeedById.get(source.tmdbId), youtubeSources, today),
+    );
     derivedSeries.add(source.tmdbId);
   }
 
@@ -151,7 +164,7 @@ function main(): void {
   for (const source of seriesSources) {
     if (episodeListOwner.has(source.slug)) continue;
 
-    const cache = readJson(seriesMetadataPath(source.tmdbId)) as TmdbSeriesCache;
+    const cache = loadSeriesCache(source, historicalSeedById.get(source.tmdbId));
 
     // A channel carries only its rights-holder's material, so it is open to
     // every series. A playlist is scoped by its `covers` list, which stops a

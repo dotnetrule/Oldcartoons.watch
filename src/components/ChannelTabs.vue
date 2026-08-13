@@ -11,9 +11,9 @@ const router = useRouter();
 const ui = useUiStore();
 const content = useContentStore();
 const C = computed(() => ui.C);
-const orderedNetworks = computed(() =>
-  content.networks.filter((network) => network.listed).sort((a, b) => a.channelNumber - b.channelNumber),
-);
+/** Only stations something can be watched on: a tab that opens a page of gaps
+ * is a dead end, so it is not offered. */
+const orderedNetworks = computed(() => content.listedNetworks);
 
 function go(slug: string): void {
   ui.triggerFlicker();

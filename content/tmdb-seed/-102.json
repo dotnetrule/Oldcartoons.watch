@@ -1,19 +1,19 @@
 {
-  "fetchedAt": "2026-08-12T21:09:43.464Z",
+  "fetchedAt": "2026-08-12T21:09:43.468Z",
   "detail": {
-    "id": -40,
-    "name": "Bobby's World",
-    "overview": "De vierjarige Bobby Generic bekijkt het dagelijkse gezinsleven door een grenzeloze fantasie. Gewone uitstapjes, klusjes en familiebezoeken veranderen in avonturen die alleen Bobby zo kan beleven.",
-    "first_air_date": "1990-09-08",
-    "last_air_date": "1998-02-23",
-    "number_of_episodes": 81,
+    "id": -102,
+    "name": "Saved by the Bell",
+    "overview": "Uit de historische Nederlandse tv-gids geïmporteerde catalogusvermelding voor Saved by the Bell. Afleveringen worden afzonderlijk geïndexeerd zodra een controleerbare bron beschikbaar is.",
+    "first_air_date": null,
+    "last_air_date": null,
+    "number_of_episodes": 83,
     "backdrop_path": null,
     "poster_path": null,
     "seasons": [
       {
         "season_number": 1,
         "name": "Season 1",
-        "episode_count": 81
+        "episode_count": 83
       }
     ]
   },
@@ -23,8 +23,8 @@
       "name": "Season 1",
       "episodes": [
         {
-          "id": -40001,
-          "name": "The Visit to Aunt Ruth's",
+          "id": -102001,
+          "name": "Animated Cat Adventure",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,
@@ -32,8 +32,8 @@
           "still_path": null
         },
         {
-          "id": -40002,
-          "name": "Uncle Ted's Excellent Adventure",
+          "id": -102002,
+          "name": "How To Save And View Playlists",
           "season_number": 1,
           "episode_number": 2,
           "air_date": null,
@@ -41,8 +41,8 @@
           "still_path": null
         },
         {
-          "id": -40003,
-          "name": "Adventures In Bobbysitting",
+          "id": -102003,
+          "name": "Recycle And Reuse Plastic",
           "season_number": 1,
           "episode_number": 3,
           "air_date": null,
@@ -50,8 +50,8 @@
           "still_path": null
         },
         {
-          "id": -40004,
-          "name": "The Best One of the Mall",
+          "id": -102004,
+          "name": "Save Your Environment",
           "season_number": 1,
           "episode_number": 4,
           "air_date": null,
@@ -59,8 +59,8 @@
           "still_path": null
         },
         {
-          "id": -40005,
-          "name": "My Dad Can Fix Anything",
+          "id": -102005,
+          "name": "\"Saved by the Bell: The New Class\" Wrestling with Failure - USA Network broadcast with commercials",
           "season_number": 1,
           "episode_number": 5,
           "air_date": null,
@@ -68,8 +68,8 @@
           "still_path": null
         },
         {
-          "id": -40006,
-          "name": "Me and Roger",
+          "id": -102006,
+          "name": "Cast Hosts \"Who Shrunk Saturday Mornings Special\" (1989)",
           "season_number": 1,
           "episode_number": 6,
           "air_date": null,
@@ -77,8 +77,8 @@
           "still_path": null
         },
         {
-          "id": -40007,
-          "name": "The Big Sweep",
+          "id": -102007,
+          "name": "Zack Lies About His Age | Saved by the Bell",
           "season_number": 1,
           "episode_number": 7,
           "air_date": null,
@@ -86,8 +86,8 @@
           "still_path": null
         },
         {
-          "id": -40008,
-          "name": "The Night of the Living Pumpkin",
+          "id": -102008,
+          "name": "Become A Better Person",
           "season_number": 1,
           "episode_number": 8,
           "air_date": null,
@@ -95,8 +95,8 @@
           "still_path": null
         },
         {
-          "id": -40009,
-          "name": "Beach Blanket Bobby",
+          "id": -102009,
+          "name": "Zack Writes Love Letters For Screech | Saved by the Bell",
           "season_number": 1,
           "episode_number": 9,
           "air_date": null,
@@ -104,8 +104,8 @@
           "still_path": null
         },
         {
-          "id": -40010,
-          "name": "The Revenge of Dr. Noo",
+          "id": -102010,
+          "name": "Dream Team: Zack and Nikki are Paired Up | Saved by the Bell",
           "season_number": 1,
           "episode_number": 10,
           "air_date": null,
@@ -113,8 +113,8 @@
           "still_path": null
         },
         {
-          "id": -40011,
-          "name": "In Search of the Ring Bear",
+          "id": -102011,
+          "name": "Zack Morris: Wall Street Investor | Saved by the Bell",
           "season_number": 1,
           "episode_number": 11,
           "air_date": null,
@@ -122,8 +122,8 @@
           "still_path": null
         },
         {
-          "id": -40012,
-          "name": "See America Last",
+          "id": -102012,
+          "name": "Nicki Refuses to Dissect Frogs | Saved by the Bell",
           "season_number": 1,
           "episode_number": 12,
           "air_date": null,
@@ -131,8 +131,8 @@
           "still_path": null
         },
         {
-          "id": -40013,
-          "name": "Bobby's Big Broadcast",
+          "id": -102013,
+          "name": "Motivation Discipline Routine Persistence",
           "season_number": 1,
           "episode_number": 13,
           "air_date": null,
@@ -140,8 +140,8 @@
           "still_path": null
         },
         {
-          "id": -40014,
-          "name": "Three Kids and a Baby",
+          "id": -102014,
+          "name": "Zack's Dad Has the Hots for Miss Bliss | Saved by the Bell",
           "season_number": 1,
           "episode_number": 14,
           "air_date": null,
@@ -149,8 +149,8 @@
           "still_path": null
         },
         {
-          "id": -40015,
-          "name": "Suspects, Lies, and Videotape",
+          "id": -102015,
+          "name": "Miss Bliss' Former Teacher Returns | Saved by the Bell",
           "season_number": 1,
           "episode_number": 15,
           "air_date": null,
@@ -158,8 +158,8 @@
           "still_path": null
         },
         {
-          "id": -40016,
-          "name": "Clubhouse Bobby",
+          "id": -102016,
+          "name": "Screech Stands Up to the Bully | Saved by the Bell",
           "season_number": 1,
           "episode_number": 16,
           "air_date": null,
@@ -167,8 +167,8 @@
           "still_path": null
         },
         {
-          "id": -40017,
-          "name": "Nightmare on Bobby's Street",
+          "id": -102017,
+          "name": "Zack and Mikey Ask the Same Girl to the Dance | Saved by the Bell",
           "season_number": 1,
           "episode_number": 17,
           "air_date": null,
@@ -176,8 +176,8 @@
           "still_path": null
         },
         {
-          "id": -40018,
-          "name": "Caution: Bobby at Work",
+          "id": -102018,
+          "name": "Zack is HUMILIATED by Older Students | Saved by the Bell",
           "season_number": 1,
           "episode_number": 18,
           "air_date": null,
@@ -185,8 +185,8 @@
           "still_path": null
         },
         {
-          "id": -40019,
-          "name": "Total Recess",
+          "id": -102019,
+          "name": "Zack bets Nikki he can Kiss Stevie the Singer | Saved by the Bell",
           "season_number": 1,
           "episode_number": 19,
           "air_date": null,
@@ -194,8 +194,8 @@
           "still_path": null
         },
         {
-          "id": -40020,
-          "name": "Chariots of Bobby",
+          "id": -102020,
+          "name": "Zack Cancels the Midterms | Saved by the Bell",
           "season_number": 1,
           "episode_number": 20,
           "air_date": null,
@@ -203,8 +203,8 @@
           "still_path": null
         },
         {
-          "id": -40021,
-          "name": "Bobby's Birthday Bash",
+          "id": -102021,
+          "name": "Turning Pranks into Lessons | Saved by the Bell",
           "season_number": 1,
           "episode_number": 21,
           "air_date": null,
@@ -212,8 +212,8 @@
           "still_path": null
         },
         {
-          "id": -40022,
-          "name": "Bobby's Tooth or Dare",
+          "id": -102022,
+          "name": "Zack's Midterm Secret",
           "season_number": 1,
           "episode_number": 22,
           "air_date": null,
@@ -221,8 +221,8 @@
           "still_path": null
         },
         {
-          "id": -40023,
-          "name": "Bobby's Big Move",
+          "id": -102023,
+          "name": "Lisa's Bad Day at Work",
           "season_number": 1,
           "episode_number": 23,
           "air_date": null,
@@ -230,8 +230,8 @@
           "still_path": null
         },
         {
-          "id": -40024,
-          "name": "Bad News Bobby",
+          "id": -102024,
+          "name": "Dancing to the Max with Casey Kasem",
           "season_number": 1,
           "episode_number": 24,
           "air_date": null,
@@ -239,8 +239,8 @@
           "still_path": null
         },
         {
-          "id": -40025,
-          "name": "Swim By Me",
+          "id": -102025,
+          "name": "Daddy's Money | Saved by the Bell",
           "season_number": 1,
           "episode_number": 25,
           "air_date": null,
@@ -248,8 +248,8 @@
           "still_path": null
         },
         {
-          "id": -40026,
-          "name": "The Play's the Thing",
+          "id": -102026,
+          "name": "Screech the Fortune Teller | Saved by the Bell",
           "season_number": 1,
           "episode_number": 26,
           "air_date": null,
@@ -257,8 +257,8 @@
           "still_path": null
         },
         {
-          "id": -40027,
-          "name": "Fish Tales",
+          "id": -102027,
+          "name": "Zack Spies on Girls | Saved by the Bell",
           "season_number": 1,
           "episode_number": 27,
           "air_date": null,
@@ -266,8 +266,8 @@
           "still_path": null
         },
         {
-          "id": -40028,
-          "name": "The Music",
+          "id": -102028,
+          "name": "Zack Morris, The Ultimate Wingman | Saved by the Bell",
           "season_number": 1,
           "episode_number": 28,
           "air_date": null,
@@ -275,8 +275,8 @@
           "still_path": null
         },
         {
-          "id": -40029,
-          "name": "Misery Loves Company",
+          "id": -102029,
+          "name": "Zack Tries to kick Slater Out | Saved by the Bell",
           "season_number": 1,
           "episode_number": 29,
           "air_date": null,
@@ -284,8 +284,8 @@
           "still_path": null
         },
         {
-          "id": -40030,
-          "name": "Bobby Phone Home",
+          "id": -102030,
+          "name": "The Hot Sub | Saved by the Bell",
           "season_number": 1,
           "episode_number": 30,
           "air_date": null,
@@ -293,8 +293,8 @@
           "still_path": null
         },
         {
-          "id": -40031,
-          "name": "Baby Brother Blues",
+          "id": -102031,
+          "name": "Screech Makes a Zit Cream | Saved by the Bell",
           "season_number": 1,
           "episode_number": 31,
           "air_date": null,
@@ -302,8 +302,8 @@
           "still_path": null
         },
         {
-          "id": -40032,
-          "name": "Bobby's Girl",
+          "id": -102032,
+          "name": "A Losing Bet | Saved by the Bell",
           "season_number": 1,
           "episode_number": 32,
           "air_date": null,
@@ -311,8 +311,8 @@
           "still_path": null
         },
         {
-          "id": -40033,
-          "name": "Ill Effects",
+          "id": -102033,
+          "name": "Falling for Screech | Saved by the Bell",
           "season_number": 1,
           "episode_number": 33,
           "air_date": null,
@@ -320,8 +320,8 @@
           "still_path": null
         },
         {
-          "id": -40034,
-          "name": "I Want My Mommy",
+          "id": -102034,
+          "name": "Buddy Bands | Saved by the Bell",
           "season_number": 1,
           "episode_number": 34,
           "air_date": null,
@@ -329,8 +329,8 @@
           "still_path": null
         },
         {
-          "id": -40035,
-          "name": "The Hero",
+          "id": -102035,
+          "name": "Pretend Marriage | Saved by the Bell",
           "season_number": 1,
           "episode_number": 35,
           "air_date": null,
@@ -338,8 +338,8 @@
           "still_path": null
         },
         {
-          "id": -40036,
-          "name": "Uncle Ted's New Friend",
+          "id": -102036,
+          "name": "The School Election | Saved by the Bell",
           "season_number": 1,
           "episode_number": 36,
           "air_date": null,
@@ -347,8 +347,8 @@
           "still_path": null
         },
         {
-          "id": -40037,
-          "name": "The World Accordion to Bobby",
+          "id": -102037,
+          "name": "Zack's Love Schemes | Saved by the Bell",
           "season_number": 1,
           "episode_number": 37,
           "air_date": null,
@@ -356,8 +356,8 @@
           "still_path": null
         },
         {
-          "id": -40038,
-          "name": "Bobby Ties the Knot",
+          "id": -102038,
+          "name": "Screech Gets Kidnapped | Saved by the Bell",
           "season_number": 1,
           "episode_number": 38,
           "air_date": null,
@@ -365,8 +365,8 @@
           "still_path": null
         },
         {
-          "id": -40039,
-          "name": "Jets, Choo-Choos, and Cars",
+          "id": -102039,
+          "name": "Screech and Lisa's Iconic Dance | Saved by the Bell",
           "season_number": 1,
           "episode_number": 39,
           "air_date": null,
@@ -374,8 +374,8 @@
           "still_path": null
         },
         {
-          "id": -40040,
-          "name": "Karate Bobby",
+          "id": -102040,
+          "name": "Subliminal Messaging",
           "season_number": 1,
           "episode_number": 40,
           "air_date": null,
@@ -383,8 +383,8 @@
           "still_path": null
         },
         {
-          "id": -40041,
-          "name": "A Day With Dad",
+          "id": -102041,
+          "name": "Babysitters",
           "season_number": 1,
           "episode_number": 41,
           "air_date": null,
@@ -392,8 +392,8 @@
           "still_path": null
         },
         {
-          "id": -40042,
-          "name": "Psycho Bobby",
+          "id": -102042,
+          "name": "Slater Asks Jessie Out",
           "season_number": 1,
           "episode_number": 42,
           "air_date": null,
@@ -401,8 +401,8 @@
           "still_path": null
         },
         {
-          "id": -40043,
-          "name": "The Smell of a Tattletale",
+          "id": -102043,
+          "name": "\"I'm So Excited\": Jessie's Caffeine Pill Addiction",
           "season_number": 1,
           "episode_number": 43,
           "air_date": null,
@@ -410,8 +410,8 @@
           "still_path": null
         },
         {
-          "id": -40044,
-          "name": "It's My Party",
+          "id": -102044,
+          "name": "Kelly's Dream Prom Date | Saved by the Bell",
           "season_number": 1,
           "episode_number": 44,
           "air_date": null,
@@ -419,8 +419,8 @@
           "still_path": null
         },
         {
-          "id": -40045,
-          "name": "One Clump Or Two",
+          "id": -102045,
+          "name": "Screech's House Party | Saved by the Bell",
           "season_number": 1,
           "episode_number": 45,
           "air_date": null,
@@ -428,8 +428,8 @@
           "still_path": null
         },
         {
-          "id": -40046,
-          "name": "Bobby's Big Dream",
+          "id": -102046,
+          "name": "Slater's New Ride | Saved by the Bell",
           "season_number": 1,
           "episode_number": 46,
           "air_date": null,
@@ -437,8 +437,8 @@
           "still_path": null
         },
         {
-          "id": -40047,
-          "name": "Bobby, The Musical",
+          "id": -102047,
+          "name": "Bayside's Radio | Saved by the Bell",
           "season_number": 1,
           "episode_number": 47,
           "air_date": null,
@@ -446,8 +446,8 @@
           "still_path": null
         },
         {
-          "id": -40048,
-          "name": "Rebel Without a Clue",
+          "id": -102048,
+          "name": "The Best Halloween Costumes Ever 🎃 | Saved by the Bell",
           "season_number": 1,
           "episode_number": 48,
           "air_date": null,
@@ -455,8 +455,8 @@
           "still_path": null
         },
         {
-          "id": -40049,
-          "name": "Geriatric Park",
+          "id": -102049,
+          "name": "Jessie Goes on a Blind Date",
           "season_number": 1,
           "episode_number": 49,
           "air_date": null,
@@ -464,8 +464,8 @@
           "still_path": null
         },
         {
-          "id": -40050,
-          "name": "Harry Takes a Powder",
+          "id": -102050,
+          "name": "Beauty Pageant",
           "season_number": 1,
           "episode_number": 50,
           "air_date": null,
@@ -473,8 +473,8 @@
           "still_path": null
         },
         {
-          "id": -40051,
-          "name": "Bobby's Big Boo Boo",
+          "id": -102051,
+          "name": "Old School Music Video",
           "season_number": 1,
           "episode_number": 51,
           "air_date": null,
@@ -482,8 +482,8 @@
           "still_path": null
         },
         {
-          "id": -40052,
-          "name": "Mom On Wheels",
+          "id": -102052,
+          "name": "Girls of Bayside Calendar",
           "season_number": 1,
           "episode_number": 52,
           "air_date": null,
@@ -491,8 +491,8 @@
           "still_path": null
         },
         {
-          "id": -40053,
-          "name": "Weekend at Teddie's",
+          "id": -102053,
+          "name": "Slater's in Trouble",
           "season_number": 1,
           "episode_number": 53,
           "air_date": null,
@@ -500,8 +500,8 @@
           "still_path": null
         },
         {
-          "id": -40054,
-          "name": "Generics Under Construction",
+          "id": -102054,
+          "name": "Slater Rescues a Girl at the Beach",
           "season_number": 1,
           "episode_number": 54,
           "air_date": null,
@@ -509,8 +509,8 @@
           "still_path": null
         },
         {
-          "id": -40055,
-          "name": "Mrs. Noogiefire",
+          "id": -102055,
+          "name": "Yearbook Video",
           "season_number": 1,
           "episode_number": 55,
           "air_date": null,
@@ -518,8 +518,8 @@
           "still_path": null
         },
         {
-          "id": -40056,
-          "name": "Bobby Slicker",
+          "id": -102056,
+          "name": "The Belding Bros",
           "season_number": 1,
           "episode_number": 56,
           "air_date": null,
@@ -527,8 +527,8 @@
           "still_path": null
         },
         {
-          "id": -40057,
-          "name": "No Sale",
+          "id": -102057,
+          "name": "Babe Heaven",
           "season_number": 1,
           "episode_number": 57,
           "air_date": null,
@@ -536,8 +536,8 @@
           "still_path": null
         },
         {
-          "id": -40058,
-          "name": "Who You Gonna Call?",
+          "id": -102058,
+          "name": "The Gang Goes to a Murder Mystery Mansion",
           "season_number": 1,
           "episode_number": 58,
           "air_date": null,
@@ -545,8 +545,8 @@
           "still_path": null
         },
         {
-          "id": -40059,
-          "name": "Starring Bobby",
+          "id": -102059,
+          "name": "Zack and Kelly Break Up",
           "season_number": 1,
           "episode_number": 59,
           "air_date": null,
@@ -554,8 +554,8 @@
           "still_path": null
         },
         {
-          "id": -40060,
-          "name": "The Truth About Aunt Ruth",
+          "id": -102060,
+          "name": "Iconic Bayside Drug Commercial | Saved by the Bell",
           "season_number": 1,
           "episode_number": 60,
           "air_date": null,
@@ -563,8 +563,8 @@
           "still_path": null
         },
         {
-          "id": -40061,
-          "name": "Bobby Online",
+          "id": -102061,
+          "name": "Snow White and the 7 Dorks | Saved by the Bell",
           "season_number": 1,
           "episode_number": 61,
           "air_date": null,
@@ -572,8 +572,8 @@
           "still_path": null
         },
         {
-          "id": -40062,
-          "name": "Bobby the Genius",
+          "id": -102062,
+          "name": "Oil Spill",
           "season_number": 1,
           "episode_number": 62,
           "air_date": null,
@@ -581,8 +581,8 @@
           "still_path": null
         },
         {
-          "id": -40063,
-          "name": "Hooked On Caps",
+          "id": -102063,
+          "name": "Mr. Belding's Hot Shot Brother",
           "season_number": 1,
           "episode_number": 63,
           "air_date": null,
@@ -590,8 +590,8 @@
           "still_path": null
         },
         {
-          "id": -40064,
-          "name": "Bobby's Last Stand",
+          "id": -102064,
+          "name": "Beach Volleyball",
           "season_number": 1,
           "episode_number": 64,
           "air_date": null,
@@ -599,8 +599,8 @@
           "still_path": null
         },
         {
-          "id": -40065,
-          "name": "Miracle On 34th St. & Rural Route 1",
+          "id": -102065,
+          "name": "Screech's Spaghetti Sauce",
           "season_number": 1,
           "episode_number": 65,
           "air_date": null,
@@ -608,8 +608,8 @@
           "still_path": null
         },
         {
-          "id": -40066,
-          "name": "Just Plain Sleepless",
+          "id": -102066,
+          "name": "Slater Gets a Secret Admirer",
           "season_number": 1,
           "episode_number": 66,
           "air_date": null,
@@ -617,8 +617,8 @@
           "still_path": null
         },
         {
-          "id": -40067,
-          "name": "Bobby, Lord of the Slopes",
+          "id": -102067,
+          "name": "The Teachers Go on Strike",
           "season_number": 1,
           "episode_number": 67,
           "air_date": null,
@@ -626,8 +626,8 @@
           "still_path": null
         },
         {
-          "id": -40068,
-          "name": "Time After Time",
+          "id": -102068,
+          "name": "When You Find $5,000 in the Mall",
           "season_number": 1,
           "episode_number": 68,
           "air_date": null,
@@ -635,8 +635,8 @@
           "still_path": null
         },
         {
-          "id": -40069,
-          "name": "Independence Bobby",
+          "id": -102069,
+          "name": "Flirting With the Aerobics Girl",
           "season_number": 1,
           "episode_number": 69,
           "air_date": null,
@@ -644,8 +644,8 @@
           "still_path": null
         },
         {
-          "id": -40070,
-          "name": "Bobby the Candidate",
+          "id": -102070,
+          "name": "Zack and Slater Fight | Saved by the Bell",
           "season_number": 1,
           "episode_number": 70,
           "air_date": null,
@@ -653,8 +653,8 @@
           "still_path": null
         },
         {
-          "id": -40071,
-          "name": "The Importance of Being Ernest",
+          "id": -102071,
+          "name": "Slater Can't Wrap Presents",
           "season_number": 1,
           "episode_number": 71,
           "air_date": null,
@@ -662,8 +662,8 @@
           "still_path": null
         },
         {
-          "id": -40072,
-          "name": "Bad Manners Bobby",
+          "id": -102072,
+          "name": "The Gang do Christmas",
           "season_number": 1,
           "episode_number": 72,
           "air_date": null,
@@ -671,8 +671,8 @@
           "still_path": null
         },
         {
-          "id": -40073,
-          "name": "Roger's Ransom",
+          "id": -102073,
+          "name": "Christmas Special",
           "season_number": 1,
           "episode_number": 73,
           "air_date": null,
@@ -680,8 +680,8 @@
           "still_path": null
         },
         {
-          "id": -40074,
-          "name": "Cooties",
+          "id": -102074,
+          "name": "Zack's Surprise at the Beach",
           "season_number": 1,
           "episode_number": 74,
           "air_date": null,
@@ -689,8 +689,8 @@
           "still_path": null
         },
         {
-          "id": -40075,
-          "name": "Promises, Promises",
+          "id": -102075,
+          "name": "New Girl Tori",
           "season_number": 1,
           "episode_number": 75,
           "air_date": null,
@@ -698,8 +698,8 @@
           "still_path": null
         },
         {
-          "id": -40076,
-          "name": "Generics and Indian",
+          "id": -102076,
+          "name": "Teen Hotline",
           "season_number": 1,
           "episode_number": 76,
           "air_date": null,
@@ -707,8 +707,8 @@
           "still_path": null
         },
         {
-          "id": -40077,
-          "name": "It's a Generic Life",
+          "id": -102077,
+          "name": "The Masquerade Ball",
           "season_number": 1,
           "episode_number": 77,
           "air_date": null,
@@ -716,8 +716,8 @@
           "still_path": null
         },
         {
-          "id": -40078,
-          "name": "Cruisin' Bobby",
+          "id": -102078,
+          "name": "A Day in Detention",
           "season_number": 1,
           "episode_number": 78,
           "air_date": null,
@@ -725,8 +725,8 @@
           "still_path": null
         },
         {
-          "id": -40079,
-          "name": "Dad's Big Day",
+          "id": -102079,
+          "name": "Drink Driving",
           "season_number": 1,
           "episode_number": 79,
           "air_date": null,
@@ -734,8 +734,8 @@
           "still_path": null
         },
         {
-          "id": -40080,
-          "name": "Blue Eggs and Bobby",
+          "id": -102080,
+          "name": "Ring Salesman",
           "season_number": 1,
           "episode_number": 80,
           "air_date": null,
@@ -743,10 +743,28 @@
           "still_path": null
         },
         {
-          "id": -40081,
-          "name": "Back to the Furniture",
+          "id": -102081,
+          "name": "Boys vs. Girls",
           "season_number": 1,
           "episode_number": 81,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -102082,
+          "name": "Vote for Screech!",
+          "season_number": 1,
+          "episode_number": 82,
+          "air_date": null,
+          "runtime": null,
+          "still_path": null
+        },
+        {
+          "id": -102083,
+          "name": "We Cannot Take You With Us",
+          "season_number": 1,
+          "episode_number": 83,
           "air_date": null,
           "runtime": null,
           "still_path": null
