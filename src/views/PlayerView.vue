@@ -12,6 +12,7 @@ import {
   loadYoutubeApi,
   type YtPlayer,
 } from '../player/youtubeApi';
+import AudioTrackNotice from '../components/AudioTrackNotice.vue';
 import type { PublicEpisode } from '../types';
 
 const props = defineProps<{ slug: string; season: string; episode: string }>();
@@ -40,6 +41,20 @@ const season = computed(() => series.value?.seasons.find((s) => s.season === sea
 const episode = computed<PublicEpisode | null>(
   () => season.value?.episodes.find((e) => e.episode === episodeNumber.value) ?? null,
 );
+
+/**
+ * Dutch when this video carries a Nederlands audiospoor that is not the one it
+ * starts with, otherwise null.
+ *
+ * The archive is Dutch-first, so on demand there is only ever one language
+ * worth switching to. The live player asks a sharper version of this question,
+ * because there the station decides which language the broadcast is *for*.
+ */
+const dubbedAudio = computed(() => {
+  const current = episode.value;
+  if (!current || current.defaultAudioLanguage === 'nl') return null;
+  return current.audioLanguages.includes('nl') ? ('nl' as const) : null;
+});
 
 /**
  * The next playable episode in *this* season. When the season ends, playback
@@ -109,7 +124,11 @@ async function syncPlayer(videoId: string | null): Promise<void> {
   player = new YT.Player(element, {
     host: NOCOOKIE_HOST,
     videoId,
-    playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
+    // `hl` sets the player's own interface language. It is not an audio-track
+    // control — YouTube offers none — but it is what makes the settings menu
+    // read "Audiotrack" instead of "Audio track", which is the wording
+    // AudioTrackNotice points the viewer at.
+    playerVars: { rel: 0, modestbranding: 1, playsinline: 1, hl: 'nl' },
     events: {
       onReady: (event) => allowIframeFullscreen(event.target),
       onStateChange: (event) => {
@@ -147,6 +166,7 @@ onBeforeUnmount(destroyPlayer);
             {{ AVAILABILITY_LABELS.missing }}
           </div>
         </div>
+        <AudioTrackNotice v-if="dubbedAudio" :language="dubbedAudio" />
         <!-- The screen's own controls. YouTube's bar sits at the bottom edge of
              the embed, which on a wide window used to be below the fold: the
              viewer had to scroll to find the one button that would have fixed

@@ -325,6 +325,9 @@ export function derivePlaylistSeries(args: {
         playlistId === null
           ? { kind: 'video', id: video.youtubeId }
           : { kind: 'playlist', id: playlistId },
+      // Not looked up here: a playlist listing states a title and a length,
+      // never a track list. `scan-audio-tracks` reads that per video.
+      audioLanguages: null,
     });
   });
 

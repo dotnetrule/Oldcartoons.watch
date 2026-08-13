@@ -32,8 +32,18 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: npm run health-check
 
+      # Backfill, and re-checked on the same cadence. Runs after the health
+      # check so it spends no page fetches on videos that sweep just dropped,
+      # and only over rows nothing has read yet — a full archive scan happens
+      # once, then this is a handful of new episodes a week. `--limit` keeps a
+      # first run over an unscanned archive inside the job timeout; drop it
+      # once the backlog is gone.
+      - name: Read audio tracks
+        id: audio
+        run: npm run scan-audio -- --limit 400
+
       - name: Open a pull request for the diff
-        if: steps.health.outputs.changed == 'true'
+        if: steps.health.outputs.changed == 'true' || steps.audio.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           branch: health-check/weekly
@@ -50,6 +60,11 @@ jobs:
             has embedding disabled — the player cannot load either one. Episodes
             that gained or lost a region restriction flip between `available` and
             `region-locked` and stay playable.
+
+            The same run reads each video's audio tracks into `audioLanguages`.
+            A video that gains a Dutch dub becomes schedulable on a Dutch
+            station without its source changing language, so that half of the
+            diff adds broadcasts rather than removing them.
 
             See the workflow run summary for the per-episode diff.
           labels: health-check

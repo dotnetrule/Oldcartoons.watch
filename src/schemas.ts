@@ -62,6 +62,10 @@ export const episodeSchema = z
     status: episodeStatusSchema,
     checkedAt: z.string().min(1),
     source: episodeSourceSchema.nullable(),
+    // Defaulted rather than required: every record written before the audio
+    // scan existed lacks the key, and those are decisions the archive keeps.
+    // Null reads as 'not looked up yet', which is exactly what they are.
+    audioLanguages: z.array(contentLanguageSchema).nullable().default(null),
   })
   .superRefine((ep, ctx) => {
     // The spec's headline invariant: a non-null id with status 'missing' is
@@ -86,6 +90,16 @@ export const episodeSchema = z
         code: z.ZodIssueCode.custom,
         path: ['source'],
         message: 'youtubeId and source must both be set or both be null',
+      });
+    }
+    // Audio tracks describe a video. A row that lost its video keeps no
+    // reading of one, or the health check would leave a claim about a file
+    // nobody can play behind.
+    if (ep.youtubeId === null && ep.audioLanguages !== null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['audioLanguages'],
+        message: 'youtubeId is null but audioLanguages is set — a row with no video has no tracks',
       });
     }
   });
@@ -520,6 +534,8 @@ export const publicEpisodeSchema = z.object({
   status: episodeStatusSchema,
   youtubeId: youtubeIdSchema.nullable(),
   still: z.string().startsWith('/').nullable(),
+  defaultAudioLanguage: contentLanguageSchema.nullable(),
+  audioLanguages: z.array(contentLanguageSchema),
 });
 
 export const publicSeasonSchema = z.object({
@@ -544,6 +560,7 @@ export const seriesFileSchema = z.object({
   episodeCount: z.number().int().nonnegative(),
   availableCount: z.number().int().nonnegative(),
   availableLanguages: z.array(contentLanguageSchema),
+  dubbedLanguages: z.array(contentLanguageSchema),
   backdrop: z.string().startsWith('/').nullable(),
   poster: z.string().startsWith('/').nullable(),
   seasons: z.array(publicSeasonSchema),
@@ -564,6 +581,7 @@ export const seriesStubSchema = z.object({
   episodeCount: z.number().int().nonnegative(),
   availableCount: z.number().int().nonnegative(),
   availableLanguages: z.array(contentLanguageSchema),
+  dubbedLanguages: z.array(contentLanguageSchema),
   poster: z.string().startsWith('/').nullable(),
 });
 

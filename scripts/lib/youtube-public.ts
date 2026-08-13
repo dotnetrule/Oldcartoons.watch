@@ -432,13 +432,13 @@ async function readOembedTitle(videoId: string): Promise<string | null> {
 }
 
 /**
- * The watch page's `lengthSeconds`, or null when the page will not say.
+ * One watch page's `ytInitialPlayerResponse`, or null when it will not say.
  *
- * Never throws. A missing length is a slot the schedule has to estimate, and
- * that is not worth failing an ingest over — the caller has already got the
- * video's identity from a source that does answer.
+ * Never throws: every caller of this is reading a detail that improves a row
+ * rather than one that decides whether the row exists, and a page that stays
+ * quiet is not worth failing an ingest over.
  */
-async function readWatchPageDuration(videoId: string): Promise<number | null> {
+async function getWatchPagePlayerResponse(videoId: string): Promise<JsonObject | null> {
   try {
     const res = await fetch(
       `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}&hl=en`,
@@ -447,19 +447,133 @@ async function readWatchPageDuration(videoId: string): Promise<number | null> {
     if (!res.ok) return null;
 
     const player = extractJsonBlob(await res.text(), 'ytInitialPlayerResponse');
-    const details = isObject(player) ? player['videoDetails'] : null;
-    if (!isObject(details)) return null;
+    if (!isObject(player)) return null;
 
     // A page that answered about a different id was redirected to something
-    // else, and its length describes that other video.
-    if (typeof details['videoId'] === 'string' && details['videoId'] !== videoId) return null;
+    // else, and everything on it describes that other video.
+    const details = player['videoDetails'];
+    if (isObject(details) && typeof details['videoId'] === 'string' && details['videoId'] !== videoId) {
+      return null;
+    }
 
-    // A live stream reports zero, which is not a length.
-    const seconds = Number(details['lengthSeconds']);
-    return Number.isFinite(seconds) && seconds > 0 ? Math.round(seconds) : null;
+    return player;
   } catch {
     return null;
   }
+}
+
+/**
+ * The watch page's `lengthSeconds`, or null when the page will not say.
+ *
+ * A missing length is a slot the schedule has to estimate — the caller has
+ * already got the video's identity from a source that does answer.
+ */
+async function readWatchPageDuration(videoId: string): Promise<number | null> {
+  const player = await getWatchPagePlayerResponse(videoId);
+  const details = isObject(player) ? player['videoDetails'] : null;
+  if (!isObject(details)) return null;
+
+  // A live stream reports zero, which is not a length.
+  const seconds = Number(details['lengthSeconds']);
+  return Number.isFinite(seconds) && seconds > 0 ? Math.round(seconds) : null;
+}
+
+/**
+ * `nl.4`, `en-US`, `es-419` → `nl`, `en`, `es`. Null for anything that is not
+ * a language tag.
+ *
+ * YouTube writes an audio track id as the language plus a disambiguator it
+ * owns, and the archive curates whole languages rather than regional variants.
+ */
+function primaryLanguageSubtag(value: unknown): string | null {
+  if (typeof value !== 'string') return null;
+  const subtag = value.split(/[.\-_]/, 1)[0]?.toLowerCase() ?? '';
+  return /^[a-z]{2,3}$/.test(subtag) ? subtag : null;
+}
+
+/**
+ * Every language this video carries an audio track for, or null when the page
+ * said nothing about its tracks at all.
+ *
+ * A YouTube upload can carry dubs alongside its original audio, and no part of
+ * the Data API will admit it: `snippet.defaultAudioLanguage` names the track
+ * that plays by default and stops there. The list only exists in the watch
+ * page's `ytInitialPlayerResponse`, in two places, and this reads both:
+ *
+ *   • `streamingData.adaptiveFormats[].audioTrack.id` — the authoritative one,
+ *     one entry per stream, each tagged with the language it carries.
+ *   • `captions.playerCaptionsTracklistRenderer.audioTracks[]` — the picker the
+ *     player draws. Read only when it lists more than one track, because a
+ *     single-track video's entry indexes *subtitle* languages and would report
+ *     every translation as a dub.
+ *
+ * Three answers, and the difference between the last two is what makes the
+ * scan repeatable:
+ *
+ *   • null — the page carried no track information: blocked, age-gated, or
+ *     served to a datacentre IP as a shell. Ask again another day.
+ *   • []   — the page described its streams and none of them named a language.
+ *     That is an ordinary single-track upload.
+ *   • [..] — the languages on offer, the default one included.
+ *
+ * Never throws, for the same reason `readWatchPageDuration` does not.
+ */
+export async function readAudioTrackLanguages(videoId: string): Promise<string[] | null> {
+  const player = await getWatchPagePlayerResponse(videoId);
+  if (player === null) return null;
+
+  const languages = new Set<string>();
+
+  const streamingData = player['streamingData'];
+  for (const track of collect(streamingData, 'audioTrack')) {
+    if (!isObject(track)) continue;
+    const language = primaryLanguageSubtag(track['id']);
+    if (language) languages.add(language);
+  }
+
+  // Did the page describe its streams at all? Without this the caller cannot
+  // tell a single-track video from a page that refused to talk about streams,
+  // and would write "one track" over a video it never actually read.
+  const describedStreams = collect(streamingData, 'adaptiveFormats').some(
+    (formats) => Array.isArray(formats) && formats.length > 0,
+  );
+
+  const tracklist = findFirst(player['captions'], 'playerCaptionsTracklistRenderer');
+  const audioTracks = isObject(tracklist) ? tracklist['audioTracks'] : null;
+  const captionTracks = isObject(tracklist) ? tracklist['captionTracks'] : null;
+  const describedPicker = Array.isArray(audioTracks) && audioTracks.length > 1;
+
+  if (languages.size === 0 && describedPicker) {
+    for (const track of audioTracks) {
+      if (!isObject(track)) continue;
+
+      // The entry's own id when it carries one; otherwise the caption track it
+      // defaults to, which for a dubbed track is the caption in that dub's
+      // language.
+      const direct = primaryLanguageSubtag(track['audioTrackId']);
+      if (direct) {
+        languages.add(direct);
+        continue;
+      }
+
+      const indices = track['captionTrackIndices'];
+      const index =
+        typeof track['defaultCaptionTrackIndex'] === 'number'
+          ? track['defaultCaptionTrackIndex']
+          : Array.isArray(indices) && typeof indices[0] === 'number'
+            ? indices[0]
+            : null;
+      if (index === null || !Array.isArray(captionTracks)) continue;
+
+      const caption = captionTracks[index];
+      const language = isObject(caption) ? primaryLanguageSubtag(caption['languageCode']) : null;
+      if (language) languages.add(language);
+    }
+  }
+
+  if (languages.size === 0 && !describedStreams && !describedPicker) return null;
+
+  return [...languages].sort();
 }
 
 /** Read a public playlist's title and owner without an API key. */

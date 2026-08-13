@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import AudioTrackNotice from '../components/AudioTrackNotice.vue';
 import NetworkLogo from '../components/NetworkLogo.vue';
 import { useContentStore } from '../stores/content';
 import { useUiStore } from '../stores/ui';
@@ -94,6 +95,21 @@ const nextAllowed = computed<Broadcast | null>(() => {
     if (!isLockedBroadcast(item)) return item;
   }
   return null;
+});
+
+/**
+ * The language this broadcast is *for*, when the video does not start in it.
+ *
+ * Decided at build time and carried on the broadcast rather than worked out
+ * here, because the player only knows which video is loaded — not which
+ * station's schedule chose it, or what language that station broadcasts in.
+ * That difference is exactly what the viewer has to be told about: an English
+ * upload with a Nederlands audiospoor is a legitimate item on a Dutch channel,
+ * and it still starts in English.
+ */
+const dubbedAudio = computed(() => {
+  const value = current.value?.metadata['dubbedAudio'];
+  return value === 'nl' || value === 'en' ? value : null;
 });
 
 /** Nothing is on the screen worth watching: the picture gives way to a card. */
@@ -274,6 +290,11 @@ async function syncPlayer(): Promise<void> {
       playsinline: 1,
       rel: 0,
       start: Math.floor(offset),
+      // Interface language only. YouTube gives an embed no way to choose an
+      // audio track, so this does not select the dub — it makes the settings
+      // menu read "Audiotrack", which is where AudioTrackNotice sends the
+      // viewer.
+      hl: 'nl',
     },
     // One player instance outlives many broadcasts: `loadVideoById` above swaps
     // the video without rebuilding it, so these handlers must report against
@@ -439,6 +460,12 @@ onBeforeUnmount(() => {
         <div v-show="!isInterlude" class="video-frame">
           <div ref="mount" class="yt-mount"></div>
         </div>
+        <!-- Above the picture rather than inside the overlay: the overlay
+             fades itself out after a few seconds, and this is the one thing on
+             screen a viewer may need to read after the menu has gone. -->
+        <div v-if="dubbedAudio && !isInterlude" class="audio-notice-slot">
+          <AudioTrackNotice :language="dubbedAudio" />
+        </div>
         <div v-if="!playerReady && !isInterlude" class="tuning" :style="{ color: C.dim }">
           AFSTEMMEN OP {{ channel.name.toUpperCase() }}…
         </div>
@@ -571,6 +598,17 @@ onBeforeUnmount(() => {
   z-index: 1;
   background: #000;
   font-size: 10px;
+}
+
+/* Pinned to the top of the picture rather than laid out in it: everything on
+   this screen is absolutely positioned over the video, and the notice has to
+   sit above YouTube's own iframe to be clickable at all. */
+.audio-notice-slot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
 }
 
 .signal .network-logo {

@@ -58,6 +58,9 @@ async function selectCandidate(): Promise<void> {
     status: 'available',
     checkedAt: new Date().toISOString().slice(0, 10),
     source: candidate.source,
+    // A human accepting a candidate decides which video this episode is, not
+    // what is inside it. The audio scan reads that on its next run.
+    audioLanguages: null,
   };
 
   // Replace rather than append: there is exactly one record per episode, and

@@ -74,7 +74,22 @@ const decadeOf = (year: number): string => `${Math.floor(year / 10) * 10}s`;
 
 type ScheduleSeed = {
   networkSlug: string;
-  language: ContentLanguage;
+  /**
+   * Every language this episode can be heard in: the language of the source it
+   * came from, plus any dub measured on the video itself.
+   *
+   * A list rather than one value because a single upload can serve two
+   * stations. The safety rule the plural does *not* relax: a language only
+   * lands here after something read it off the video, never because a curator
+   * hoped for it.
+   */
+  languages: ContentLanguage[];
+  /**
+   * The track that plays without the viewer doing anything. When a channel
+   * schedules this episode for a language that is not this one, the live
+   * player has to tell the viewer where the switch is.
+   */
+  defaultLanguage: ContentLanguage;
   showSlug: string;
   showTitle: string;
   season: number;
@@ -234,6 +249,15 @@ function buildSchedule(
       },
       metadata: {
         runtimeEstimated: seed.runtimeSeconds === null && seed.runtime === null,
+        // The channel's language when this video does not start in it: the
+        // track exists, but the viewer has to pick it in the player. Null when
+        // the audio needs no intervention, which is the ordinary case.
+        //
+        // Decided here rather than in the player because the player knows what
+        // is loaded, not what the schedule chose it for — and it is precisely
+        // the difference between those two that the viewer has to be told
+        // about.
+        dubbedAudio: seed.defaultLanguage === channel.language ? null : channel.language,
         historicalGuide: historicalGuide?.id ?? null,
         requestedWeek: historicalGuide
           ? `${historicalGuide.requestedFrom}/${historicalGuide.requestedTo}`
@@ -539,20 +563,50 @@ function main(): void {
     const statusByEpisode = new Map(
       (episodesBySeries.get(source.tmdbId) ?? []).map((ep) => [`${ep.season}:${ep.episode}`, ep]),
     );
-    const languageByEpisode = new Map(
+    /**
+     * What one episode can be heard in.
+     *
+     * Two languages, kept apart on purpose. `defaultLanguage` is the source's:
+     * the track that plays when nobody intervenes, and the only claim a
+     * curator ever makes by hand. `languages` adds the dubs the audio scan
+     * measured on the video, which is the whole point of the field — an
+     * English upload carrying a Nederlandse track belongs on a Dutch station
+     * even though its source is honestly marked `en`.
+     *
+     * Null means no source, which means no episode to hear.
+     */
+    const audioOf = (
+      episode: Episode,
+    ): { defaultLanguage: ContentLanguage; languages: ContentLanguage[] } | null => {
+      if (!episode.source) return null;
+      const defaultLanguage = sourceLanguageByKey.get(
+        `${episode.source.kind}:${episode.source.id}`,
+      );
+      if (!defaultLanguage) return null;
+      // The scan writes the default track's own language too, so the union is
+      // the whole answer and the order never matters.
+      const languages = [...new Set([defaultLanguage, ...(episode.audioLanguages ?? [])])].sort();
+      return { defaultLanguage, languages };
+    };
+
+    const audioByEpisode = new Map(
       (episodesBySeries.get(source.tmdbId) ?? []).flatMap((episode) => {
-        if (!episode.source) return [];
-        const language = sourceLanguageByKey.get(`${episode.source.kind}:${episode.source.id}`);
-        return language ? [[`${episode.season}:${episode.episode}`, language] as const] : [];
+        const audio = audioOf(episode);
+        return audio ? [[`${episode.season}:${episode.episode}`, audio] as const] : [];
       }),
     );
-    const availableLanguages = [...new Set(
-      (episodesBySeries.get(source.tmdbId) ?? []).flatMap((episode) => {
-        if (episode.status === 'missing' || !episode.source) return [];
-        const language = sourceLanguageByKey.get(`${episode.source.kind}:${episode.source.id}`);
-        return language ? [language] : [];
-      }),
-    )].sort();
+
+    const playableAudio = (episodesBySeries.get(source.tmdbId) ?? []).flatMap((episode) =>
+      episode.status === 'missing' ? [] : (audioOf(episode) ?? []),
+    );
+    const availableLanguages = [...new Set(playableAudio.flatMap((audio) => audio.languages))].sort();
+    // A language nothing plays by default is reachable only through the
+    // player's own audio-track picker. The archive says so rather than
+    // colouring the series as if a Dutch upload existed.
+    const defaultLanguages = new Set(playableAudio.map((audio) => audio.defaultLanguage));
+    const dubbedLanguages = availableLanguages.filter(
+      (language) => !defaultLanguages.has(language),
+    );
 
     // Measured video lengths live on the metadata seed, not on the public
     // episode: a viewer reads the editorial runtime, the schedule needs the
@@ -572,6 +626,7 @@ function main(): void {
     for (const season of cache.seasons) {
       const publicEpisodes: PublicEpisode[] = season.episodes.map((episode) => {
         const record = statusByEpisode.get(`${episode.season_number}:${episode.episode_number}`);
+        const audio = audioByEpisode.get(`${episode.season_number}:${episode.episode_number}`);
         statusByEpisode.delete(`${episode.season_number}:${episode.episode_number}`);
 
         if (record && record.status !== 'missing') availableCount += 1;
@@ -590,6 +645,10 @@ function main(): void {
           status: record?.status ?? 'missing',
           youtubeId: record?.youtubeId ?? null,
           still: episode.still_path,
+          // Absent for a gap, and absent for a video whose tracks nobody has
+          // read yet — the player says nothing in either case.
+          defaultAudioLanguage: audio?.defaultLanguage ?? null,
+          audioLanguages: audio?.languages ?? [],
         };
       });
 
@@ -632,6 +691,7 @@ function main(): void {
       episodeCount: detail.number_of_episodes,
       availableCount,
       availableLanguages,
+      dubbedLanguages,
       backdrop: base.backdrop,
       poster: detail.poster_path,
       seasons,
@@ -645,7 +705,8 @@ function main(): void {
         for (const networkSlug of seriesFile.networkSlugs) {
           scheduleSeeds.push({
             networkSlug,
-            language: languageByEpisode.get(`${publicEpisode.season}:${publicEpisode.episode}`)!,
+            languages: publicEpisode.audioLanguages,
+            defaultLanguage: publicEpisode.defaultAudioLanguage!,
             showSlug: seriesFile.slug,
             showTitle: seriesFile.name,
             season: publicEpisode.season,
@@ -675,6 +736,7 @@ function main(): void {
       episodeCount: seriesFile.episodeCount,
       availableCount: seriesFile.availableCount,
       availableLanguages: seriesFile.availableLanguages,
+      dubbedLanguages: seriesFile.dubbedLanguages,
       poster: seriesFile.poster,
     });
   }
@@ -696,7 +758,9 @@ function main(): void {
       scheduleSeeds.filter(
         (seed) =>
           seed.networkSlug === channel.networkSlug &&
-          seed.language === channel.language &&
+          // `channel.language` is a plain string on the channel source, so this
+          // compares rather than casts.
+          seed.languages.some((language) => language === channel.language) &&
           (!guideSeries || guideSeries.has(seed.showSlug)),
       ),
       historicalGuide,
