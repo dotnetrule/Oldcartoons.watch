@@ -136,31 +136,47 @@ export type DerivedSeries = {
 };
 
 /**
- * Derive a series' episode list and metadata seed from its playlist.
+ * What owns this episode list, and therefore what each episode records as its
+ * provenance.
  *
- * `existing` is the series' current seed, which supplies everything the
- * playlist cannot: the show's name, overview, first air date and artwork.
- * Only the episode list is replaced — a playlist knows the episodes, not the
- * show.
+ * A playlist is one source holding many episodes: every row points back at the
+ * playlist, and a playlist that starts rotting is dropped as a unit. A
+ * hand-picked set is the opposite — the videos have nothing in common but the
+ * person who chose them, so each episode points at its own video and can be
+ * dropped alone.
+ */
+export type EpisodeListOrigin =
+  | { kind: 'playlist'; id: string }
+  | { kind: 'videos'; label: string };
+
+const originLabel = (origin: EpisodeListOrigin): string =>
+  origin.kind === 'playlist' ? `playlist ${origin.id}` : `video set '${origin.label}'`;
+
+/**
+ * Derive a series' episode list and metadata seed from the source that owns it.
+ *
+ * `existing` is the series' current seed, which supplies everything the source
+ * cannot: the show's name, overview, first air date and artwork. Only the
+ * episode list is replaced — a curated list knows the episodes, not the show.
  */
 export function derivePlaylistSeries(args: {
   source: SeriesSource;
   seriesName: string;
   existing: TmdbSeriesCache;
   videos: YoutubeVideo[];
-  playlistId: string;
+  origin: EpisodeListOrigin;
   today: string;
 }): DerivedSeries {
-  const { source, seriesName, existing, videos, playlistId, today } = args;
+  const { source, seriesName, existing, videos, origin, today } = args;
 
   if (videos.length === 0) {
     throw new Error(
-      `playlist ${playlistId} owns the episode list for '${source.slug}' but cached zero videos — re-run 'npm run fetch'`,
+      `${originLabel(origin)} owns the episode list for '${source.slug}' but cached zero videos — re-run 'npm run fetch'`,
     );
   }
   if (videos.length > MAX_EPISODES) {
     throw new Error(
-      `playlist ${playlistId} has ${videos.length} videos, past the ${MAX_EPISODES} an episode-list playlist can number for one series`,
+      `${originLabel(origin)} has ${videos.length} videos, past the ${MAX_EPISODES} an episode list can number for one series`,
     );
   }
 
@@ -191,12 +207,15 @@ export function derivePlaylistSeries(args: {
       season: SEASON,
       episode: position,
       youtubeId: video.youtubeId,
-      // The video is in the playlist, so it exists and is claimed playable.
+      // The source listed the video, so it exists and is claimed playable.
       // Embeddability and region locks are the health check's call, at ingest,
       // never at render.
       status: 'available',
       checkedAt: today,
-      source: { kind: 'playlist', id: playlistId },
+      source:
+        origin.kind === 'playlist'
+          ? { kind: 'playlist', id: origin.id }
+          : { kind: 'video', id: video.youtubeId },
     });
   });
 

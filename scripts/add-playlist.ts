@@ -51,13 +51,16 @@ function parsePlaylistId(input: string): string {
 
   const list = url.searchParams.get('list');
   if (!list) {
-    const video = url.searchParams.get('v');
+    const video = url.searchParams.get('v') ?? (url.hostname === 'youtu.be' ? url.pathname.slice(1) : null);
     throw new Error(
       `that URL has no 'list=' parameter, so it does not identify a playlist` +
         (video ? ` — '${video}' is a video id` : '') +
         `\n\nOpen the video from inside the playlist (click it in the playlist` +
         `\nsidebar, or use the playlist's own page) and the address bar will` +
-        `\nread ...&list=PLxxxxxxxx — that 'list' value is what this needs.`,
+        `\nread ...&list=PLxxxxxxxx — that 'list' value is what this needs.` +
+        `\n\nIf the videos were never gathered into a playlist at all, they still` +
+        `\nhave a home: list their ids under the series in content/videos.json,` +
+        `\nin the order they should be numbered. See AGENTS.md.`,
     );
   }
   return assertUsableId(list);

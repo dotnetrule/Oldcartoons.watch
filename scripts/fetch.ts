@@ -10,6 +10,7 @@ import {
   isPlaceholderTmdbId,
   playlistsFileSchema,
   seriesSourceFileSchema,
+  videoSetsFileSchema,
 } from '../src/schemas';
 import {
   CONTENT_DIR,
@@ -22,12 +23,17 @@ import {
   youtubeCachePath,
 } from './lib/paths';
 import { getImages, getSeason, getSeriesDetail, type TmdbSeriesCache } from './lib/tmdb';
-import { getUploadsPlaylistId, listPlaylistVideos, type YoutubeVideo } from './lib/youtube';
+import {
+  getUploadsPlaylistId,
+  listPlaylistVideos,
+  listVideos,
+  type YoutubeVideo,
+} from './lib/youtube';
 
 /** One cached source dump under data/youtube/{id}.json. */
 export type YoutubeSourceCache = {
   fetchedAt: string;
-  kind: 'channel' | 'playlist';
+  kind: 'channel' | 'playlist' | 'videos';
   id: string;
   name: string;
   /** Series slugs a playlist is scoped to; empty for channels, which are not
@@ -36,11 +42,17 @@ export type YoutubeSourceCache = {
   videos: YoutubeVideo[];
 };
 
+/** The cache file a hand-picked set is written to. It is keyed by the series
+ * rather than by a source id, because the set has no id of its own — the
+ * series it fills in is the only name it has. */
+const videoSetCacheId = (slug: string): string => `videoset-${slug}`;
+
 async function fetchYoutube(): Promise<void> {
   const channels = readValidated(contentPath('channels.json'), channelsFileSchema);
   const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
+  const videoSets = readValidated(contentPath('videos.json'), videoSetsFileSchema);
 
-  if (channels.length === 0 && playlists.length === 0) {
+  if (channels.length === 0 && playlists.length === 0 && videoSets.length === 0) {
     console.log('no YouTube sources whitelisted yet — skipping YouTube fetch');
     return;
   }
@@ -77,11 +89,39 @@ async function fetchYoutube(): Promise<void> {
     const credit = playlist.curator ? ` (${playlist.curator})` : ' (unattributed)';
     console.log(`  playlist ${playlist.name ?? playlist.id}${credit}: ${videos.length} videos`);
   }
+
+  // Hand-picked sets. Order is given rather than read, so an id that resolves
+  // to nothing is reported and skipped: numbering an episode around a video
+  // nobody can play would ship a row that renders as available and is not.
+  for (const set of videoSets) {
+    const resolved = await listVideos(set.videos);
+
+    const videos = resolved.filter((video): video is YoutubeVideo => video !== null);
+    const missing = set.videos.filter((_, index) => resolved[index] === null);
+    if (missing.length > 0) {
+      console.warn(
+        `  video set ${set.episodesFor}: ${missing.length} of ${set.videos.length} could not be read ` +
+          `(${missing.join(', ')}) — private, removed or region-blocked from here`,
+      );
+    }
+
+    const cache: YoutubeSourceCache = {
+      fetchedAt: new Date().toISOString(),
+      kind: 'videos',
+      id: videoSetCacheId(set.episodesFor),
+      name: `losse afleveringen voor ${set.episodesFor}`,
+      covers: [set.episodesFor],
+      videos,
+    };
+    writeJson(youtubeCachePath(cache.id), cache);
+    console.log(`  video set ${set.episodesFor}: ${videos.length} videos`);
+  }
 }
 
 async function fetchTmdb(only: string[] | null): Promise<void> {
   const all = readValidated(contentPath('series.json'), seriesSourceFileSchema);
   const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
+  const videoSets = readValidated(contentPath('videos.json'), videoSetsFileSchema);
 
   if (only) {
     const known = new Set(all.map((s) => s.slug));
@@ -93,18 +133,19 @@ async function fetchTmdb(only: string[] | null): Promise<void> {
 
   const selected = only ? all.filter((s) => only.includes(s.slug)) : all;
 
-  // A series whose episode list comes from a playlist has no TMDB half to
-  // fetch — `match` writes its metadata seed from the playlist itself. Asking
-  // TMDB for it would fail on the placeholder id and block the one path that
-  // does not need TMDB at all.
-  const playlistBacked = new Set(
-    playlists.map((p) => p.episodesFor).filter((slug): slug is string => slug !== null),
-  );
-  const series = selected.filter((s) => !playlistBacked.has(s.slug));
+  // A series whose episode list comes from a curated source has no TMDB half
+  // to fetch — `match` writes its metadata seed from that source itself.
+  // Asking TMDB for it would fail on the placeholder id and block the one path
+  // that does not need TMDB at all.
+  const sourceBacked = new Set([
+    ...playlists.map((p) => p.episodesFor).filter((slug): slug is string => slug !== null),
+    ...videoSets.map((set) => set.episodesFor),
+  ]);
+  const series = selected.filter((s) => !sourceBacked.has(s.slug));
 
   const skipped = selected.length - series.length;
   if (skipped > 0) {
-    console.log(`  ${skipped} series take their episodes from a playlist — no TMDB fetch needed`);
+    console.log(`  ${skipped} series take their episodes from a curated source — no TMDB fetch needed`);
   }
 
   // Scoped to the selected series, so one series can be brought up without

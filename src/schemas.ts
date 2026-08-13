@@ -48,7 +48,7 @@ export const youtubeIdSchema = z
   .regex(/^[A-Za-z0-9_-]{11}$/, 'invalid characters in YouTube video id');
 
 export const episodeSourceSchema = z.object({
-  kind: z.enum(['channel', 'playlist']),
+  kind: z.enum(['channel', 'playlist', 'video']),
   id: z.string().min(1),
 });
 
@@ -398,6 +398,58 @@ export const playlistsFileSchema = z.array(playlistSourceSchema).superRefine((al
       code: z.ZodIssueCode.custom,
       path: [index, 'episodesFor'],
       message: `'${playlist.episodesFor}' already has its episode list owned by the playlist at index ${first}`,
+    });
+  });
+});
+
+export const videoSetSchema = z.object({
+  episodesFor: slugSchema,
+  language: contentLanguageSchema,
+  // A set is the whole episode list of one series, so order is meaning: the
+  // position of a video here is the episode number it becomes.
+  videos: z
+    .array(youtubeIdSchema)
+    .min(1, 'a video set must list at least one video')
+    .refine(
+      (ids) => new Set(ids).size === ids.length,
+      'the same video is listed twice — position is episode number, so a duplicate shifts every episode after it',
+    ),
+  note: z.string(),
+});
+
+export const videoSetsFileSchema = z.array(videoSetSchema).superRefine((all, ctx) => {
+  const owners = new Map<string, number>();
+  all.forEach((set, index) => {
+    const first = owners.get(set.episodesFor);
+    if (first === undefined) {
+      owners.set(set.episodesFor, index);
+      return;
+    }
+    // Two sets for one series means two orderings of its episodes, and there
+    // is no correct way to merge them. Put the videos in one set instead.
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: [index, 'episodesFor'],
+      message: `'${set.episodesFor}' already has a video set at index ${first} — one series, one list`,
+    });
+  });
+
+  // Within the file, a video belongs to exactly one series. The same upload
+  // appearing under two shows is a mis-transcribed id far more often than it
+  // is a genuine crossover, and the schema is where that gets caught.
+  const seen = new Map<string, string>();
+  all.forEach((set, index) => {
+    set.videos.forEach((id, position) => {
+      const owner = seen.get(id);
+      if (owner === undefined) {
+        seen.set(id, set.episodesFor);
+        return;
+      }
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [index, 'videos', position],
+        message: `video '${id}' is already listed for '${owner}'`,
+      });
     });
   });
 });

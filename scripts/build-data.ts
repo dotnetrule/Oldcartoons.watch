@@ -26,6 +26,7 @@ import type {
   ScheduledBroadcast,
   SeriesFile,
   SeriesStub,
+  VideoSetSource,
 } from '../src/types';
 import {
   broadcastChannelSourcesFileSchema,
@@ -41,6 +42,7 @@ import {
   playlistsFileSchema,
   seriesFileSchema,
   seriesSourceFileSchema,
+  videoSetsFileSchema,
 } from '../src/schemas';
 import {
   PUBLIC_DATA_DIR,
@@ -304,6 +306,10 @@ function main(): void {
     contentPath('playlists.json'),
     playlistsFileSchema,
   );
+  const videoSets: VideoSetSource[] = readValidated(
+    contentPath('videos.json'),
+    videoSetsFileSchema,
+  );
 
   const networkSlugs = new Set(networks.map((n) => n.slug));
   const seriesByTmdbId = new Map(seriesSources.map((s) => [s.tmdbId, s]));
@@ -346,6 +352,21 @@ function main(): void {
     const unknown = guide.seriesSlugs.filter((slug) => !seriesSlugs.has(slug));
     if (unknown.length > 0) {
       throw new Error(`historical guide '${guide.id}' references unknown series: ${unknown.join(', ')}`);
+    }
+  }
+
+  // A series' episode list has exactly one author. Each whitelist rejects its
+  // own duplicates; a clash between the two files can only be caught here.
+  for (const set of videoSets) {
+    if (!seriesSlugs.has(set.episodesFor)) {
+      throw new Error(`content/videos.json names series '${set.episodesFor}', which is not in content/series.json`);
+    }
+    const playlist = playlists.find((p) => p.episodesFor === set.episodesFor);
+    if (playlist) {
+      throw new Error(
+        `'${set.episodesFor}' has its episode list claimed by both a video set and playlist ` +
+          `${playlist.id} — one series, one list`,
+      );
     }
   }
 
@@ -457,6 +478,11 @@ function main(): void {
   const sourceLanguageByKey = new Map<string, ContentLanguage>([
     ...youtubeChannelSources.map((source) => [`channel:${source.id}`, source.language] as const),
     ...playlists.map((source) => [`playlist:${source.id}`, source.language] as const),
+    // A hand-picked video is its own source, so each one registers separately
+    // and carries the language of the set it was chosen into.
+    ...videoSets.flatMap((set) =>
+      set.videos.map((youtubeId) => [`video:${youtubeId}`, set.language] as const),
+    ),
   ]);
   for (const episode of episodes) {
     if (!seriesByTmdbId.has(episode.seriesId)) {

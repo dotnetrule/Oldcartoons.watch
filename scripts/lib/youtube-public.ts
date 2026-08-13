@@ -117,7 +117,18 @@ async function getPlaylistPage(playlistId: string): Promise<{ html: string; data
  * thing.
  */
 function extractInitialData(html: string): unknown {
-  const marker = html.indexOf('ytInitialData');
+  return extractJsonBlob(html, 'ytInitialData');
+}
+
+/**
+ * Pull one of the page's inline JSON blobs out by the name it is assigned to.
+ *
+ * A playlist page carries its rows in `ytInitialData`; a watch page states the
+ * video's own title and length in `ytInitialPlayerResponse`. Same brace
+ * counting, two different blobs.
+ */
+function extractJsonBlob(html: string, name: string): unknown {
+  const marker = html.indexOf(name);
   if (marker === -1) return null;
 
   const start = html.indexOf('{', marker);
@@ -345,6 +356,63 @@ export async function listPublicPlaylistVideos(playlistId: string): Promise<Yout
   }
 
   return videos;
+}
+
+/**
+ * Read one video's own title and length without an API key.
+ *
+ * A hand-picked set arrives as bare ids, which state nothing: no title to
+ * number an episode by, no length to cut a broadcast slot from. Both sit in
+ * the watch page's `ytInitialPlayerResponse`, which is the same kind of inline
+ * blob the playlist path already reads.
+ *
+ * Returns null when the page will not say — private, removed, age-gated or
+ * region-blocked from this machine. The caller names the id rather than
+ * numbering an episode around a video nobody can watch.
+ */
+export async function getPublicVideoDetails(videoId: string): Promise<YoutubeVideo | null> {
+  const url = `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}&hl=en`;
+
+  let res: Response;
+  try {
+    res = await fetch(url, { headers: PAGE_HEADERS });
+  } catch (cause) {
+    throw new Error(
+      `could not reach youtube.com to read video ${videoId} without an API key.\n` +
+        `If this machine has no direct network access to YouTube, run the ingest somewhere that does.`,
+      { cause },
+    );
+  }
+
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    throw new Error(`youtube.com returned ${res.status} ${res.statusText} for video ${videoId}`);
+  }
+
+  const player = extractJsonBlob(await res.text(), 'ytInitialPlayerResponse');
+  const details = isObject(player) ? player['videoDetails'] : null;
+  if (!isObject(details)) return null;
+
+  // A page that answered about a different id is a redirect to something else
+  // entirely, and numbering an episode from it would attach the wrong video.
+  if (typeof details['videoId'] === 'string' && details['videoId'] !== videoId) return null;
+
+  const title = typeof details['title'] === 'string' ? details['title'] : null;
+  if (title === null || isUnplayableTitle(title)) return null;
+
+  const seconds = Number(details['lengthSeconds']);
+  return {
+    youtubeId: videoId,
+    title,
+    // As on the playlist path: the watch page states neither a usable
+    // description nor an upload date this cares about, and inventing either
+    // would put a guess where the API path puts a fact.
+    description: '',
+    publishedAt: '',
+    // A live stream reports zero, which is not a length — the schedule's
+    // editorial slot covers that case and says it is covering it.
+    durationSeconds: Number.isFinite(seconds) && seconds > 0 ? Math.round(seconds) : null,
+  };
 }
 
 /** Read a public playlist's title and owner without an API key. */

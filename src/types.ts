@@ -26,8 +26,16 @@ export type ContentLanguage = 'nl' | 'en';
  * uploads that rot, so provenance is recorded per episode and a whole source
  * can be dropped as a unit when it goes bad. */
 export type EpisodeSource = {
-  kind: 'channel' | 'playlist';
-  /** YouTube channel id or playlist id, matching content/{channels,playlists}.json */
+  kind: 'channel' | 'playlist' | 'video';
+  /**
+   * The id of the thing this episode came from: a YouTube channel id, a
+   * playlist id, or — for `video` — the video's own id.
+   *
+   * The first two name a source that holds many episodes, so provenance points
+   * at the collection. A hand-picked set is different in kind: a curator chose
+   * each video separately and any one of them can rot while the rest keep
+   * playing, so each episode is its own source and can be dropped alone.
+   */
   id: string;
 };
 
@@ -280,6 +288,30 @@ export type PlaylistSource = {
    * the playlist. The slug must also appear in `covers`.
    */
   episodesFor: string | null;
+  note: string;
+};
+
+/**
+ * A hand-picked set of individual videos, from content/videos.json.
+ *
+ * Some series were never gathered into a playlist by anybody. What exists is a
+ * handful of separate uploads that a person found one at a time, and the
+ * archive would otherwise have to turn those away — `add-playlist` rightly
+ * refuses a `watch?v=…` link, because it names a video and not a playlist.
+ *
+ * This is the same claim `episodesFor` makes on a playlist, with the ordering
+ * supplied by hand instead of by a curator's playlist: the listed videos *are*
+ * that series' episode list, in the order given. The difference that matters
+ * downstream is provenance — every episode records its own video id, because
+ * these videos share nothing but the person who chose them.
+ */
+export type VideoSetSource = {
+  /** The series whose episode list this set is. */
+  episodesFor: string;
+  /** Spoken language of these uploads. */
+  language: ContentLanguage;
+  /** Video ids, in the order they should be numbered. */
+  videos: string[];
   note: string;
 };
 

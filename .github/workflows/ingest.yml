@@ -24,6 +24,7 @@ on:
       # did not re-run the pipeline would leave the branch stale.
       - 'content/playlists.json'
       - 'content/channels.json'
+      - 'content/videos.json'
       - 'content/series.json'
       - 'scripts/**'
       - '.github/workflows/ingest.yml'

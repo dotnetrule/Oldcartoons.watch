@@ -24,6 +24,7 @@ import type {
   QueueCandidate,
   QueueEntry,
   SeriesSource,
+  VideoSetSource,
 } from '../src/types';
 import {
   episodesFileSchema,
@@ -31,6 +32,7 @@ import {
   playlistsFileSchema,
   queueFileSchema,
   seriesSourceFileSchema,
+  videoSetsFileSchema,
 } from '../src/schemas';
 import {
   YOUTUBE_CACHE_DIR,
@@ -61,26 +63,46 @@ function loadYoutubeSources(): YoutubeSourceCache[] {
 }
 
 /**
- * Rebuild a playlist-backed series from its playlist, writing the regenerated
- * metadata seed and returning the episode records.
+ * Whatever owns a series' episode list outright: a playlist that is the list,
+ * or a hand-picked set of videos that is.
+ */
+type EpisodeListOwner =
+  | { kind: 'playlist'; playlist: PlaylistSource }
+  | { kind: 'videos'; set: VideoSetSource };
+
+/** Where the cached dump for this owner was written by `fetch`. */
+const ownerCacheId = (owner: EpisodeListOwner): string =>
+  owner.kind === 'playlist' ? owner.playlist.id : `videoset-${owner.set.episodesFor}`;
+
+/** How the owner reads in a log line or an error. */
+const ownerLabel = (owner: EpisodeListOwner): string =>
+  owner.kind === 'playlist'
+    ? `playlist '${owner.playlist.name ?? owner.playlist.id}' (${owner.playlist.id})`
+    : `the hand-picked video set for '${owner.set.episodesFor}'`;
+
+/**
+ * Rebuild a source-backed series from the source that owns its episode list,
+ * writing the regenerated metadata seed and returning the episode records.
  *
  * These records are not decisions in the sense the fuzzy path means. The
- * curator's ordering is the decision, it lives in the playlist, and it is
- * re-read on every run — so unlike a matched or hand-resolved episode, a
- * derived one is replaced rather than preserved. That is what lets a playlist
- * gaining or reordering episodes show up by re-running the pipeline.
+ * ordering is the decision, it lives in the source, and it is re-read on every
+ * run — so unlike a matched or hand-resolved episode, a derived one is
+ * replaced rather than preserved. That is what lets a playlist gaining or
+ * reordering episodes, or a video added to a set, show up by re-running the
+ * pipeline.
  */
-function rebuildFromPlaylist(
+function rebuildFromSource(
   source: SeriesSource,
-  playlist: PlaylistSource,
+  owner: EpisodeListOwner,
   historicalSeed: HistoricalSeriesSeed | undefined,
   youtubeSources: YoutubeSourceCache[],
   today: string,
 ): Episode[] {
-  const dump = youtubeSources.find((yt) => yt.id === playlist.id);
+  const cacheId = ownerCacheId(owner);
+  const dump = youtubeSources.find((yt) => yt.id === cacheId);
   if (!dump) {
     throw new Error(
-      `playlist '${playlist.name ?? playlist.id}' (${playlist.id}) owns the episode list for '${source.slug}' ` +
+      `${ownerLabel(owner)} owns the episode list for '${source.slug}' ` +
         `but has not been fetched — run 'npm run fetch' first`,
     );
   }
@@ -93,14 +115,19 @@ function rebuildFromPlaylist(
     seriesName: existing.detail.name,
     existing,
     videos: dump.videos,
-    playlistId: playlist.id,
+    origin:
+      owner.kind === 'playlist'
+        ? { kind: 'playlist', id: owner.playlist.id }
+        : { kind: 'videos', label: owner.set.episodesFor },
     today,
   });
 
   writeJson(seedPath, cache);
   console.log(
-    `  ${source.slug}: ${episodes.length} episodes from playlist '${playlist.name ?? playlist.id}'` +
-      (playlist.curator ? ` by ${playlist.curator}` : ''),
+    owner.kind === 'playlist'
+      ? `  ${source.slug}: ${episodes.length} episodes from playlist '${owner.playlist.name ?? owner.playlist.id}'` +
+          (owner.playlist.curator ? ` by ${owner.playlist.curator}` : '')
+      : `  ${source.slug}: ${episodes.length} episodes from ${episodes.length === 1 ? 'a hand-picked video' : 'hand-picked videos'}`,
   );
   return episodes;
 }
@@ -109,6 +136,7 @@ function main(): void {
   const seriesSources = readValidated(contentPath('series.json'), seriesSourceFileSchema);
   const existing = readValidated(contentPath('episodes.json'), episodesFileSchema);
   const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
+  const videoSets = readValidated(contentPath('videos.json'), videoSetsFileSchema);
   const youtubeSources = loadYoutubeSources();
   // A series lifted from a historical TV guide has its identity here rather
   // than in a metadata file; loadSeriesCache needs it to answer for that series
@@ -121,12 +149,30 @@ function main(): void {
 
   const today = new Date().toISOString().slice(0, 10);
 
-  // A series whose episode list a playlist owns does not go through matching
-  // at all: there is nothing to match, because the playlist authors both sides
-  // of the pairing.
-  const episodeListOwner = new Map<string, PlaylistSource>(
-    playlists.flatMap((p) => (p.episodesFor === null ? [] : [[p.episodesFor, p] as const])),
-  );
+  // A series whose episode list a curated source owns does not go through
+  // matching at all: there is nothing to match, because the source authors
+  // both sides of the pairing.
+  const episodeListOwner = new Map<string, EpisodeListOwner>([
+    ...playlists.flatMap((playlist) =>
+      playlist.episodesFor === null
+        ? []
+        : [[playlist.episodesFor, { kind: 'playlist', playlist }] as const],
+    ),
+    ...videoSets.map((set) => [set.episodesFor, { kind: 'videos', set }] as const),
+  ]);
+
+  // Two sources both claiming to author one series' list would mean two
+  // orderings, and there is no correct way to merge them. Each file rejects
+  // its own duplicates; only a clash across the two can reach here.
+  for (const set of videoSets) {
+    const playlist = playlists.find((p) => p.episodesFor === set.episodesFor);
+    if (playlist) {
+      throw new Error(
+        `'${set.episodesFor}' has its episode list claimed by both a video set and playlist ` +
+          `${playlist.id} — one series, one list. Drop one of the two.`,
+      );
+    }
+  }
 
   const derived: Episode[] = [];
   const derivedSeries = new Set<number>();
@@ -135,7 +181,7 @@ function main(): void {
     const owner = episodeListOwner.get(source.slug);
     if (!owner) continue;
     derived.push(
-      ...rebuildFromPlaylist(source, owner, historicalSeedById.get(source.tmdbId), youtubeSources, today),
+      ...rebuildFromSource(source, owner, historicalSeedById.get(source.tmdbId), youtubeSources, today),
     );
     derivedSeries.add(source.tmdbId);
   }
@@ -169,7 +215,13 @@ function main(): void {
     // A channel carries only its rights-holder's material, so it is open to
     // every series. A playlist is scoped by its `covers` list, which stops a
     // third-party playlist from pulling in series it has no business matching.
+    //
+    // A hand-picked set never joins the pool. It is already the whole episode
+    // list of the one series it names, and that series left this loop at the
+    // top — so the only thing scoring its videos here could do is offer them
+    // to some other show.
     const pool = youtubeSources
+      .filter((yt): yt is YoutubeSourceCache & { kind: 'channel' | 'playlist' } => yt.kind !== 'videos')
       .filter((yt) => yt.kind === 'channel' || yt.covers.includes(source.slug))
       .flatMap((yt) =>
         yt.videos.map((video) => ({
