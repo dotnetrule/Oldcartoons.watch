@@ -18,6 +18,7 @@ export type YtPlayer = {
   getDuration: () => number;
   seekTo: (seconds: number, allowSeekAhead: boolean) => void;
   playVideo: () => void;
+  pauseVideo: () => void;
   mute: () => void;
   unMute: () => void;
   isMuted: () => boolean;

@@ -79,8 +79,39 @@ type ScheduleSeed = {
   episode: number;
   episodeTitle: string;
   runtime: number | null;
+  runtimeSeconds: number | null;
   youtubeId: string;
 };
+
+/**
+ * The slot given to an episode nobody measured. A classic half-hour cartoon
+ * carries roughly this much programme, and it is an editorial guess — which is
+ * why `metadata.runtimeEstimated` says so on every broadcast built from it.
+ */
+const ESTIMATED_SLOT_SECONDS = 22 * 60;
+
+/** A slot has to be long enough to be a programme and short enough to be one
+ * episode. Both ends are guards against a bad measurement, not editorial. */
+const MIN_SLOT_SECONDS = 60;
+const MAX_SLOT_SECONDS = 180 * 60;
+
+/**
+ * A cycle shorter than this repeats inside a single sitting: the same episodes
+ * come round in the same order, and — because the anchor never moves — at the
+ * same clock time tomorrow. Channels with few programmes get extra passes,
+ * each one reshuffled, so the loop is long and lands somewhere different every
+ * day instead of drumming out the same afternoon.
+ */
+const MIN_CYCLE_SECONDS = 30 * 60 * 60;
+const MAX_PASSES = 24;
+const MAX_BROADCASTS_PER_CYCLE = 600;
+
+/** How long one episode occupies the air. */
+function slotSeconds(seed: ScheduleSeed): number {
+  const measured = seed.runtimeSeconds ?? (seed.runtime === null ? null : seed.runtime * 60);
+  if (measured === null) return ESTIMATED_SLOT_SECONDS;
+  return Math.min(MAX_SLOT_SECONDS, Math.max(MIN_SLOT_SECONDS, Math.round(measured)));
+}
 
 /** A small stable hash is enough here: it offsets regional channels so they
  * do not broadcast the same episode at the same moment, without introducing
@@ -117,7 +148,6 @@ function buildSchedule(
     else byShow.set(seed.showSlug, [seed]);
   }
 
-  const channelHash = stableHash(channel.id);
   const guideOrder = new Map(historicalGuide?.seriesSlugs.map((slug, index) => [slug, index]) ?? []);
   const sortedGroups = [...byShow.entries()]
     .sort(([a], [b]) => {
@@ -129,30 +159,55 @@ function buildSchedule(
     })
     .map(([slug, episodes]) => ({
       slug,
-      episodes: rotate(
-        episodes.sort((a, b) => a.season - b.season || a.episode - b.episode),
-        stableHash(`${channel.id}:${slug}`),
-      ),
+      episodes: episodes.sort((a, b) => a.season - b.season || a.episode - b.episode),
     }));
-  const groups = historicalGuide ? sortedGroups : rotate(sortedGroups, channelHash);
 
-  const ordered: ScheduleSeed[] = [];
-  let row = 0;
-  while (groups.some((group) => row < group.episodes.length)) {
-    for (const group of groups) {
-      const episode = group.episodes[row];
-      if (episode) ordered.push(episode);
+  /** One round-robin pass over every show, at its own rotation. */
+  function orderPass(pass: number): ScheduleSeed[] {
+    const rotated = sortedGroups.map((group) => ({
+      slug: group.slug,
+      episodes: rotate(group.episodes, stableHash(`${channel.id}:${group.slug}:${pass}`)),
+    }));
+    // An archive week reconstructs a printed running order, so its shows go out
+    // in the order the guide listed them. Everywhere else the starting show
+    // rotates too, or every pass would open with the same programme.
+    const groups = historicalGuide
+      ? rotated
+      : rotate(rotated, stableHash(`${channel.id}:pass:${pass}`));
+
+    const ordered: ScheduleSeed[] = [];
+    let row = 0;
+    while (groups.some((group) => row < group.episodes.length)) {
+      for (const group of groups) {
+        const episode = group.episodes[row];
+        if (episode) ordered.push(episode);
+      }
+      row += 1;
     }
-    row += 1;
+    return ordered;
   }
+
+  const firstPass = orderPass(0);
+  const passSeconds = firstPass.reduce((total, seed) => total + slotSeconds(seed), 0);
+
+  // An archive week is a fixed reconstruction: replaying it in a new order
+  // would be a schedule the guide it came from never printed.
+  let passes = 1;
+  if (!historicalGuide) {
+    while (
+      passes < MAX_PASSES &&
+      passSeconds * passes < MIN_CYCLE_SECONDS &&
+      firstPass.length * (passes + 1) <= MAX_BROADCASTS_PER_CYCLE
+    ) {
+      passes += 1;
+    }
+  }
+
+  const ordered = Array.from({ length: passes }, (_, pass) => orderPass(pass)).flat();
 
   let cursor = 0;
   const broadcasts: ScheduledBroadcast[] = ordered.map((seed, index) => {
-    // Playlist-authored archive entries honestly carry no runtime. A classic
-    // half-hour cartoon contains roughly 22 minutes of programme; the engine
-    // uses that conservative editorial slot until authoritative runtime data
-    // is available, without pretending it came from the upload itself.
-    const durationSeconds = Math.min(180 * 60, Math.max(5 * 60, (seed.runtime ?? 22) * 60));
+    const durationSeconds = slotSeconds(seed);
     const startsAtOffsetSeconds = cursor;
     cursor += durationSeconds;
     return {
@@ -176,7 +231,7 @@ function buildSchedule(
         title: seed.episodeTitle,
       },
       metadata: {
-        runtimeEstimated: seed.runtime === null,
+        runtimeEstimated: seed.runtimeSeconds === null && seed.runtime === null,
         historicalGuide: historicalGuide?.id ?? null,
         requestedWeek: historicalGuide
           ? `${historicalGuide.requestedFrom}/${historicalGuide.requestedTo}`
@@ -473,6 +528,18 @@ function main(): void {
       }),
     )].sort();
 
+    // Measured video lengths live on the metadata seed, not on the public
+    // episode: a viewer reads the editorial runtime, the schedule needs the
+    // exact one. Keyed here so the schedule seeds below can pick it up.
+    const runtimeSecondsByEpisode = new Map(
+      cache.seasons.flatMap((season) =>
+        season.episodes.map(
+          (episode) =>
+            [`${episode.season_number}:${episode.episode_number}`, episode.runtimeSeconds ?? null] as const,
+        ),
+      ),
+    );
+
     const seasons: PublicSeason[] = [];
     let availableCount = 0;
 
@@ -559,6 +626,8 @@ function main(): void {
             episode: publicEpisode.episode,
             episodeTitle: publicEpisode.title,
             runtime: publicEpisode.runtime,
+            runtimeSeconds:
+              runtimeSecondsByEpisode.get(`${publicEpisode.season}:${publicEpisode.episode}`) ?? null,
             youtubeId: publicEpisode.youtubeId,
           });
         }

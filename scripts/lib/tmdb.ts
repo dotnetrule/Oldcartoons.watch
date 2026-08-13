@@ -46,6 +46,13 @@ export type TmdbEpisode = {
   air_date: string | null;
   runtime: number | null;
   still_path: string | null;
+  /**
+   * The exact length of the video backing this episode, when a source stated
+   * it. TMDB's own `runtime` is editorial and rounded to whole minutes, which
+   * is too coarse to cut a broadcast slot from; this is not, and it is absent
+   * on every seed written before the ingest started reading it.
+   */
+  runtimeSeconds?: number | null;
 };
 
 export type TmdbSeason = {

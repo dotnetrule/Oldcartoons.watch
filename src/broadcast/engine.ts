@@ -157,8 +157,9 @@ export function broadcastsForChannelDay(
   const to = zonedDateTime(shiftDateKey(dateKey, 1), timezone).getTime();
   const broadcasts: Broadcast[] = [];
   let current = broadcastAt(schedule, from);
-  // 24 hours at the minimum validated duration (5 minutes), plus DST margin.
-  while (new Date(current.startsAt).getTime() < to && broadcasts.length < 312) {
+  // 24 hours at the shortest slot the build gate allows (one minute), plus a
+  // margin for the DST day that lasts twenty-five.
+  while (new Date(current.startsAt).getTime() < to && broadcasts.length < 1_560) {
     if (new Date(current.endsAt).getTime() > from) broadcasts.push(current);
     current = nextBroadcast(schedule, current);
   }

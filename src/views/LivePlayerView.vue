@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import NetworkLogo from '../components/NetworkLogo.vue';
 import { useContentStore } from '../stores/content';
 import { useUiStore } from '../stores/ui';
 import {
@@ -17,6 +18,13 @@ const props = defineProps<{ channelId: string }>();
 /** How long the on-screen menu lingers after the last sign of a viewer. */
 const OVERLAY_LINGER_MS = 4_000;
 
+/** How far from the end of a video counts as the end of it. Seeking into the
+ * last moment of a file is indistinguishable from seeking past it. */
+const END_MARGIN_SECONDS = 1;
+
+/** How far the picture may drift from the schedule before it is pulled back. */
+const MAX_DRIFT_SECONDS = 3;
+
 const router = useRouter();
 const content = useContentStore();
 const ui = useUiStore();
@@ -27,6 +35,10 @@ const nowMs = ref(Date.now());
 const failedBroadcastId = ref<string | null>(null);
 const playerReady = ref(false);
 const isPlaying = ref(false);
+/** The loaded video's real length, once the player can report it. */
+const mediaDuration = ref<number | null>(null);
+/** The slot has outlived the video filling it. */
+const mediaExhausted = ref(false);
 const isMuted = ref(true);
 const overlayVisible = ref(true);
 const pointerOnOverlay = ref(false);
@@ -47,6 +59,8 @@ const playerKey = computed(() =>
   current.value ? `${current.value.id}@${current.value.startsAt}` : null,
 );
 const hasMediaError = computed(() => failedBroadcastId.value === playerKey.value);
+/** Nothing is on the screen worth watching: the picture gives way to a card. */
+const isInterlude = computed(() => hasMediaError.value || mediaExhausted.value);
 const isFullscreen = computed(() => nativeFullscreen.value || cssFullscreen.value);
 
 /**
@@ -57,7 +71,7 @@ const isFullscreen = computed(() => nativeFullscreen.value || cssFullscreen.valu
  */
 const overlayHeld = computed(() => pointerOnOverlay.value || keyboardInOverlay.value);
 const canHideOverlay = computed(
-  () => isPlaying.value && !hasMediaError.value && !overlayHeld.value,
+  () => isPlaying.value && !isInterlude.value && !overlayHeld.value,
 );
 
 const titleFor = (item: typeof current.value): string =>
@@ -122,6 +136,35 @@ function expectedOffset(): number {
   return Math.max(0, (Date.now() - new Date(current.value.startsAt).getTime()) / 1_000);
 }
 
+/** The loaded video's length, or null while the player cannot say yet. */
+function readDuration(target: YtPlayer | null = player): number | null {
+  const duration = target?.getDuration();
+  return typeof duration === 'number' && Number.isFinite(duration) && duration > 0 ? duration : null;
+}
+
+/**
+ * Where in the video "now" falls — or null once the slot has outlived it.
+ *
+ * A slot cut from an estimated runtime is routinely longer than the video in
+ * it, and a video may simply be shorter than the schedule was told. Seeking to
+ * a point past the end is what leaves the screen black and restarts the buffer
+ * bar every time the drift correction comes round, so the answer here has to
+ * be allowed to be "nowhere".
+ */
+function livePosition(): number | null {
+  const expected = expectedOffset();
+  const duration = mediaDuration.value;
+  if (duration === null) return expected;
+  return expected >= duration - END_MARGIN_SECONDS ? null : expected;
+}
+
+/** The video is over but its slot is not. Stop chasing it and say so. */
+function markExhausted(): void {
+  mediaExhausted.value = true;
+  isPlaying.value = false;
+  player?.pauseVideo();
+}
+
 function destroyPlayer(): void {
   player?.destroy();
   player = null;
@@ -131,11 +174,22 @@ function destroyPlayer(): void {
 }
 
 function keepPlayerLive(): void {
-  if (!player || !current.value || hasMediaError.value) return;
-  const expected = expectedOffset();
+  if (!player || !current.value || isInterlude.value) return;
+  // Re-read rather than trusted once: right after a video swap the player can
+  // still be answering for the previous file, and a stale length is what would
+  // write off a programme that had not started yet. A momentary zero keeps the
+  // last known answer instead of erasing it.
+  mediaDuration.value = readDuration() ?? mediaDuration.value;
+
+  const position = livePosition();
+  if (position === null) {
+    markExhausted();
+    return;
+  }
+
   const actual = player.getCurrentTime();
-  if (Number.isFinite(actual) && Math.abs(actual - expected) > 3) {
-    player.seekTo(expected, true);
+  if (Number.isFinite(actual) && Math.abs(actual - position) > MAX_DRIFT_SECONDS) {
+    player.seekTo(position, true);
   }
 }
 
@@ -175,6 +229,12 @@ async function syncPlayer(): Promise<void> {
       rel: 0,
       start: Math.floor(offset),
     },
+    // One player instance outlives many broadcasts: `loadVideoById` above swaps
+    // the video without rebuilding it, so these handlers must report against
+    // whatever is loaded *now*. Closing over the key this instance was created
+    // with would file every later failure under the first broadcast — and a
+    // failure filed under the wrong broadcast is one the view never shows,
+    // leaving a black screen where the "signal interrupted" card belongs.
     events: {
       onReady: (event) => {
         playerReady.value = true;
@@ -184,7 +244,14 @@ async function syncPlayer(): Promise<void> {
         // below restores audio from a real user gesture.
         event.target.mute();
         isMuted.value = true;
-        event.target.seekTo(expectedOffset(), true);
+        mediaDuration.value = readDuration(event.target);
+
+        const position = livePosition();
+        if (position === null) {
+          markExhausted();
+          return;
+        }
+        event.target.seekTo(position, true);
         event.target.playVideo();
       },
       onStateChange: (event) => {
@@ -194,12 +261,17 @@ async function syncPlayer(): Promise<void> {
           keepPlayerLive();
         }
         if (event.data === YT.PlayerState.PAUSED) isPlaying.value = false;
-        if (event.data === YT.PlayerState.ENDED) nowMs.value = Date.now();
+        if (event.data === YT.PlayerState.ENDED) {
+          // The schedule may have moved on at the same moment, in which case
+          // the watcher below loads the next broadcast and clears this.
+          nowMs.value = Date.now();
+          if (loadedKey === playerKey.value) markExhausted();
+        }
       },
       onError: () => {
         playerReady.value = false;
         isPlaying.value = false;
-        failedBroadcastId.value = key;
+        failedBroadcastId.value = loadedKey;
       },
     },
   });
@@ -219,7 +291,17 @@ function goLive(): void {
     void syncPlayer();
     return;
   }
-  player.seekTo(expectedOffset(), true);
+  // Asked again, answered again: the clock has moved, so a slot written off a
+  // minute ago may since have handed over to one that plays.
+  mediaExhausted.value = false;
+  mediaDuration.value = readDuration();
+
+  const position = livePosition();
+  if (position === null) {
+    markExhausted();
+    return;
+  }
+  player.seekTo(position, true);
   // This runs directly inside the button click, so it is also the recovery
   // path when a browser or power-saving mode paused autoplay.
   player.playVideo();
@@ -334,6 +416,10 @@ watch(
     if (key !== oldKey) {
       failedBroadcastId.value = null;
       playerReady.value = false;
+      // A new broadcast is a new video: nothing learned about the last one
+      // holds, least of all how long it was.
+      mediaDuration.value = null;
+      mediaExhausted.value = false;
     }
     void syncPlayer();
   },
@@ -385,16 +471,19 @@ onBeforeUnmount(() => {
   >
     <template v-if="channel && network && schedule && current && next">
       <div class="screen">
-        <div v-show="!hasMediaError" class="video-frame">
+        <div v-show="!isInterlude" class="video-frame">
           <div ref="mount" class="yt-mount"></div>
         </div>
-        <div v-if="!playerReady && !hasMediaError" class="tuning" :style="{ color: C.dim }">
+        <div v-if="!playerReady && !isInterlude" class="tuning" :style="{ color: C.dim }">
           AFSTEMMEN OP {{ channel.name.toUpperCase() }}…
         </div>
-        <div v-if="hasMediaError" class="signal" :style="{ color: C.ink }">
+        <div v-if="isInterlude" class="signal" :style="{ color: C.ink }">
           <NetworkLogo :network="network" :size="88" decorative />
-          <strong>SIGNAAL ONDERBROKEN</strong>
-          <span :style="{ color: C.dim }">De volgende geplande uitzending start automatisch.</span>
+          <strong>{{ hasMediaError ? 'SIGNAAL ONDERBROKEN' : 'EINDE UITZENDING' }}</strong>
+          <span :style="{ color: C.dim }">
+            {{ hasMediaError ? 'Deze uitzending komt niet door.' : 'Deze aflevering is afgelopen.' }}
+            Om {{ timeFor(next.startsAt) }} begint {{ titleFor(next) }}.
+          </span>
         </div>
       </div>
 

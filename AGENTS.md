@@ -8,7 +8,7 @@ worth reading before changing anything structural. This file is the short
 version: what you need in your head to do the routine jobs, and the traps that
 cost time if you rediscover them by hand.
 
-## Five facts that change what you do
+## Six facts that change what you do
 
 1. **Every network call happens at build time.** The deployed app reads JSON
    generated before deploy. If a value is not in `public/data/` at request
@@ -25,7 +25,15 @@ cost time if you rediscover them by hand.
    generated.** Never hand-edit generated output. `content/episodes.json`,
    `content/queue.json` and `content/tmdb-seed/` are written by the pipeline
    but committed, so they show up in diffs and that is expected.
-5. **Language is a safety field, not a label.** `build-data.ts` only schedules
+5. **A broadcast slot is cut from the video's measured length.** Ingest reads it
+   (`lengthSeconds` or the thumbnail badge on the public page; `videos.list`
+   with an API key) and stores it as `runtimeSeconds` on the metadata seed. Only
+   when no source stated one does the schedule fall back to a 22-minute
+   editorial slot, and it says so in `metadata.runtimeEstimated`. A slot longer
+   than its own video is not a cosmetic error: the live player seeks past the
+   end of the file and the viewer gets a black screen with a buffer bar that
+   restarts forever.
+6. **Language is a safety field, not a label.** `build-data.ts` only schedules
    an episode on a channel whose language matches. Marking an English playlist
    `nl` puts English audio on a Dutch station; marking a Dutch one `en` only
    keeps it out of the schedule. When unsure, pick `en` — the failure is

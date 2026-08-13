@@ -14,8 +14,11 @@
  * ordered playlist of one show.
  *
  * Two facts are deliberately not invented here. A video's upload date is not
- * an air date, and a playlist carries no runtime, so both stay null rather
- * than becoming plausible-looking wrong values.
+ * an air date, and a playlist carries no editorial runtime, so both stay null
+ * rather than becoming plausible-looking wrong values. The video's measured
+ * length is carried through when the source reported one, because a broadcast
+ * slot cut to a guess is what puts the live player past the end of its own
+ * video.
  */
 import type { Episode, SeriesSource } from '../../src/types';
 import type { TmdbEpisode, TmdbSeriesCache } from './tmdb';
@@ -173,9 +176,12 @@ export function derivePlaylistSeries(args: {
       name: cleanEpisodeTitle(video.title, seriesName),
       season_number: SEASON,
       episode_number: position,
-      // An upload date is not an air date and a playlist has no runtime.
+      // An upload date is not an air date, and a playlist states no editorial
+      // runtime. The video's own length is a different thing: it is measured,
+      // not claimed, and it is what the broadcast slot has to be cut to.
       air_date: null,
       runtime: null,
+      runtimeSeconds: video.durationSeconds,
       still_path: null,
     });
 
