@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-13T10:05:21.052Z",
+  "fetchedAt": "2026-08-13T12:31:58.226Z",
   "detail": {
     "id": -119,
     "name": "Kikker",
@@ -24,7 +24,7 @@
       "episodes": [
         {
           "id": -119001,
-          "name": "& Vriendjes - Kikker en de warme dag",
+          "name": "Kikker en de warme dag",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,
@@ -34,7 +34,7 @@
         },
         {
           "id": -119002,
-          "name": "& Vriendjes - Kikker en de wind",
+          "name": "Kikker en de wind",
           "season_number": 1,
           "episode_number": 2,
           "air_date": null,
@@ -44,7 +44,7 @@
         },
         {
           "id": -119003,
-          "name": "& Vriendjes - Kikker en het vogeltje",
+          "name": "Kikker en het vogeltje",
           "season_number": 1,
           "episode_number": 3,
           "air_date": null,
@@ -54,7 +54,7 @@
         },
         {
           "id": -119004,
-          "name": "& Vriendjes - Kikker en het water",
+          "name": "Kikker en het water",
           "season_number": 1,
           "episode_number": 4,
           "air_date": null,
@@ -64,7 +64,7 @@
         },
         {
           "id": -119005,
-          "name": "& Vriendjes - Kikker in de kou",
+          "name": "Kikker in de kou",
           "season_number": 1,
           "episode_number": 5,
           "air_date": null,
@@ -74,7 +74,7 @@
         },
         {
           "id": -119006,
-          "name": "& Vriendjes - Kikker is bang",
+          "name": "Kikker is bang",
           "season_number": 1,
           "episode_number": 6,
           "air_date": null,
@@ -84,7 +84,7 @@
         },
         {
           "id": -119007,
-          "name": "& Vriendjes - Kikker is bedroefd",
+          "name": "Kikker is bedroefd",
           "season_number": 1,
           "episode_number": 7,
           "air_date": null,
@@ -94,7 +94,7 @@
         },
         {
           "id": -119008,
-          "name": "& Vriendjes - Kikker is boos",
+          "name": "Kikker is boos",
           "season_number": 1,
           "episode_number": 8,
           "air_date": null,
@@ -104,7 +104,7 @@
         },
         {
           "id": -119009,
-          "name": "& Vriendjes - Kikker is een held",
+          "name": "Kikker is een held",
           "season_number": 1,
           "episode_number": 9,
           "air_date": null,
@@ -114,7 +114,7 @@
         },
         {
           "id": -119010,
-          "name": "& Vriendjes - Kikker is ongeduldig",
+          "name": "Kikker is ongeduldig",
           "season_number": 1,
           "episode_number": 10,
           "air_date": null,
@@ -124,7 +124,7 @@
         },
         {
           "id": -119011,
-          "name": "& Vriendjes - Kikker kan niet praten",
+          "name": "Kikker kan niet praten",
           "season_number": 1,
           "episode_number": 11,
           "air_date": null,
@@ -134,7 +134,7 @@
         },
         {
           "id": -119012,
-          "name": "& Vriendjes - Kikker verveelt zich",
+          "name": "Kikker verveelt zich",
           "season_number": 1,
           "episode_number": 12,
           "air_date": null,
@@ -144,7 +144,7 @@
         },
         {
           "id": -119013,
-          "name": "& Vriendjes - Kikker is verliefd",
+          "name": "Kikker is verliefd",
           "season_number": 1,
           "episode_number": 13,
           "air_date": null,
@@ -154,7 +154,7 @@
         },
         {
           "id": -119014,
-          "name": "& Vriendjes - Kikker vindt een vriendje",
+          "name": "Kikker vindt een vriendje",
           "season_number": 1,
           "episode_number": 14,
           "air_date": null,
@@ -164,7 +164,7 @@
         },
         {
           "id": -119015,
-          "name": "is ongeduldig",
+          "name": "Kikker is ongeduldig",
           "season_number": 1,
           "episode_number": 15,
           "air_date": null,
@@ -174,7 +174,7 @@
         },
         {
           "id": -119016,
-          "name": "& Vriendjes - Kikker en het Nieuwjaar",
+          "name": "Kikker en het Nieuwjaar",
           "season_number": 1,
           "episode_number": 16,
           "air_date": null,
@@ -184,7 +184,7 @@
         },
         {
           "id": -119017,
-          "name": "is verliefd",
+          "name": "Kikker is verliefd",
           "season_number": 1,
           "episode_number": 17,
           "air_date": null,
@@ -194,7 +194,7 @@
         },
         {
           "id": -119018,
-          "name": "en een heel bijzondere dag",
+          "name": "Kikker en een heel bijzondere dag",
           "season_number": 1,
           "episode_number": 18,
           "air_date": null,
@@ -204,7 +204,7 @@
         },
         {
           "id": -119019,
-          "name": "& Vriendjes - Kikker en een heel bijzondere dag",
+          "name": "Kikker en een heel bijzondere dag",
           "season_number": 1,
           "episode_number": 19,
           "air_date": null,
@@ -214,7 +214,7 @@
         },
         {
           "id": -119020,
-          "name": "is bang",
+          "name": "Kikker is bang",
           "season_number": 1,
           "episode_number": 20,
           "air_date": null,
@@ -224,7 +224,7 @@
         },
         {
           "id": -119021,
-          "name": "is boos",
+          "name": "Kikker is boos",
           "season_number": 1,
           "episode_number": 21,
           "air_date": null,
@@ -234,7 +234,7 @@
         },
         {
           "id": -119022,
-          "name": "& Vriendjes - Kikker en de vreemdeling",
+          "name": "Kikker en de vreemdeling",
           "season_number": 1,
           "episode_number": 22,
           "air_date": null,
@@ -244,7 +244,7 @@
         },
         {
           "id": -119023,
-          "name": "en de sneeuwman",
+          "name": "Kikker en de sneeuwman",
           "season_number": 1,
           "episode_number": 23,
           "air_date": null,
@@ -254,7 +254,7 @@
         },
         {
           "id": -119024,
-          "name": "vindt een vriendje",
+          "name": "Kikker vindt een vriendje",
           "season_number": 1,
           "episode_number": 24,
           "air_date": null,
@@ -264,7 +264,7 @@
         },
         {
           "id": -119025,
-          "name": "& Vriendjes - Kikker is ongeduldig",
+          "name": "Kikker is ongeduldig",
           "season_number": 1,
           "episode_number": 25,
           "air_date": null,
@@ -274,7 +274,7 @@
         },
         {
           "id": -119026,
-          "name": "& Vriendjes - Kikker en de sneeuwman",
+          "name": "Kikker en de sneeuwman",
           "season_number": 1,
           "episode_number": 26,
           "air_date": null,
@@ -284,7 +284,7 @@
         },
         {
           "id": -119027,
-          "name": "is kikker",
+          "name": "Kikker is kikker",
           "season_number": 1,
           "episode_number": 27,
           "air_date": null,
@@ -294,7 +294,7 @@
         },
         {
           "id": -119028,
-          "name": "verveelt zich",
+          "name": "Kikker verveelt zich",
           "season_number": 1,
           "episode_number": 28,
           "air_date": null,
@@ -304,7 +304,7 @@
         },
         {
           "id": -119029,
-          "name": "& Vriendjes - Kikker is bedroefd",
+          "name": "Kikker is bedroefd",
           "season_number": 1,
           "episode_number": 29,
           "air_date": null,
@@ -314,7 +314,7 @@
         },
         {
           "id": -119030,
-          "name": "& Vriendjes - Kikker is bang",
+          "name": "Kikker is bang",
           "season_number": 1,
           "episode_number": 30,
           "air_date": null,
@@ -324,7 +324,7 @@
         },
         {
           "id": -119031,
-          "name": "& Vriendjes - Kikker is boos",
+          "name": "Kikker is boos",
           "season_number": 1,
           "episode_number": 31,
           "air_date": null,
@@ -334,7 +334,7 @@
         },
         {
           "id": -119032,
-          "name": "& Vriendjes - Kikker is een held",
+          "name": "Kikker is een held",
           "season_number": 1,
           "episode_number": 32,
           "air_date": null,
@@ -344,7 +344,7 @@
         },
         {
           "id": -119033,
-          "name": "& Vriendjes - Kikker kan niet praten",
+          "name": "Kikker kan niet praten",
           "season_number": 1,
           "episode_number": 33,
           "air_date": null,
@@ -354,7 +354,7 @@
         },
         {
           "id": -119034,
-          "name": "& Vriendjes - Kikker verveelt zich",
+          "name": "Kikker verveelt zich",
           "season_number": 1,
           "episode_number": 34,
           "air_date": null,
@@ -364,7 +364,7 @@
         },
         {
           "id": -119035,
-          "name": "& Vriendjes - Kikker is verliefd",
+          "name": "Kikker is verliefd",
           "season_number": 1,
           "episode_number": 35,
           "air_date": null,
@@ -374,7 +374,7 @@
         },
         {
           "id": -119036,
-          "name": "& Vriendjes - Kikker en de warme dag",
+          "name": "Kikker en de warme dag",
           "season_number": 1,
           "episode_number": 36,
           "air_date": null,
@@ -384,7 +384,7 @@
         },
         {
           "id": -119037,
-          "name": "& Vriendjes - Kikker en de wind",
+          "name": "Kikker en de wind",
           "season_number": 1,
           "episode_number": 37,
           "air_date": null,
@@ -394,7 +394,7 @@
         },
         {
           "id": -119038,
-          "name": "& Vriendjes - Kikker en het vogeltje",
+          "name": "Kikker en het vogeltje",
           "season_number": 1,
           "episode_number": 38,
           "air_date": null,
@@ -404,7 +404,7 @@
         },
         {
           "id": -119039,
-          "name": "& Vriendjes - Kikker en het water",
+          "name": "Kikker en het water",
           "season_number": 1,
           "episode_number": 39,
           "air_date": null,

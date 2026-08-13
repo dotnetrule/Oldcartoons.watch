@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-13T10:05:21.043Z",
+  "fetchedAt": "2026-08-13T12:31:58.216Z",
   "detail": {
     "id": -42,
     "name": "Digimon Adventure",
@@ -24,7 +24,7 @@
       "episodes": [
         {
           "id": -42001,
-          "name": "(1999) | OP Theme | Toei Animation",
+          "name": "OP Theme | Toei Animation",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,
@@ -74,7 +74,7 @@
         },
         {
           "id": -42006,
-          "name": "Abridged Ep4 - Setting Fire To The Sky",
+          "name": "Setting Fire To The Sky",
           "season_number": 1,
           "episode_number": 6,
           "air_date": null,
@@ -94,7 +94,7 @@
         },
         {
           "id": -42008,
-          "name": "Abridged Ep6 - Toy Tall Recall",
+          "name": "Toy Tall Recall",
           "season_number": 1,
           "episode_number": 8,
           "air_date": null,
@@ -484,7 +484,7 @@
         },
         {
           "id": -42047,
-          "name": "Greymon derrota a Parrotmon - sub español",
+          "name": "sub español",
           "season_number": 1,
           "episode_number": 47,
           "air_date": null,
@@ -514,7 +514,7 @@
         },
         {
           "id": -42050,
-          "name": "Abridged Ep2 - T-recreational",
+          "name": "T-recreational",
           "season_number": 1,
           "episode_number": 50,
           "air_date": null,
@@ -524,7 +524,7 @@
         },
         {
           "id": -42051,
-          "name": "Abridged Ep5 - We're Going Digital",
+          "name": "We're Going Digital",
           "season_number": 1,
           "episode_number": 51,
           "air_date": null,
@@ -654,7 +654,7 @@
         },
         {
           "id": -42064,
-          "name": "BEYOND- | Digimon Adventure 25th Anniversary PV",
+          "name": "25th Anniversary PV",
           "season_number": 1,
           "episode_number": 64,
           "air_date": null,

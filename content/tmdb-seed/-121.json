@@ -1,0 +1,132 @@
+{
+  "fetchedAt": "2026-08-13T12:31:58.226Z",
+  "detail": {
+    "id": -121,
+    "name": "Winnie de Poeh",
+    "overview": "Nederlands nagesynchroniseerde Disney-animatieserie over Winnie de Poeh en zijn vrienden Knorretje, Teigetje, Iejoor en Janneman Robinson in het Honderd Bunder Bos.",
+    "first_air_date": null,
+    "last_air_date": null,
+    "number_of_episodes": 10,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 10
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -121001,
+          "name": "Winnie the pooh(many adventures) - Song compilation - Dutch/NL",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 214,
+          "still_path": null
+        },
+        {
+          "id": -121002,
+          "name": "Winnie de Pooh Waar Je Ook Bent",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 159,
+          "still_path": null
+        },
+        {
+          "id": -121003,
+          "name": "Op, Neer; Disney Sing Along Songs",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 104,
+          "still_path": null
+        },
+        {
+          "id": -121004,
+          "name": "Vies Regenwolkje; Disney Sing Along Songs",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 139,
+          "still_path": null
+        },
+        {
+          "id": -121005,
+          "name": "The many adventures of Winnie the Pooh - Intro(song) - Dutch/NL",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 68,
+          "still_path": null
+        },
+        {
+          "id": -121006,
+          "name": "We're friends forever (Dutch version)",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 87,
+          "still_path": null
+        },
+        {
+          "id": -121007,
+          "name": "Winnie de Pooh Voor Altijd En Eeuwig",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 105,
+          "still_path": null
+        },
+        {
+          "id": -121008,
+          "name": "Little Mr. Roo - Pooh's Heffalump Movie (Dutch)",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 117,
+          "still_path": null
+        },
+        {
+          "id": -121009,
+          "name": "Klein vies wolkje (1986)",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 228,
+          "still_path": null
+        },
+        {
+          "id": -121010,
+          "name": "Winnie The Pooh (2011) - Winnie The Pooh (Dutch)",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 134,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}
