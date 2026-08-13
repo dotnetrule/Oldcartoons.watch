@@ -97,7 +97,7 @@ function rebuildFromSource(
   historicalSeed: HistoricalSeriesSeed | undefined,
   youtubeSources: YoutubeSourceCache[],
   today: string,
-): Episode[] {
+): Episode[] | null {
   const cacheId = ownerCacheId(owner);
   const dump = youtubeSources.find((yt) => yt.id === cacheId);
   if (!dump) {
@@ -105,6 +105,23 @@ function rebuildFromSource(
       `${ownerLabel(owner)} owns the episode list for '${source.slug}' ` +
         `but has not been fetched — run 'npm run fetch' first`,
     );
+  }
+
+  // A playlist that cached nothing means the fetch went wrong: the reader
+  // throws on an unreadable playlist rather than returning an empty one, so
+  // zero items is a state that should not exist and is worth failing on.
+  //
+  // A hand-picked set is different. `fetch` resolves its videos one at a time
+  // and deliberately keeps what it got, so an empty set means every one of
+  // them was unreadable from that machine — a fact about the run, not about
+  // the archive. Saying so and moving on leaves the other sources to ingest
+  // and leaves any episodes a previous run derived exactly where they are.
+  if (owner.kind === 'videos' && dump.videos.length === 0) {
+    console.warn(
+      `  ${source.slug}: none of the ${owner.set.videos.length} hand-picked videos could be read — ` +
+        `leaving the episode list as it was`,
+    );
+    return null;
   }
 
   const seedPath = seriesMetadataPath(source.tmdbId);
@@ -180,9 +197,17 @@ function main(): void {
   for (const source of seriesSources) {
     const owner = episodeListOwner.get(source.slug);
     if (!owner) continue;
-    derived.push(
-      ...rebuildFromSource(source, owner, historicalSeedById.get(source.tmdbId), youtubeSources, today),
+    const episodes = rebuildFromSource(
+      source,
+      owner,
+      historicalSeedById.get(source.tmdbId),
+      youtubeSources,
+      today,
     );
+    // Null is "this source had nothing to say this run". Leaving the series
+    // out of `derivedSeries` is what preserves whatever it already had.
+    if (episodes === null) continue;
+    derived.push(...episodes);
     derivedSeries.add(source.tmdbId);
   }
 

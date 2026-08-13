@@ -371,7 +371,45 @@ export async function listPublicPlaylistVideos(playlistId: string): Promise<Yout
  * numbering an episode around a video nobody can watch.
  */
 export async function getPublicVideoDetails(videoId: string): Promise<YoutubeVideo | null> {
-  const url = `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}&hl=en`;
+  // Title first, and from oEmbed rather than the watch page. oEmbed is a
+  // documented endpoint that answers a plain question with a plain JSON
+  // object; the watch page is an app shell that decides how much to tell an
+  // unauthenticated stranger, and on a datacentre IP it routinely decides on
+  // nothing at all. The playlist path gets away with reading a page because a
+  // playlist page still lists its items.
+  const title = await readOembedTitle(videoId);
+
+  // Length is best-effort on this path. It only lives in the watch page, so a
+  // page that will not talk costs a measured slot and nothing else — the
+  // schedule falls back to its editorial slot and marks the broadcast as
+  // estimated, which is a smaller lie than a missing episode.
+  const durationSeconds = await readWatchPageDuration(videoId);
+
+  if (title === null || isUnplayableTitle(title)) return null;
+
+  return {
+    youtubeId: videoId,
+    title,
+    // As on the playlist path: neither source states a description or an
+    // upload date this cares about, and inventing either would put a guess
+    // where the API path puts a fact.
+    description: '',
+    publishedAt: '',
+    durationSeconds,
+  };
+}
+
+/**
+ * oEmbed → the video's title, or null when it will not say.
+ *
+ * Null covers every reason a video is not readable — private, removed,
+ * age-gated, region-blocked — because none of them changes what the caller
+ * does about it.
+ */
+async function readOembedTitle(videoId: string): Promise<string | null> {
+  const url =
+    `https://www.youtube.com/oembed?format=json&url=` +
+    encodeURIComponent(`https://www.youtube.com/watch?v=${videoId}`);
 
   let res: Response;
   try {
@@ -384,35 +422,44 @@ export async function getPublicVideoDetails(videoId: string): Promise<YoutubeVid
     );
   }
 
-  if (res.status === 404) return null;
-  if (!res.ok) {
-    throw new Error(`youtube.com returned ${res.status} ${res.statusText} for video ${videoId}`);
+  // 401/403/404 here all mean the same thing to a caller: this id yields no
+  // video anyone can watch.
+  if (!res.ok) return null;
+
+  const body = (await res.json().catch(() => null)) as unknown;
+  if (!isObject(body)) return null;
+  return typeof body['title'] === 'string' && body['title'].length > 0 ? body['title'] : null;
+}
+
+/**
+ * The watch page's `lengthSeconds`, or null when the page will not say.
+ *
+ * Never throws. A missing length is a slot the schedule has to estimate, and
+ * that is not worth failing an ingest over — the caller has already got the
+ * video's identity from a source that does answer.
+ */
+async function readWatchPageDuration(videoId: string): Promise<number | null> {
+  try {
+    const res = await fetch(
+      `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}&hl=en`,
+      { headers: PAGE_HEADERS },
+    );
+    if (!res.ok) return null;
+
+    const player = extractJsonBlob(await res.text(), 'ytInitialPlayerResponse');
+    const details = isObject(player) ? player['videoDetails'] : null;
+    if (!isObject(details)) return null;
+
+    // A page that answered about a different id was redirected to something
+    // else, and its length describes that other video.
+    if (typeof details['videoId'] === 'string' && details['videoId'] !== videoId) return null;
+
+    // A live stream reports zero, which is not a length.
+    const seconds = Number(details['lengthSeconds']);
+    return Number.isFinite(seconds) && seconds > 0 ? Math.round(seconds) : null;
+  } catch {
+    return null;
   }
-
-  const player = extractJsonBlob(await res.text(), 'ytInitialPlayerResponse');
-  const details = isObject(player) ? player['videoDetails'] : null;
-  if (!isObject(details)) return null;
-
-  // A page that answered about a different id is a redirect to something else
-  // entirely, and numbering an episode from it would attach the wrong video.
-  if (typeof details['videoId'] === 'string' && details['videoId'] !== videoId) return null;
-
-  const title = typeof details['title'] === 'string' ? details['title'] : null;
-  if (title === null || isUnplayableTitle(title)) return null;
-
-  const seconds = Number(details['lengthSeconds']);
-  return {
-    youtubeId: videoId,
-    title,
-    // As on the playlist path: the watch page states neither a usable
-    // description nor an upload date this cares about, and inventing either
-    // would put a guess where the API path puts a fact.
-    description: '',
-    publishedAt: '',
-    // A live stream reports zero, which is not a length — the schedule's
-    // editorial slot covers that case and says it is covering it.
-    durationSeconds: Number.isFinite(seconds) && seconds > 0 ? Math.round(seconds) : null,
-  };
 }
 
 /** Read a public playlist's title and owner without an API key. */
