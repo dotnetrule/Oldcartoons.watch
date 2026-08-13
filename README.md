@@ -53,6 +53,7 @@ content/episodes.json    curated YouTube ↔ TMDB matches
 content/overrides.json   sparse hand-authored corrections to TMDB metadata
 content/channels.json    whitelisted rights-holder channels
 content/playlists.json   whitelisted third-party playlists
+content/videos.json      hand-picked individual videos, where no playlist exists
 content/queue.json       unresolved matches awaiting a human
 content/tmdb-seed/       stand-in metadata for series with no real TMDB id yet
 
@@ -247,6 +248,30 @@ final decision: the decision lives in the playlist and is re-read on every run,
 so re-running the pipeline picks up a playlist that gained or reordered
 episodes. One series' list may be owned by at most one playlist.
 
+#### When no playlist exists at all
+
+Some series were never gathered into a playlist by anybody. What survives is a
+handful of separate uploads, found one at a time, and `add-playlist` rightly
+refuses a `watch?v=…` link — it names a video and not a playlist.
+
+`content/videos.json` is where those go: a series slug, a language, and the
+video ids in the order they should be numbered. It makes the same claim
+`--episodes-for` makes, with the ordering supplied by hand rather than by a
+curator, and it is hand-written rather than scripted because that ordering is
+the only part a machine cannot supply.
+
+Two things follow from the videos having nothing in common but the person who
+chose them. A bare id states neither a title nor a length, so ingest resolves
+each video on its own — one page read apiece without a key, one `videos.list`
+call per fifty with one. And provenance is recorded **per video** rather than
+per source: `video:<id>` on every episode, because any one of them can rot
+while the rest keep playing, and the health check should be able to drop it
+alone.
+
+A video that cannot be read is named and left out rather than quietly skipped.
+Its position is an episode number, so closing the gap silently would renumber
+every episode after it and point each at the wrong video.
+
 #### Importing one
 
 ```sh
@@ -388,18 +413,18 @@ always visible before a click, never discovered after one.
 
 ## Current state of this checkout
 
-The 117 series and 15 source networks in `content/` are seeded so the app builds
+The 118 series and 15 source networks in `content/` are seeded so the app builds
 and runs today without API keys. `network-programmes.json` projects that
 catalogue onto the ten public Dutch channels: a series can occur on several
-channels and remains listed when it has no episodes. Twenty curated playlists
-are whitelisted; every remaining gap stays visible instead of being presented as
-available.
+channels and remains listed when it has no episodes. Twenty-eight curated
+playlists and one hand-picked video set are whitelisted; every remaining gap
+stays visible instead of being presented as available.
 
-Ten of those playlists are already ingested and provide 277 playable episodes.
-The ten added most recently carry only their ids so far — this checkout has no
-route to youtube.com, so `.github/workflows/ingest.yml` resolves their titles
-and pulls their episodes in on a runner. Until that lands, the stations they
-fill stay hidden by the rule above rather than appearing empty.
+Twenty of those playlists are already ingested and provide 589 playable
+episodes. Anything added since carries only its ids — this checkout has no route
+to youtube.com, so `.github/workflows/ingest.yml` resolves the titles and pulls
+the episodes in on a runner. Until that lands, the stations they fill stay
+hidden by the rule above rather than appearing empty.
 
 Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
 refuses outright. A plausible-looking positive id would make a mis-seeded

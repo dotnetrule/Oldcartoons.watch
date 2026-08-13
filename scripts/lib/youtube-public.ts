@@ -117,7 +117,18 @@ async function getPlaylistPage(playlistId: string): Promise<{ html: string; data
  * thing.
  */
 function extractInitialData(html: string): unknown {
-  const marker = html.indexOf('ytInitialData');
+  return extractJsonBlob(html, 'ytInitialData');
+}
+
+/**
+ * Pull one of the page's inline JSON blobs out by the name it is assigned to.
+ *
+ * A playlist page carries its rows in `ytInitialData`; a watch page states the
+ * video's own title and length in `ytInitialPlayerResponse`. Same brace
+ * counting, two different blobs.
+ */
+function extractJsonBlob(html: string, name: string): unknown {
+  const marker = html.indexOf(name);
   if (marker === -1) return null;
 
   const start = html.indexOf('{', marker);
@@ -345,6 +356,110 @@ export async function listPublicPlaylistVideos(playlistId: string): Promise<Yout
   }
 
   return videos;
+}
+
+/**
+ * Read one video's own title and length without an API key.
+ *
+ * A hand-picked set arrives as bare ids, which state nothing: no title to
+ * number an episode by, no length to cut a broadcast slot from. Both sit in
+ * the watch page's `ytInitialPlayerResponse`, which is the same kind of inline
+ * blob the playlist path already reads.
+ *
+ * Returns null when the page will not say — private, removed, age-gated or
+ * region-blocked from this machine. The caller names the id rather than
+ * numbering an episode around a video nobody can watch.
+ */
+export async function getPublicVideoDetails(videoId: string): Promise<YoutubeVideo | null> {
+  // Title first, and from oEmbed rather than the watch page. oEmbed is a
+  // documented endpoint that answers a plain question with a plain JSON
+  // object; the watch page is an app shell that decides how much to tell an
+  // unauthenticated stranger, and on a datacentre IP it routinely decides on
+  // nothing at all. The playlist path gets away with reading a page because a
+  // playlist page still lists its items.
+  const title = await readOembedTitle(videoId);
+
+  // Length is best-effort on this path. It only lives in the watch page, so a
+  // page that will not talk costs a measured slot and nothing else — the
+  // schedule falls back to its editorial slot and marks the broadcast as
+  // estimated, which is a smaller lie than a missing episode.
+  const durationSeconds = await readWatchPageDuration(videoId);
+
+  if (title === null || isUnplayableTitle(title)) return null;
+
+  return {
+    youtubeId: videoId,
+    title,
+    // As on the playlist path: neither source states a description or an
+    // upload date this cares about, and inventing either would put a guess
+    // where the API path puts a fact.
+    description: '',
+    publishedAt: '',
+    durationSeconds,
+  };
+}
+
+/**
+ * oEmbed → the video's title, or null when it will not say.
+ *
+ * Null covers every reason a video is not readable — private, removed,
+ * age-gated, region-blocked — because none of them changes what the caller
+ * does about it.
+ */
+async function readOembedTitle(videoId: string): Promise<string | null> {
+  const url =
+    `https://www.youtube.com/oembed?format=json&url=` +
+    encodeURIComponent(`https://www.youtube.com/watch?v=${videoId}`);
+
+  let res: Response;
+  try {
+    res = await fetch(url, { headers: PAGE_HEADERS });
+  } catch (cause) {
+    throw new Error(
+      `could not reach youtube.com to read video ${videoId} without an API key.\n` +
+        `If this machine has no direct network access to YouTube, run the ingest somewhere that does.`,
+      { cause },
+    );
+  }
+
+  // 401/403/404 here all mean the same thing to a caller: this id yields no
+  // video anyone can watch.
+  if (!res.ok) return null;
+
+  const body = (await res.json().catch(() => null)) as unknown;
+  if (!isObject(body)) return null;
+  return typeof body['title'] === 'string' && body['title'].length > 0 ? body['title'] : null;
+}
+
+/**
+ * The watch page's `lengthSeconds`, or null when the page will not say.
+ *
+ * Never throws. A missing length is a slot the schedule has to estimate, and
+ * that is not worth failing an ingest over — the caller has already got the
+ * video's identity from a source that does answer.
+ */
+async function readWatchPageDuration(videoId: string): Promise<number | null> {
+  try {
+    const res = await fetch(
+      `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}&hl=en`,
+      { headers: PAGE_HEADERS },
+    );
+    if (!res.ok) return null;
+
+    const player = extractJsonBlob(await res.text(), 'ytInitialPlayerResponse');
+    const details = isObject(player) ? player['videoDetails'] : null;
+    if (!isObject(details)) return null;
+
+    // A page that answered about a different id was redirected to something
+    // else, and its length describes that other video.
+    if (typeof details['videoId'] === 'string' && details['videoId'] !== videoId) return null;
+
+    // A live stream reports zero, which is not a length.
+    const seconds = Number(details['lengthSeconds']);
+    return Number.isFinite(seconds) && seconds > 0 ? Math.round(seconds) : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Read a public playlist's title and owner without an API key. */

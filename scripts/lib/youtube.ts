@@ -7,7 +7,7 @@
  * and the weekly health check costs one unit per fifty episodes.
  */
 
-import { isUnplayableTitle, listPublicPlaylistVideos } from './youtube-public';
+import { getPublicVideoDetails, isUnplayableTitle, listPublicPlaylistVideos } from './youtube-public';
 
 const API_BASE = 'https://www.googleapis.com/youtube/v3';
 
@@ -118,6 +118,42 @@ export async function getVideoDurations(ids: string[]): Promise<Map<string, numb
   return durations;
 }
 
+type VideoDetailsResponse = {
+  items: { id: string; snippet: { title: string }; contentDetails: { duration?: string } }[];
+};
+
+/**
+ * videos.list → the title and length of each id, 1 unit per 50.
+ *
+ * This is what a hand-picked video set needs and a playlist does not: a
+ * playlist page states its items' titles, while a bare id states nothing at
+ * all. An id missing from the response is gone, private or region-blocked,
+ * and simply carries no entry — the caller reports it rather than numbering an
+ * episode nobody can play.
+ */
+export async function getVideoDetails(ids: string[]): Promise<Map<string, YoutubeVideo>> {
+  const found = new Map<string, YoutubeVideo>();
+
+  for (let i = 0; i < ids.length; i += 50) {
+    const data = await ytGet<VideoDetailsResponse>('/videos', {
+      id: ids.slice(i, i + 50).join(','),
+      part: 'snippet,contentDetails',
+    });
+    for (const item of data.items) {
+      if (isUnplayableTitle(item.snippet.title)) continue;
+      found.set(item.id, {
+        youtubeId: item.id,
+        title: item.snippet.title,
+        description: '',
+        publishedAt: '',
+        durationSeconds: parseIsoDuration(item.contentDetails.duration),
+      });
+    }
+  }
+
+  return found;
+}
+
 /** channels.list → the channel's uploads playlist id. */
 export async function getUploadsPlaylistId(channelId: string): Promise<string> {
   const data = await ytGet<ChannelsResponse>('/channels', {
@@ -181,6 +217,32 @@ export async function listPlaylistVideos(playlistId: string): Promise<YoutubeVid
     video.durationSeconds = durations.get(video.youtubeId) ?? null;
   }
 
+  return videos;
+}
+
+/**
+ * Resolve a hand-picked set of video ids to titles and lengths, in the order
+ * they were given.
+ *
+ * The keyed path asks videos.list once per fifty ids. Without a key each id
+ * costs one page fetch, which is the honest price of a set that was never
+ * gathered into a playlist — the sets are a handful of videos each, not
+ * thousands.
+ *
+ * An id that resolves to nothing is returned as a null entry rather than being
+ * dropped. Its position is an episode number, so silently closing the gap
+ * would renumber every episode after it and point them at the wrong videos.
+ */
+export async function listVideos(ids: string[]): Promise<(YoutubeVideo | null)[]> {
+  if (process.env.YOUTUBE_API_KEY) {
+    const found = await getVideoDetails(ids);
+    return ids.map((id) => found.get(id) ?? null);
+  }
+
+  const videos: (YoutubeVideo | null)[] = [];
+  for (const id of ids) {
+    videos.push(await getPublicVideoDetails(id));
+  }
   return videos;
 }
 

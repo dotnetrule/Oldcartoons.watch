@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-10",
+  "fetchedAt": "2026-08-13T09:21:17.653Z",
   "detail": {
     "id": -22,
     "name": "Mighty Morphin Power Rangers",
@@ -12,68 +12,614 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Seizoen 1",
-        "episode_count": 6
+        "name": "Season 1",
+        "episode_count": 60
       }
     ]
   },
   "seasons": [
     {
       "season_number": 1,
-      "name": "Seizoen 1",
+      "name": "Season 1",
       "episodes": [
         {
-          "id": -31,
-          "name": "Day of the Dumpster",
+          "id": -22001,
+          "name": "Day of the Dumpster Happy Power Rangers Day MMPR S01 E01 HD",
           "season_number": 1,
           "episode_number": 1,
-          "air_date": "1994-09-03",
-          "runtime": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1244,
           "still_path": null
         },
         {
-          "id": -32,
-          "name": "High Five",
+          "id": -22002,
+          "name": "High Five Mighty Morphin Full Episode S01 E02 HD",
           "season_number": 1,
           "episode_number": 2,
-          "air_date": "1994-09-10",
-          "runtime": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1198,
           "still_path": null
         },
         {
-          "id": -33,
-          "name": "Teamwork",
+          "id": -22003,
+          "name": "Teamwork Mighty Morphin Full Episode S01 E03 HD",
           "season_number": 1,
           "episode_number": 3,
-          "air_date": "1994-09-17",
-          "runtime": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1173,
           "still_path": null
         },
         {
-          "id": -34,
-          "name": "A Pressing Engagement",
+          "id": -22004,
+          "name": "A Pressing Engagement Mighty Morphin Full Episode S01 E04 HD",
           "season_number": 1,
           "episode_number": 4,
-          "air_date": "1994-09-24",
-          "runtime": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1214,
           "still_path": null
         },
         {
-          "id": -35,
-          "name": "Different Drum",
+          "id": -22005,
+          "name": "Different Drum Mighty Morphin Full Episode S01 E05 HD",
           "season_number": 1,
           "episode_number": 5,
-          "air_date": "1994-10-01",
-          "runtime": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1208,
           "still_path": null
         },
         {
-          "id": -36,
-          "name": "Food Fight",
+          "id": -22006,
+          "name": "Food Fight Mighty Morphin Full Episode S01 E06 HD",
           "season_number": 1,
           "episode_number": 6,
-          "air_date": "1994-10-08",
-          "runtime": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1212,
+          "still_path": null
+        },
+        {
+          "id": -22007,
+          "name": "Big Sisters Mighty Morphin Full Episode S01 E07 HD",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1135,
+          "still_path": null
+        },
+        {
+          "id": -22008,
+          "name": "I Eye Guy Mighty Morphin Full Episode S01 E08 HD",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1155,
+          "still_path": null
+        },
+        {
+          "id": -22009,
+          "name": "For Whom the Bell Trolls Mighty Morphin Full Episode S01 E09 HD",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22010,
+          "name": "Happy Birthday Zack Mighty Morphin Full Episode S01 E10 HD",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22011,
+          "name": "No Clowning Around Mighty Morphin Full Episode S01 E11 HD",
+          "season_number": 1,
+          "episode_number": 11,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22012,
+          "name": "Power Ranger Punks Mighty Morphin Full Episode S01 E12 HD",
+          "season_number": 1,
+          "episode_number": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22013,
+          "name": "Peace Love and Woe Mighty Morphin Full Episode S01 E13 HD",
+          "season_number": 1,
+          "episode_number": 13,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1205,
+          "still_path": null
+        },
+        {
+          "id": -22014,
+          "name": "Foul Play in the Sky Mighty Morphin Full Episode S01 E14 HD",
+          "season_number": 1,
+          "episode_number": 14,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22015,
+          "name": "Dark Warrior Mighty Morphin Full Episode S01 E15 HD",
+          "season_number": 1,
+          "episode_number": 15,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1155,
+          "still_path": null
+        },
+        {
+          "id": -22016,
+          "name": "Switching Places Mighty Morphin Full Episode S01 E16 HD",
+          "season_number": 1,
+          "episode_number": 16,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22017,
+          "name": "Green With Evil Part I Out Of Control MMPR Full Episode S01 E17 HD",
+          "season_number": 1,
+          "episode_number": 17,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1206,
+          "still_path": null
+        },
+        {
+          "id": -22018,
+          "name": "Green With Evil Part II Jasons Battle MMPR Full Episode S01 E18 HD",
+          "season_number": 1,
+          "episode_number": 18,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1218,
+          "still_path": null
+        },
+        {
+          "id": -22019,
+          "name": "Green With Evil Part III The Rescue MMPR Full Episode S01 E19 HD",
+          "season_number": 1,
+          "episode_number": 19,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1146,
+          "still_path": null
+        },
+        {
+          "id": -22020,
+          "name": "Green With Evil Part IV Eclipsing Megazord MMPR Full Episode S01 E20 HD",
+          "season_number": 1,
+          "episode_number": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1216,
+          "still_path": null
+        },
+        {
+          "id": -22021,
+          "name": "Green With Evil Part V Breaking The Spell MMPR Full Episode S01 E21 HD",
+          "season_number": 1,
+          "episode_number": 21,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1145,
+          "still_path": null
+        },
+        {
+          "id": -22022,
+          "name": "The Trouble with Shellshock Mighty Morphin Full Episode S01 E22 HD",
+          "season_number": 1,
+          "episode_number": 22,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -22023,
+          "name": "Itsy Bitsy Spider Mighty Morphin Full Episode S01 E23 HD",
+          "season_number": 1,
+          "episode_number": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22024,
+          "name": "The Spit Flower Mighty Morphin Full Episode S01 E24 HD",
+          "season_number": 1,
+          "episode_number": 24,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -22025,
+          "name": "Lifes a Masquerade Mighty Morphin Full Episode S01 E25 HD",
+          "season_number": 1,
+          "episode_number": 25,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22026,
+          "name": "Gung Ho Mighty Morphin Full Episode S01 E26 HD",
+          "season_number": 1,
+          "episode_number": 26,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1200,
+          "still_path": null
+        },
+        {
+          "id": -22027,
+          "name": "Wheel of Misfortune Mighty Morphin Full Episode S01 E27 HD",
+          "season_number": 1,
+          "episode_number": 27,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1170,
+          "still_path": null
+        },
+        {
+          "id": -22028,
+          "name": "Island of Illusion Part I Mighty Morphin Full Episode S01 E28 HD",
+          "season_number": 1,
+          "episode_number": 28,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1217,
+          "still_path": null
+        },
+        {
+          "id": -22029,
+          "name": "Island of Illusion Part II Mighty Morphin Full Episode S01 E29 HD",
+          "season_number": 1,
+          "episode_number": 29,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1186,
+          "still_path": null
+        },
+        {
+          "id": -22030,
+          "name": "The Rockstar Mighty Morphin Full Episode S01 E30 HD",
+          "season_number": 1,
+          "episode_number": 30,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1178,
+          "still_path": null
+        },
+        {
+          "id": -22031,
+          "name": "Calamity Kimberly Mighty Morphin Full Episode S01 E31 HD",
+          "season_number": 1,
+          "episode_number": 31,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22032,
+          "name": "A Star Is Born Mighty Morphin Full Episode S01 E32 HD",
+          "season_number": 1,
+          "episode_number": 32,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1135,
+          "still_path": null
+        },
+        {
+          "id": -22033,
+          "name": "The Yolks on You Mighty Morphin Full Episode S01 E33 HD",
+          "season_number": 1,
+          "episode_number": 33,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1216,
+          "still_path": null
+        },
+        {
+          "id": -22034,
+          "name": "The Green Candle Part I Mighty Morphin Full Episode S01 E34 HD",
+          "season_number": 1,
+          "episode_number": 34,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1190,
+          "still_path": null
+        },
+        {
+          "id": -22035,
+          "name": "The Green Candle Part II Mighty Morphin Full Episode S01 E35 HD",
+          "season_number": 1,
+          "episode_number": 35,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1158,
+          "still_path": null
+        },
+        {
+          "id": -22036,
+          "name": "Birds of a Feather Mighty Morphin Full Episode S01 E36 HD",
+          "season_number": 1,
+          "episode_number": 36,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1218,
+          "still_path": null
+        },
+        {
+          "id": -22037,
+          "name": "CleanUp Club Mighty Morphin Full Episode S01 E37 HD",
+          "season_number": 1,
+          "episode_number": 37,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -22038,
+          "name": "A Bad Reflection on You Mighty Morphin Full Episode S01 E38 HD",
+          "season_number": 1,
+          "episode_number": 38,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1205,
+          "still_path": null
+        },
+        {
+          "id": -22039,
+          "name": "Doomsday Part I Mighty Morphin Full Episode S01 E39 HD",
+          "season_number": 1,
+          "episode_number": 39,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1155,
+          "still_path": null
+        },
+        {
+          "id": -22040,
+          "name": "Doomsday Part II Mighty Morphin Full Episode S01 E40 HD",
+          "season_number": 1,
+          "episode_number": 40,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1124,
+          "still_path": null
+        },
+        {
+          "id": -22041,
+          "name": "Ritas Seed of Evil Mighty Morphin Full Episode S01 E41 HD",
+          "season_number": 1,
+          "episode_number": 41,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1198,
+          "still_path": null
+        },
+        {
+          "id": -22042,
+          "name": "A Pig Surprise Mighty Morphin Full Episode S01 E42 HD",
+          "season_number": 1,
+          "episode_number": 42,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1215,
+          "still_path": null
+        },
+        {
+          "id": -22043,
+          "name": "Something Fishy Mighty Morphin Full Episode S01 E43 HD",
+          "season_number": 1,
+          "episode_number": 43,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1218,
+          "still_path": null
+        },
+        {
+          "id": -22044,
+          "name": "Lions Blizzards Mighty Morphin Full Episode S01 E44 HD",
+          "season_number": 1,
+          "episode_number": 44,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1179,
+          "still_path": null
+        },
+        {
+          "id": -22045,
+          "name": "Crystal of Nightmares Mighty Morphin Full Episode S01 E45 HD",
+          "season_number": 1,
+          "episode_number": 45,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1217,
+          "still_path": null
+        },
+        {
+          "id": -22046,
+          "name": "To Flea or Not to Flee Mighty Morphin Full Episode S01 E46 HD",
+          "season_number": 1,
+          "episode_number": 46,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1220,
+          "still_path": null
+        },
+        {
+          "id": -22047,
+          "name": "Reign of the Jellyfish Mighty Morphin Full Episode S01 E47 HD",
+          "season_number": 1,
+          "episode_number": 47,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1143,
+          "still_path": null
+        },
+        {
+          "id": -22048,
+          "name": "Plague of the Mantis Mighty Morphin Full Episode S01 E48 HD",
+          "season_number": 1,
+          "episode_number": 48,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1219,
+          "still_path": null
+        },
+        {
+          "id": -22049,
+          "name": "Return of an Old Friend Part I Mighty Morphin Full Episode S01 E49 HD",
+          "season_number": 1,
+          "episode_number": 49,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1218,
+          "still_path": null
+        },
+        {
+          "id": -22050,
+          "name": "Return of an Old Friend Part II Mighty Morphin Full Episode S01 E50 HD",
+          "season_number": 1,
+          "episode_number": 50,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1220,
+          "still_path": null
+        },
+        {
+          "id": -22051,
+          "name": "Grumble Bee Mighty Morphin Full Episode S01 E51 HD",
+          "season_number": 1,
+          "episode_number": 51,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1219,
+          "still_path": null
+        },
+        {
+          "id": -22052,
+          "name": "Two Heads are Better than One Mighty Morphin Full Episode S01 E52 HD",
+          "season_number": 1,
+          "episode_number": 52,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1190,
+          "still_path": null
+        },
+        {
+          "id": -22053,
+          "name": "Fowl Play Mighty Morphin Full Episode S01 E53 HD",
+          "season_number": 1,
+          "episode_number": 53,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1200,
+          "still_path": null
+        },
+        {
+          "id": -22054,
+          "name": "Trick or Treat Mighty Morphin Full Episode S01 E54 HD",
+          "season_number": 1,
+          "episode_number": 54,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1250,
+          "still_path": null
+        },
+        {
+          "id": -22055,
+          "name": "Second Chance Mighty Morphin Full Episode S01 E55 HD",
+          "season_number": 1,
+          "episode_number": 55,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1280,
+          "still_path": null
+        },
+        {
+          "id": -22056,
+          "name": "On Fins and Needles Mighty Morphin Full Episode S01 E56 HD",
+          "season_number": 1,
+          "episode_number": 56,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1278,
+          "still_path": null
+        },
+        {
+          "id": -22057,
+          "name": "Enter The Lizzinator Mighty Morphin Full Episode S01 E57 HD",
+          "season_number": 1,
+          "episode_number": 57,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1279,
+          "still_path": null
+        },
+        {
+          "id": -22058,
+          "name": "Football Season Mighty Morphin Full Episode S01 E58 HD",
+          "season_number": 1,
+          "episode_number": 58,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1276,
+          "still_path": null
+        },
+        {
+          "id": -22059,
+          "name": "Mighty Morphin Mutants Mighty Morphin Full Episode S01 E59 HD",
+          "season_number": 1,
+          "episode_number": 59,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1278,
+          "still_path": null
+        },
+        {
+          "id": -22060,
+          "name": "An Oyster Stew Mighty Morphin Full Episode S01 E60 HD - Final Episode",
+          "season_number": 1,
+          "episode_number": 60,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1280,
           "still_path": null
         }
       ]

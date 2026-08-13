@@ -113,23 +113,23 @@
     "id": "PLUundpgmbogWHF8eARydQlfwcuHGPuE84",
     "name": null,
     "curator": null,
-    "language": "en",
+    "language": "nl",
     "covers": [
       "shin-chan"
     ],
     "episodesFor": "shin-chan",
-    "note": "Aangeleverd als bron voor Shin chan; taal nog niet geverifieerd."
+    "note": "Nederlands nagesynchroniseerde afleveringen; de bron zet Nederlands in elke titel."
   },
   {
     "id": "PLipgHg_5Vqy3SH6cv1GBA9ESuX48X_dTF",
     "name": null,
     "curator": null,
-    "language": "en",
+    "language": "nl",
     "covers": [
       "the-tofus"
     ],
     "episodesFor": "the-tofus",
-    "note": "Aangeleverd als bron voor De Tofu's; taal nog niet geverifieerd."
+    "note": "Nederlands nagesynchroniseerde afleveringen."
   },
   {
     "id": "PLb73EPRCB--vEDbAzCVyij13zSKI-Vg6C",
@@ -212,11 +212,99 @@
     "id": "PLv8gpXY5S5lihat3vkYqaCo-slfsMn63K",
     "name": null,
     "curator": null,
-    "language": "en",
+    "language": "nl",
     "covers": [
       "fairly-oddparents"
     ],
     "episodesFor": "fairly-oddparents",
-    "note": "Aangeleverd als bron voor The Fairly OddParents; taal nog niet geverifieerd."
+    "note": "Nederlands nagesynchroniseerde afleveringen van Nickelodeon Nederland."
+  },
+  {
+    "id": "PLnr5AYHTPI72SrIMYt_lY5IvCKVft1u_Q",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "biker-mice"
+    ],
+    "episodesFor": "biker-mice",
+    "note": "Aangeleverd als bron voor Biker Mice from Mars; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLMVc1FubzrKZdGa5uKbEXsdvpKM4HtQwn",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "big-bad-beetleborgs"
+    ],
+    "episodesFor": "big-bad-beetleborgs",
+    "note": "Aangeleverd als bron voor Beetleborgs; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLLhOnau-tupS4Qpbn-wOEt51G8RDcqdqB",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "animaniacs"
+    ],
+    "episodesFor": "animaniacs",
+    "note": "Aangeleverd als bron voor Animaniacs; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLKUqNpET0bUSE1A3buTLoyWXD7X9HwcSF",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "power-rangers"
+    ],
+    "episodesFor": "power-rangers",
+    "note": "Aangeleverd als bron voor Power Rangers; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PL6Dhbl9KWVhsUpxenU1cWbJVcI21tRYkp",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "de-troetelbeertjes"
+    ],
+    "episodesFor": "de-troetelbeertjes",
+    "note": "Nederlandstalige afleveringen."
+  },
+  {
+    "id": "PLyysPNL1mmLsa-i4C1Vx9Ypegs37uyw8x",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "medabots"
+    ],
+    "episodesFor": "medabots",
+    "note": "Aangeleverd als bron voor Medabots; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLdk1HWx2zmIFGS60LMC3VEBRVtZiI5HSM",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "digimon-adventure"
+    ],
+    "episodesFor": "digimon-adventure",
+    "note": "Aangeleverd als bron voor Digimon; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLLhOnau-tupTeuiRJk7CZ-ytGiJZ7yQ-x",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "eek-the-cat"
+    ],
+    "episodesFor": "eek-the-cat",
+    "note": "Aangeleverd als bron voor Eek! The Cat; taal nog niet geverifieerd."
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-11T00:00:00.000Z",
+  "fetchedAt": "2026-08-13T09:21:17.657Z",
   "detail": {
     "id": -41,
     "name": "Medabots",
@@ -9,9 +9,302 @@
     "number_of_episodes": 91,
     "backdrop_path": null,
     "poster_path": null,
-    "seasons": []
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 28
+      }
+    ]
   },
-  "seasons": [],
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -41001,
+          "name": "Gestoken door een Metabee",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1298,
+          "still_path": null
+        },
+        {
+          "id": -41002,
+          "name": "Wraak van de Screws",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41003,
+          "name": "bang rennen",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41004,
+          "name": "De legendarische Medafighter",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41005,
+          "name": "De oude man en het zeemonster",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41006,
+          "name": "De Slag der Spoken",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41007,
+          "name": "Cyandog bijt terug",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41008,
+          "name": "In voor- en tegenspoed 1",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41009,
+          "name": "In voor- en tegenspoed II",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41010,
+          "name": "De mysterieuze Medabot",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41011,
+          "name": "De ontmaskering van phantom",
+          "season_number": 1,
+          "episode_number": 11,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41012,
+          "name": "Weg met de Medabots",
+          "season_number": 1,
+          "episode_number": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41013,
+          "name": "De uitvinder van alle Medabots",
+          "season_number": 1,
+          "episode_number": 13,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1298,
+          "still_path": null
+        },
+        {
+          "id": -41014,
+          "name": "De spion en de Medafighter",
+          "season_number": 1,
+          "episode_number": 14,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41015,
+          "name": "Opgejaagd door het verleden",
+          "season_number": 1,
+          "episode_number": 15,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41016,
+          "name": "Medabee tegen Rokusho",
+          "season_number": 1,
+          "episode_number": 16,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41017,
+          "name": "Gebruik de medaforce",
+          "season_number": 1,
+          "episode_number": 17,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41018,
+          "name": "Afgang op TV",
+          "season_number": 1,
+          "episode_number": 18,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41019,
+          "name": "De komst van Rintaro",
+          "season_number": 1,
+          "episode_number": 19,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41020,
+          "name": "De medafighter uit de ruimte",
+          "season_number": 1,
+          "episode_number": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41021,
+          "name": "Het Shaduwzwaard",
+          "season_number": 1,
+          "episode_number": 21,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41022,
+          "name": "metabots ep 22 Blijf van m'n moeder af",
+          "season_number": 1,
+          "episode_number": 22,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41023,
+          "name": "X-treem link",
+          "season_number": 1,
+          "episode_number": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41024,
+          "name": "De slag in de Ruïnes",
+          "season_number": 1,
+          "episode_number": 24,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41025,
+          "name": "Operatie kever chaos",
+          "season_number": 1,
+          "episode_number": 25,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41026,
+          "name": "De moeder aller robattles",
+          "season_number": 1,
+          "episode_number": 26,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41027,
+          "name": "S02E07 - Welkom in Ninja Wereld",
+          "season_number": 1,
+          "episode_number": 27,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        },
+        {
+          "id": -41028,
+          "name": "S03E01 - De opkomst van de Kilobot Medabots",
+          "season_number": 1,
+          "episode_number": 28,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1299,
+          "still_path": null
+        }
+      ]
+    }
+  ],
   "images": {
     "backdrops": [],
     "posters": []

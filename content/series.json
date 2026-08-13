@@ -817,5 +817,12 @@
     "networkSlug": "foxkids",
     "type": "Animation",
     "age": "Kids"
+  },
+  {
+    "slug": "biker-mice",
+    "tmdbId": -118,
+    "networkSlug": "syndication",
+    "type": "Animation",
+    "age": "Kids"
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-10",
+  "fetchedAt": "2026-08-13T09:21:17.653Z",
   "detail": {
     "id": -20,
     "name": "Animaniacs",
@@ -9,9 +9,812 @@
     "number_of_episodes": 99,
     "backdrop_path": null,
     "poster_path": null,
-    "seasons": []
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 79
+      }
+    ]
   },
-  "seasons": [],
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -20001,
+          "name": "The Monkey Song",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 250,
+          "still_path": null
+        },
+        {
+          "id": -20002,
+          "name": "Willie Slackmer",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 294,
+          "still_path": null
+        },
+        {
+          "id": -20003,
+          "name": "Dot's Quiet Time",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 292,
+          "still_path": null
+        },
+        {
+          "id": -20004,
+          "name": "Christmas Episode, pt6 -- Toy Shop Terror",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 264,
+          "still_path": null
+        },
+        {
+          "id": -20005,
+          "name": "Dancing Squirrel And Friends",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 892,
+          "still_path": null
+        },
+        {
+          "id": -20006,
+          "name": "Please Please Pleese Get a Life Foundation",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 250,
+          "still_path": null
+        },
+        {
+          "id": -20007,
+          "name": "Wakko's Gizmo",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 230,
+          "still_path": null
+        },
+        {
+          "id": -20008,
+          "name": "Yakko Warner sings all the words in the English Language",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 250,
+          "still_path": null
+        },
+        {
+          "id": -20009,
+          "name": "Wakko's America (with lyrics)",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 217,
+          "still_path": null
+        },
+        {
+          "id": -20010,
+          "name": "Animated Cat Adventure",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 616,
+          "still_path": null
+        },
+        {
+          "id": -20011,
+          "name": "Yakko's World of Baldness",
+          "season_number": 1,
+          "episode_number": 11,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 91,
+          "still_path": null
+        },
+        {
+          "id": -20012,
+          "name": "Skullhead Boneyhands -- S01E130",
+          "season_number": 1,
+          "episode_number": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 271,
+          "still_path": null
+        },
+        {
+          "id": -20013,
+          "name": "A Midsummer Nights Dream",
+          "season_number": 1,
+          "episode_number": 13,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 171,
+          "still_path": null
+        },
+        {
+          "id": -20014,
+          "name": "You Risk Your Life",
+          "season_number": 1,
+          "episode_number": 14,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 146,
+          "still_path": null
+        },
+        {
+          "id": -20015,
+          "name": "Swimming Animated Sharks",
+          "season_number": 1,
+          "episode_number": 15,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 609,
+          "still_path": null
+        },
+        {
+          "id": -20016,
+          "name": "Yakko's World",
+          "season_number": 1,
+          "episode_number": 16,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 108,
+          "still_path": null
+        },
+        {
+          "id": -20017,
+          "name": "The Presidents Song",
+          "season_number": 1,
+          "episode_number": 17,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 208,
+          "still_path": null
+        },
+        {
+          "id": -20018,
+          "name": "U. N. Me",
+          "season_number": 1,
+          "episode_number": 18,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 110,
+          "still_path": null
+        },
+        {
+          "id": -20019,
+          "name": "Yakko's Universe",
+          "season_number": 1,
+          "episode_number": 19,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 160,
+          "still_path": null
+        },
+        {
+          "id": -20020,
+          "name": "Animated Dinosaur Adventure",
+          "season_number": 1,
+          "episode_number": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 602,
+          "still_path": null
+        },
+        {
+          "id": -20021,
+          "name": "Variety Speak",
+          "season_number": 1,
+          "episode_number": 21,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 202,
+          "still_path": null
+        },
+        {
+          "id": -20022,
+          "name": "The Lion King Parody",
+          "season_number": 1,
+          "episode_number": 22,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 83,
+          "still_path": null
+        },
+        {
+          "id": -20023,
+          "name": "S03E36 -- The Presidents Song",
+          "season_number": 1,
+          "episode_number": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 208,
+          "still_path": null
+        },
+        {
+          "id": -20024,
+          "name": "Be Careful What You Eat",
+          "season_number": 1,
+          "episode_number": 24,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 99,
+          "still_path": null
+        },
+        {
+          "id": -20025,
+          "name": "COW Guinea Pig And Bunny",
+          "season_number": 1,
+          "episode_number": 25,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 667,
+          "still_path": null
+        },
+        {
+          "id": -20026,
+          "name": "The Solar System Song -- S01E140",
+          "season_number": 1,
+          "episode_number": 26,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 66,
+          "still_path": null
+        },
+        {
+          "id": -20027,
+          "name": "The Great Wakkorotti: The Summer Concert -- S01E136",
+          "season_number": 1,
+          "episode_number": 27,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 127,
+          "still_path": null
+        },
+        {
+          "id": -20028,
+          "name": "S01E07 -- The Nations of the World",
+          "season_number": 1,
+          "episode_number": 28,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 177,
+          "still_path": null
+        },
+        {
+          "id": -20029,
+          "name": "What Are We? (English)",
+          "season_number": 1,
+          "episode_number": 29,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 152,
+          "still_path": null
+        },
+        {
+          "id": -20030,
+          "name": "How To Save And View Playlists",
+          "season_number": 1,
+          "episode_number": 30,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 63,
+          "still_path": null
+        },
+        {
+          "id": -20031,
+          "name": "S01E16 -- It's a Great Big Universe",
+          "season_number": 1,
+          "episode_number": 31,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 120,
+          "still_path": null
+        },
+        {
+          "id": -20032,
+          "name": "Star Wars Animaniacs",
+          "season_number": 1,
+          "episode_number": 32,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 147,
+          "still_path": null
+        },
+        {
+          "id": -20033,
+          "name": "The Warners meet Elmyra",
+          "season_number": 1,
+          "episode_number": 33,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 168,
+          "still_path": null
+        },
+        {
+          "id": -20034,
+          "name": "Multiplication Song",
+          "season_number": 1,
+          "episode_number": 34,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 179,
+          "still_path": null
+        },
+        {
+          "id": -20035,
+          "name": "Recycle And Reuse Plastic",
+          "season_number": 1,
+          "episode_number": 35,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 60,
+          "still_path": null
+        },
+        {
+          "id": -20036,
+          "name": "Dot Can't Say Her Name",
+          "season_number": 1,
+          "episode_number": 36,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 167,
+          "still_path": null
+        },
+        {
+          "id": -20037,
+          "name": "The Senses Song",
+          "season_number": 1,
+          "episode_number": 37,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 119,
+          "still_path": null
+        },
+        {
+          "id": -20038,
+          "name": "Airline Safety with the Warners",
+          "season_number": 1,
+          "episode_number": 38,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 131,
+          "still_path": null
+        },
+        {
+          "id": -20039,
+          "name": "Hello Nurse",
+          "season_number": 1,
+          "episode_number": 39,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 187,
+          "still_path": null
+        },
+        {
+          "id": -20040,
+          "name": "Save Your Environment",
+          "season_number": 1,
+          "episode_number": 40,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 63,
+          "still_path": null
+        },
+        {
+          "id": -20041,
+          "name": "Meeting the P-sychiatrist",
+          "season_number": 1,
+          "episode_number": 41,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 225,
+          "still_path": null
+        },
+        {
+          "id": -20042,
+          "name": "Animanaics Clown and Out (short)",
+          "season_number": 1,
+          "episode_number": 42,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 214,
+          "still_path": null
+        },
+        {
+          "id": -20043,
+          "name": "PottyEmergency!!!",
+          "season_number": 1,
+          "episode_number": 43,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 149,
+          "still_path": null
+        },
+        {
+          "id": -20044,
+          "name": "Wakko's New Gookie",
+          "season_number": 1,
+          "episode_number": 44,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 249,
+          "still_path": null
+        },
+        {
+          "id": -20045,
+          "name": "Become A Better Person",
+          "season_number": 1,
+          "episode_number": 45,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 114,
+          "still_path": null
+        },
+        {
+          "id": -20046,
+          "name": "Wheel of Morality Compilation",
+          "season_number": 1,
+          "episode_number": 46,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 159,
+          "still_path": null
+        },
+        {
+          "id": -20047,
+          "name": "! - A Deadly Game of Checkers",
+          "season_number": 1,
+          "episode_number": 47,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 168,
+          "still_path": null
+        },
+        {
+          "id": -20048,
+          "name": "Typewriter Song (1993)",
+          "season_number": 1,
+          "episode_number": 48,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 79,
+          "still_path": null
+        },
+        {
+          "id": -20049,
+          "name": "AnimaniacsChristmas-daybeforeChristmas.avi",
+          "season_number": 1,
+          "episode_number": 49,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 280,
+          "still_path": null
+        },
+        {
+          "id": -20050,
+          "name": "Motivation Discipline Routine Persistence",
+          "season_number": 1,
+          "episode_number": 50,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 206,
+          "still_path": null
+        },
+        {
+          "id": -20051,
+          "name": "MacBeth",
+          "season_number": 1,
+          "episode_number": 51,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 151,
+          "still_path": null
+        },
+        {
+          "id": -20052,
+          "name": "Yakko's Wish",
+          "season_number": 1,
+          "episode_number": 52,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 77,
+          "still_path": null
+        },
+        {
+          "id": -20053,
+          "name": "Abducted",
+          "season_number": 1,
+          "episode_number": 53,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 139,
+          "still_path": null
+        },
+        {
+          "id": -20054,
+          "name": "Hamlet",
+          "season_number": 1,
+          "episode_number": 54,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 110,
+          "still_path": null
+        },
+        {
+          "id": -20055,
+          "name": "Dancing Steve, Golem And Fox",
+          "season_number": 1,
+          "episode_number": 55,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 984,
+          "still_path": null
+        },
+        {
+          "id": -20056,
+          "name": "I'm Mad",
+          "season_number": 1,
+          "episode_number": 56,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 263,
+          "still_path": null
+        },
+        {
+          "id": -20057,
+          "name": "Power Ranger Parody (unedited)",
+          "season_number": 1,
+          "episode_number": 57,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 302,
+          "still_path": null
+        },
+        {
+          "id": -20058,
+          "name": "Nations of the World - With Lyrics - Animaniacs",
+          "season_number": 1,
+          "episode_number": 58,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 120,
+          "still_path": null
+        },
+        {
+          "id": -20059,
+          "name": "Wakko's 50 State Capitols with Lyrics/Subtitles",
+          "season_number": 1,
+          "episode_number": 59,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 152,
+          "still_path": null
+        },
+        {
+          "id": -20060,
+          "name": "Donate to Charity",
+          "season_number": 1,
+          "episode_number": 60,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 60,
+          "still_path": null
+        },
+        {
+          "id": -20061,
+          "name": "Freakazoid, Wakko and the Brain argue.",
+          "season_number": 1,
+          "episode_number": 61,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 105,
+          "still_path": null
+        },
+        {
+          "id": -20062,
+          "name": "I'm Cute",
+          "season_number": 1,
+          "episode_number": 62,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 157,
+          "still_path": null
+        },
+        {
+          "id": -20063,
+          "name": "MacBeth",
+          "season_number": 1,
+          "episode_number": 63,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 150,
+          "still_path": null
+        },
+        {
+          "id": -20064,
+          "name": "The Warners seek Slappy's help",
+          "season_number": 1,
+          "episode_number": 64,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 82,
+          "still_path": null
+        },
+        {
+          "id": -20065,
+          "name": "Les Animaniacs | Elmyra Duff vs le T. rex",
+          "season_number": 1,
+          "episode_number": 65,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 64,
+          "still_path": null
+        },
+        {
+          "id": -20066,
+          "name": "The Ultimate Innuendos and Adult Jokes of Animaniacs",
+          "season_number": 1,
+          "episode_number": 66,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 629,
+          "still_path": null
+        },
+        {
+          "id": -20067,
+          "name": "Yakko drives!",
+          "season_number": 1,
+          "episode_number": 67,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 52,
+          "still_path": null
+        },
+        {
+          "id": -20068,
+          "name": "Warners defend their turkey",
+          "season_number": 1,
+          "episode_number": 68,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 54,
+          "still_path": null
+        },
+        {
+          "id": -20069,
+          "name": "Wakko: puppy musket",
+          "season_number": 1,
+          "episode_number": 69,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 83,
+          "still_path": null
+        },
+        {
+          "id": -20070,
+          "name": "Turkey gobbles Wakko's America",
+          "season_number": 1,
+          "episode_number": 70,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 41,
+          "still_path": null
+        },
+        {
+          "id": -20071,
+          "name": "Jetsons",
+          "season_number": 1,
+          "episode_number": 71,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 42,
+          "still_path": null
+        },
+        {
+          "id": -20072,
+          "name": "Mighty Wakko at Bat (4th volume episode)",
+          "season_number": 1,
+          "episode_number": 72,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 299,
+          "still_path": null
+        },
+        {
+          "id": -20073,
+          "name": "A Midsummer Night's Dream",
+          "season_number": 1,
+          "episode_number": 73,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 172,
+          "still_path": null
+        },
+        {
+          "id": -20074,
+          "name": "003 Dezanitized 1/4",
+          "season_number": 1,
+          "episode_number": 74,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 181,
+          "still_path": null
+        },
+        {
+          "id": -20075,
+          "name": "003 Dezanitized 2/4",
+          "season_number": 1,
+          "episode_number": 75,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 181,
+          "still_path": null
+        },
+        {
+          "id": -20076,
+          "name": "003 Dezanitized 3/4",
+          "season_number": 1,
+          "episode_number": 76,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 181,
+          "still_path": null
+        },
+        {
+          "id": -20077,
+          "name": "003 Dezanitized 4/4",
+          "season_number": 1,
+          "episode_number": 77,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 138,
+          "still_path": null
+        },
+        {
+          "id": -20078,
+          "name": "Playing Expedition Antarctica on Roblox",
+          "season_number": 1,
+          "episode_number": 78,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 982,
+          "still_path": null
+        },
+        {
+          "id": -20079,
+          "name": "We Cannot Take You With Us",
+          "season_number": 1,
+          "episode_number": 79,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 14401,
+          "still_path": null
+        }
+      ]
+    }
+  ],
   "images": {
     "backdrops": [],
     "posters": []

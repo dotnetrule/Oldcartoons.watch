@@ -62,10 +62,9 @@ episode list*, which needs a real positive `tmdbId` — nothing has one yet.
 
 What `add-playlist` refuses, all deliberately:
 
-- a URL with no `list=` — a `watch?v=…` link is a **video** id and identifies no
-  playlist. There is no path for a single video: `content/episodes.json`
-  requires provenance from a whitelisted playlist or channel. Ask for a
-  playlist link instead of inventing one.
+- a URL with no `list=` — a `watch?v=…` or `youtu.be/…` link is a **video** id
+  and identifies no playlist. Those go in `content/videos.json` instead; see
+  the next section.
 - auto-generated `RD…` mixes (built per viewer, not a stable list)
 - a duplicate id, or a slug not in `content/series.json`
 - a second playlist claiming a series whose list another one already owns
@@ -87,6 +86,42 @@ for (const s of i.series.filter(x=>x.availableCount>0))
   console.log(s.slug.padEnd(24), s.availableCount+'/'+s.episodeCount, s.availableLanguages.join(','));
 "
 ```
+
+## Adding loose videos (no playlist exists)
+
+Some series were never gathered into a playlist by anyone. What exists is a
+handful of separate uploads found one at a time. Those go in
+`content/videos.json`, hand-written — there is no script, because the ordering
+is the thing only a person can supply:
+
+```json
+[
+  {
+    "episodesFor": "why-why-family",
+    "language": "nl",
+    "videos": ["nNndV-t18mg", "wUgcLmIMahY", "iXQ4OHuDokI"],
+    "note": "Losse uploads; van deze serie bestaat geen playlist."
+  }
+]
+```
+
+It makes the same claim `--episodes-for` makes on a playlist — *these videos
+**are** that series' episode list* — with the order given by hand. Position is
+the episode number, so the order in the array is a decision, not a formality.
+
+Two things differ from a playlist. Titles and lengths are not stated anywhere
+in a bare id, so `fetch` resolves each video on its own (one page fetch each
+without an API key, one `videos.list` call per fifty with one). And provenance
+is **per video**: each episode records `video:<id>` rather than a shared source,
+because these videos have nothing in common but the person who chose them, and
+any one can rot while the rest keep playing.
+
+A video that cannot be read — private, removed, region-blocked — is reported by
+`fetch` and left out, and the rest keep their positions. It is never silently
+skipped: dropping it quietly would renumber every episode after it.
+
+One series, one list: a slug may not appear in both `videos.json` and a
+playlist's `episodesFor`. Both `match` and the build gate refuse that.
 
 ## Adding a series that does not exist yet
 
@@ -138,7 +173,7 @@ inside a programme, never station-shaped.
 
 | workflow | fires on | what it does |
 | --- | --- | --- |
-| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. |
+| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. |
 | `build.yml` | push to Master, every pull request, `workflow_dispatch` | `npm run build` — the same three gates Vercel runs (Zod, `vue-tsc`, vite), on a runner that costs nothing to fail. Needs no secrets. |
 | `health-check.yml` | weekly cron (Mondays 05:00 UTC), `workflow_dispatch` | Re-checks every matched video. Gone or un-embeddable flips the episode to `missing`. Opens a **pull request** rather than pushing, because removing episodes should be reviewed. |
 
@@ -159,7 +194,8 @@ rewrites `content/`):
 cp -r content scripts src package.json tsconfig*.json node_modules "$SCRATCH/probe/"
 # write $SCRATCH/probe/data/youtube/{playlistId}.json for each playlist:
 #   { fetchedAt, kind: "playlist", id, name, covers: [...], videos: [
-#       { youtubeId (11 chars), title, description, publishedAt }, … ] }
+#       { youtubeId (11 chars), title, description, publishedAt, durationSeconds }, … ] }
+# a hand-picked set is the same shape at videoset-{slug}.json, kind "videos"
 cd "$SCRATCH/probe" && npx tsx scripts/match.ts && npx tsx scripts/build-data.ts
 ```
 
@@ -189,8 +225,9 @@ npm run resolve-playlists  # needs network; fills in playlist title + curator
   `queue.json` and the seed files of playlist-backed series. Never run it to
   "see what happens" in the working tree.
 - **Episode records are decisions.** `match` never overwrites an existing one.
-  The exception is a playlist-derived series, whose whole list is rebuilt every
-  run — that is what lets a playlist that gained episodes show up.
+  The exception is a source-derived series — playlist or hand-picked set —
+  whose whole list is rebuilt every run. That is what lets a playlist that
+  gained episodes, or a video added to a set, show up on a re-run.
 - **`resolve-playlists` currently resolves nothing.** It fails to read title and
   owner from the public playlist page for every unattributed playlist, while
   `fetch` reads the same page for videos successfully — so it is the
