@@ -3,13 +3,15 @@
  * Tells the viewer that the audio they want is on the video but not on by
  * default, and where the switch is.
  *
- * This exists because YouTube gives an embed no way to choose an audio track.
- * There is no player parameter and no IFrame API call for it; the player picks
- * a track from the viewer's own language signals, and an embedded, logged-out
- * viewer usually gets the upload's original. So the archive can put an English
- * upload carrying a Nederlandse dub on a Dutch station — which is the whole
- * point of measuring the tracks — but it cannot start it in Dutch. Saying so is
- * the honest remainder.
+ * The fallback, not the plan. `preferAudioLanguage` switches the track itself
+ * on embeds that expose YouTube's undocumented audio-track methods, and where
+ * that works the viewer never sees this. Nothing promises those methods will
+ * stay, and YouTube documents no supported alternative — no player parameter,
+ * no IFrame API call — so when the player will not say what it is carrying,
+ * this is what is left. An embedded, logged-out viewer usually gets the
+ * upload's original: the archive can put an English upload carrying a
+ * Nederlandse dub on a Dutch station, and then has to admit it started in
+ * English and say where the switch is.
  *
  * Dismissible and remembered, because it is an instruction rather than a
  * warning: once a viewer knows where the menu is, repeating it every episode is
