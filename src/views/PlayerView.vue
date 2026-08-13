@@ -5,7 +5,13 @@ import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import { formatAirDate, pad2 } from '../data/helpers';
 import { AVAILABILITY_LABELS } from '../data/themes';
-import { NOCOOKIE_HOST, loadYoutubeApi, type YtPlayer } from '../player/youtubeApi';
+import { useFullscreen } from '../player/fullscreen';
+import {
+  NOCOOKIE_HOST,
+  allowIframeFullscreen,
+  loadYoutubeApi,
+  type YtPlayer,
+} from '../player/youtubeApi';
 import type { PublicEpisode } from '../types';
 
 const props = defineProps<{ slug: string; season: string; episode: string }>();
@@ -68,6 +74,8 @@ function backToSeries(): void {
 /* ---------------------------------------------------------------- */
 
 const mount = ref<HTMLDivElement | null>(null);
+const stage = ref<HTMLElement | null>(null);
+const { isFullscreen, cssFullscreen, toggle: toggleFullscreen } = useFullscreen(stage);
 let player: YtPlayer | null = null;
 let playerVideoId: string | null = null;
 
@@ -103,6 +111,7 @@ async function syncPlayer(videoId: string | null): Promise<void> {
     videoId,
     playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
     events: {
+      onReady: (event) => allowIframeFullscreen(event.target),
       onStateChange: (event) => {
         if (event.data === YT.PlayerState.ENDED) playNext();
       },
@@ -124,12 +133,36 @@ onBeforeUnmount(destroyPlayer);
 <template>
   <div v-if="series && season && episode" class="player">
     <div class="player-main">
-      <div class="video" :style="{ background: C.videoBg, borderColor: C.border2 }">
-        <!-- youtube-nocookie embed. No video is hosted or proxied here; the
-             player is the only playback path. -->
-        <div v-if="episode.youtubeId" ref="mount" class="video-frame"></div>
-        <div v-else class="video-gap" :style="{ color: C.dim }">
-          {{ AVAILABILITY_LABELS.missing }}
+      <div
+        ref="stage"
+        class="stage"
+        :class="{ 'css-fullscreen': cssFullscreen, 'is-fullscreen': isFullscreen }"
+        :style="{ background: C.videoBg, borderColor: C.border2 }"
+      >
+        <div class="video">
+          <!-- youtube-nocookie embed. No video is hosted or proxied here; the
+               player is the only playback path. -->
+          <div v-if="episode.youtubeId" ref="mount" class="video-frame"></div>
+          <div v-else class="video-gap" :style="{ color: C.dim }">
+            {{ AVAILABILITY_LABELS.missing }}
+          </div>
+        </div>
+        <!-- The screen's own controls. YouTube's bar sits at the bottom edge of
+             the embed, which on a wide window used to be below the fold: the
+             viewer had to scroll to find the one button that would have fixed
+             that. This one is always in view, and stays reachable in the CSS
+             fullscreen mode where there is no browser affordance to leave. -->
+        <div class="player-bar" :style="{ borderColor: C.border2 }">
+          <span class="mono bar-title">
+            S{{ pad2(episode.season) }}E{{ pad2(episode.episode) }} · {{ episode.title }}
+          </span>
+          <button
+            class="bar-btn"
+            :style="{ borderColor: C.border2, color: C.dim2 }"
+            @click="toggleFullscreen"
+          >
+            {{ isFullscreen ? 'Verlaat volledig scherm' : 'Volledig scherm' }}
+          </button>
         </div>
       </div>
       <div class="player-info">
@@ -181,20 +214,102 @@ onBeforeUnmount(destroyPlayer);
   align-items: flex-start;
 }
 
+/* The screen runs edge to edge; the gutters live on the text below it. */
 .player-main {
   flex: 1;
   min-width: 0;
-  padding: 20px 24px;
 }
 
+.stage {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+
+/**
+ * Everything above the screen (header, channel strip) plus the bar under it,
+ * with enough left over that the title below stays visible — so the page reads
+ * as having more to it without being scrolled.
+ */
+.stage {
+  --player-chrome: 200px;
+}
+
+/**
+ * A 16/9 box fills the width it is given, so on a wide window it used to be
+ * taller than the screen and its controls fell below the fold. Capping the
+ * width by the height that is actually available keeps the whole screen — and
+ * the bar under it — in view, and only bites once the window is too short to
+ * show it in full.
+ */
 .video {
   position: relative;
   width: 100%;
+  max-width: calc((100vh - var(--player-chrome)) * 16 / 9);
+  max-width: calc((100dvh - var(--player-chrome)) * 16 / 9);
   aspect-ratio: 16 / 9;
-  border: 1px solid;
+  margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.player-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 14px;
+  border-top: 1px solid;
+}
+
+.bar-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #aab1bf;
+}
+
+.bar-btn {
+  flex: none;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  padding: 6px 11px;
+  border-radius: 2px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* On the whole screen the height budget no longer applies: the picture takes
+   whatever the bar leaves, and YouTube letterboxes inside it. */
+.stage.is-fullscreen {
+  border: 0;
+}
+
+.stage.is-fullscreen .video {
+  max-width: none;
+  aspect-ratio: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Fallback for browsers with no element fullscreen at all — iOS Safari most of
+   all. It cannot escape the browser chrome, but it does fill the viewport. */
+.stage.css-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
 }
 
 .video-frame {
@@ -216,7 +331,7 @@ onBeforeUnmount(destroyPlayer);
 }
 
 .player-info {
-  padding: 16px 2px;
+  padding: 16px 24px 4px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -318,18 +433,18 @@ onBeforeUnmount(destroyPlayer);
    whatever slice of width the 320px rail leaves behind. Kept to CSS on
    purpose: a v-if variant would unmount the player's mount node on resize. */
 @media (max-width: 759px) {
+  /* Stretch, not flex-start: in a column the cross axis is the width, and
+     flex-start sizes each child to its own content instead of the screen. A
+     single line of text that will not wrap would otherwise widen the whole
+     page and take the channel strip with it. */
   .player {
     flex-direction: column;
+    align-items: stretch;
   }
 
-  /* The video runs edge to edge; the padding moves onto the text below it. */
-  .player-main {
-    padding: 0;
-  }
-
-  .video {
-    border-left: none;
-    border-right: none;
+  /* Less chrome above the screen on a phone, so more height is available. */
+  .stage {
+    --player-chrome: 150px;
   }
 
   .player-info {
