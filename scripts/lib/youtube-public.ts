@@ -432,34 +432,59 @@ async function readOembedTitle(videoId: string): Promise<string | null> {
 }
 
 /**
- * One watch page's `ytInitialPlayerResponse`, or null when it will not say.
+ * Why a watch page produced nothing.
+ *
+ * Worth naming rather than collapsing into null, because these ask for
+ * opposite responses and look identical in a log that only counts failures:
+ * `shell` means the archive is talking to YouTube and being handed an empty
+ * app frame, which is what a datacentre IP gets and no amount of retrying
+ * fixes; `unreachable` and `refused` are ordinary network answers.
+ */
+export type WatchPageFailure = 'unreachable' | 'refused' | 'shell' | 'redirected';
+
+type WatchPageResult =
+  | { ok: true; player: JsonObject }
+  | { ok: false; reason: WatchPageFailure };
+
+/**
+ * One watch page's `ytInitialPlayerResponse`, or why there isn't one.
  *
  * Never throws: every caller of this is reading a detail that improves a row
  * rather than one that decides whether the row exists, and a page that stays
  * quiet is not worth failing an ingest over.
  */
-async function getWatchPagePlayerResponse(videoId: string): Promise<JsonObject | null> {
+async function getWatchPagePlayerResponse(videoId: string): Promise<WatchPageResult> {
+  let res: Response;
   try {
-    const res = await fetch(
-      `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}&hl=en`,
-      { headers: PAGE_HEADERS },
-    );
-    if (!res.ok) return null;
-
-    const player = extractJsonBlob(await res.text(), 'ytInitialPlayerResponse');
-    if (!isObject(player)) return null;
-
-    // A page that answered about a different id was redirected to something
-    // else, and everything on it describes that other video.
-    const details = player['videoDetails'];
-    if (isObject(details) && typeof details['videoId'] === 'string' && details['videoId'] !== videoId) {
-      return null;
-    }
-
-    return player;
+    res = await fetch(`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}&hl=en`, {
+      headers: PAGE_HEADERS,
+    });
   } catch {
-    return null;
+    return { ok: false, reason: 'unreachable' };
   }
+
+  if (!res.ok) return { ok: false, reason: 'refused' };
+
+  let html: string;
+  try {
+    html = await res.text();
+  } catch {
+    return { ok: false, reason: 'unreachable' };
+  }
+
+  const player = extractJsonBlob(html, 'ytInitialPlayerResponse');
+  // A 200 that carries no player blob is the app shell: the page loaded and
+  // told this caller nothing about the video.
+  if (!isObject(player)) return { ok: false, reason: 'shell' };
+
+  // A page that answered about a different id was redirected to something
+  // else, and everything on it describes that other video.
+  const details = player['videoDetails'];
+  if (isObject(details) && typeof details['videoId'] === 'string' && details['videoId'] !== videoId) {
+    return { ok: false, reason: 'redirected' };
+  }
+
+  return { ok: true, player };
 }
 
 /**
@@ -469,8 +494,8 @@ async function getWatchPagePlayerResponse(videoId: string): Promise<JsonObject |
  * already got the video's identity from a source that does answer.
  */
 async function readWatchPageDuration(videoId: string): Promise<number | null> {
-  const player = await getWatchPagePlayerResponse(videoId);
-  const details = isObject(player) ? player['videoDetails'] : null;
+  const result = await getWatchPagePlayerResponse(videoId);
+  const details = result.ok ? result.player['videoDetails'] : null;
   if (!isObject(details)) return null;
 
   // A live stream reports zero, which is not a length.
@@ -510,17 +535,23 @@ function primaryLanguageSubtag(value: unknown): string | null {
  * Three answers, and the difference between the last two is what makes the
  * scan repeatable:
  *
- *   • null — the page carried no track information: blocked, age-gated, or
- *     served to a datacentre IP as a shell. Ask again another day.
+ *   • a failure reason — the page carried no track information. `shell` is the
+ *     one that matters: the request succeeded and YouTube handed back an empty
+ *     app frame, which is what a datacentre IP gets and what a runner will get
+ *     every time. The caller names it rather than counting it, because
+ *     "blocked" and "this video has one track" call for opposite responses.
  *   • []   — the page described its streams and none of them named a language.
  *     That is an ordinary single-track upload.
  *   • [..] — the languages on offer, the default one included.
  *
  * Never throws, for the same reason `readWatchPageDuration` does not.
  */
-export async function readAudioTrackLanguages(videoId: string): Promise<string[] | null> {
-  const player = await getWatchPagePlayerResponse(videoId);
-  if (player === null) return null;
+export async function readAudioTrackLanguages(
+  videoId: string,
+): Promise<{ ok: true; languages: string[] } | { ok: false; reason: WatchPageFailure }> {
+  const result = await getWatchPagePlayerResponse(videoId);
+  if (!result.ok) return result;
+  const player = result.player;
 
   const languages = new Set<string>();
 
@@ -571,9 +602,13 @@ export async function readAudioTrackLanguages(videoId: string): Promise<string[]
     }
   }
 
-  if (languages.size === 0 && !describedStreams && !describedPicker) return null;
+  // A 200 with a player blob that still says nothing about streams or tracks is
+  // the same empty frame by another route, so it reports the same way.
+  if (languages.size === 0 && !describedStreams && !describedPicker) {
+    return { ok: false, reason: 'shell' };
+  }
 
-  return [...languages].sort();
+  return { ok: true, languages: [...languages].sort() };
 }
 
 /** Read a public playlist's title and owner without an API key. */
