@@ -158,9 +158,21 @@ Build-time only — see [`.env.example`](./.env.example). The app never reads
 them; only `scripts/` and CI do.
 
 ```sh
-TMDB_API_KEY=...      # npm run fetch
+TMDB_READONLY_KEY=... # npm run fetch — TMDB read access token
+TMDB_API_KEY=...      # npm run fetch — TMDB v3 API key
 YOUTUBE_API_KEY=...   # npm run fetch, npm run health-check
 ```
+
+TMDB issues both credentials for the same account and the v3 endpoints accept
+either, so **one of the two is enough**. `scripts/lib/tmdb.ts` prefers the read
+access token, which is sent as an `Authorization: Bearer` header rather than a
+query parameter and so never lands in a URL; it falls back to the API key, and
+throws naming both when neither is set. A 401 names the credential that was
+actually sent, because the two are easy to swap by mistake.
+
+Both are repository secrets, passed to the fetch step in `ingest.yml`. GitHub
+secret names are case-insensitive, so `TMDB_readonly_key` and `TMDB_api_key`
+are the same secrets as the upper-case names used in the workflow.
 
 ## Pipeline
 

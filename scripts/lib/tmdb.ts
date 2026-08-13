@@ -8,20 +8,54 @@ const API_BASE = 'https://api.themoviedb.org/3';
 
 export const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p';
 
-function apiKey(): string {
-  const key = process.env.TMDB_API_KEY;
-  if (!key) throw new Error('TMDB_API_KEY is not set — cannot fetch TMDB metadata');
-  return key;
+/** How a request proves who it is: a header, a query parameter, or both. */
+type TmdbCredential = {
+  label: string;
+  headers: Record<string, string>;
+  query: Record<string, string>;
+};
+
+/**
+ * TMDB issues two credentials for the same account and they authenticate
+ * differently: the v3 API key travels as an `api_key` query parameter, the
+ * read access token as an `Authorization: Bearer` header. Both are accepted by
+ * the v3 endpoints this client calls, so either one alone is enough to ingest.
+ *
+ * The token wins when both are set. It is the credential TMDB hands out for
+ * read-only use, and keeping it out of the URL keeps it out of anything that
+ * echoes a URL back — a proxy log, or the failure message below.
+ */
+function credential(): TmdbCredential {
+  const token = process.env.TMDB_READONLY_KEY?.trim();
+  if (token) {
+    return { label: 'TMDB_READONLY_KEY', headers: { Authorization: `Bearer ${token}` }, query: {} };
+  }
+
+  const key = process.env.TMDB_API_KEY?.trim();
+  if (key) return { label: 'TMDB_API_KEY', headers: {}, query: { api_key: key } };
+
+  throw new Error(
+    'No TMDB credential is set — cannot fetch TMDB metadata.\n' +
+      'Set TMDB_READONLY_KEY (the read access token) or TMDB_API_KEY (the v3 API key).\n' +
+      'Both are on https://www.themoviedb.org/settings/api.',
+  );
 }
 
 async function tmdbGet<T>(path: string, params: Record<string, string> = {}): Promise<T> {
+  const auth = credential();
+
   const url = new URL(API_BASE + path);
-  url.searchParams.set('api_key', apiKey());
+  for (const [k, v] of Object.entries(auth.query)) url.searchParams.set(k, v);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
 
-  const res = await fetch(url);
+  const res = await fetch(url, { headers: { accept: 'application/json', ...auth.headers } });
   if (!res.ok) {
-    throw new Error(`TMDB ${path} failed: ${res.status} ${res.statusText}`);
+    // 401 is the one failure that is about the credential rather than the
+    // request, and the two key types are easy to swap by mistake — so name the
+    // one that was actually sent instead of leaving that to be guessed.
+    const because =
+      res.status === 401 ? ` — ${auth.label} was rejected; check it is the right key type` : '';
+    throw new Error(`TMDB ${path} failed: ${res.status} ${res.statusText}${because}`);
   }
   return (await res.json()) as T;
 }

@@ -228,7 +228,7 @@ inside a programme, never station-shaped.
 
 | workflow | fires on | what it does |
 | --- | --- | --- |
-| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `scan-audio` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. |
+| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `scan-audio` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. Passes `YOUTUBE_API_KEY`, `TMDB_READONLY_KEY` and `TMDB_API_KEY` through to `fetch`; the TMDB pair is unused while `--youtube-only` stands, and is already wired for when it goes. |
 | `build.yml` | push to Master, every pull request, `workflow_dispatch` | `npm run build` — the same three gates Vercel runs (Zod, `vue-tsc`, vite), on a runner that costs nothing to fail. Needs no secrets. |
 | `health-check.yml` | weekly cron (Mondays 05:00 UTC), `workflow_dispatch` | Re-checks every matched video, then reads the audio tracks of any it has not read yet. Gone or un-embeddable flips the episode to `missing`. Opens a **pull request** rather than pushing, because removing episodes should be reviewed. |
 
