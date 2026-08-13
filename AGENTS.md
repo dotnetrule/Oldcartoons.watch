@@ -236,7 +236,7 @@ inside a programme, never station-shaped.
 
 | workflow | fires on | what it does |
 | --- | --- | --- |
-| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `scan-audio` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. |
+| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `scan-audio` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. When the branch has an open pull request, the run comments on it once it is done — see below. |
 | `build.yml` | push to Master, every pull request, `workflow_dispatch` | `npm run build` — the same three gates Vercel runs (Zod, `vue-tsc`, vite), on a runner that costs nothing to fail. Needs no secrets. |
 | `health-check.yml` | weekly cron (Mondays 05:00 UTC), `workflow_dispatch` | Re-checks every matched video, then reads the audio tracks of any it has not read yet. Gone or un-embeddable flips the episode to `missing`. Opens a **pull request** rather than pushing, because removing episodes should be reviewed. |
 
@@ -245,6 +245,14 @@ when it reaches a pull request, not when it lands on the branch. Expect the
 ingest commit to appear on your branch a minute or two after your push, and
 re-read the PR body afterwards — anything it said about pending data is now
 stale.
+
+**Do not merge a pull request while its ingest is still running.** The episodes
+are pushed to *that branch*, never to Master, so a merge that lands first takes
+the code and leaves the data on a closed branch — the diff looks complete and
+the archive comes out empty. This has happened twice. The run now comments on
+the pull request when it finishes, saying whether it committed and whether
+merging is safe; wait for that comment. If you merged too early anyway, the fix
+is to let the run finish, then open a fresh pull request carrying its commit.
 
 ## Verifying without network access
 
