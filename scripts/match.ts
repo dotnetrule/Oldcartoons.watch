@@ -44,7 +44,7 @@ import {
 } from './lib/paths';
 import { loadSeriesCache } from './lib/series-metadata';
 import { CONFIDENCE_THRESHOLD, scoreMatch } from './lib/similarity';
-import { derivePlaylistSeries } from './lib/playlist-episodes';
+import { derivePlaylistSeries, type SourcedVideo } from './lib/playlist-episodes';
 import type { YoutubeSourceCache } from './fetch';
 
 /** How many ranked candidates a queue entry carries. Enough to choose from,
@@ -67,17 +67,19 @@ function loadYoutubeSources(): YoutubeSourceCache[] {
  * or a hand-picked set of videos that is.
  */
 type EpisodeListOwner =
-  | { kind: 'playlist'; playlist: PlaylistSource }
+  /** One or more playlists, in whitelist order — that order is the episode
+   * order across the group, so the array is never re-sorted here. */
+  | { kind: 'playlists'; playlists: PlaylistSource[] }
   | { kind: 'videos'; set: VideoSetSource };
 
-/** Where the cached dump for this owner was written by `fetch`. */
-const ownerCacheId = (owner: EpisodeListOwner): string =>
-  owner.kind === 'playlist' ? owner.playlist.id : `videoset-${owner.set.episodesFor}`;
+/** How one playlist reads in a log line or an error. */
+const playlistLabel = (playlist: PlaylistSource): string =>
+  `playlist '${playlist.name ?? playlist.id}' (${playlist.id})`;
 
 /** How the owner reads in a log line or an error. */
 const ownerLabel = (owner: EpisodeListOwner): string =>
-  owner.kind === 'playlist'
-    ? `playlist '${owner.playlist.name ?? owner.playlist.id}' (${owner.playlist.id})`
+  owner.kind === 'playlists'
+    ? owner.playlists.map(playlistLabel).join(' + ')
     : `the hand-picked video set for '${owner.set.episodesFor}'`;
 
 /**
@@ -98,54 +100,96 @@ function rebuildFromSource(
   youtubeSources: YoutubeSourceCache[],
   today: string,
 ): Episode[] | null {
-  const cacheId = ownerCacheId(owner);
-  const dump = youtubeSources.find((yt) => yt.id === cacheId);
-  if (!dump) {
-    throw new Error(
-      `${ownerLabel(owner)} owns the episode list for '${source.slug}' ` +
-        `but has not been fetched — run 'npm run fetch' first`,
+  // The group's playlists are read in whitelist order and their videos laid
+  // end to end. That order is the episode order, so it is preserved exactly as
+  // content/playlists.json states it.
+  const videos: SourcedVideo[] = [];
+  if (owner.kind === 'playlists') {
+    for (const playlist of owner.playlists) {
+      const dump = youtubeSources.find((yt) => yt.id === playlist.id);
+      if (!dump) {
+        throw new Error(
+          `${playlistLabel(playlist)} owns part of the episode list for '${source.slug}' ` +
+            `but has not been fetched — run 'npm run fetch' first`,
+        );
+      }
+      // A playlist that cached nothing means the fetch went wrong: the reader
+      // throws on an unreadable playlist rather than returning an empty one,
+      // so zero items is a state that should not exist and is worth failing
+      // on.
+      videos.push(
+        ...dump.videos.map((video) => ({
+          video,
+          playlistId: playlist.id,
+          maxDurationSeconds: playlist.maxDurationSeconds,
+        })),
+      );
+    }
+  } else {
+    const dump = youtubeSources.find((yt) => yt.id === `videoset-${owner.set.episodesFor}`);
+    if (!dump) {
+      throw new Error(
+        `${ownerLabel(owner)} owns the episode list for '${source.slug}' ` +
+          `but has not been fetched — run 'npm run fetch' first`,
+      );
+    }
+    // A hand-picked set is different from a playlist. `fetch` resolves its
+    // videos one at a time and deliberately keeps what it got, so an empty set
+    // means every one of them was unreadable from that machine — a fact about
+    // the run, not about the archive. Saying so and moving on leaves the other
+    // sources to ingest and leaves any episodes a previous run derived exactly
+    // where they are.
+    if (dump.videos.length === 0) {
+      console.warn(
+        `  ${source.slug}: none of the ${owner.set.videos.length} hand-picked videos could be read — ` +
+          `leaving the episode list as it was`,
+      );
+      return null;
+    }
+    videos.push(
+      ...dump.videos.map((video) => ({
+        video,
+        playlistId: null,
+        maxDurationSeconds: null,
+      })),
     );
-  }
-
-  // A playlist that cached nothing means the fetch went wrong: the reader
-  // throws on an unreadable playlist rather than returning an empty one, so
-  // zero items is a state that should not exist and is worth failing on.
-  //
-  // A hand-picked set is different. `fetch` resolves its videos one at a time
-  // and deliberately keeps what it got, so an empty set means every one of
-  // them was unreadable from that machine — a fact about the run, not about
-  // the archive. Saying so and moving on leaves the other sources to ingest
-  // and leaves any episodes a previous run derived exactly where they are.
-  if (owner.kind === 'videos' && dump.videos.length === 0) {
-    console.warn(
-      `  ${source.slug}: none of the ${owner.set.videos.length} hand-picked videos could be read — ` +
-        `leaving the episode list as it was`,
-    );
-    return null;
   }
 
   const seedPath = seriesMetadataPath(source.tmdbId);
   const existing = loadSeriesCache(source, historicalSeed);
 
-  const { cache, episodes } = derivePlaylistSeries({
+  const { cache, episodes, skipped } = derivePlaylistSeries({
     source,
     seriesName: existing.detail.name,
     existing,
-    videos: dump.videos,
+    videos,
     origin:
-      owner.kind === 'playlist'
-        ? { kind: 'playlist', id: owner.playlist.id }
+      owner.kind === 'playlists'
+        ? { kind: 'playlists', ids: owner.playlists.map((playlist) => playlist.id) }
         : { kind: 'videos', label: owner.set.episodesFor },
     today,
   });
 
   writeJson(seedPath, cache);
   console.log(
-    owner.kind === 'playlist'
-      ? `  ${source.slug}: ${episodes.length} episodes from playlist '${owner.playlist.name ?? owner.playlist.id}'` +
-          (owner.playlist.curator ? ` by ${owner.playlist.curator}` : '')
+    owner.kind === 'playlists'
+      ? `  ${source.slug}: ${episodes.length} episodes from ${owner.playlists.length === 1 ? 'playlist' : `${owner.playlists.length} playlists`} ` +
+          owner.playlists
+            .map((p) => `'${p.name ?? p.id}'${p.curator ? ` by ${p.curator}` : ''}`)
+            .join(' + ')
       : `  ${source.slug}: ${episodes.length} episodes from ${episodes.length === 1 ? 'a hand-picked video' : 'hand-picked videos'}`,
   );
+  // A video left out is reported, never dropped in silence: unmentioned, a cut
+  // list is indistinguishable from a playlist that was always this short.
+  for (const item of skipped) {
+    const length =
+      item.video.durationSeconds === null ? 'unknown length' : `${item.video.durationSeconds}s`;
+    console.log(
+      item.reason === 'too-long'
+        ? `    skipped (${length}, over the ceiling): ${item.video.title}`
+        : `    skipped (already listed by an earlier playlist): ${item.video.title}`,
+    );
+  }
   return episodes;
 }
 
@@ -169,11 +213,21 @@ function main(): void {
   // A series whose episode list a curated source owns does not go through
   // matching at all: there is nothing to match, because the source authors
   // both sides of the pairing.
+  //
+  // Several playlists may name the same series. They are grouped in the order
+  // content/playlists.json lists them, because that order is the episode order
+  // across the group.
+  const playlistGroups = new Map<string, PlaylistSource[]>();
+  for (const playlist of playlists) {
+    if (playlist.episodesFor === null) continue;
+    const group = playlistGroups.get(playlist.episodesFor);
+    if (group) group.push(playlist);
+    else playlistGroups.set(playlist.episodesFor, [playlist]);
+  }
+
   const episodeListOwner = new Map<string, EpisodeListOwner>([
-    ...playlists.flatMap((playlist) =>
-      playlist.episodesFor === null
-        ? []
-        : [[playlist.episodesFor, { kind: 'playlist', playlist }] as const],
+    ...[...playlistGroups].map(
+      ([slug, group]) => [slug, { kind: 'playlists', playlists: group }] as const,
     ),
     ...videoSets.map((set) => [set.episodesFor, { kind: 'videos', set }] as const),
   ]);

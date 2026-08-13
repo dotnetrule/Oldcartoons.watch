@@ -367,6 +367,11 @@ export const playlistSourceSchema = z
     // Absent in a hand-written entry means the ordinary candidate-pool
     // behaviour, which is what every playlist did before this field existed.
     episodesFor: slugSchema.nullable().default(null),
+    // Null is "no ceiling", the behaviour every playlist had before this field
+    // existed. A ceiling only makes sense on a playlist that authors an
+    // episode list — the candidate-pool path scores against TMDB's own list
+    // and never numbers an upload it did not match.
+    maxDurationSeconds: z.number().int().positive().nullable().default(null),
     note: z.string(),
   })
   .superRefine((playlist, ctx) => {
@@ -380,24 +385,52 @@ export const playlistSourceSchema = z
         message: `'${playlist.episodesFor}' is not in covers (${playlist.covers.join(', ')}) — a playlist cannot own the episode list of a series it is not scoped to`,
       });
     }
+    // A ceiling on a candidate-pool playlist would read as a working filter
+    // and do nothing: that path numbers TMDB's episodes, never the uploads.
+    if (playlist.maxDurationSeconds !== null && playlist.episodesFor === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['maxDurationSeconds'],
+        message:
+          'maxDurationSeconds only applies to a playlist that owns an episode list — set episodesFor, or drop the ceiling',
+      });
+    }
   });
 
+/**
+ * Several playlists may together be one series' episode list.
+ *
+ * A curator rarely gathers a whole show into a single list — one holds the
+ * first two seasons and another the rest, or a rights-holder splits the
+ * uploads across two lists years apart. Turning the second one away leaves
+ * real episodes out of the archive.
+ *
+ * What made two owners a problem was never the count, it was the ordering:
+ * two lists are two sequences, and merging them by guesswork picks an episode
+ * order nobody chose. So the order is stated instead of inferred — **the
+ * playlists are concatenated in the order they appear in this file**, exactly
+ * as the array order in content/videos.json is the episode order there. Where
+ * a playlist sits in the file is a decision, not a formality.
+ *
+ * `derivePlaylistSeries` drops a video already contributed by an earlier
+ * playlist, so overlapping lists produce one row per episode rather than a
+ * duplicate that shifts every number after it.
+ */
 export const playlistsFileSchema = z.array(playlistSourceSchema).superRefine((all, ctx) => {
-  const owners = new Map<string, number>();
+  // Within the file a playlist id appears once. The same list whitelisted
+  // twice is a paste slip, and appending it to a series twice would number
+  // every one of its episodes a second time.
+  const seen = new Map<string, number>();
   all.forEach((playlist, index) => {
-    if (playlist.episodesFor === null) return;
-    const first = owners.get(playlist.episodesFor);
+    const first = seen.get(playlist.id);
     if (first === undefined) {
-      owners.set(playlist.episodesFor, index);
+      seen.set(playlist.id, index);
       return;
     }
-    // Two playlists both claiming to be the episode list means two orderings
-    // for one series. There is no correct way to merge them, so it fails here
-    // rather than letting whichever ran last win.
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      path: [index, 'episodesFor'],
-      message: `'${playlist.episodesFor}' already has its episode list owned by the playlist at index ${first}`,
+      path: [index, 'id'],
+      message: `playlist '${playlist.id}' is already whitelisted at index ${first}`,
     });
   });
 });

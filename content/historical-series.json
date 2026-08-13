@@ -488,5 +488,26 @@
     "overview": "Amerikaanse tekenfilmserie over drie muizen van Mars die op motoren naar de aarde vluchten en in Chicago de strijd aanbinden met de plutarkiaanse vijand die hun planeet leegroofde.",
     "firstAirYear": 1993,
     "lastAirYear": 1996
+  },
+  {
+    "tmdbId": -119,
+    "name": "Kikker",
+    "overview": "Nederlandse animatieserie naar de prentenboeken van Max Velthuijs, over Kikker en zijn vrienden Eend, Rat, Varkentje en Haas. Korte afleveringen voor de allerkleinsten, verteld in de rustige tekenstijl van de boeken.",
+    "firstAirYear": 2004,
+    "lastAirYear": 2005
+  },
+  {
+    "tmdbId": -120,
+    "name": "Peppa Big",
+    "overview": "Nederlands nagesynchroniseerde versie van de Britse animatieserie over het biggetje Peppa, haar broertje George en hun ouders. Afleveringen van een paar minuten over het gewone leven van een kleuter.",
+    "firstAirYear": 2004,
+    "lastAirYear": 2005
+  },
+  {
+    "tmdbId": -121,
+    "name": "Winnie de Poeh",
+    "overview": "Nederlands nagesynchroniseerde Disney-animatieserie over Winnie de Poeh en zijn vrienden Knorretje, Teigetje, Iejoor en Janneman Robinson in het Honderd Bunder Bos.",
+    "firstAirYear": 1988,
+    "lastAirYear": 1991
   }
 ]

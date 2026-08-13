@@ -824,5 +824,26 @@
     "networkSlug": "syndication",
     "type": "Animation",
     "age": "Kids"
+  },
+  {
+    "slug": "kikker",
+    "tmdbId": -119,
+    "networkSlug": "nederland3",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "peppa-big",
+    "tmdbId": -120,
+    "networkSlug": "nickelodeon",
+    "type": "Animation",
+    "age": "Preschool"
+  },
+  {
+    "slug": "winnie-de-poeh",
+    "tmdbId": -121,
+    "networkSlug": "rtl4",
+    "type": "Animation",
+    "age": "Preschool"
   }
 ]

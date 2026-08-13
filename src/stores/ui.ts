@@ -1,12 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import {
-  THEMES,
-  type AgeFilter,
-  type ThemeId,
-  type TypeFilter,
-  type ViewMode,
-} from '../data/themes';
+import { THEMES, type ThemeId, type TypeFilter, type ViewMode } from '../data/themes';
+import { AGE_CEILINGS, type AgeCeiling } from '../data/age';
 
 function readStored<T extends string>(key: string, fallback: T, allowed: readonly T[]): T {
   try {
@@ -45,7 +40,10 @@ export const useUiStore = defineStore('ui', () => {
   const theme = ref<ThemeId>(readStored('ntv-theme', 'dark', ['dark', 'light']));
   const viewMode = ref<ViewMode>(readStored('ntv-view', 'listings', ['listings', 'covers']));
   const typeFilter = ref<TypeFilter>('All');
-  const ageFilter = ref<AgeFilter>('All');
+  // Unlike the type filter, this one survives a reload. A household that sets
+  // a ceiling means it to hold — a lock that lifts itself the next time the
+  // page is opened is not a lock.
+  const ageFilter = ref<AgeCeiling>(readStored('ntv-age', 'All', AGE_CEILINGS));
   const previewSlug = ref<string | null>(null);
   const reportedKeys = ref(new Set<string>());
   const flicker = ref(false);
@@ -81,8 +79,9 @@ export const useUiStore = defineStore('ui', () => {
     typeFilter.value = value;
   }
 
-  function setAgeFilter(value: AgeFilter): void {
+  function setAgeFilter(value: AgeCeiling): void {
     ageFilter.value = value;
+    persist('ntv-age', value);
   }
 
   function setPreview(slug: string | null): void {

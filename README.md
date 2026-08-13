@@ -226,6 +226,44 @@ plausible-looking wrong values. A curated playlist is a flat ordered list — it
 asserts sequence and nothing about season boundaries — so everything lands in
 season 1.
 
+#### Several playlists, one episode list
+
+A curator rarely gathers a whole show into a single list. One holds the first
+two seasons and another the rest; a rights-holder splits its uploads across two
+lists years apart. Turning the second one away leaves real episodes out of the
+archive, so more than one playlist may name the same series in `episodesFor`.
+
+What made two owners a problem was never the count — it was the ordering. Two
+lists are two sequences, and merging them by upload date or title would pick an
+episode order nobody chose. So the order is **stated rather than inferred**:
+the playlists are laid end to end in the order `content/playlists.json` lists
+them, exactly as the array order in `content/videos.json` is the episode order
+there. Where a playlist sits in the file is a decision. A video an earlier
+playlist already contributed is dropped rather than numbered a second time,
+which is what keeps two overlapping lists from shifting every episode after the
+overlap.
+
+Provenance stays per playlist even when several make one list: each episode
+records the playlist it actually came from, so one list rotting is still
+droppable as a unit while the others keep playing.
+
+#### Compilations are not episodes
+
+Playlists of short-form children's shows routinely mix the episodes with
+hour-long compilations of those same episodes. Both are legitimate uploads and
+only one of them is an episode: ingested as a row, a compilation claims a
+45-minute broadcast slot and replays material the rows around it already carry.
+
+`maxDurationSeconds` on a playlist is the cut. It compares against the video's
+**measured** length — the same figure the broadcast slot is cut from, read from
+the source rather than guessed — and it applies before anything is numbered, so
+the surviving episode numbers run 1, 2, 3 with no hole where a compilation used
+to be. A video whose length the source never stated is kept rather than
+dropped: filtering on a length nobody reported would be exactly the guess this
+is here to avoid. Every cut video is named in the ingest log, because a cut
+list nobody mentions is indistinguishable from a playlist that was always this
+short.
+
 #### A guide listing can acquire an episode list
 
 `content/historical-series.json` holds titles lifted from historical Dutch TV

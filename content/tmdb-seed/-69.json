@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-13T09:21:17.661Z",
+  "fetchedAt": "2026-08-13T12:34:53.429Z",
   "detail": {
     "id": -69,
     "name": "Life with Louie",
@@ -24,7 +24,7 @@
       "episodes": [
         {
           "id": -69001,
-          "name": "A Christmas Surprise for Mrs Stillman",
+          "name": "Stillman",
           "season_number": 1,
           "episode_number": 1,
           "air_date": null,

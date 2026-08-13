@@ -8,6 +8,7 @@
       "spc"
     ],
     "episodesFor": "spc",
+    "maxDurationSeconds": null,
     "note": ""
   },
   {
@@ -19,6 +20,7 @@
       "whats-with-andy"
     ],
     "episodesFor": "whats-with-andy",
+    "maxDurationSeconds": null,
     "note": ""
   },
   {
@@ -30,6 +32,7 @@
       "flint-the-time-detective"
     ],
     "episodesFor": "flint-the-time-detective",
+    "maxDurationSeconds": null,
     "note": "Engelstalige fallback; vervangen zodra een complete en stabiele Nederlandse playlist beschikbaar is."
   },
   {
@@ -41,6 +44,7 @@
       "bobbys-world"
     ],
     "episodesFor": "bobbys-world",
+    "maxDurationSeconds": null,
     "note": "Engelstalige fallback met afleveringen van Kabillion; vervangen zodra een complete en stabiele Nederlandse playlist beschikbaar is."
   },
   {
@@ -52,6 +56,7 @@
       "kids-from-room-402"
     ],
     "episodesFor": "kids-from-room-402",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -63,6 +68,7 @@
       "sesamstraat"
     ],
     "episodesFor": "sesamstraat",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -74,6 +80,7 @@
       "jim-button"
     ],
     "episodesFor": "jim-button",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -85,6 +92,7 @@
       "walter-melon"
     ],
     "episodesFor": "walter-melon",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -96,6 +104,7 @@
       "de-bende-van-vijf"
     ],
     "episodesFor": "de-bende-van-vijf",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -107,6 +116,7 @@
       "beugelbekkie"
     ],
     "episodesFor": "beugelbekkie",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -118,6 +128,7 @@
       "shin-chan"
     ],
     "episodesFor": "shin-chan",
+    "maxDurationSeconds": null,
     "note": "Nederlands nagesynchroniseerde afleveringen; de bron zet Nederlands in elke titel."
   },
   {
@@ -129,6 +140,7 @@
       "the-tofus"
     ],
     "episodesFor": "the-tofus",
+    "maxDurationSeconds": null,
     "note": "Nederlands nagesynchroniseerde afleveringen."
   },
   {
@@ -140,6 +152,7 @@
       "tmnt"
     ],
     "episodesFor": "tmnt",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -151,6 +164,7 @@
       "dennis-the-menace"
     ],
     "episodesFor": "dennis-the-menace",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen van Dennis de Bengel."
   },
   {
@@ -162,6 +176,7 @@
       "life-with-louie"
     ],
     "episodesFor": "life-with-louie",
+    "maxDurationSeconds": null,
     "note": "Engelstalige fallback; vervangen zodra een complete Nederlandse playlist beschikbaar is."
   },
   {
@@ -173,6 +188,7 @@
       "kenan-and-kel"
     ],
     "episodesFor": "kenan-and-kel",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Kenan & Kel; taal nog niet geverifieerd."
   },
   {
@@ -184,6 +200,7 @@
       "calimero"
     ],
     "episodesFor": "calimero",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -195,6 +212,7 @@
       "saved-by-the-bell"
     ],
     "episodesFor": "saved-by-the-bell",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Saved by the Bell; taal nog niet geverifieerd."
   },
   {
@@ -206,6 +224,7 @@
       "rockos-modern-life"
     ],
     "episodesFor": "rockos-modern-life",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Rocko's Modern Life; taal nog niet geverifieerd."
   },
   {
@@ -217,6 +236,7 @@
       "fairly-oddparents"
     ],
     "episodesFor": "fairly-oddparents",
+    "maxDurationSeconds": null,
     "note": "Nederlands nagesynchroniseerde afleveringen van Nickelodeon Nederland."
   },
   {
@@ -228,6 +248,7 @@
       "biker-mice"
     ],
     "episodesFor": "biker-mice",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Biker Mice from Mars; taal nog niet geverifieerd."
   },
   {
@@ -239,6 +260,7 @@
       "big-bad-beetleborgs"
     ],
     "episodesFor": "big-bad-beetleborgs",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Beetleborgs; taal nog niet geverifieerd."
   },
   {
@@ -250,6 +272,7 @@
       "animaniacs"
     ],
     "episodesFor": "animaniacs",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Animaniacs; taal nog niet geverifieerd."
   },
   {
@@ -261,6 +284,7 @@
       "power-rangers"
     ],
     "episodesFor": "power-rangers",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Power Rangers; taal nog niet geverifieerd."
   },
   {
@@ -272,6 +296,7 @@
       "de-troetelbeertjes"
     ],
     "episodesFor": "de-troetelbeertjes",
+    "maxDurationSeconds": null,
     "note": "Nederlandstalige afleveringen."
   },
   {
@@ -283,6 +308,7 @@
       "medabots"
     ],
     "episodesFor": "medabots",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Medabots; taal nog niet geverifieerd."
   },
   {
@@ -294,6 +320,7 @@
       "digimon-adventure"
     ],
     "episodesFor": "digimon-adventure",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Digimon; taal nog niet geverifieerd."
   },
   {
@@ -305,6 +332,43 @@
       "eek-the-cat"
     ],
     "episodesFor": "eek-the-cat",
+    "maxDurationSeconds": null,
     "note": "Aangeleverd als bron voor Eek! The Cat; taal nog niet geverifieerd."
+  },
+  {
+    "id": "PLIeebRAwsaww6Jr3OuW_dmItw5VU6zIKq",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "kikker"
+    ],
+    "episodesFor": "kikker",
+    "maxDurationSeconds": 900,
+    "note": "Nederlandstalige afleveringen van Kikker; eerste bron, levert de eerste afleveringnummers."
+  },
+  {
+    "id": "PLVOpIEvkz_XADXgW-FBW7i7KCg2qtfvtF",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "kikker"
+    ],
+    "episodesFor": "kikker",
+    "maxDurationSeconds": 900,
+    "note": "Tweede Kikker-bron; wordt genummerd na de eerste playlist."
+  },
+  {
+    "id": "PLIeebRAwsawwuPckJLuOa7KXQ2CA5rJFJ",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "peppa-big"
+    ],
+    "episodesFor": "peppa-big",
+    "maxDurationSeconds": 900,
+    "note": "Nederlands nagesynchroniseerde afleveringen van Peppa Big."
   }
 ]

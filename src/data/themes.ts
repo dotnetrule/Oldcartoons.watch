@@ -58,10 +58,8 @@ export const VIEW_OPTS: { id: ViewMode; label: string }[] = [
 ];
 
 export const TYPE_FILTERS = ['All', 'Animation', 'Live-action'] as const;
-export const AGE_FILTERS = ['All', 'Preschool', 'Kids', 'Tween', 'Adult'] as const;
 
 export type TypeFilter = (typeof TYPE_FILTERS)[number];
-export type AgeFilter = (typeof AGE_FILTERS)[number];
 
 /** Availability labels. These used to be localized three ways; the spec's
  * single-language model collapses them to the schedule's own voice. */

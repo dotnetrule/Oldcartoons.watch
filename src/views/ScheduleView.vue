@@ -13,8 +13,9 @@ import {
   shiftDateKey,
 } from '../broadcast/engine';
 import { broadcastTypeLabel, countryLabel, languageLabel, pad2 } from '../data/helpers';
+import { AGE_COPY, isBlockedByAge } from '../data/age';
 import NetworkLogo from '../components/NetworkLogo.vue';
-import type { BroadcastChannel } from '../types';
+import type { Broadcast, BroadcastChannel } from '../types';
 
 const route = useRoute();
 const router = useRouter();
@@ -165,6 +166,12 @@ function time(iso: string): string {
 function isCurrent(startsAt: string, endsAt: string): boolean {
   return new Date(startsAt).getTime() <= nowMs.value && new Date(endsAt).getTime() > nowMs.value;
 }
+
+/** A broadcast carries the show's slug, not its age band; the index the guide
+ * already loaded carries the band. This is the one place that joins them. */
+function isLockedBroadcast(item: Broadcast | null): boolean {
+  return isBlockedByAge(content.stub(item?.show?.slug)?.age, ui.ageFilter);
+}
 </script>
 
 <template>
@@ -210,10 +217,16 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
           <template v-if="item.current && item.next">
             <span class="station-now">
               <time :style="{ color: item.accent }">{{ cardTime(item.current.startsAt, item.channel) }}</time>
-              <strong>{{ item.current.show?.title ?? broadcastTypeLabel(item.current.type) }}</strong>
+              <strong :class="{ locked: isLockedBroadcast(item.current) }">
+                {{ item.current.show?.title ?? broadcastTypeLabel(item.current.type) }}
+              </strong>
             </span>
             <span class="station-next" :style="{ color: C.dim }">
-              STRAKS {{ cardTime(item.next.startsAt, item.channel) }} · {{ item.next.show?.title ?? broadcastTypeLabel(item.next.type) }}
+              <template v-if="isLockedBroadcast(item.current)">{{ AGE_COPY.locked }} · </template>
+              STRAKS {{ cardTime(item.next.startsAt, item.channel) }} ·
+              <span :class="{ locked: isLockedBroadcast(item.next) }">
+                {{ item.next.show?.title ?? broadcastTypeLabel(item.next.type) }}
+              </span>
             </span>
           </template>
           <span v-else class="station-pending" :style="{ color: C.dim }">PROGRAMMERING VOLGT</span>
@@ -276,8 +289,12 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
       <div class="on-air-label" :style="{ color: accent }">● NU OP {{ channel.name.toUpperCase() }}</div>
       <div class="on-air-main">
         <div>
-          <h2 :style="{ color: C.ink }">{{ nowPlaying.show?.title }}</h2>
-          <p :style="{ color: C.dim2 }">{{ nowPlaying.episode?.title }}</p>
+          <h2 :class="{ locked: isLockedBroadcast(nowPlaying) }" :style="{ color: C.ink }">
+            {{ nowPlaying.show?.title }}
+          </h2>
+          <p :style="{ color: C.dim2 }">
+            {{ isLockedBroadcast(nowPlaying) ? AGE_COPY.lockedHint : nowPlaying.episode?.title }}
+          </p>
         </div>
         <div class="on-air-times" :style="{ color: C.dim }">
           {{ time(nowPlaying.startsAt) }}–{{ time(nowPlaying.endsAt) }}
@@ -287,8 +304,12 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
         <i :style="{ width: `${broadcastProgress(nowPlaying, nowMs) * 100}%`, background: accent }"></i>
       </div>
       <div class="up-next" :style="{ color: C.dim }">
-        STRAKS {{ time(nextPlaying.startsAt) }} · <strong :style="{ color: C.ink }">{{ nextPlaying.show?.title }}</strong>
-        <span>— {{ nextPlaying.episode?.title }}</span>
+        STRAKS {{ time(nextPlaying.startsAt) }} ·
+        <strong :class="{ locked: isLockedBroadcast(nextPlaying) }" :style="{ color: C.ink }">
+          {{ nextPlaying.show?.title }}
+        </strong>
+        <span v-if="isLockedBroadcast(nextPlaying)">— {{ AGE_COPY.locked }}</span>
+        <span v-else>— {{ nextPlaying.episode?.title }}</span>
       </div>
     </section>
 
@@ -308,20 +329,24 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
         v-for="item in guide"
         :key="`${item.id}-${item.startsAt}`"
         class="epg-row"
-        :class="{ current: isCurrent(item.startsAt, item.endsAt) }"
+        :class="{ current: isCurrent(item.startsAt, item.endsAt), locked: isLockedBroadcast(item) }"
+        :title="isLockedBroadcast(item) ? AGE_COPY.lockedHint : undefined"
         :style="{
           borderColor: C.border,
           background: isCurrent(item.startsAt, item.endsAt) ? C.focusBg : 'transparent',
           borderLeftColor: isCurrent(item.startsAt, item.endsAt) ? accent : 'transparent',
         }"
-        @click="goSeries(item.show?.slug)"
+        @click="goSeries(isLockedBroadcast(item) ? undefined : item.show?.slug)"
       >
         <time :style="{ color: isCurrent(item.startsAt, item.endsAt) ? accent : C.dim }">{{ time(item.startsAt) }}</time>
         <div class="epg-copy">
           <strong :style="{ color: C.ink }">{{ item.show?.title ?? broadcastTypeLabel(item.type) }}</strong>
           <span :style="{ color: C.dim }">
-            {{ item.episode?.title }}
-            <template v-if="item.episode"> · S{{ pad2(item.episode.season) }}E{{ pad2(item.episode.episode) }}</template>
+            <template v-if="isLockedBroadcast(item)">{{ AGE_COPY.locked }}</template>
+            <template v-else>
+              {{ item.episode?.title }}
+              <template v-if="item.episode"> · S{{ pad2(item.episode.season) }}E{{ pad2(item.episode.episode) }}</template>
+            </template>
           </span>
         </div>
         <span class="type" :style="{ color: C.dim, borderColor: C.border2 }">{{ broadcastTypeLabel(item.type) }}</span>
@@ -696,6 +721,23 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
 
 .epg-row time {
   font: 700 13px 'IBM Plex Mono', monospace;
+}
+
+/* The lock is the same greying everywhere it appears: on a whole guide row, or
+ * on just the title inside a station card whose other lines still apply. */
+.epg-row.locked {
+  opacity: 0.36;
+  cursor: not-allowed;
+}
+
+.epg-row.locked .epg-copy strong,
+.station-now strong.locked,
+.station-next .locked,
+.on-air-main h2.locked,
+.up-next strong.locked {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  opacity: 0.55;
 }
 
 .epg-copy {
