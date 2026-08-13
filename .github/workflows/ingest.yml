@@ -32,6 +32,9 @@ on:
 
 permissions:
   contents: write
+  # Only to say on the pull request when this run finished. Nothing here
+  # changes a pull request's state.
+  pull-requests: write
 
 # A second push while a run is in flight would race it to the same branch.
 concurrency:
@@ -88,12 +91,14 @@ jobs:
         run: npm run build-data
 
       - name: Commit the derived episodes
+        id: commit
         run: |
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
           if git diff --quiet -- content/; then
             echo 'nothing changed — content/ already matches the sources'
+            echo 'committed=false' >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -102,6 +107,15 @@ jobs:
           # Pushes authenticated with GITHUB_TOKEN do not trigger workflow runs,
           # so this cannot set itself off again.
           git push origin HEAD:${{ github.ref_name }}
+
+          echo 'committed=true' >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          # The number a reviewer actually wants: how much the archive can play
+          # now, counted from the file rather than scraped out of a log line.
+          echo "playable=$(node -e "
+            const eps = require('./content/episodes.json');
+            console.log(eps.filter((ep) => ep.status !== 'missing').length);
+          ")" >> "$GITHUB_OUTPUT"
 
       - name: Summarise
         if: always()
@@ -113,3 +127,47 @@ jobs:
             git log -1 --stat --format='%s' -- content/ || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # Say on the pull request that this run is done.
+      #
+      # This exists because of what the commit step above does: the episodes are
+      # pushed to *this branch*, never to the default branch. A pull request
+      # merged while this run is still going takes the code and leaves the data
+      # on a closed branch — which has happened, twice, and each time the
+      # archive came out empty while the diff looked complete. Nothing on the
+      # pull request showed that a run was still in flight. Now something does.
+      #
+      # `if: always()` on purpose: a failed ingest is exactly the moment not to
+      # merge, so it has to speak too.
+      - name: Report to the pull request
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMITTED: ${{ steps.commit.outputs.committed }}
+          SHA: ${{ steps.commit.outputs.sha }}
+          PLAYABLE: ${{ steps.commit.outputs.playable }}
+          STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # A push often lands before anyone opens the pull request. That is the
+          # normal order of events here, not an error, so an absent one is
+          # nothing to report and nothing to fail over.
+          number=$(gh pr list --head "$GITHUB_REF_NAME" --state open \
+                     --json number --jq '.[0].number // empty')
+          if [ -z "$number" ]; then
+            echo "no open pull request for $GITHUB_REF_NAME — nothing to report"
+            exit 0
+          fi
+
+          if [ "$STATUS" != 'success' ]; then
+            verdict='**De ingest is mislukt.** Merge deze branch nog niet — de afleveringen die erbij horen staan er niet op.'
+          elif [ "$COMMITTED" = 'true' ]; then
+            verdict="**Klaar. Mergen kan nu veilig.** De afleveringen staan op deze branch in \`$SHA\`; het archief telt er $PLAYABLE speelbaar."
+          else
+            verdict='**Klaar, niets veranderd.** `content/` kwam al overeen met de bronnen, dus er valt niets te wachten en mergen kan.'
+          fi
+
+          # One comment per branch rather than one per push: this is a status,
+          # and a status that appends is a thread nobody reads to the end.
+          printf '%s\n\n[Ingest-run](%s)\n' "$verdict" "$RUN_URL" \
+            | gh pr comment "$number" --edit-last --create-if-none --body-file -
