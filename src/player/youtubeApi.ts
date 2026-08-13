@@ -51,6 +51,19 @@ declare global {
   }
 }
 
+/** The API-built iframe is what the browser hands fullscreen to when a viewer
+ * uses YouTube's own control bar, and that needs the embedding page's
+ * permission. Set defensively — the API usually does this itself. */
+export function allowIframeFullscreen(target: YtPlayer): void {
+  const iframe = target.getIframe?.();
+  if (!iframe) return;
+  iframe.setAttribute('allowfullscreen', 'true');
+  const allow = iframe.getAttribute('allow') ?? '';
+  if (!allow.includes('fullscreen')) {
+    iframe.setAttribute('allow', allow ? `${allow}; fullscreen` : 'fullscreen');
+  }
+}
+
 const API_SRC = 'https://www.youtube.com/iframe_api';
 
 /** Privacy-enhanced host: no cookie is set until the viewer actually plays. */

@@ -11,7 +11,13 @@ import {
   nextBroadcast,
 } from '../broadcast/engine';
 import { broadcastTypeLabel, countryLabel } from '../data/helpers';
-import { NOCOOKIE_HOST, loadYoutubeApi, type YtPlayer } from '../player/youtubeApi';
+import { useFullscreen } from '../player/fullscreen';
+import {
+  NOCOOKIE_HOST,
+  allowIframeFullscreen,
+  loadYoutubeApi,
+  type YtPlayer,
+} from '../player/youtubeApi';
 
 const props = defineProps<{ channelId: string }>();
 
@@ -43,8 +49,7 @@ const isMuted = ref(true);
 const overlayVisible = ref(true);
 const pointerOnOverlay = ref(false);
 const keyboardInOverlay = ref(false);
-const nativeFullscreen = ref(false);
-const cssFullscreen = ref(false);
+const { isFullscreen, cssFullscreen, toggle: toggleFullscreenMode } = useFullscreen(shell);
 
 const channel = computed(() => content.channel(props.channelId));
 const network = computed(() => content.network(channel.value?.networkSlug));
@@ -61,7 +66,6 @@ const playerKey = computed(() =>
 const hasMediaError = computed(() => failedBroadcastId.value === playerKey.value);
 /** Nothing is on the screen worth watching: the picture gives way to a card. */
 const isInterlude = computed(() => hasMediaError.value || mediaExhausted.value);
-const isFullscreen = computed(() => nativeFullscreen.value || cssFullscreen.value);
 
 /**
  * The menu only gets out of the way once there is something to watch. While the
@@ -320,91 +324,14 @@ function toggleSound(): void {
   }
 }
 
-/* ---------------------------------------------------------------- */
-/* Fullscreen                                                        */
-/* ---------------------------------------------------------------- */
-
-/** Safari below 16.4 only ships the `webkit` names, and older Edge the `ms`
- * ones. Neither is optional here: without them the button is inert on exactly
- * the browsers most likely to be pointed at a television. */
-type FullscreenElement = HTMLElement & {
-  webkitRequestFullscreen?: () => Promise<void> | void;
-  msRequestFullscreen?: () => Promise<void> | void;
-};
-
-type FullscreenDocument = Document & {
-  webkitFullscreenElement?: Element | null;
-  webkitExitFullscreen?: () => Promise<void> | void;
-  msFullscreenElement?: Element | null;
-  msExitFullscreen?: () => Promise<void> | void;
-};
-
-const fsDoc = document as FullscreenDocument;
-
-function fullscreenElement(): Element | null {
-  return fsDoc.fullscreenElement ?? fsDoc.webkitFullscreenElement ?? fsDoc.msFullscreenElement ?? null;
-}
-
-function syncFullscreenState(): void {
-  nativeFullscreen.value = fullscreenElement() !== null;
-  // Escape, the browser chrome and the F11 key all land here, so this is also
-  // what keeps the button's label honest.
-  if (nativeFullscreen.value) cssFullscreen.value = false;
-}
-
-async function enterNativeFullscreen(): Promise<boolean> {
-  const element = shell.value as FullscreenElement | null;
-  const request =
-    element?.requestFullscreen ?? element?.webkitRequestFullscreen ?? element?.msRequestFullscreen;
-  if (!element || !request) return false;
-  try {
-    await request.call(element);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-async function exitNativeFullscreen(): Promise<void> {
-  const exit = fsDoc.exitFullscreen ?? fsDoc.webkitExitFullscreen ?? fsDoc.msExitFullscreen;
-  try {
-    await exit?.call(fsDoc);
-  } catch {
-    /* Leaving fullscreen can only fail when we already left it. */
-  }
-}
-
+/** Reaching for the screen is reaching for the controls, so the menu comes
+ * back with it. */
 async function toggleFullscreen(): Promise<void> {
   showOverlay();
-  if (fullscreenElement()) {
-    await exitNativeFullscreen();
-    return;
-  }
-  if (cssFullscreen.value) {
-    cssFullscreen.value = false;
-    return;
-  }
-  // iOS Safari exposes no element fullscreen at all, and every engine rejects
-  // the request when it does not like the gesture. Filling the viewport with
-  // CSS is not the real thing, but it beats a button that does nothing.
-  cssFullscreen.value = !(await enterNativeFullscreen());
+  await toggleFullscreenMode();
 }
 
-/** The API-built iframe is what the browser hands fullscreen to when a viewer
- * uses YouTube's own control bar, and that needs the embedding page's
- * permission. Set defensively — the API usually does this itself. */
-function allowIframeFullscreen(target: YtPlayer): void {
-  const iframe = target.getIframe?.();
-  if (!iframe) return;
-  iframe.setAttribute('allowfullscreen', 'true');
-  const allow = iframe.getAttribute('allow') ?? '';
-  if (!allow.includes('fullscreen')) {
-    iframe.setAttribute('allow', allow ? `${allow}; fullscreen` : 'fullscreen');
-  }
-}
-
-function onKeydown(event: KeyboardEvent): void {
-  if (event.key === 'Escape' && cssFullscreen.value) cssFullscreen.value = false;
+function onKeydown(): void {
   // Any key counts as a viewer, including the Tab that is about to move focus
   // into the menu — so it is on screen by the time focus lands.
   showOverlay();
@@ -430,34 +357,19 @@ watch(
 // should match the new situation: armed while it may hide, cleared while not.
 watch(canHideOverlay, () => showOverlay());
 
-watch(cssFullscreen, (on) => {
-  // The shell is taken out of the page flow, so the page behind it must not
-  // keep its own scrollbar.
-  document.body.style.overflow = on ? 'hidden' : '';
-});
-
 onMounted(() => {
   clockTimer = setInterval(() => {
     nowMs.value = Date.now();
     driftTick += 1;
     if (driftTick % 10 === 0) keepPlayerLive();
   }, 1_000);
-  document.addEventListener('fullscreenchange', syncFullscreenState);
-  document.addEventListener('webkitfullscreenchange', syncFullscreenState);
-  document.addEventListener('MSFullscreenChange', syncFullscreenState);
   window.addEventListener('keydown', onKeydown);
-  syncFullscreenState();
 });
 
 onBeforeUnmount(() => {
   clearInterval(clockTimer);
   clearTimeout(overlayTimer);
-  document.removeEventListener('fullscreenchange', syncFullscreenState);
-  document.removeEventListener('webkitfullscreenchange', syncFullscreenState);
-  document.removeEventListener('MSFullscreenChange', syncFullscreenState);
   window.removeEventListener('keydown', onKeydown);
-  document.body.style.overflow = '';
-  if (fullscreenElement()) void exitNativeFullscreen();
   destroyPlayer();
 });
 </script>
