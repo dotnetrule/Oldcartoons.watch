@@ -370,5 +370,17 @@
     "episodesFor": "peppa-big",
     "maxDurationSeconds": 900,
     "note": "Nederlands nagesynchroniseerde afleveringen van Peppa Big."
+  },
+  {
+    "id": "PLC-Zvpgz-Gz71jwoGs2c3LmO34QCxMxlX",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "winnie-de-poeh"
+    ],
+    "episodesFor": "winnie-de-poeh",
+    "maxDurationSeconds": 1800,
+    "note": "Nederlands nagesynchroniseerde afleveringen; plafond op 30 min omdat een aflevering ruim 20 min duurt."
   }
 ]
