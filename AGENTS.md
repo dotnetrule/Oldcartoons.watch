@@ -170,6 +170,14 @@ plays. The Dutch comes from the scan, per video, and `build-data.ts` then puts
 those episodes on a Dutch station. Both `ingest.yml` and `health-check.yml` run
 the scan, so a video that gains a dub later is picked up without anyone asking.
 
+Both pass `--limit`, because a page each over the whole archive is an hour and
+ingest is the loop a person waits on. The ceiling is safe because the scan
+reads **least-read sources first**: a playlist the same run whitelisted has
+nothing read yet and goes to the front, so the newcomer is always what gets
+read and the backlog is what waits. Do not "fix" that ordering into file order
+— `episodes.json` is grouped by series in an order unrelated to when a source
+was added, and a limited run over it would never reach today's playlist.
+
 **The remainder to be honest about: an embed cannot choose an audio track.**
 There is no player parameter and no IFrame API call for it, and a logged-out
 viewer normally gets the upload's original. So a dubbed episode on a Dutch

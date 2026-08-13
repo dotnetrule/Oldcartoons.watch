@@ -84,13 +84,40 @@ async function main(): Promise<void> {
 
   // One reading per video, not per episode: the same upload can be numbered
   // into more than one series, and the page says the same thing both times.
-  const pending = [
-    ...new Set(
-      episodes
-        .filter((ep) => ep.youtubeId !== null && (flags.all || ep.audioLanguages === null))
-        .map((ep) => ep.youtubeId as string),
-    ),
-  ];
+  const unread = episodes.filter(
+    (ep) => ep.youtubeId !== null && (flags.all || ep.audioLanguages === null),
+  );
+  const pending = [...new Set(unread.map((ep) => ep.youtubeId as string))];
+
+  /**
+   * Least-read source first.
+   *
+   * With `--limit`, which run reads which video is decided here, and file order
+   * is the wrong answer: `episodes.json` is grouped by series in an order that
+   * has nothing to do with when a source was whitelisted, so a limited run
+   * would keep re-reading the top of the file and a playlist added today could
+   * wait weeks for its turn. Sorting by how much of a source has already been
+   * read puts a brand-new playlist — nothing read, ratio zero — at the front,
+   * which is exactly the run that just created its episodes.
+   */
+  const readBySource = new Map<string, { read: number; total: number }>();
+  for (const ep of episodes) {
+    if (!ep.source || ep.youtubeId === null) continue;
+    const key = `${ep.source.kind}:${ep.source.id}`;
+    const tally = readBySource.get(key) ?? { read: 0, total: 0 };
+    tally.total += 1;
+    if (ep.audioLanguages !== null) tally.read += 1;
+    readBySource.set(key, tally);
+  }
+  const priorities = new Map(
+    unread.map((ep) => {
+      const tally = ep.source ? readBySource.get(`${ep.source.kind}:${ep.source.id}`) : undefined;
+      const ratio = tally && tally.total > 0 ? tally.read / tally.total : 0;
+      return [ep.youtubeId as string, ratio] as const;
+    }),
+  );
+  pending.sort((a, b) => (priorities.get(a) ?? 0) - (priorities.get(b) ?? 0));
+
   const ids = flags.limit === null ? pending : pending.slice(0, flags.limit);
 
   if (ids.length === 0) {
