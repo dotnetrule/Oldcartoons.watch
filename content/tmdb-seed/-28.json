@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-10",
+  "fetchedAt": "2026-08-13T09:21:17.654Z",
   "detail": {
     "id": -28,
     "name": "The Why Why Family",
@@ -12,68 +12,54 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Seizoen 1",
-        "episode_count": 6
+        "name": "Season 1",
+        "episode_count": 4
       }
     ]
   },
   "seasons": [
     {
       "season_number": 1,
-      "name": "Seizoen 1",
+      "name": "Season 1",
       "episodes": [
         {
-          "id": -43,
-          "name": "Why Do Boats Float?",
+          "id": -28001,
+          "name": "De Vallende Ster",
           "season_number": 1,
           "episode_number": 1,
-          "air_date": "1997-11-02",
-          "runtime": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": null,
           "still_path": null
         },
         {
-          "id": -44,
-          "name": "Why Is the Sky Blue?",
+          "id": -28002,
+          "name": "Waarom Mensen Niezen",
           "season_number": 1,
           "episode_number": 2,
-          "air_date": "1997-11-09",
-          "runtime": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": null,
           "still_path": null
         },
         {
-          "id": -45,
-          "name": "Why Do We Dream?",
+          "id": -28003,
+          "name": "Slapende Armen En Benen",
           "season_number": 1,
           "episode_number": 3,
-          "air_date": "1997-11-16",
-          "runtime": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": null,
           "still_path": null
         },
         {
-          "id": -46,
-          "name": "Why Do Birds Fly South?",
+          "id": -28004,
+          "name": "Een Prik Zonder Naald",
           "season_number": 1,
           "episode_number": 4,
-          "air_date": "1997-11-23",
-          "runtime": 20,
-          "still_path": null
-        },
-        {
-          "id": -47,
-          "name": "Why Does Bread Rise?",
-          "season_number": 1,
-          "episode_number": 5,
-          "air_date": "1997-11-30",
-          "runtime": 20,
-          "still_path": null
-        },
-        {
-          "id": -48,
-          "name": "Why Is the Ocean Salty?",
-          "season_number": 1,
-          "episode_number": 6,
-          "air_date": "1997-12-07",
-          "runtime": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": null,
           "still_path": null
         }
       ]
