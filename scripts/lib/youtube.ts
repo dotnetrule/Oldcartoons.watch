@@ -35,6 +35,15 @@ export type YoutubeVideo = {
   title: string;
   description: string;
   publishedAt: string;
+  /**
+   * How long the upload actually runs, or null when the source could not say.
+   *
+   * This is the one fact that keeps the live schedule from lying. A slot built
+   * on a guessed length puts the player past the end of its own video for the
+   * remainder of the slot, which is a black screen and a re-buffering loop
+   * rather than a short episode.
+   */
+  durationSeconds: number | null;
 };
 
 type PlaylistItemsResponse = {
@@ -68,6 +77,46 @@ type VideosResponse = {
     contentDetails: { regionRestriction?: { blocked?: string[]; allowed?: string[] } };
   }[];
 };
+
+/**
+ * ISO 8601 duration → seconds. YouTube only ever emits the day-free form
+ * (`PT1H2M3S`), and a live stream carries `P0D`, which has no length at all
+ * and must read as unknown rather than as zero.
+ */
+export function parseIsoDuration(value: string | undefined): number | null {
+  if (!value) return null;
+  const match = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(value);
+  if (!match) return null;
+  const seconds =
+    Number(match[1] ?? 0) * 3600 + Number(match[2] ?? 0) * 60 + Number(match[3] ?? 0);
+  return seconds > 0 ? seconds : null;
+}
+
+type VideoDurationsResponse = {
+  items: { id: string; contentDetails: { duration?: string } }[];
+};
+
+/**
+ * videos.list → the real length of each id, 1 unit per 50. Ids missing from
+ * the response are gone or unreadable; they simply carry no entry, which the
+ * caller reads as "length unknown" rather than as zero.
+ */
+export async function getVideoDurations(ids: string[]): Promise<Map<string, number>> {
+  const durations = new Map<string, number>();
+
+  for (let i = 0; i < ids.length; i += 50) {
+    const data = await ytGet<VideoDurationsResponse>('/videos', {
+      id: ids.slice(i, i + 50).join(','),
+      part: 'contentDetails',
+    });
+    for (const item of data.items) {
+      const seconds = parseIsoDuration(item.contentDetails.duration);
+      if (seconds !== null) durations.set(item.id, seconds);
+    }
+  }
+
+  return durations;
+}
 
 /** channels.list → the channel's uploads playlist id. */
 export async function getUploadsPlaylistId(channelId: string): Promise<string> {
@@ -119,10 +168,18 @@ export async function listPlaylistVideos(playlistId: string): Promise<YoutubeVid
         title: item.snippet.title,
         description: item.snippet.description,
         publishedAt: item.snippet.publishedAt,
+        // playlistItems.list does not carry length; videos.list does, and one
+        // extra unit per fifty items is cheap against the daily allowance.
+        durationSeconds: null,
       });
     }
     pageToken = data.nextPageToken;
   } while (pageToken);
+
+  const durations = await getVideoDurations(videos.map((video) => video.youtubeId));
+  for (const video of videos) {
+    video.durationSeconds = durations.get(video.youtubeId) ?? null;
+  }
 
   return videos;
 }

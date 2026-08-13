@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-12T21:09:43.462Z",
+  "fetchedAt": "2026-08-13T07:44:09.593Z",
   "detail": {
     "id": -39,
     "name": "Flint the Time Detective",
@@ -29,6 +29,7 @@
           "episode_number": 1,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -38,6 +39,7 @@
           "episode_number": 2,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -47,6 +49,7 @@
           "episode_number": 3,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -56,6 +59,7 @@
           "episode_number": 4,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1189,
           "still_path": null
         },
         {
@@ -65,6 +69,7 @@
           "episode_number": 5,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1191,
           "still_path": null
         },
         {
@@ -74,6 +79,7 @@
           "episode_number": 6,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1192,
           "still_path": null
         },
         {
@@ -83,6 +89,7 @@
           "episode_number": 7,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -92,6 +99,7 @@
           "episode_number": 8,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1192,
           "still_path": null
         },
         {
@@ -101,6 +109,7 @@
           "episode_number": 9,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1189,
           "still_path": null
         },
         {
@@ -110,6 +119,7 @@
           "episode_number": 10,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1192,
           "still_path": null
         },
         {
@@ -119,6 +129,7 @@
           "episode_number": 11,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -128,6 +139,7 @@
           "episode_number": 12,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1177,
           "still_path": null
         },
         {
@@ -137,6 +149,7 @@
           "episode_number": 13,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1190,
           "still_path": null
         },
         {
@@ -146,6 +159,7 @@
           "episode_number": 14,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1192,
           "still_path": null
         },
         {
@@ -155,6 +169,7 @@
           "episode_number": 15,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -164,6 +179,7 @@
           "episode_number": 16,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1192,
           "still_path": null
         },
         {
@@ -173,6 +189,7 @@
           "episode_number": 17,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -182,6 +199,7 @@
           "episode_number": 18,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1192,
           "still_path": null
         },
         {
@@ -191,6 +209,7 @@
           "episode_number": 19,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -200,6 +219,7 @@
           "episode_number": 20,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1173,
           "still_path": null
         },
         {
@@ -209,6 +229,7 @@
           "episode_number": 21,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1194,
           "still_path": null
         },
         {
@@ -218,6 +239,7 @@
           "episode_number": 22,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -227,6 +249,7 @@
           "episode_number": 23,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -236,6 +259,7 @@
           "episode_number": 24,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -245,6 +269,7 @@
           "episode_number": 25,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -254,6 +279,7 @@
           "episode_number": 26,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -263,6 +289,7 @@
           "episode_number": 27,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -272,6 +299,7 @@
           "episode_number": 28,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -281,6 +309,7 @@
           "episode_number": 29,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1190,
           "still_path": null
         },
         {
@@ -290,6 +319,7 @@
           "episode_number": 30,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         },
         {
@@ -299,6 +329,7 @@
           "episode_number": 31,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1177,
           "still_path": null
         },
         {
@@ -308,6 +339,7 @@
           "episode_number": 32,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1186,
           "still_path": null
         },
         {
@@ -317,6 +349,7 @@
           "episode_number": 33,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1151,
           "still_path": null
         },
         {
@@ -326,6 +359,7 @@
           "episode_number": 34,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1158,
           "still_path": null
         },
         {
@@ -335,6 +369,7 @@
           "episode_number": 35,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1186,
           "still_path": null
         },
         {
@@ -344,6 +379,7 @@
           "episode_number": 36,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1158,
           "still_path": null
         },
         {
@@ -353,6 +389,7 @@
           "episode_number": 37,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1192,
           "still_path": null
         },
         {
@@ -362,6 +399,7 @@
           "episode_number": 38,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1185,
           "still_path": null
         },
         {
@@ -371,6 +409,7 @@
           "episode_number": 39,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1193,
           "still_path": null
         }
       ]

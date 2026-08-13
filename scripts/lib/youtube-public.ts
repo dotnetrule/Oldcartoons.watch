@@ -214,8 +214,58 @@ function readText(node: unknown): string | null {
   return null;
 }
 
+/** `7:12` or `1:02:03` → seconds. Anything else is not a running time. */
+function parseClock(value: string): number | null {
+  const match = /^(?:(\d{1,2}):)?(\d{1,2}):(\d{2})$/.exec(value.trim());
+  if (!match) return null;
+  const seconds =
+    Number(match[1] ?? 0) * 3600 + Number(match[2] ?? 0) * 60 + Number(match[3] ?? 0);
+  return seconds > 0 ? seconds : null;
+}
+
+/**
+ * How long the row says its video runs.
+ *
+ * The classic renderer states it outright as `lengthSeconds`. The lockup shape
+ * dropped that field and only paints the running time into a thumbnail badge,
+ * so the badge text is read back — the clock pattern is specific enough that
+ * no other string in a playlist row matches it.
+ *
+ * Null means the page did not say, never that the video is zero seconds long:
+ * the schedule falls back to its editorial slot for exactly that case.
+ */
+function readDuration(entry: JsonObject): number | null {
+  for (const value of collect(entry, 'lengthSeconds')) {
+    const seconds = Number(value);
+    if (Number.isFinite(seconds) && seconds > 0) return Math.round(seconds);
+  }
+
+  // Deliberately not a search for any clock-shaped string in the row: an
+  // episode titled "Rush Hour 2:15" would hand back a running time nobody
+  // measured, and a wrong slot length is worse than an admitted guess. Only
+  // the length field and the thumbnail's own badge area are consulted.
+  const texts = [
+    ...collect(entry, 'lengthText'),
+    ...collect(entry, 'thumbnailBadgeViewModel'),
+    ...collect(entry['contentImage'] ?? {}, 'text'),
+  ];
+  for (const candidate of texts) {
+    const text =
+      typeof candidate === 'string'
+        ? candidate
+        : (readText(candidate) ??
+          (isObject(candidate) && typeof candidate['text'] === 'string' ? candidate['text'] : null));
+    const seconds = text === null ? null : parseClock(text);
+    if (seconds !== null) return seconds;
+  }
+
+  return null;
+}
+
 /** One playlist row, from whichever of the two shapes the page used. */
-function readEntry(entry: unknown): { youtubeId: string; title: string } | null {
+function readEntry(
+  entry: unknown,
+): { youtubeId: string; title: string; durationSeconds: number | null } | null {
   if (!isObject(entry)) return null;
 
   // The classic shape: `playlistVideoRenderer`, id and title side by side.
@@ -240,7 +290,7 @@ function readEntry(entry: unknown): { youtubeId: string; title: string } | null 
     })();
 
   if (title === null || isUnplayableTitle(title)) return null;
-  return { youtubeId: videoId, title };
+  return { youtubeId: videoId, title, durationSeconds: readDuration(entry) };
 }
 
 /** Read a public playlist's items without an API key. */
@@ -269,6 +319,7 @@ export async function listPublicPlaylistVideos(playlistId: string): Promise<Yout
       // guess where the API path puts a fact.
       description: '',
       publishedAt: '',
+      durationSeconds: entry.durationSeconds,
     });
   }
 
