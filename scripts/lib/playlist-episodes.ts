@@ -63,6 +63,21 @@ function seriesNamePattern(seriesName: string): RegExp | null {
 /** Leading separators an uploader puts between the parts of a title. */
 const LEADING_SEPARATOR = /^[\s\-–—:|·•,_~]+/;
 
+/** The separators an uploader uses to divide a title into segments. Narrower
+ * than LEADING_SEPARATOR: a comma or a colon divides a sentence far more often
+ * than it divides a title, and cutting at one would take real words. */
+const SEGMENT_SEPARATOR = /\s[-–—|·•]\s|\s{2,}/;
+
+/**
+ * A leading "S01E02" marker.
+ *
+ * The season-and-episode form is not covered by the episode-number pattern
+ * below, which reads "Ep 2" and a bare leading number but not the two glued
+ * together. Left in, it becomes part of the episode title and every row on the
+ * page opens with a code the row's own numbering already states.
+ */
+const LEADING_SEASON_EPISODE = /^s\s*\d{1,2}\s*[.:e_-]\s*(?:e\s*)?\d{1,3}\b[\s.:|—–-]*/i;
+
 /**
  * A leading episode marker: "Episode 12", "Ep. 3", "E04", "#7", or a bare
  * number followed by a separator ("01 - Meet the Pizza Cats", "8. Mission").
@@ -112,14 +127,38 @@ export function cleanEpisodeTitle(rawTitle: string, seriesName: string): string 
   const namePattern = seriesNamePattern(seriesName);
   let title = rawTitle.trim();
 
+  // An uploader's branding is often longer than the series name: "Kikker &
+  // Vriendjes - Kikker en de warme dag". Stripping only the name it matches
+  // leaves "& Vriendjes - Kikker en de warme dag", which is the branding with a
+  // bite out of it rather than an episode title. So when the first segment
+  // *starts* with the series name and something follows the separator, the
+  // whole segment goes.
+  if (namePattern) {
+    const separator = title.match(SEGMENT_SEPARATOR);
+    if (separator?.index !== undefined) {
+      const head = title.slice(0, separator.index);
+      const tail = title.slice(separator.index + separator[0].length).trim();
+      if (tail && namePattern.test(head)) title = tail;
+    }
+  }
+
   // Uploaders stack these in any order — "SPC - Ep 4 - …", "Episode 4 |
   // Samurai Pizza Cats — …" — so strip repeatedly until a pass changes
   // nothing rather than assuming one arrangement.
   for (let pass = 0; pass < 6; pass += 1) {
     const before = title;
     title = title.replace(LEADING_SEPARATOR, '');
-    if (namePattern) title = title.replace(namePattern, '');
+    // A title may open with the series name because the name is its subject —
+    // "Kikker is verliefd" — and there the name is the first word of a
+    // sentence, not a label in front of one. A lowercase word after it is what
+    // tells the two apart, and taking the name there would leave a fragment
+    // starting mid-sentence.
+    if (namePattern) {
+      const stripped = title.replace(namePattern, '');
+      if (!/^\s+\p{Ll}/u.test(stripped)) title = stripped;
+    }
     title = title.replace(LEADING_SEPARATOR, '');
+    title = title.replace(LEADING_SEASON_EPISODE, '');
     title = title.replace(LEADING_EPISODE_NUMBER, '');
     title = title.replace(LEADING_EPISODE_WORD, '');
     title = title.replace(TRAILING_NOISE, '');
