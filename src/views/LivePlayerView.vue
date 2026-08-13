@@ -14,6 +14,9 @@ import { NOCOOKIE_HOST, loadYoutubeApi, type YtPlayer } from '../player/youtubeA
 
 const props = defineProps<{ channelId: string }>();
 
+/** How long the on-screen menu lingers after the last sign of a viewer. */
+const OVERLAY_LINGER_MS = 4_000;
+
 const router = useRouter();
 const content = useContentStore();
 const ui = useUiStore();
@@ -25,6 +28,11 @@ const failedBroadcastId = ref<string | null>(null);
 const playerReady = ref(false);
 const isPlaying = ref(false);
 const isMuted = ref(true);
+const overlayVisible = ref(true);
+const pointerOnOverlay = ref(false);
+const keyboardInOverlay = ref(false);
+const nativeFullscreen = ref(false);
+const cssFullscreen = ref(false);
 
 const channel = computed(() => content.channel(props.channelId));
 const network = computed(() => content.network(channel.value?.networkSlug));
@@ -39,6 +47,18 @@ const playerKey = computed(() =>
   current.value ? `${current.value.id}@${current.value.startsAt}` : null,
 );
 const hasMediaError = computed(() => failedBroadcastId.value === playerKey.value);
+const isFullscreen = computed(() => nativeFullscreen.value || cssFullscreen.value);
+
+/**
+ * The menu only gets out of the way once there is something to watch. While the
+ * channel is still tuning, the signal is down, or playback is paused, it is the
+ * only thing on screen worth reading — and while the viewer is pointing at it
+ * or tabbing through it, taking it away would be rude.
+ */
+const overlayHeld = computed(() => pointerOnOverlay.value || keyboardInOverlay.value);
+const canHideOverlay = computed(
+  () => isPlaying.value && !hasMediaError.value && !overlayHeld.value,
+);
 
 const titleFor = (item: typeof current.value): string =>
   item?.show?.title ?? (item?.type ? broadcastTypeLabel(item.type) : 'Geen uitzending');
@@ -49,7 +69,53 @@ const timeFor = (iso: string): string =>
 let player: YtPlayer | null = null;
 let loadedKey: string | null = null;
 let clockTimer: ReturnType<typeof setInterval> | undefined;
+let overlayTimer: ReturnType<typeof setTimeout> | undefined;
 let driftTick = 0;
+
+/* ---------------------------------------------------------------- */
+/* On-screen menu                                                    */
+/* ---------------------------------------------------------------- */
+
+function hideOverlay(): void {
+  clearTimeout(overlayTimer);
+  overlayTimer = undefined;
+  // Re-checked rather than trusted: the viewer may have reached the menu, or
+  // playback may have stopped, while this timer was counting down.
+  if (canHideOverlay.value) overlayVisible.value = false;
+}
+
+function showOverlay(): void {
+  overlayVisible.value = true;
+  clearTimeout(overlayTimer);
+  overlayTimer = canHideOverlay.value ? setTimeout(hideOverlay, OVERLAY_LINGER_MS) : undefined;
+}
+
+/**
+ * A mouse click leaves focus behind on the button it hit, so treating every
+ * `focusin` as a viewer at the controls would pin the menu open for the rest
+ * of the broadcast the moment anyone pressed "Geluid aan". Only focus the
+ * browser itself considers keyboard-driven holds it there.
+ */
+function onOverlayFocusIn(event: FocusEvent): void {
+  const target = event.target as Element | null;
+  keyboardInOverlay.value = target?.matches?.(':focus-visible') ?? false;
+}
+
+let lastPointerX = Number.NaN;
+let lastPointerY = Number.NaN;
+
+/**
+ * Only a cursor that actually moved counts. Some engines emit a move event
+ * when a new element appears under a stationary cursor, which is precisely
+ * what the wake layer does — taking that at face value would hide and restore
+ * the menu on a loop for a viewer who never touched anything.
+ */
+function onWakeMove(event: PointerEvent): void {
+  if (event.clientX === lastPointerX && event.clientY === lastPointerY) return;
+  lastPointerX = event.clientX;
+  lastPointerY = event.clientY;
+  showOverlay();
+}
 
 function expectedOffset(): number {
   if (!current.value) return 0;
@@ -112,6 +178,7 @@ async function syncPlayer(): Promise<void> {
     events: {
       onReady: (event) => {
         playerReady.value = true;
+        allowIframeFullscreen(event.target);
         // Browsers reject autoplay with sound after an asynchronous route
         // transition. Muted autoplay is permitted; the explicit sound button
         // below restores audio from a real user gesture.
@@ -171,9 +238,94 @@ function toggleSound(): void {
   }
 }
 
+/* ---------------------------------------------------------------- */
+/* Fullscreen                                                        */
+/* ---------------------------------------------------------------- */
+
+/** Safari below 16.4 only ships the `webkit` names, and older Edge the `ms`
+ * ones. Neither is optional here: without them the button is inert on exactly
+ * the browsers most likely to be pointed at a television. */
+type FullscreenElement = HTMLElement & {
+  webkitRequestFullscreen?: () => Promise<void> | void;
+  msRequestFullscreen?: () => Promise<void> | void;
+};
+
+type FullscreenDocument = Document & {
+  webkitFullscreenElement?: Element | null;
+  webkitExitFullscreen?: () => Promise<void> | void;
+  msFullscreenElement?: Element | null;
+  msExitFullscreen?: () => Promise<void> | void;
+};
+
+const fsDoc = document as FullscreenDocument;
+
+function fullscreenElement(): Element | null {
+  return fsDoc.fullscreenElement ?? fsDoc.webkitFullscreenElement ?? fsDoc.msFullscreenElement ?? null;
+}
+
+function syncFullscreenState(): void {
+  nativeFullscreen.value = fullscreenElement() !== null;
+  // Escape, the browser chrome and the F11 key all land here, so this is also
+  // what keeps the button's label honest.
+  if (nativeFullscreen.value) cssFullscreen.value = false;
+}
+
+async function enterNativeFullscreen(): Promise<boolean> {
+  const element = shell.value as FullscreenElement | null;
+  const request =
+    element?.requestFullscreen ?? element?.webkitRequestFullscreen ?? element?.msRequestFullscreen;
+  if (!element || !request) return false;
+  try {
+    await request.call(element);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function exitNativeFullscreen(): Promise<void> {
+  const exit = fsDoc.exitFullscreen ?? fsDoc.webkitExitFullscreen ?? fsDoc.msExitFullscreen;
+  try {
+    await exit?.call(fsDoc);
+  } catch {
+    /* Leaving fullscreen can only fail when we already left it. */
+  }
+}
+
 async function toggleFullscreen(): Promise<void> {
-  if (document.fullscreenElement) await document.exitFullscreen();
-  else await shell.value?.requestFullscreen();
+  showOverlay();
+  if (fullscreenElement()) {
+    await exitNativeFullscreen();
+    return;
+  }
+  if (cssFullscreen.value) {
+    cssFullscreen.value = false;
+    return;
+  }
+  // iOS Safari exposes no element fullscreen at all, and every engine rejects
+  // the request when it does not like the gesture. Filling the viewport with
+  // CSS is not the real thing, but it beats a button that does nothing.
+  cssFullscreen.value = !(await enterNativeFullscreen());
+}
+
+/** The API-built iframe is what the browser hands fullscreen to when a viewer
+ * uses YouTube's own control bar, and that needs the embedding page's
+ * permission. Set defensively — the API usually does this itself. */
+function allowIframeFullscreen(target: YtPlayer): void {
+  const iframe = target.getIframe?.();
+  if (!iframe) return;
+  iframe.setAttribute('allowfullscreen', 'true');
+  const allow = iframe.getAttribute('allow') ?? '';
+  if (!allow.includes('fullscreen')) {
+    iframe.setAttribute('allow', allow ? `${allow}; fullscreen` : 'fullscreen');
+  }
+}
+
+function onKeydown(event: KeyboardEvent): void {
+  if (event.key === 'Escape' && cssFullscreen.value) cssFullscreen.value = false;
+  // Any key counts as a viewer, including the Tab that is about to move focus
+  // into the menu — so it is on screen by the time focus lands.
+  showOverlay();
 }
 
 watch(
@@ -188,22 +340,49 @@ watch(
   { immediate: true, flush: 'post' },
 );
 
+// Whichever way the answer changed, the menu should be on screen and the timer
+// should match the new situation: armed while it may hide, cleared while not.
+watch(canHideOverlay, () => showOverlay());
+
+watch(cssFullscreen, (on) => {
+  // The shell is taken out of the page flow, so the page behind it must not
+  // keep its own scrollbar.
+  document.body.style.overflow = on ? 'hidden' : '';
+});
+
 onMounted(() => {
   clockTimer = setInterval(() => {
     nowMs.value = Date.now();
     driftTick += 1;
     if (driftTick % 10 === 0) keepPlayerLive();
   }, 1_000);
+  document.addEventListener('fullscreenchange', syncFullscreenState);
+  document.addEventListener('webkitfullscreenchange', syncFullscreenState);
+  document.addEventListener('MSFullscreenChange', syncFullscreenState);
+  window.addEventListener('keydown', onKeydown);
+  syncFullscreenState();
 });
 
 onBeforeUnmount(() => {
   clearInterval(clockTimer);
+  clearTimeout(overlayTimer);
+  document.removeEventListener('fullscreenchange', syncFullscreenState);
+  document.removeEventListener('webkitfullscreenchange', syncFullscreenState);
+  document.removeEventListener('MSFullscreenChange', syncFullscreenState);
+  window.removeEventListener('keydown', onKeydown);
+  document.body.style.overflow = '';
+  if (fullscreenElement()) void exitNativeFullscreen();
   destroyPlayer();
 });
 </script>
 
 <template>
-  <section ref="shell" class="live" :style="{ background: C.videoBg }">
+  <section
+    ref="shell"
+    class="live"
+    :class="{ 'css-fullscreen': cssFullscreen }"
+    :style="{ background: C.videoBg }"
+  >
     <template v-if="channel && network && schedule && current && next">
       <div class="screen">
         <div v-show="!hasMediaError" class="video-frame">
@@ -219,7 +398,27 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <div class="live-overlay">
+      <!-- The iframe swallows pointer events, so once the menu is gone there is
+           nothing left on the page that can notice a viewer. This layer exists
+           only while the menu is hidden: it catches the first move or tap,
+           brings the menu back, and disappears again — which also hands the
+           bottom of the screen, and with it YouTube's own control bar, back to
+           the player. -->
+      <div
+        v-if="!overlayVisible"
+        class="wake"
+        @pointermove="onWakeMove"
+        @pointerdown="showOverlay"
+      ></div>
+
+      <div
+        class="live-overlay"
+        :class="{ 'is-hidden': !overlayVisible }"
+        @pointerover="pointerOnOverlay = true"
+        @pointerout="pointerOnOverlay = false"
+        @focusin="onOverlayFocusIn"
+        @focusout="keyboardInOverlay = false"
+      >
         <div class="station">
           <NetworkLogo :network="network" :size="48" />
           <div>
@@ -251,7 +450,9 @@ onBeforeUnmount(() => {
           <button @click="goGuide">TV-gids</button>
           <button @click="goLive">{{ isPlaying ? 'Naar live' : 'Live afspelen' }}</button>
           <button @click="toggleSound">{{ isMuted ? 'Geluid aan' : 'Dempen' }}</button>
-          <button @click="toggleFullscreen">Volledig scherm</button>
+          <button @click="toggleFullscreen">
+            {{ isFullscreen ? 'Verlaat volledig scherm' : 'Volledig scherm' }}
+          </button>
         </div>
       </div>
     </template>
@@ -313,9 +514,17 @@ onBeforeUnmount(() => {
   letter-spacing: 0.03em;
 }
 
+.wake {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: none;
+}
+
 .live-overlay {
   position: absolute;
   inset: auto 0 0;
+  z-index: 3;
   display: grid;
   grid-template-columns: minmax(210px, 0.8fr) minmax(320px, 2fr) minmax(220px, 1fr);
   gap: 24px;
@@ -323,6 +532,7 @@ onBeforeUnmount(() => {
   padding: 72px 26px 22px;
   background: linear-gradient(transparent, rgba(3, 5, 8, 0.93));
   pointer-events: none;
+  transition: opacity 240ms ease, transform 240ms ease;
 }
 
 .station,
@@ -330,6 +540,20 @@ onBeforeUnmount(() => {
 .next,
 .actions {
   pointer-events: auto;
+}
+
+.live-overlay.is-hidden {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+/* Not just invisible: nothing in a menu that has stepped aside may keep
+   intercepting clicks meant for the player underneath it. */
+.live-overlay.is-hidden .station,
+.live-overlay.is-hidden .programme,
+.live-overlay.is-hidden .next,
+.live-overlay.is-hidden .actions {
+  pointer-events: none;
 }
 
 .station {
@@ -431,12 +655,45 @@ onBeforeUnmount(() => {
   cursor: pointer;
 }
 
+/* The row is a horizontal scroller on a phone, so its buttons must keep their
+   own width instead of being squeezed until the labels break apart. */
+.actions button {
+  flex: none;
+  white-space: nowrap;
+}
+
 .unavailable button {
   margin-top: 8px;
 }
 
+/* The UA stylesheet already sizes a fullscreen element to the viewport with
+   `!important`, so the old `min-height: 100vh` here never applied. What is
+   still needed is releasing the header/footer allowance the page layout adds.
+   Split per prefix on purpose: one unknown pseudo-class invalidates a whole
+   selector list, taking the working half down with it. */
 .live:fullscreen {
-  min-height: 100vh;
+  min-height: 0;
+}
+
+.live:-webkit-full-screen {
+  min-height: 0;
+}
+
+.live:-ms-fullscreen {
+  min-height: 0;
+}
+
+/* Fallback for browsers with no element fullscreen at all — iOS Safari, most
+   of all. It cannot escape the browser chrome, but it does fill the viewport.
+   `dvh` follows a collapsing address bar where it is supported. */
+.live.css-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
 }
 
 @media (max-width: 800px) {
