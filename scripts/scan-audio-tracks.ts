@@ -28,7 +28,7 @@ import { appendFileSync } from 'node:fs';
 import type { ContentLanguage, Episode } from '../src/types';
 import { contentLanguageSchema, episodesFileSchema } from '../src/schemas';
 import { contentPath, readValidated, writeJson } from './lib/paths';
-import { readAudioTrackLanguages } from './lib/youtube-public';
+import { readAudioTrackLanguages, type WatchPageFailure } from './lib/youtube-public';
 
 /** Between page fetches. The public-page paths in this project are deliberately
  * unhurried — this walks the whole archive one video at a time, and a burst is
@@ -129,22 +129,39 @@ async function main(): Promise<void> {
   console.log(`reading ${ids.length} watch pages…`);
 
   const readById = new Map<string, ContentLanguage[]>();
-  const unreadable: string[] = [];
+  const failures = new Map<WatchPageFailure, string[]>();
 
   for (const [index, youtubeId] of ids.entries()) {
-    const tags = await readAudioTrackLanguages(youtubeId);
+    const result = await readAudioTrackLanguages(youtubeId);
 
-    if (tags === null) {
-      unreadable.push(youtubeId);
-    } else {
-      const languages = toContentLanguages(tags);
+    if (result.ok) {
+      const languages = toContentLanguages(result.languages);
       readById.set(youtubeId, languages);
       if (languages.length > 1) {
         console.log(`  ${youtubeId}  ${languages.join(', ')}`);
       }
+    } else {
+      const bucket = failures.get(result.reason) ?? [];
+      bucket.push(youtubeId);
+      failures.set(result.reason, bucket);
     }
 
     if (index < ids.length - 1) await sleep(DELAY_MS);
+  }
+
+  // Every page answering `shell` is not a video problem, it is a *this machine*
+  // problem: YouTube serves the watch page as an empty frame to hosts it does
+  // not recognise as a browser. Saying so once, plainly, is the difference
+  // between someone re-running this hopefully for weeks and someone running it
+  // where it can work.
+  const shells = failures.get('shell')?.length ?? 0;
+  if (shells === ids.length && ids.length > 1) {
+    console.log(
+      `\nEvery one of the ${ids.length} pages came back as an empty app shell.\n` +
+        `That is what youtube.com serves a datacentre IP — a CI runner included — and it will\n` +
+        `not improve on a retry. Run this from a machine with an ordinary connection and\n` +
+        `commit the result; the rows are untouched, so nothing was recorded wrongly.`,
+    );
   }
 
   let changedEpisodes = 0;
@@ -165,13 +182,20 @@ async function main(): Promise<void> {
   // Counted over videos rather than episodes: this is a report about what was
   // read, and one upload read once is one fact.
   const dubbed = [...readById.values()].filter((languages) => languages.length > 1).length;
+  const REASONS: Record<WatchPageFailure, string> = {
+    shell: 'served an empty app shell (what a datacentre IP gets)',
+    refused: 'refused the request outright',
+    unreachable: 'could not be reached at all',
+    redirected: 'answered about a different video',
+  };
   const summary =
     `Read ${readById.size} of ${ids.length} videos; ${changedEpisodes} episode records changed. ` +
     `${dubbed} videos carry more than one curated audio track.` +
-    (unreadable.length
-      ? `\n\nThe watch page said nothing about these — blocked, age-gated, or served as a shell. ` +
-        `They keep \`audioLanguages: null\` and are picked up by the next run:\n` +
-        unreadable.map((id) => `- \`${id}\``).join('\n')
+    (failures.size
+      ? `\n\nThe rest keep \`audioLanguages: null\` and are picked up by the next run:\n` +
+        [...failures]
+          .map(([reason, list]) => `- **${list.length}** ${REASONS[reason]}`)
+          .join('\n')
       : '');
 
   console.log(summary);
