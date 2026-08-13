@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-12T21:09:43.470Z",
+  "fetchedAt": "2026-08-13T07:44:09.599Z",
   "detail": {
     "id": -106,
     "name": "Kenan & Kel",
@@ -29,6 +29,7 @@
           "episode_number": 1,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 159,
           "still_path": null
         },
         {
@@ -38,6 +39,7 @@
           "episode_number": 2,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 222,
           "still_path": null
         },
         {
@@ -47,6 +49,7 @@
           "episode_number": 3,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 130,
           "still_path": null
         },
         {
@@ -56,6 +59,7 @@
           "episode_number": 4,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 125,
           "still_path": null
         },
         {
@@ -65,6 +69,7 @@
           "episode_number": 5,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 266,
           "still_path": null
         },
         {
@@ -74,6 +79,7 @@
           "episode_number": 6,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 435,
           "still_path": null
         },
         {
@@ -83,6 +89,7 @@
           "episode_number": 7,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 247,
           "still_path": null
         },
         {
@@ -92,6 +99,7 @@
           "episode_number": 8,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 279,
           "still_path": null
         },
         {
@@ -101,6 +109,7 @@
           "episode_number": 9,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 466,
           "still_path": null
         },
         {
@@ -110,6 +119,7 @@
           "episode_number": 10,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 280,
           "still_path": null
         },
         {
@@ -119,6 +129,7 @@
           "episode_number": 11,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 256,
           "still_path": null
         },
         {
@@ -128,6 +139,7 @@
           "episode_number": 12,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 38,
           "still_path": null
         },
         {
@@ -137,6 +149,7 @@
           "episode_number": 13,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 177,
           "still_path": null
         },
         {
@@ -146,6 +159,7 @@
           "episode_number": 14,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 245,
           "still_path": null
         },
         {
@@ -155,6 +169,7 @@
           "episode_number": 15,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1323,
           "still_path": null
         },
         {
@@ -164,6 +179,7 @@
           "episode_number": 16,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 315,
           "still_path": null
         },
         {
@@ -173,6 +189,7 @@
           "episode_number": 17,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 482,
           "still_path": null
         },
         {
@@ -182,6 +199,7 @@
           "episode_number": 18,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 297,
           "still_path": null
         },
         {
@@ -191,6 +209,7 @@
           "episode_number": 19,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 248,
           "still_path": null
         },
         {
@@ -200,6 +219,7 @@
           "episode_number": 20,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 72,
           "still_path": null
         },
         {
@@ -209,6 +229,7 @@
           "episode_number": 21,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 62,
           "still_path": null
         },
         {
@@ -218,6 +239,7 @@
           "episode_number": 22,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 76,
           "still_path": null
         },
         {
@@ -227,6 +249,7 @@
           "episode_number": 23,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 206,
           "still_path": null
         },
         {
@@ -236,6 +259,7 @@
           "episode_number": 24,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 551,
           "still_path": null
         },
         {
@@ -245,6 +269,7 @@
           "episode_number": 25,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 3164,
           "still_path": null
         },
         {
@@ -254,6 +279,7 @@
           "episode_number": 26,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 20,
           "still_path": null
         },
         {
@@ -263,6 +289,7 @@
           "episode_number": 27,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 309,
           "still_path": null
         },
         {
@@ -272,6 +299,7 @@
           "episode_number": 28,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 115,
           "still_path": null
         },
         {
@@ -281,6 +309,7 @@
           "episode_number": 29,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 257,
           "still_path": null
         },
         {
@@ -290,6 +319,7 @@
           "episode_number": 30,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 268,
           "still_path": null
         },
         {
@@ -299,6 +329,7 @@
           "episode_number": 31,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 112,
           "still_path": null
         },
         {
@@ -308,6 +339,7 @@
           "episode_number": 32,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 126,
           "still_path": null
         },
         {
@@ -317,6 +349,7 @@
           "episode_number": 33,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 286,
           "still_path": null
         },
         {
@@ -326,6 +359,7 @@
           "episode_number": 34,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 317,
           "still_path": null
         },
         {
@@ -335,6 +369,7 @@
           "episode_number": 35,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 484,
           "still_path": null
         },
         {
@@ -344,6 +379,7 @@
           "episode_number": 36,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 303,
           "still_path": null
         },
         {
@@ -353,6 +389,7 @@
           "episode_number": 37,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 58,
           "still_path": null
         },
         {
@@ -362,6 +399,7 @@
           "episode_number": 38,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 231,
           "still_path": null
         },
         {
@@ -371,6 +409,7 @@
           "episode_number": 39,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 294,
           "still_path": null
         },
         {
@@ -380,6 +419,7 @@
           "episode_number": 40,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 407,
           "still_path": null
         },
         {
@@ -389,6 +429,7 @@
           "episode_number": 41,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 576,
           "still_path": null
         },
         {
@@ -398,6 +439,7 @@
           "episode_number": 42,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 141,
           "still_path": null
         },
         {
@@ -407,6 +449,7 @@
           "episode_number": 43,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 168,
           "still_path": null
         },
         {
@@ -416,6 +459,7 @@
           "episode_number": 44,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 80,
           "still_path": null
         },
         {
@@ -425,6 +469,7 @@
           "episode_number": 45,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 299,
           "still_path": null
         },
         {
@@ -434,6 +479,7 @@
           "episode_number": 46,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 167,
           "still_path": null
         },
         {
@@ -443,6 +489,7 @@
           "episode_number": 47,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 884,
           "still_path": null
         },
         {
@@ -452,6 +499,7 @@
           "episode_number": 48,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 24,
           "still_path": null
         },
         {
@@ -461,6 +509,7 @@
           "episode_number": 49,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1178,
           "still_path": null
         },
         {
@@ -470,6 +519,7 @@
           "episode_number": 50,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 28,
           "still_path": null
         },
         {
@@ -479,6 +529,7 @@
           "episode_number": 51,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 47,
           "still_path": null
         },
         {
@@ -488,6 +539,7 @@
           "episode_number": 52,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 6307,
           "still_path": null
         },
         {
@@ -497,6 +549,7 @@
           "episode_number": 53,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 908,
           "still_path": null
         },
         {
@@ -506,6 +559,7 @@
           "episode_number": 54,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 715,
           "still_path": null
         },
         {
@@ -515,6 +569,7 @@
           "episode_number": 55,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 314,
           "still_path": null
         },
         {
@@ -524,6 +579,7 @@
           "episode_number": 56,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 275,
           "still_path": null
         },
         {
@@ -533,6 +589,7 @@
           "episode_number": 57,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 393,
           "still_path": null
         },
         {
@@ -542,6 +599,7 @@
           "episode_number": 58,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 320,
           "still_path": null
         },
         {
@@ -551,6 +609,7 @@
           "episode_number": 59,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 237,
           "still_path": null
         },
         {
@@ -560,6 +619,7 @@
           "episode_number": 60,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 316,
           "still_path": null
         },
         {
@@ -569,6 +629,7 @@
           "episode_number": 61,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 85,
           "still_path": null
         },
         {
@@ -578,6 +639,7 @@
           "episode_number": 62,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 218,
           "still_path": null
         },
         {
@@ -587,6 +649,7 @@
           "episode_number": 63,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 194,
           "still_path": null
         },
         {
@@ -596,6 +659,7 @@
           "episode_number": 64,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 533,
           "still_path": null
         },
         {
@@ -605,6 +669,7 @@
           "episode_number": 65,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 545,
           "still_path": null
         },
         {
@@ -614,6 +679,7 @@
           "episode_number": 66,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 184,
           "still_path": null
         },
         {
@@ -623,6 +689,7 @@
           "episode_number": 67,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 197,
           "still_path": null
         },
         {
@@ -632,6 +699,7 @@
           "episode_number": 68,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 58,
           "still_path": null
         },
         {
@@ -641,6 +709,7 @@
           "episode_number": 69,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 183,
           "still_path": null
         },
         {
@@ -650,6 +719,7 @@
           "episode_number": 70,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 65,
           "still_path": null
         },
         {
@@ -659,6 +729,7 @@
           "episode_number": 71,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 279,
           "still_path": null
         },
         {
@@ -668,6 +739,7 @@
           "episode_number": 72,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 448,
           "still_path": null
         },
         {
@@ -677,6 +749,7 @@
           "episode_number": 73,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 191,
           "still_path": null
         },
         {
@@ -686,6 +759,7 @@
           "episode_number": 74,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1842,
           "still_path": null
         },
         {
@@ -695,6 +769,7 @@
           "episode_number": 75,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 331,
           "still_path": null
         },
         {
@@ -704,6 +779,7 @@
           "episode_number": 76,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 283,
           "still_path": null
         },
         {
@@ -713,6 +789,7 @@
           "episode_number": 77,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 831,
           "still_path": null
         },
         {
@@ -722,6 +799,7 @@
           "episode_number": 78,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 81,
           "still_path": null
         },
         {
@@ -731,6 +809,7 @@
           "episode_number": 79,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 781,
           "still_path": null
         },
         {
@@ -740,6 +819,7 @@
           "episode_number": 80,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 112,
           "still_path": null
         },
         {
@@ -749,6 +829,7 @@
           "episode_number": 81,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 31,
           "still_path": null
         },
         {
@@ -758,6 +839,7 @@
           "episode_number": 82,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 30,
           "still_path": null
         },
         {
@@ -767,6 +849,7 @@
           "episode_number": 83,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 62,
           "still_path": null
         },
         {
@@ -776,6 +859,7 @@
           "episode_number": 84,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 72,
           "still_path": null
         },
         {
@@ -785,6 +869,7 @@
           "episode_number": 85,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 234,
           "still_path": null
         },
         {
@@ -794,6 +879,7 @@
           "episode_number": 86,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 441,
           "still_path": null
         },
         {
@@ -803,6 +889,7 @@
           "episode_number": 87,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 104,
           "still_path": null
         },
         {
@@ -812,6 +899,7 @@
           "episode_number": 88,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 2682,
           "still_path": null
         },
         {
@@ -821,6 +909,7 @@
           "episode_number": 89,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1009,
           "still_path": null
         },
         {
@@ -830,6 +919,7 @@
           "episode_number": 90,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 49,
           "still_path": null
         },
         {
@@ -839,6 +929,7 @@
           "episode_number": 91,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 153,
           "still_path": null
         },
         {
@@ -848,6 +939,7 @@
           "episode_number": 92,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 678,
           "still_path": null
         },
         {
@@ -857,6 +949,7 @@
           "episode_number": 93,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 217,
           "still_path": null
         },
         {
@@ -866,6 +959,7 @@
           "episode_number": 94,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 3152,
           "still_path": null
         },
         {
@@ -875,6 +969,7 @@
           "episode_number": 95,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 59,
           "still_path": null
         },
         {
@@ -884,6 +979,7 @@
           "episode_number": 96,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 131,
           "still_path": null
         },
         {
@@ -893,6 +989,7 @@
           "episode_number": 97,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 59,
           "still_path": null
         },
         {
@@ -902,6 +999,7 @@
           "episode_number": 98,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 167,
           "still_path": null
         },
         {
@@ -911,6 +1009,7 @@
           "episode_number": 99,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 196,
           "still_path": null
         },
         {
@@ -920,6 +1019,7 @@
           "episode_number": 100,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 43,
           "still_path": null
         }
       ]

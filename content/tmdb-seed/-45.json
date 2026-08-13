@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-12T21:09:43.464Z",
+  "fetchedAt": "2026-08-13T07:44:09.594Z",
   "detail": {
     "id": -45,
     "name": "Jim Button",
@@ -29,6 +29,7 @@
           "episode_number": 1,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1351,
           "still_path": null
         },
         {
@@ -38,6 +39,7 @@
           "episode_number": 2,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1351,
           "still_path": null
         },
         {
@@ -47,6 +49,7 @@
           "episode_number": 3,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1351,
           "still_path": null
         },
         {
@@ -56,6 +59,7 @@
           "episode_number": 4,
           "air_date": null,
           "runtime": null,
+          "runtimeSeconds": 1351,
           "still_path": null
         }
       ]
