@@ -77,13 +77,10 @@ export const useContentStore = defineStore('content', () => {
       .sort((a, b) => a.channelNumber - b.channelNumber),
   );
 
-  /** One feed per stocked network: what the channel map draws a card for.
-   * Archive weeks belong to a network page, not to the map. */
+  /** One feed per stocked network: what the channel map draws a card for. */
   const primaryChannels = computed<BroadcastChannel[]>(() => {
     const shown = new Set(stockedNetworks.value.map((network) => network.slug));
-    return channels.value.filter(
-      (channel) => channel.kind === 'primary' && shown.has(channel.networkSlug),
-    );
+    return channels.value.filter((channel) => shown.has(channel.networkSlug));
   });
 
   /** index.json is the only payload the schedule route loads — the archive is
@@ -146,11 +143,6 @@ export const useContentStore = defineStore('content', () => {
       : [];
   }
 
-  /** The preserved weeks of a network's real schedule, in listed order. */
-  function archiveChannelsForNetwork(networkSlug: string | null | undefined): BroadcastChannel[] {
-    return channelsForNetwork(networkSlug).filter((item) => item.kind === 'archive');
-  }
-
   function schedule(id: string | null | undefined): BroadcastSchedule | null {
     return id ? schedules.value.find((item) => item.id === id) ?? null : null;
   }
@@ -180,7 +172,6 @@ export const useContentStore = defineStore('content', () => {
     series,
     channel,
     channelsForNetwork,
-    archiveChannelsForNetwork,
     schedule,
     scheduleForChannel,
   };

@@ -27,9 +27,8 @@ const listedNetworkSlugs = computed(
   () => new Set(content.listedNetworks.map((network) => network.slug)),
 );
 /** The channel map is one card per station that actually broadcast, but only
- * the public listing gets a card here. Bookkeeping buckets are not networks,
- * and a network's preserved weeks are further views of one station rather
- * than stations of their own. Both are handled below, away from the map. */
+ * the public listing gets a card here. Bookkeeping buckets are not networks
+ * and are handled below, away from the map. */
 const prioritizedChannels = computed(() =>
   [...content.primaryChannels]
     .filter((channel) => listedNetworkSlugs.value.has(channel.networkSlug))
@@ -58,23 +57,6 @@ const channelCards = computed(() =>
 );
 const dutchChannelCards = computed(() => channelCards.value.filter((item) => item.channel.language === 'nl'));
 const otherChannelCards = computed(() => channelCards.value.filter((item) => item.channel.language !== 'nl'));
-
-/** Preserved weeks of a real station's own schedule. They are listed apart
- * from the channel map and labelled by the station they came off, so no one
- * reads them as extra channels that never existed — which means a week can
- * only be listed while the station it names is still public. */
-const shownNetworkSlugs = listedNetworkSlugs;
-const archiveCards = computed(() =>
-  content.channels
-    .filter((item) => item.kind === 'archive' && item.scheduleId !== null)
-    .map((item) => ({ channel: item, network: content.network(item.networkSlug)! }))
-    .filter((item) => shownNetworkSlugs.value.has(item.network.slug))
-    .sort(
-      (a, b) =>
-        a.network.channelNumber - b.network.channelNumber ||
-        a.channel.name.localeCompare(b.channel.name, 'nl'),
-    ),
-);
 
 const initialChannelId = (() => {
   const fromQuery = typeof route.query.channel === 'string' ? route.query.channel : null;
@@ -133,7 +115,6 @@ watch(channel, (next, previous) => {
 function selectChannel(target: BroadcastChannel): void {
   if (!target.scheduleId) return;
   selectedChannelId.value = target.id;
-  ui.selectChannel(target.networkSlug, target.id);
   void router.replace({ query: { ...route.query, channel: target.id } });
 }
 
@@ -237,36 +218,6 @@ function isOpenableBroadcast(item: Broadcast): boolean {
             </span>
           </template>
           <span v-else class="station-pending" :style="{ color: C.dim }">PROGRAMMERING VOLGT</span>
-        </button>
-      </div>
-    </section>
-
-    <section v-if="archiveCards.length" class="archive-weeks" aria-labelledby="archiefweken">
-      <div class="section-head">
-        <h2 id="archiefweken" :style="{ color: C.ink }">Bewaarde uitzendweken</h2>
-        <span :style="{ color: C.dim }">UIT HET ARCHIEF</span>
-      </div>
-      <p class="archive-note" :style="{ color: C.dim2 }">
-        Volledige weken zoals ze destijds op een van de zenders hierboven zijn uitgezonden — geen
-        aparte zender, maar een bewaarde week van dezelfde zender.
-      </p>
-      <div class="archive-list">
-        <button
-          v-for="item in archiveCards"
-          :key="item.channel.id"
-          :class="{ active: item.channel.id === selectedChannelId }"
-          :style="{
-            borderColor: item.channel.id === selectedChannelId ? ui.netColour(item.network) : C.border2,
-            background: item.channel.id === selectedChannelId ? C.focusBg : 'transparent',
-            color: C.ink,
-          }"
-          @click="selectChannel(item.channel)"
-        >
-          <NetworkLogo :network="item.network" :size="26" decorative />
-          <span>
-            <strong>{{ item.channel.name }}</strong>
-            <small :style="{ color: C.dim }">{{ item.network.name }} · zender {{ pad2(item.network.channelNumber) }}</small>
-          </span>
         </button>
       </div>
     </section>
@@ -537,62 +488,6 @@ function isOpenableBroadcast(item: Broadcast): boolean {
   letter-spacing: 0.07em;
 }
 
-.archive-weeks {
-  padding: 4px 0 20px;
-}
-
-.archive-note {
-  margin: 0 0 10px;
-  max-width: 46rem;
-  font-size: 12px;
-}
-
-.archive-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.archive-list button {
-  display: grid;
-  grid-template-columns: 26px minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border: 1px solid;
-  border-left-width: 3px;
-  text-align: left;
-  cursor: pointer;
-  transition: transform 120ms ease, background 120ms ease;
-}
-
-.archive-list button:hover {
-  transform: translateY(-1px);
-}
-
-.archive-list button > span {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-}
-
-.archive-list strong {
-  overflow: hidden;
-  font: 14px 'Oswald', sans-serif;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.archive-list small {
-  overflow: hidden;
-  font: 9px 'IBM Plex Mono', monospace;
-  letter-spacing: 0.04em;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
 .other-stations {
   margin: 0 0 18px;
   border-top: 1px solid;
@@ -806,8 +701,7 @@ function isOpenableBroadcast(item: Broadcast): boolean {
     max-width: 30rem;
   }
 
-  .station-grid,
-  .archive-list {
+  .station-grid {
     grid-template-columns: 1fr;
   }
 

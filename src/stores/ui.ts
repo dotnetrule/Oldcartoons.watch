@@ -20,14 +20,6 @@ function persist(key: string, value: string): void {
   }
 }
 
-function readSessionChannels(): Record<string, string> {
-  try {
-    return JSON.parse(sessionStorage.getItem('ntv-channels') ?? '{}') as Record<string, string>;
-  } catch {
-    return {};
-  }
-}
-
 const prefersReducedMotion = (): boolean =>
   typeof window !== 'undefined' &&
   typeof window.matchMedia === 'function' &&
@@ -46,7 +38,6 @@ export const useUiStore = defineStore('ui', () => {
   const ageFilter = ref<AgeCeiling>(readStored('ntv-age', 'All', AGE_CEILINGS));
   const previewSlug = ref<string | null>(null);
   const flicker = ref(false);
-  const channelSelections = ref<Record<string, string>>(readSessionChannels());
 
   /** Active theme tokens. Every component reads colours through this. */
   const C = computed(() => THEMES[theme.value]);
@@ -87,20 +78,6 @@ export const useUiStore = defineStore('ui', () => {
     previewSlug.value = slug;
   }
 
-  function selectChannel(networkSlug: string, channelId: string): void {
-    channelSelections.value = { ...channelSelections.value, [networkSlug]: channelId };
-    try {
-      sessionStorage.setItem('ntv-channels', JSON.stringify(channelSelections.value));
-    } catch {
-      /* The selection remains valid for this mounted session. */
-    }
-  }
-
-  function selectedChannelId(networkSlug: string, availableIds: string[]): string | null {
-    const selected = channelSelections.value[networkSlug];
-    return selected && availableIds.includes(selected) ? selected : availableIds[0] ?? null;
-  }
-
   /** Network accent, swapped for the light theme's darker variant. */
   function netColour(network: { colour: string; colourLight: string }): string {
     return theme.value === 'dark' ? network.colour : network.colourLight;
@@ -113,7 +90,6 @@ export const useUiStore = defineStore('ui', () => {
     ageFilter,
     previewSlug,
     flicker,
-    channelSelections,
     C,
     triggerFlicker,
     setTheme,
@@ -121,8 +97,6 @@ export const useUiStore = defineStore('ui', () => {
     setTypeFilter,
     setAgeFilter,
     setPreview,
-    selectChannel,
-    selectedChannelId,
     netColour,
   };
 });

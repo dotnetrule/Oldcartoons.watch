@@ -453,33 +453,18 @@ function main(): void {
     }
   }
 
-  // One primary feed per network is what makes "one card per channel" true on
-  // the channel map. Archive weeks are extra views of that same feed.
+  // One feed per network is what makes "one card per channel" true on the
+  // channel map.
   for (const network of networks) {
-    const primaries = broadcastChannelSources.filter(
-      (channel) => channel.networkSlug === network.slug && channel.kind === 'primary',
-    );
-    if (network.listed && primaries.length === 0) {
-      throw new Error(`network '${network.slug}' has no primary broadcast channel`);
+    const feeds = broadcastChannelSources.filter((channel) => channel.networkSlug === network.slug);
+    if (network.listed && feeds.length === 0) {
+      throw new Error(`network '${network.slug}' has no broadcast channel`);
     }
-    if (primaries.length > 1) {
+    if (feeds.length > 1) {
       throw new Error(
-        `network '${network.slug}' has ${primaries.length} primary broadcast channels: ${primaries
+        `network '${network.slug}' has ${feeds.length} broadcast channels: ${feeds
           .map((channel) => channel.id)
           .join(', ')}`,
-      );
-    }
-  }
-
-  for (const channel of broadcastChannelSources) {
-    if (
-      channel.kind === 'archive' &&
-      !broadcastChannelSources.some(
-        (other) => other.networkSlug === channel.networkSlug && other.kind === 'primary',
-      )
-    ) {
-      throw new Error(
-        `archive channel '${channel.id}' has no primary channel on network '${channel.networkSlug}'`,
       );
     }
   }
