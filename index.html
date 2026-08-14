@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Matches the dark theme's default background (see src/data/themes.ts).
+         Mobile browsers use this to tint chrome-adjacent surfaces — the
+         status bar, the pull-to-refresh background, Safari's toolbar — none
+         of which the page's own CSS can reach. App.vue keeps it in sync with
+         the active theme once it is running, the same way it does for
+         html/body; this is only the value those surfaces start from. -->
+    <meta name="theme-color" content="#0B0F16" />
     <meta name="description" content="TV van Toen brengt Nederlandse jeugdzenders, hun programmering en klassieke programma’s opnieuw samen in één tv-gids." />
     <title>TV van Toen — zenders &amp; programmering</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
