@@ -13,6 +13,27 @@ const content = useContentStore();
 
 const C = computed(() => ui.C);
 
+/** The live route is the one page meant to fill the screen like a TV set
+ * rather than a document that scrolls. See the `.ntv-app--live` rule below. */
+const isLive = computed(() => route.name === 'live');
+
+/**
+ * `.ntv-app`'s own background only paints its box, so anything the box does
+ * not cover — most visibly a browser's rubber-band overscroll past the top or
+ * bottom of the page — falls through to `html`/`body`, which the static
+ * stylesheet cannot theme because the choice lives in `localStorage` and is
+ * read at runtime. Mirroring the active theme onto them here is what keeps
+ * that fallback dark-or-light instead of the browser's default white.
+ */
+watch(
+  () => C.value.bg,
+  (bg) => {
+    document.documentElement.style.background = bg;
+    document.body.style.background = bg;
+  },
+  { immediate: true },
+);
+
 const activeNetworkSlug = computed<string | null>(() => {
   if (route.name === 'zender') return String(route.params.slug);
   if (route.name === 'live') return content.channel(String(route.params.channelId))?.networkSlug ?? null;
@@ -93,7 +114,7 @@ const flashStyle = computed(() => ({
 </script>
 
 <template>
-  <div class="ntv-app" :style="{ background: C.bg, color: C.ink }">
+  <div class="ntv-app" :class="{ 'ntv-app--live': isLive }" :style="{ background: C.bg, color: C.ink }">
     <div class="ntv-flash" :style="flashStyle"></div>
     <div class="ntv-chrome" :style="{ background: C.bg }">
       <HeaderBar :page-code="pageCode" />
@@ -176,6 +197,30 @@ const flashStyle = computed(() => ({
 @media (max-width: 640px) {
   .ntv-chrome {
     position: relative;
+  }
+}
+
+/* The live route simulates a TV set: the picture is meant to fill the screen,
+ * not sit above a scrollbar. Below this width `.live` still sizes itself off
+ * the viewport directly (see LivePlayerView) and the page scrolls like any
+ * other — chrome included, per the rule above. From here up, capping the app
+ * to the viewport and letting the main area absorb whatever the sticky chrome
+ * actually measures — rather than a height guess that only held while the
+ * header stayed on one line — is what stops a page whose only scrollable
+ * content was the footer below the fold. */
+@media (min-width: 801px) {
+  .ntv-app--live {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .ntv-app--live .ntv-main {
+    min-height: 0;
+  }
+
+  .ntv-app--live .ntv-footer {
+    display: none;
   }
 }
 </style>

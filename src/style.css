@@ -8,6 +8,17 @@ body,
   height: 100%;
 }
 
+/* Matches the dark theme's default background (see src/data/themes.ts). Vue
+ * cannot paint a themed colour here before it mounts, and `.ntv-app`'s own
+ * background only covers its own box — not the rubber-band overscroll past
+ * the top or bottom of the page, which falls through to this instead. App.vue
+ * keeps this in sync with the active theme once it is running; this is only
+ * the value it starts from and falls back to. */
+html,
+body {
+  background: #0b0f16;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;

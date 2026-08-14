@@ -638,7 +638,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .live {
   position: relative;
-  min-height: calc(100vh - 110px);
+  min-height: 72vh;
   overflow: hidden;
   color: #f3ecdd;
 }
@@ -879,10 +879,6 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 800px) {
-  .live {
-    min-height: 72vh;
-  }
-
   .live-overlay {
     grid-template-columns: 1fr;
     gap: 13px;
@@ -900,6 +896,18 @@ onBeforeUnmount(() => {
   .actions {
     justify-content: flex-start;
     overflow-x: auto;
+  }
+}
+
+/* Above the phone breakpoint, App.vue's `.ntv-app--live` caps the whole app to
+ * the viewport and hands the main area exactly what the sticky chrome leaves
+ * behind — so filling that box, instead of re-guessing the chrome's height
+ * here, is what keeps the fit exact even when the header wraps to a second
+ * line. */
+@media (min-width: 801px) {
+  .live {
+    height: 100%;
+    min-height: 0;
   }
 }
 </style>
