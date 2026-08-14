@@ -104,20 +104,13 @@ export type Network = {
   neutral: boolean;
 };
 
-/** A viewer-facing regional or historical television feed. Do not confuse
- * this with `ChannelSource` below: that type describes a YouTube ingest
- * source, while this type is part of the broadcast domain. */
-export type BroadcastChannelKind = 'primary' | 'archive';
-
+/** A viewer-facing regional television feed. Do not confuse this with
+ * `ChannelSource` below: that type describes a YouTube ingest source, while
+ * this type is part of the broadcast domain. Exactly one per network. */
 export type BroadcastChannel = {
   id: string;
   networkSlug: string;
   name: string;
-  /** `primary` is the feed that stands for the network itself — exactly one
-   * per network. `archive` is a preserved week of that same network's real
-   * schedule; it is a second view of one channel, not a second channel, so it
-   * never gets its own card in the channel map. */
-  kind: BroadcastChannelKind;
   country: string;
   language: string;
   /** IANA timezone used by the guide and all on-air clock labels. */

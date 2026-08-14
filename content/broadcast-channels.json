@@ -3,7 +3,6 @@
     "id": "nederland1-nl",
     "networkSlug": "nederland1",
     "name": "Nederland 1",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -12,7 +11,6 @@
     "id": "nederland2-nl",
     "networkSlug": "nederland2",
     "name": "Nederland 2",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -21,7 +19,6 @@
     "id": "nederland3-nl",
     "networkSlug": "nederland3",
     "name": "Nederland 3",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -30,7 +27,6 @@
     "id": "rtl4-nl",
     "networkSlug": "rtl4",
     "name": "RTL 4",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -39,7 +35,6 @@
     "id": "rtl5-nl",
     "networkSlug": "rtl5",
     "name": "RTL 5",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -48,7 +43,6 @@
     "id": "sbs6-nl",
     "networkSlug": "sbs6",
     "name": "SBS 6",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -57,7 +51,6 @@
     "id": "rtl7-nl",
     "networkSlug": "rtl7",
     "name": "RTL 7",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -66,7 +59,6 @@
     "id": "foxkids-nl",
     "networkSlug": "foxkids",
     "name": "FOXKIDS / JETIX",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -75,7 +67,6 @@
     "id": "net5-nl",
     "networkSlug": "net5",
     "name": "Net 5",
-    "kind": "primary",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -84,25 +75,6 @@
     "id": "nickelodeon-nl",
     "networkSlug": "nickelodeon",
     "name": "Nickelodeon / Talpa",
-    "kind": "primary",
-    "country": "NL",
-    "language": "nl",
-    "timezone": "Europe/Amsterdam"
-  },
-  {
-    "id": "foxkids-nl-2001",
-    "networkSlug": "foxkids",
-    "name": "Fox Kids · week 11 aug 2001",
-    "kind": "archive",
-    "country": "NL",
-    "language": "nl",
-    "timezone": "Europe/Amsterdam"
-  },
-  {
-    "id": "foxkids-nl-2004",
-    "networkSlug": "foxkids",
-    "name": "Fox Kids · week 11 aug 2004",
-    "kind": "archive",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"

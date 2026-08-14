@@ -152,13 +152,10 @@ export const broadcastTypeSchema = z.enum([
   'Interstitial',
 ]);
 
-export const broadcastChannelKindSchema = z.enum(['primary', 'archive']);
-
 export const broadcastChannelSourceSchema = z.object({
   id: slugSchema,
   networkSlug: slugSchema,
   name: z.string().min(1),
-  kind: broadcastChannelKindSchema,
   country: z.string().length(2),
   language: z.string().min(2),
   timezone: z.string().min(1),

@@ -6,7 +6,7 @@ import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
 import NetworkLogo from '../components/NetworkLogo.vue';
 import SeriesStatusDot from '../components/SeriesStatusDot.vue';
-import { countryLabel, episodeCountLabel, languageLabel, pad2, yearRangeLabel } from '../data/helpers';
+import { episodeCountLabel, pad2, yearRangeLabel } from '../data/helpers';
 import {
   SERIES_STATUS_META,
   seriesArchiveStatus,
@@ -15,7 +15,7 @@ import {
 } from '../data/series-status';
 import { broadcastProgress, formatChannelTime, nowAndNext } from '../broadcast/engine';
 import { AGE_COPY, isBlockedByAge } from '../data/age';
-import type { Broadcast, BroadcastChannel, SeriesStub } from '../types';
+import type { Broadcast, SeriesStub } from '../types';
 
 const props = defineProps<{ slug: string }>();
 
@@ -27,19 +27,8 @@ const nowMs = ref(Date.now());
 
 const network = computed(() => content.network(props.slug));
 const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
-/** The station's primary feed is the default. Archive weeks may precede it in
- * the source file for historical reasons, but that file order must not make a
- * preserved 2001 week look like today's main channel. */
-const channels = computed(() =>
-  [...content.channelsForNetwork(props.slug)].sort(
-    (a, b) => Number(a.kind !== 'primary') - Number(b.kind !== 'primary'),
-  ),
-);
-const selectedChannelId = computed(() =>
-  ui.selectedChannelId(props.slug, channels.value.map((channel) => channel.id)),
-);
-const channel = computed(() => content.channel(selectedChannelId.value));
-const schedule = computed(() => content.scheduleForChannel(selectedChannelId.value));
+const channel = computed(() => content.channelsForNetwork(props.slug)[0] ?? null);
+const schedule = computed(() => content.scheduleForChannel(channel.value?.id));
 const lineUp = computed(() => (schedule.value ? nowAndNext(schedule.value, nowMs.value, 5) : []));
 const current = computed(() => lineUp.value[0] ?? null);
 const upcoming = computed(() => lineUp.value.slice(1));
@@ -91,10 +80,6 @@ const statusLegend = (
 const time = (iso: string): string =>
   channel.value ? formatChannelTime(iso, channel.value.timezone) : '';
 
-function selectChannel(target: BroadcastChannel): void {
-  ui.selectChannel(props.slug, target.id);
-}
-
 const isLocked = (item: SeriesStub): boolean => isBlockedByAge(item.age, ui.ageFilter);
 const isLockedBroadcast = (item: Broadcast): boolean =>
   isBlockedByAge(content.stub(item.show?.slug)?.age, ui.ageFilter);
@@ -128,27 +113,6 @@ function goGuide(): void {
         <p :style="{ color: C.dim2 }">{{ network.note }}</p>
       </div>
     </header>
-
-    <section class="channels">
-      <span class="section-label" :style="{ color: C.dim }">KIES EEN ZENDERVERSIE</span>
-      <div class="channel-buttons">
-        <button
-          v-for="item in channels"
-          :key="item.id"
-          :style="{
-            borderColor: item.id === selectedChannelId ? colour : C.border2,
-            background: item.id === selectedChannelId ? C.focusBg : 'transparent',
-            color: C.ink,
-          }"
-          :aria-pressed="item.id === selectedChannelId"
-          @click="selectChannel(item)"
-        >
-          <strong>{{ item.name }}</strong>
-          <span :style="{ color: C.dim }">{{ countryLabel(item.country) }} · {{ languageLabel(item.language) }} · {{ item.timezone }}</span>
-          <i :style="{ color: item.scheduleId ? colour : C.dim }">{{ item.scheduleId ? 'IN DE LUCHT' : 'ARCHIEF VOLGT' }}</i>
-        </button>
-      </div>
-    </section>
 
     <section v-if="channel && current" class="live-card" :style="{ borderColor: colour, background: C.bg2 }">
       <div class="live-copy">
@@ -304,48 +268,6 @@ function goGuide(): void {
 .section-label {
   font-size: 10px;
   letter-spacing: 0.09em;
-}
-
-.channels {
-  padding: 26px 0 18px;
-}
-
-.channel-buttons {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  margin-top: 8px;
-}
-
-.channel-buttons button {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: none;
-  min-width: 230px;
-  padding: 10px 70px 10px 11px;
-  border: 1px solid;
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
-}
-
-.channel-buttons strong {
-  font: 15px 'Oswald', sans-serif;
-  text-transform: uppercase;
-}
-
-.channel-buttons span,
-.channel-buttons i {
-  font: 9px 'IBM Plex Mono', monospace;
-  font-style: normal;
-}
-
-.channel-buttons i {
-  position: absolute;
-  top: 11px;
-  right: 9px;
 }
 
 .live-card {
