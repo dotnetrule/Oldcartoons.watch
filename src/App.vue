@@ -24,12 +24,20 @@ const isLive = computed(() => route.name === 'live');
  * stylesheet cannot theme because the choice lives in `localStorage` and is
  * read at runtime. Mirroring the active theme onto them here is what keeps
  * that fallback dark-or-light instead of the browser's default white.
+ *
+ * `theme-color` covers the surfaces neither of those reach at all: a mobile
+ * browser's own chrome — the status bar, a pull-to-refresh background,
+ * Safari's toolbar. Those are commonly painted from a heuristic sample of the
+ * page rather than re-read on every client-side navigation, which is what
+ * left them showing white after a route change until the next full load
+ * re-sampled it. An explicit value keeps them honest across navigation too.
  */
 watch(
   () => C.value.bg,
   (bg) => {
     document.documentElement.style.background = bg;
     document.body.style.background = bg;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', bg);
   },
   { immediate: true },
 );
