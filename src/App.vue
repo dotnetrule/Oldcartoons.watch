@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import HeaderBar from './components/HeaderBar.vue';
 import ChannelTabs from './components/ChannelTabs.vue';
@@ -50,6 +50,40 @@ const pageCode = computed(() => {
   return '100';
 });
 
+const documentTitle = computed(() => {
+  const suffix = 'TV van Toen';
+  if (route.name === 'zender') {
+    return `${content.network(String(route.params.slug))?.name ?? 'Zender'} — ${suffix}`;
+  }
+  if (route.name === 'live') {
+    return `Live · ${content.channel(String(route.params.channelId))?.name ?? 'Zender'} — ${suffix}`;
+  }
+  if (route.name === 'programma' || route.name === 'aflevering') {
+    const slug = String(route.params.slug);
+    const name = content.stub(slug)?.name ?? 'Programma';
+    if (route.name === 'aflevering') {
+      const season = Number(route.params.season);
+      const number = Number(route.params.episode);
+      const title = content
+        .series(slug)
+        ?.seasons.find((item) => item.season === season)
+        ?.episodes.find((item) => item.episode === number)?.title;
+      return `${name}${title ? ` — ${title}` : ''} | ${suffix}`;
+    }
+    return `${name} — ${suffix}`;
+  }
+  if (route.name === 'niet-gevonden') return `Niet gevonden — ${suffix}`;
+  return `${suffix} — zenders & programmering`;
+});
+
+watch(
+  documentTitle,
+  (title) => {
+    document.title = title;
+  },
+  { immediate: true },
+);
+
 const flashStyle = computed(() => ({
   background: C.value.flashColor,
   mixBlendMode: C.value.flashBlend,
@@ -60,8 +94,10 @@ const flashStyle = computed(() => ({
 <template>
   <div class="ntv-app" :style="{ background: C.bg, color: C.ink }">
     <div class="ntv-flash" :style="flashStyle"></div>
-    <HeaderBar :page-code="pageCode" />
-    <ChannelTabs :active-slug="activeNetworkSlug" />
+    <div class="ntv-chrome" :style="{ background: C.bg }">
+      <HeaderBar :page-code="pageCode" />
+      <ChannelTabs :active-slug="activeNetworkSlug" />
+    </div>
     <main class="ntv-main">
       <router-view />
     </main>
@@ -103,6 +139,13 @@ const flashStyle = computed(() => ({
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
+}
+
+.ntv-chrome {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  flex: none;
 }
 
 .ntv-main {

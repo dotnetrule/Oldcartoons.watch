@@ -1,17 +1,130 @@
 {
-  "fetchedAt": "2026-08-10",
+  "fetchedAt": "2026-08-14T08:24:23.871Z",
   "detail": {
     "id": -5,
     "name": "Tik Tak",
     "overview": "Twee schapen en een drinkmannetje, zonder woorden — een van de langstlopende VRT-kleutertitels.",
     "first_air_date": "1981-01-01",
     "last_air_date": "2000-12-31",
-    "number_of_episodes": 0,
+    "number_of_episodes": 10,
     "backdrop_path": null,
     "poster_path": null,
-    "seasons": []
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 10
+      }
+    ]
   },
-  "seasons": [],
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -5001,
+          "name": "Your toddler's favourite animation show",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 282,
+          "still_path": null
+        },
+        {
+          "id": -5002,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 2,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 308,
+          "still_path": null
+        },
+        {
+          "id": -5003,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 3,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 292,
+          "still_path": null
+        },
+        {
+          "id": -5004,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 4,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 291,
+          "still_path": null
+        },
+        {
+          "id": -5005,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 5,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 323,
+          "still_path": null
+        },
+        {
+          "id": -5006,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 6,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 300,
+          "still_path": null
+        },
+        {
+          "id": -5007,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 290,
+          "still_path": null
+        },
+        {
+          "id": -5008,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 330,
+          "still_path": null
+        },
+        {
+          "id": -5009,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 331,
+          "still_path": null
+        },
+        {
+          "id": -5010,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 312,
+          "still_path": null
+        }
+      ]
+    }
+  ],
   "images": {
     "backdrops": [],
     "posters": []

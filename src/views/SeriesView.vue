@@ -277,12 +277,13 @@ function report(e: Event, episode: PublicEpisode): void {
       <div v-for="ep in episodes" :key="`${ep.season}-${ep.episode}`" class="ep-block">
         <div class="ep-row" :style="{ borderColor: C.border, opacity: isOpenable(ep) ? 1 : 0.55 }">
           <span class="mono ep-num" :style="{ color: C.dim }">{{ ep.episode }}</span>
-          <span
+          <button
+            type="button"
             class="ep-title"
+            :disabled="!isOpenable(ep)"
             :style="{ color: C.ink, cursor: isOpenable(ep) ? 'pointer' : 'default' }"
             @click="goEpisode(ep)"
-            >{{ ep.title }}</span
-          >
+          >{{ ep.title }}</button>
           <span class="mono ep-meta" :style="{ color: C.dim }">
             {{ ep.runtime ? `${ep.runtime} min · ` : '' }}{{ formatAirDate(ep.airDate) }}
           </span>
@@ -533,6 +534,11 @@ function report(e: Event, episode: PublicEpisode): void {
 }
 
 .ep-title {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
   font-family: 'Oswald', sans-serif;
   font-size: 17px;
   flex: 1;

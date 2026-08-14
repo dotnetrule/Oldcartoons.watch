@@ -42,6 +42,7 @@ const ui = useUiStore();
 const C = computed(() => ui.C);
 const shell = ref<HTMLElement | null>(null);
 const mount = ref<HTMLDivElement | null>(null);
+const mountGeneration = ref(0);
 const nowMs = ref(Date.now());
 const failedBroadcastId = ref<string | null>(null);
 const playerReady = ref(false);
@@ -246,12 +247,17 @@ function markExhausted(): void {
 }
 
 function destroyPlayer(): void {
+  const hadPlayer = player !== null;
   player?.destroy();
   player = null;
   loadedKey = null;
   playerReady.value = false;
   isPlaying.value = false;
   audioPreference.value = null;
+  // The IFrame API replaces the mount div with its iframe. Once that iframe is
+  // destroyed, force Vue to create a fresh mount node before playback resumes
+  // (most visibly when an age lock is raised again mid-broadcast).
+  if (hadPlayer) mountGeneration.value += 1;
 }
 
 /**
@@ -324,8 +330,14 @@ async function syncPlayer(): Promise<void> {
   await nextTick();
   const element = mount.value;
   if (!element) return;
-  const YT = await loadYoutubeApi();
-  if (!mount.value || playerKey.value !== key) return;
+  let YT;
+  try {
+    YT = await loadYoutubeApi();
+  } catch {
+    if (playerKey.value === key) failedBroadcastId.value = key;
+    return;
+  }
+  if (!mount.value || playerKey.value !== key || isLocked.value) return;
 
   loadedKey = key;
   player = new YT.Player(element, {
@@ -403,6 +415,20 @@ function goGuide(): void {
 
 function goLive(): void {
   nowMs.value = Date.now();
+  if (hasMediaError.value) {
+    failedBroadcastId.value = null;
+    const item = current.value;
+    const key = playerKey.value;
+    if (player && item && key) {
+      loadedKey = key;
+      playerReady.value = false;
+      player.loadVideoById({ videoId: item.mediaAsset.source.id, startSeconds: expectedOffset() });
+      applyAudioPreference(player, key);
+      return;
+    }
+    void syncPlayer();
+    return;
+  }
   // The clock moved, so ask again — the slot that was locked a minute ago may
   // have handed over to one that plays. If it has not, syncPlayer keeps the
   // player torn down and the card stays.
@@ -507,7 +533,7 @@ onBeforeUnmount(() => {
     <template v-if="channel && network && schedule && current && next">
       <div class="screen">
         <div v-show="!isInterlude" class="video-frame">
-          <div ref="mount" class="yt-mount"></div>
+          <div :key="mountGeneration" ref="mount" class="yt-mount"></div>
         </div>
         <!-- Above the picture rather than inside the overlay: the overlay
              fades itself out after a few seconds, and this is the one thing on

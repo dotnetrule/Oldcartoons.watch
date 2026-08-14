@@ -406,13 +406,6 @@
     "age": "Preschool"
   },
   {
-    "slug": "pokemon-update",
-    "tmdbId": -59,
-    "networkSlug": "foxkids",
-    "type": "Live-action",
-    "age": "Kids"
-  },
-  {
     "slug": "tante-soesa-en-sassefras",
     "tmdbId": -60,
     "networkSlug": "foxkids",

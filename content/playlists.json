@@ -382,5 +382,17 @@
     "episodesFor": "pokemon",
     "maxDurationSeconds": null,
     "note": "Engelstalige uploads met een Nederlands audiospoor; welke afleveringen dat spoor dragen wordt per video gemeten door scan-audio."
+  },
+  {
+    "id": "PL-U86OfuRKiDbxAOhyOuaFtxT02S6pau4",
+    "name": null,
+    "curator": null,
+    "language": "nl",
+    "covers": [
+      "tik-tak"
+    ],
+    "episodesFor": "tik-tak",
+    "maxDurationSeconds": null,
+    "note": ""
   }
 ]

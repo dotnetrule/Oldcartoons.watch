@@ -172,6 +172,10 @@ function isCurrent(startsAt: string, endsAt: string): boolean {
 function isLockedBroadcast(item: Broadcast | null): boolean {
   return isBlockedByAge(content.stub(item?.show?.slug)?.age, ui.ageFilter);
 }
+
+function isOpenableBroadcast(item: Broadcast): boolean {
+  return Boolean(item.show?.slug) && !isLockedBroadcast(item);
+}
 </script>
 
 <template>
@@ -331,12 +335,16 @@ function isLockedBroadcast(item: Broadcast | null): boolean {
         class="epg-row"
         :class="{ current: isCurrent(item.startsAt, item.endsAt), locked: isLockedBroadcast(item) }"
         :title="isLockedBroadcast(item) ? AGE_COPY.lockedHint : undefined"
+        :role="isOpenableBroadcast(item) ? 'link' : undefined"
+        :tabindex="isOpenableBroadcast(item) ? 0 : undefined"
         :style="{
           borderColor: C.border,
           background: isCurrent(item.startsAt, item.endsAt) ? C.focusBg : 'transparent',
           borderLeftColor: isCurrent(item.startsAt, item.endsAt) ? accent : 'transparent',
         }"
         @click="goSeries(isLockedBroadcast(item) ? undefined : item.show?.slug)"
+        @keydown.enter="goSeries(isOpenableBroadcast(item) ? item.show?.slug : undefined)"
+        @keydown.space.prevent="goSeries(isOpenableBroadcast(item) ? item.show?.slug : undefined)"
       >
         <time :style="{ color: isCurrent(item.startsAt, item.endsAt) ? accent : C.dim }">{{ time(item.startsAt) }}</time>
         <div class="epg-copy">

@@ -15,7 +15,7 @@ import {
 } from '../data/series-status';
 import { broadcastProgress, formatChannelTime, nowAndNext } from '../broadcast/engine';
 import { AGE_COPY, isBlockedByAge } from '../data/age';
-import type { BroadcastChannel, SeriesStub } from '../types';
+import type { Broadcast, BroadcastChannel, SeriesStub } from '../types';
 
 const props = defineProps<{ slug: string }>();
 
@@ -27,7 +27,14 @@ const nowMs = ref(Date.now());
 
 const network = computed(() => content.network(props.slug));
 const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
-const channels = computed(() => content.channelsForNetwork(props.slug));
+/** The station's primary feed is the default. Archive weeks may precede it in
+ * the source file for historical reasons, but that file order must not make a
+ * preserved 2001 week look like today's main channel. */
+const channels = computed(() =>
+  [...content.channelsForNetwork(props.slug)].sort(
+    (a, b) => Number(a.kind !== 'primary') - Number(b.kind !== 'primary'),
+  ),
+);
 const selectedChannelId = computed(() =>
   ui.selectedChannelId(props.slug, channels.value.map((channel) => channel.id)),
 );
@@ -89,6 +96,8 @@ function selectChannel(target: BroadcastChannel): void {
 }
 
 const isLocked = (item: SeriesStub): boolean => isBlockedByAge(item.age, ui.ageFilter);
+const isLockedBroadcast = (item: Broadcast): boolean =>
+  isBlockedByAge(content.stub(item.show?.slug)?.age, ui.ageFilter);
 
 function goSeries(item: SeriesStub): void {
   // A locked title stays in the list — hiding it would make the archive look
@@ -131,6 +140,7 @@ function goGuide(): void {
             background: item.id === selectedChannelId ? C.focusBg : 'transparent',
             color: C.ink,
           }"
+          :aria-pressed="item.id === selectedChannelId"
           @click="selectChannel(item)"
         >
           <strong>{{ item.name }}</strong>
@@ -143,8 +153,10 @@ function goGuide(): void {
     <section v-if="channel && current" class="live-card" :style="{ borderColor: colour, background: C.bg2 }">
       <div class="live-copy">
         <span class="section-label" :style="{ color: colour }">● NU LIVE · {{ channel.name }}</span>
-        <h2 :style="{ color: C.ink }">{{ current.show?.title }}</h2>
-        <p :style="{ color: C.dim2 }">{{ current.episode?.title }}</p>
+        <h2 :class="{ locked: isLockedBroadcast(current) }" :style="{ color: C.ink }">{{ current.show?.title }}</h2>
+        <p :style="{ color: C.dim2 }">
+          {{ isLockedBroadcast(current) ? AGE_COPY.lockedHint : current.episode?.title }}
+        </p>
         <div class="live-time" :style="{ color: C.dim }">
           <span>{{ time(current.startsAt) }}</span>
           <div :style="{ background: C.border2 }">
@@ -163,8 +175,10 @@ function goGuide(): void {
         <div v-for="item in upcoming" :key="`${item.id}-${item.startsAt}`" :style="{ borderColor: C.border }">
           <time :style="{ color: C.dim }">{{ time(item.startsAt) }}</time>
           <p>
-            <strong :style="{ color: C.ink }">{{ item.show?.title }}</strong>
-            <span :style="{ color: C.dim }">{{ item.episode?.title }}</span>
+            <strong :class="{ locked: isLockedBroadcast(item) }" :style="{ color: C.ink }">{{ item.show?.title }}</strong>
+            <span :style="{ color: C.dim }">
+              {{ isLockedBroadcast(item) ? AGE_COPY.locked : item.episode?.title }}
+            </span>
           </p>
         </div>
       </div>
@@ -203,6 +217,7 @@ function goGuide(): void {
           :style="{ borderColor: C.border }"
           @click="goSeries(item)"
           @keydown.enter="goSeries(item)"
+          @keydown.space.prevent="goSeries(item)"
         >
           <span class="title" :style="{ color: C.ink }">
             <SeriesStatusDot :status="statusFor(item)" :label="statusLabelFor(item)" />
@@ -227,6 +242,7 @@ function goGuide(): void {
           :title="isLocked(item) ? AGE_COPY.lockedHint : undefined"
           @click="goSeries(item)"
           @keydown.enter="goSeries(item)"
+          @keydown.space.prevent="goSeries(item)"
         >
           <CoverImage
             :title="item.name"
@@ -348,6 +364,13 @@ function goGuide(): void {
   margin: 6px 0 0;
   font: 600 31px 'Oswald', sans-serif;
   text-transform: uppercase;
+}
+
+.live-copy h2.locked,
+.coming-up strong.locked {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  opacity: 0.55;
 }
 
 .live-copy > p {

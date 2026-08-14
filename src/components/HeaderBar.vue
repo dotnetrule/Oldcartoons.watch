@@ -37,6 +37,7 @@ function chipStyle(active: boolean) {
           :key="opt.id"
           class="ntv-chip"
           :style="chipStyle(opt.id === ui.theme)"
+          :aria-pressed="opt.id === ui.theme"
           @click="ui.setTheme(opt.id)"
         >
           {{ opt.label }}
@@ -48,6 +49,7 @@ function chipStyle(active: boolean) {
           :key="opt.id"
           class="ntv-chip"
           :style="chipStyle(opt.id === ui.viewMode)"
+          :aria-pressed="opt.id === ui.viewMode"
           @click="ui.setViewMode(opt.id)"
         >
           {{ opt.label }}
@@ -73,9 +75,8 @@ function chipStyle(active: boolean) {
 
 <style scoped>
 .ntv-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;

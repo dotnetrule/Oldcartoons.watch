@@ -27,7 +27,10 @@ export const AGE_OPTS: { id: AgeCeiling; label: string }[] = [
   { id: 'Tween', label: 'TIENERS' },
 ];
 
-export const AGE_CEILINGS: readonly AgeCeiling[] = ['All', ...AGE_ORDER];
+/** Persist only values the header can represent. `Adult` is equivalent to no
+ * ceiling and has no chip; accepting it from storage would leave every chip
+ * looking inactive even though the store held a valid value. */
+export const AGE_CEILINGS: readonly AgeCeiling[] = AGE_OPTS.map((option) => option.id);
 
 /** What a chip says, for the notices that name the current setting. */
 export const ageCeilingLabel = (ceiling: AgeCeiling): string =>

@@ -5,6 +5,7 @@ import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import { formatAirDate, pad2 } from '../data/helpers';
 import { AVAILABILITY_LABELS } from '../data/themes';
+import { AGE_COPY, isBlockedByAge } from '../data/age';
 import { useFullscreen } from '../player/fullscreen';
 import {
   NOCOOKIE_HOST,
@@ -43,6 +44,7 @@ const season = computed(() => series.value?.seasons.find((s) => s.season === sea
 const episode = computed<PublicEpisode | null>(
   () => season.value?.episodes.find((e) => e.episode === episodeNumber.value) ?? null,
 );
+const isLocked = computed(() => isBlockedByAge(series.value?.age, ui.ageFilter));
 
 /**
  * Dutch when this video carries a Nederlands audiospoor that is not the one it
@@ -98,7 +100,7 @@ const nextEpisode = computed<PublicEpisode | null>(() => {
 });
 
 function playEpisode(target: PublicEpisode): void {
-  if (target.status === 'missing') return;
+  if (target.status === 'missing' || isLocked.value) return;
   void router.push({
     path: `/programma/${props.slug}/${target.season}/${target.episode}`,
     query: route.query,
@@ -122,6 +124,7 @@ const stage = ref<HTMLElement | null>(null);
 const { isFullscreen, cssFullscreen, toggle: toggleFullscreen } = useFullscreen(stage);
 let player: YtPlayer | null = null;
 let playerVideoId: string | null = null;
+const playbackFailed = ref(false);
 
 function destroyPlayer(): void {
   player?.destroy();
@@ -150,11 +153,13 @@ function applyAudioPreference(target: YtPlayer, videoId: string): void {
 }
 
 async function syncPlayer(videoId: string | null): Promise<void> {
-  if (!videoId) {
+  if (!videoId || isLocked.value) {
     destroyPlayer();
+    playbackFailed.value = false;
     return;
   }
   if (playerVideoId === videoId) return;
+  playbackFailed.value = false;
 
   // Moving between episodes swaps the video in the existing player rather than
   // tearing down the iframe, which keeps the rail from flashing.
@@ -165,10 +170,16 @@ async function syncPlayer(videoId: string | null): Promise<void> {
     return;
   }
 
-  const YT = await loadYoutubeApi();
+  let YT;
+  try {
+    YT = await loadYoutubeApi();
+  } catch {
+    if (episode.value?.youtubeId === videoId && !isLocked.value) playbackFailed.value = true;
+    return;
+  }
   const element = mount.value;
   // The route may have moved on while the API was loading.
-  if (!element || episode.value?.youtubeId !== videoId) return;
+  if (!element || episode.value?.youtubeId !== videoId || isLocked.value) return;
 
   playerVideoId = videoId;
   player = new YT.Player(element, {
@@ -188,17 +199,36 @@ async function syncPlayer(videoId: string | null): Promise<void> {
       onStateChange: (event) => {
         if (event.data === YT.PlayerState.ENDED) playNext();
       },
+      onError: (event) => {
+        // The player instance outlives episode changes, so report the failure
+        // against whatever it is loading now rather than the video that first
+        // created the iframe.
+        if (player === event.target && playerVideoId) playbackFailed.value = true;
+      },
     },
   });
 }
 
 watch(
-  () => episode.value?.youtubeId ?? null,
-  (videoId) => {
+  [() => episode.value?.youtubeId ?? null, isLocked],
+  ([videoId]) => {
     void syncPlayer(videoId);
   },
   { immediate: true, flush: 'post' },
 );
+
+function retryPlayback(): void {
+  const videoId = episode.value?.youtubeId;
+  if (!videoId || isLocked.value) return;
+  playbackFailed.value = false;
+  if (player) {
+    playerVideoId = videoId;
+    player.loadVideoById(videoId);
+    applyAudioPreference(player, videoId);
+    return;
+  }
+  void syncPlayer(videoId);
+}
 
 onBeforeUnmount(destroyPlayer);
 </script>
@@ -215,12 +245,23 @@ onBeforeUnmount(destroyPlayer);
         <div class="video">
           <!-- youtube-nocookie embed. No video is hosted or proxied here; the
                player is the only playback path. -->
-          <div v-if="episode.youtubeId" ref="mount" class="video-frame"></div>
-          <div v-else class="video-gap" :style="{ color: C.dim }">
+          <div v-if="episode.youtubeId && !isLocked" ref="mount" class="video-frame"></div>
+          <div v-if="isLocked" class="video-gap" :style="{ color: C.dim }">
+            <strong :style="{ color: C.ink }">{{ AGE_COPY.locked }}</strong>
+            <span>{{ AGE_COPY.seriesNotice }}</span>
+          </div>
+          <div v-else-if="playbackFailed" class="video-gap" :style="{ color: C.dim }">
+            <strong :style="{ color: C.ink }">AFSPELEN MISLUKT</strong>
+            <span>De videospeler kon deze aflevering niet laden.</span>
+            <button type="button" :style="{ borderColor: C.border2, color: C.dim2 }" @click="retryPlayback">
+              Opnieuw proberen
+            </button>
+          </div>
+          <div v-else-if="!episode.youtubeId" class="video-gap" :style="{ color: C.dim }">
             {{ AVAILABILITY_LABELS.missing }}
           </div>
         </div>
-        <AudioTrackNotice v-if="showAudioNotice && dubbedAudio" :language="dubbedAudio" />
+        <AudioTrackNotice v-if="!isLocked && showAudioNotice && dubbedAudio" :language="dubbedAudio" />
         <!-- The screen's own controls. YouTube's bar sits at the bottom edge of
              the embed, which on a wide window used to be below the fold: the
              viewer had to scroll to find the one button that would have fixed
@@ -231,6 +272,7 @@ onBeforeUnmount(destroyPlayer);
             S{{ pad2(episode.season) }}E{{ pad2(episode.episode) }} · {{ episode.title }}
           </span>
           <button
+            v-if="episode.youtubeId && !isLocked && !playbackFailed"
             class="bar-btn"
             :style="{ borderColor: C.border2, color: C.dim2 }"
             @click="toggleFullscreen"
@@ -257,27 +299,37 @@ onBeforeUnmount(destroyPlayer);
     </div>
     <div class="rail" :style="{ borderColor: C.border }">
       <div class="mono rail-label" :style="{ color: C.dim }">HIERNA</div>
-      <div v-if="nextEpisode" class="rail-next" :style="{ background: C.railBg }" @click="playNext">
+      <button
+        v-if="nextEpisode"
+        type="button"
+        class="rail-next"
+        :disabled="isLocked"
+        :style="{ background: C.railBg }"
+        @click="playNext"
+      >
         <span class="rail-next-title" :style="{ color: C.ink }">{{ nextEpisode.title }}</span>
         <span class="mono" :style="{ color: C.dim }">{{ nextEpisode.runtime ? `${nextEpisode.runtime} min` : '—' }}</span>
-      </div>
+      </button>
       <div v-else class="mono rail-end" :style="{ color: C.dim }">Einde van {{ season.name }}.</div>
 
       <div class="mono rail-label" :style="{ color: C.dim }">DIT SEIZOEN</div>
-      <div
+      <button
         v-for="ep in season.episodes"
         :key="ep.episode"
+        type="button"
         class="rail-ep"
+        :disabled="ep.status === 'missing' || isLocked"
+        :aria-current="ep.episode === episodeNumber ? 'true' : undefined"
         :style="{
           background: ep.episode === episodeNumber ? C.railBg : 'transparent',
-          cursor: ep.status === 'missing' ? 'default' : 'pointer',
-          opacity: ep.status === 'missing' ? 0.55 : 1,
+          cursor: ep.status === 'missing' || isLocked ? 'default' : 'pointer',
+          opacity: ep.status === 'missing' || isLocked ? 0.55 : 1,
         }"
         @click="playEpisode(ep)"
       >
         <span class="mono rail-ep-num" :style="{ color: C.dim }">{{ ep.episode }}</span>
         <span class="rail-ep-title" :style="{ color: C.ink }">{{ ep.title }}</span>
-      </div>
+      </button>
     </div>
   </div>
 </template>
@@ -399,9 +451,35 @@ onBeforeUnmount(destroyPlayer);
 }
 
 .video-gap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  background: #05070a;
+  text-align: center;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   letter-spacing: 0.08em;
+}
+
+.video-gap span {
+  max-width: 34rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.video-gap button {
+  margin-top: 4px;
+  padding: 7px 11px;
+  border: 1px solid;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
 }
 
 .player-info {
@@ -464,6 +542,10 @@ onBeforeUnmount(destroyPlayer);
   border-radius: 2px;
   cursor: pointer;
   margin-bottom: 16px;
+  width: 100%;
+  border: 0;
+  color: inherit;
+  text-align: left;
 }
 
 .rail-next-title {
@@ -488,6 +570,11 @@ onBeforeUnmount(destroyPlayer);
   padding: 9px 6px;
   border-radius: 2px;
   transition: background 120ms ease;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
 }
 
 .rail-ep-num {

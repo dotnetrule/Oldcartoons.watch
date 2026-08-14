@@ -1,4 +1,9 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import {
+  createRouter,
+  createWebHistory,
+  type RouteLocationRaw,
+  type RouteRecordRaw,
+} from 'vue-router';
 import ScheduleView from './views/ScheduleView.vue';
 import NetworkView from './views/NetworkView.vue';
 import SeriesView from './views/SeriesView.vue';
@@ -8,14 +13,45 @@ import { useContentStore } from './stores/content';
 /** Series and episode routes load their series file before the view renders,
  * so a view never has to draw a loading state over data it was promised. A
  * rejected load propagates: there is no fallback route. */
-async function loadSeriesData(slug: string): Promise<void> {
+const notFound = (): RouteLocationRaw => ({ name: 'niet-gevonden' });
+
+async function loadSeriesData(slug: string): Promise<void | RouteLocationRaw> {
   const content = useContentStore();
-  await Promise.all([content.loadIndex(), content.loadBroadcastData(), content.loadSeries(slug)]);
+  await Promise.all([content.loadIndex(), content.loadBroadcastData()]);
+  if (!content.stub(slug)) return notFound();
+  await content.loadSeries(slug);
 }
 
 async function loadBroadcastData(): Promise<void> {
   const content = useContentStore();
   await Promise.all([content.loadIndex(), content.loadBroadcastData()]);
+}
+
+async function loadNetworkData(slug: string): Promise<void | RouteLocationRaw> {
+  await loadBroadcastData();
+  return useContentStore().network(slug) ? undefined : notFound();
+}
+
+async function loadChannelData(channelId: string): Promise<void | RouteLocationRaw> {
+  await loadBroadcastData();
+  return useContentStore().channel(channelId) ? undefined : notFound();
+}
+
+async function loadEpisodeData(
+  slug: string,
+  seasonNumber: string,
+  episodeNumber: string,
+): Promise<void | RouteLocationRaw> {
+  const missingSeries = await loadSeriesData(slug);
+  if (missingSeries) return missingSeries;
+
+  const season = Number(seasonNumber);
+  const episode = Number(episodeNumber);
+  const valid = useContentStore()
+    .series(slug)
+    ?.seasons.find((item) => item.season === season)
+    ?.episodes.some((item) => item.episode === episode);
+  return valid ? undefined : notFound();
 }
 
 const routes: RouteRecordRaw[] = [
@@ -30,14 +66,14 @@ const routes: RouteRecordRaw[] = [
     name: 'zender',
     component: NetworkView,
     props: true,
-    beforeEnter: loadBroadcastData,
+    beforeEnter: (to) => loadNetworkData(String(to.params.slug)),
   },
   {
     path: '/kijken/:channelId',
     name: 'live',
     component: () => import('./views/LivePlayerView.vue'),
     props: true,
-    beforeEnter: loadBroadcastData,
+    beforeEnter: (to) => loadChannelData(String(to.params.channelId)),
   },
   {
     path: '/programma/:slug',
@@ -53,7 +89,12 @@ const routes: RouteRecordRaw[] = [
     name: 'aflevering',
     component: PlayerView,
     props: true,
-    beforeEnter: (to) => loadSeriesData(String(to.params.slug)),
+    beforeEnter: (to) =>
+      loadEpisodeData(
+        String(to.params.slug),
+        String(to.params.season),
+        String(to.params.episode),
+      ),
   },
 ];
 
@@ -77,6 +118,12 @@ if (import.meta.env.DEV) {
     component: () => import('./admin/AdminView.vue'),
   });
 }
+
+routes.push({
+  path: '/:pathMatch(.*)*',
+  name: 'niet-gevonden',
+  component: () => import('./views/NotFoundView.vue'),
+});
 
 const router = createRouter({
   history: createWebHistory(),

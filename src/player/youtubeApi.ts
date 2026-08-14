@@ -199,6 +199,7 @@ export async function preferAudioLanguage(
 }
 
 const API_SRC = 'https://www.youtube.com/iframe_api';
+const API_LOAD_TIMEOUT_MS = 12_000;
 
 /** Privacy-enhanced host: no cookie is set until the viewer actually plays. */
 export const NOCOOKIE_HOST = 'https://www.youtube-nocookie.com';
@@ -211,17 +212,35 @@ export function loadYoutubeApi(): Promise<YtNamespace> {
   apiPromise ??= new Promise<YtNamespace>((resolve, reject) => {
     // The API calls this global exactly once, whoever asked for it first.
     const previous = window.onYouTubeIframeAPIReady;
+    const script = document.createElement('script');
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+
+    function fail(error: Error): void {
+      clearTimeout(timeout);
+      script.remove();
+      reject(error);
+    }
+
     window.onYouTubeIframeAPIReady = () => {
+      clearTimeout(timeout);
       previous?.();
       if (window.YT?.Player) resolve(window.YT);
-      else reject(new Error('YouTube IFrame API loaded without a Player constructor'));
+      else fail(new Error('YouTube IFrame API loaded without a Player constructor'));
     };
 
-    const script = document.createElement('script');
     script.src = API_SRC;
     script.async = true;
-    script.onerror = () => reject(new Error('failed to load the YouTube IFrame Player API'));
+    script.onerror = () => fail(new Error('failed to load the YouTube IFrame Player API'));
     document.head.appendChild(script);
+    timeout = setTimeout(
+      () => fail(new Error('timed out loading the YouTube IFrame Player API')),
+      API_LOAD_TIMEOUT_MS,
+    );
+  }).catch((error: unknown) => {
+    // A transient network failure should not poison every later retry for the
+    // rest of the browser session.
+    apiPromise = null;
+    throw error;
   });
 
   return apiPromise;

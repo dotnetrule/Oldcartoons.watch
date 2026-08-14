@@ -35,6 +35,7 @@ function goGuide(): void {
         color: props.activeSlug ? C.dim2 : C.chipFg,
         borderColor: C.border2,
       }"
+      :aria-current="props.activeSlug ? undefined : 'page'"
       @click="goGuide"
     >
       <span class="ntv-tab-ch">100</span>
@@ -49,6 +50,7 @@ function goGuide(): void {
         color: net.slug === props.activeSlug ? C.chipFg : net.neutral ? C.dim : ui.netColour(net),
         borderColor: net.neutral ? C.border2 : ui.netColour(net),
       }"
+      :aria-current="net.slug === props.activeSlug ? 'page' : undefined"
       @click="go(net.slug)"
     >
       <img
@@ -66,9 +68,7 @@ function goGuide(): void {
 
 <style scoped>
 .ntv-tabs {
-  position: sticky;
-  top: 0;
-  z-index: 49;
+  position: relative;
   display: flex;
   gap: 6px;
   overflow-x: auto;
