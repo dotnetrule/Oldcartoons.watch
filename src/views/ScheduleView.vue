@@ -466,20 +466,21 @@ function isOpenableBroadcast(item: Broadcast): boolean {
   font: 700 12px 'IBM Plex Mono', monospace;
 }
 
+/* A programme title is prose, not a label — cut off with an ellipsis it reads
+ * as a broken layout more often than it saves room the card actually needed.
+ * The card's own height is content-driven, so letting it wrap costs nothing
+ * but a taller card. overflow-wrap is the safety net for the one title that
+ * is a single token longer than the column. */
 .station-now strong {
-  overflow: hidden;
   font: 600 18px 'Oswald', sans-serif;
-  text-overflow: ellipsis;
   text-transform: uppercase;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .station-next {
-  overflow: hidden;
   font: 9px 'IBM Plex Mono', monospace;
   letter-spacing: 0.03em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .station-pending {
@@ -657,10 +658,12 @@ function isOpenableBroadcast(item: Broadcast): boolean {
   text-transform: uppercase;
 }
 
+/* The episode subtitle is prose, and cutting it off with a single-line
+ * ellipsis was silently discarding most of it at guide-column widths — the
+ * row's height already follows its content (min-height is a floor, not a
+ * cap), so there is nowhere this needed to stay on one line. */
 .epg-copy span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
   font-size: 11px;
 }
 

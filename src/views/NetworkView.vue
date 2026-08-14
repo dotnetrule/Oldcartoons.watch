@@ -362,10 +362,10 @@ function goGuide(): void {
   text-transform: uppercase;
 }
 
+/* An episode subtitle is prose; single-line ellipsis was cutting most of it
+ * off rather than letting the row grow, which its layout already allows. */
 .coming-up p span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
   font-size: 10px;
 }
 
