@@ -58,38 +58,6 @@
     ]
   },
   {
-    "networkSlug": "rtl5",
-    "seriesSlugs": [
-      "batman-tas",
-      "scooby-doo",
-      "x-men",
-      "spider-man-unlimited",
-      "action-man",
-      "power-rangers-lightspeed-rescue",
-      "big-bad-beetleborgs",
-      "eerie-indiana",
-      "kippenvel",
-      "saved-by-the-bell",
-      "sabrina-the-teenage-witch"
-    ]
-  },
-  {
-    "networkSlug": "sbs6",
-    "seriesSlugs": [
-      "bobbys-world",
-      "life-with-louie",
-      "mad-jack-the-pirate",
-      "eek-the-cat",
-      "totally-spies",
-      "sonic-x",
-      "lizzie-mcguire",
-      "breaker-high",
-      "big-wolf-on-campus",
-      "sweet-valley-high",
-      "franklin"
-    ]
-  },
-  {
     "networkSlug": "rtl7",
     "seriesSlugs": [
       "pokemon",
@@ -109,27 +77,6 @@
   {
     "networkSlug": "foxkids",
     "seriesSlugs": []
-  },
-  {
-    "networkSlug": "net5",
-    "seriesSlugs": [
-      "smurfs",
-      "tik-tak",
-      "inspector-gadget",
-      "rugrats-dutch-dub",
-      "why-why-family",
-      "honeybee-hutch",
-      "the-littl-bits",
-      "de-troetelbeertjes",
-      "calimero",
-      "thomas-de-stoomlocomotief",
-      "blues-clues",
-      "dora-the-explorer",
-      "bassie-en-adriaan",
-      "kuifje",
-      "lucky-luke",
-      "franklin"
-    ]
   },
   {
     "networkSlug": "nickelodeon",

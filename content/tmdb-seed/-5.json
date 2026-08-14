@@ -1,19 +1,19 @@
 {
-  "fetchedAt": "2026-08-14T08:24:23.871Z",
+  "fetchedAt": "2026-08-14T08:40:42.676Z",
   "detail": {
     "id": -5,
     "name": "Tik Tak",
     "overview": "Twee schapen en een drinkmannetje, zonder woorden — een van de langstlopende VRT-kleutertitels.",
     "first_air_date": "1981-01-01",
     "last_air_date": "2000-12-31",
-    "number_of_episodes": 10,
+    "number_of_episodes": 40,
     "backdrop_path": null,
     "poster_path": null,
     "seasons": [
       {
         "season_number": 1,
         "name": "Season 1",
-        "episode_count": 10
+        "episode_count": 40
       }
     ]
   },
@@ -120,6 +120,306 @@
           "air_date": null,
           "runtime": null,
           "runtimeSeconds": 312,
+          "still_path": null
+        },
+        {
+          "id": -5011,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 11,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 306,
+          "still_path": null
+        },
+        {
+          "id": -5012,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 312,
+          "still_path": null
+        },
+        {
+          "id": -5013,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 13,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 332,
+          "still_path": null
+        },
+        {
+          "id": -5014,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 14,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 300,
+          "still_path": null
+        },
+        {
+          "id": -5015,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 15,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 316,
+          "still_path": null
+        },
+        {
+          "id": -5016,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 16,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 305,
+          "still_path": null
+        },
+        {
+          "id": -5017,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 17,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 329,
+          "still_path": null
+        },
+        {
+          "id": -5018,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 18,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 303,
+          "still_path": null
+        },
+        {
+          "id": -5019,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 19,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 307,
+          "still_path": null
+        },
+        {
+          "id": -5020,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 277,
+          "still_path": null
+        },
+        {
+          "id": -5021,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 21,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 306,
+          "still_path": null
+        },
+        {
+          "id": -5022,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 22,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 288,
+          "still_path": null
+        },
+        {
+          "id": -5023,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 291,
+          "still_path": null
+        },
+        {
+          "id": -5024,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 24,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 307,
+          "still_path": null
+        },
+        {
+          "id": -5025,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 25,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 318,
+          "still_path": null
+        },
+        {
+          "id": -5026,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 26,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 299,
+          "still_path": null
+        },
+        {
+          "id": -5027,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 27,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 304,
+          "still_path": null
+        },
+        {
+          "id": -5028,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 28,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 313,
+          "still_path": null
+        },
+        {
+          "id": -5029,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 29,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 313,
+          "still_path": null
+        },
+        {
+          "id": -5030,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 30,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 298,
+          "still_path": null
+        },
+        {
+          "id": -5031,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 31,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 296,
+          "still_path": null
+        },
+        {
+          "id": -5032,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 32,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 317,
+          "still_path": null
+        },
+        {
+          "id": -5033,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 33,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 316,
+          "still_path": null
+        },
+        {
+          "id": -5034,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 34,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 287,
+          "still_path": null
+        },
+        {
+          "id": -5035,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 35,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 289,
+          "still_path": null
+        },
+        {
+          "id": -5036,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 36,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 327,
+          "still_path": null
+        },
+        {
+          "id": -5037,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 37,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 299,
+          "still_path": null
+        },
+        {
+          "id": -5038,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 38,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 304,
+          "still_path": null
+        },
+        {
+          "id": -5039,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 39,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 293,
+          "still_path": null
+        },
+        {
+          "id": -5040,
+          "name": "Your toddler’s favourite animation show",
+          "season_number": 1,
+          "episode_number": 40,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 298,
           "still_path": null
         }
       ]

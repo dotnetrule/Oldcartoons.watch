@@ -1,8 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32" role="img" aria-label="Nederland 3">
-  <title>Nederland 3</title>
-  <rect width="48" height="32" rx="2" fill="#2F62C4" />
-  <text x="24" y="12" text-anchor="middle" fill="#FFFFFF" fill-opacity=".78"
-        font-family="'Arial Narrow','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="5.6" font-weight="700" letter-spacing="0.5">NEDERLAND</text>
-  <text x="24" y="27" text-anchor="middle" fill="#FFFFFF"
-        font-family="'Arial Narrow','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="0.4">3</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="300"
+   height="300"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   version="1.0"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-721.67133,-388.79279)">
+    <g
+       id="g5340"
+       clip-path="url(#id897)"
+       transform="matrix(1,0,0,-1,278.22505,-73.58953)">
+      <g
+         id="g5342"
+         transform="matrix(0.7200012,0,0,24,704.05597,174.59372)">
+        <use
+           id="use5344"
+           xlink:href="#id898"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622" />
+      </g>
+    </g>
+    <g
+       id="g5348"
+       clip-path="url(#id899)"
+       transform="matrix(1,0,0,-1,278.22505,-73.58953)">
+      <g
+         id="g5350"
+         transform="matrix(0.7200012,0,0,24.23999,704.05597,147.71371)">
+        <use
+           id="use5352"
+           xlink:href="#id898"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622" />
+      </g>
+    </g>
+    <g
+       id="g5880"
+       clip-path="url(#id923)"
+       transform="matrix(19.924288,0,0,-19.924288,-4372.5985,8729.9764)">
+      <path
+         id="path5882"
+         d="M 264.015,403.916 C 263.571,403.473 262.853,403.473 262.409,403.916 L 256.014,410.311 C 255.571,410.754 255.571,411.473 256.014,411.916 L 262.409,418.311 C 262.853,418.755 263.571,418.755 264.015,418.311 L 270.409,411.917 C 270.853,411.473 270.853,410.754 270.409,410.311 L 264.015,403.916 z "
+         style="fill:#006ab2;fill-rule:evenodd;stroke:none" />
+      <path
+         id="path5884"
+         d="M 265.796,414.836 L 260.548,414.836 C 260.05,414.836 259.647,414.432 259.647,413.935 C 259.647,413.437 260.05,413.034 260.548,413.034 L 264.895,413.034 L 264.895,411.961 L 260.511,411.961 C 260.013,411.961 259.61,411.557 259.61,411.06 C 259.61,410.562 260.013,410.159 260.511,410.159 L 264.895,410.159 L 264.895,409.112 L 260.548,409.112 C 260.05,409.112 259.647,408.709 259.647,408.211 C 259.647,407.713 260.05,407.31 260.548,407.31 L 265.796,407.31 C 266.294,407.31 266.697,407.713 266.697,408.211 L 266.697,413.935 C 266.697,414.432 266.294,414.836 265.796,414.836"
+         style="fill:#ffffff;fill-rule:nonzero;stroke:none" />
+    </g>
+  </g>
 </svg>

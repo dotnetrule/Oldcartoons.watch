@@ -13,7 +13,7 @@ import { useContentStore } from './stores/content';
 /** Series and episode routes load their series file before the view renders,
  * so a view never has to draw a loading state over data it was promised. A
  * rejected load propagates: there is no fallback route. */
-const notFound = (): RouteLocationRaw => ({ name: 'niet-gevonden' });
+const notFound = (): RouteLocationRaw => ({ path: '/niet-gevonden' });
 
 async function loadSeriesData(slug: string): Promise<void | RouteLocationRaw> {
   const content = useContentStore();

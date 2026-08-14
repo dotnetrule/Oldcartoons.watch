@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
@@ -23,6 +23,15 @@ const router = useRouter();
 const ui = useUiStore();
 const content = useContentStore();
 const C = computed(() => ui.C);
+const nowMs = ref(Date.now());
+
+let clockTimer: ReturnType<typeof setInterval> | undefined;
+onMounted(() => {
+  clockTimer = setInterval(() => {
+    nowMs.value = Date.now();
+  }, 30_000);
+});
+onBeforeUnmount(() => clearInterval(clockTimer));
 
 // The route's beforeEnter has already awaited this file, so it is present.
 const series = computed(() => content.series(props.slug));
@@ -94,7 +103,7 @@ const nextBroadcast = computed<{ broadcast: Broadcast; channel: BroadcastChannel
   const candidates = content.liveChannels.flatMap((channel) => {
     if (!series.value?.networkSlugs.includes(channel.networkSlug)) return [];
     const schedule = content.scheduleForChannel(channel.id);
-    const broadcast = schedule ? nextAiring(schedule, props.slug, Date.now()) : null;
+    const broadcast = schedule ? nextAiring(schedule, props.slug, nowMs.value) : null;
     return broadcast ? [{ broadcast, channel }] : [];
   });
   return candidates.sort(
@@ -106,7 +115,10 @@ const nextBroadcastLabel = computed(() => {
   const item = nextBroadcast.value;
   if (!item) return 'Geen komende uitzending gepland';
   const startsAt = new Date(item.broadcast.startsAt);
-  if (startsAt.getTime() <= Date.now() && new Date(item.broadcast.endsAt).getTime() > Date.now()) {
+  if (
+    startsAt.getTime() <= nowMs.value &&
+    new Date(item.broadcast.endsAt).getTime() > nowMs.value
+  ) {
     return `Nu op tv · tot ${formatChannelTime(item.broadcast.endsAt, item.channel.timezone)}`;
   }
   const date = new Intl.DateTimeFormat('nl-NL', {
@@ -138,9 +150,6 @@ const isPlayable = (episode: PublicEpisode): boolean => episode.status !== 'miss
 
 const isOpenable = (episode: PublicEpisode): boolean => isPlayable(episode) && !isLocked.value;
 
-const reportKey = (episode: PublicEpisode): string =>
-  `${props.slug}-${episode.season}-${episode.episode}`;
-
 function goEpisode(episode: PublicEpisode): void {
   if (!isOpenable(episode)) return;
   ui.triggerFlicker();
@@ -156,9 +165,15 @@ function watchOnChannel(): void {
   if (target) void router.push(`/kijken/${target.id}`);
 }
 
-function report(e: Event, episode: PublicEpisode): void {
-  e.preventDefault();
-  ui.reportMissing(reportKey(episode));
+function reportUrl(episode: PublicEpisode): string {
+  const title = `Werkende videolink: ${series.value?.name ?? props.slug} S${pad2(episode.season)}E${pad2(episode.episode)}`;
+  const body = [
+    `Programma: ${series.value?.name ?? props.slug}`,
+    `Aflevering: S${pad2(episode.season)}E${pad2(episode.episode)} — ${episode.title}`,
+    '',
+    'Werkende YouTube-link:',
+  ].join('\n');
+  return `https://github.com/dotnetrule/Oldcartoons.watch/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
 }
 </script>
 
@@ -296,8 +311,8 @@ function report(e: Event, episode: PublicEpisode): void {
              air date, and says plainly that no upload was found. -->
         <div v-if="!isPlayable(ep)" class="ep-report" :style="{ color: C.dim }">
           {{ COPY.missingNote }}
-          <a href="#" @click="report($event, ep)">
-            {{ ui.reportedKeys.has(reportKey(ep)) ? COPY.reportedThanks : COPY.reportLink }}
+          <a :href="reportUrl(ep)" target="_blank" rel="noopener noreferrer">
+            Werkende link melden ↗
           </a>
         </div>
       </div>

@@ -45,7 +45,6 @@ export const useUiStore = defineStore('ui', () => {
   // page is opened is not a lock.
   const ageFilter = ref<AgeCeiling>(readStored('ntv-age', 'All', AGE_CEILINGS));
   const previewSlug = ref<string | null>(null);
-  const reportedKeys = ref(new Set<string>());
   const flicker = ref(false);
   const channelSelections = ref<Record<string, string>>(readSessionChannels());
 
@@ -88,12 +87,6 @@ export const useUiStore = defineStore('ui', () => {
     previewSlug.value = slug;
   }
 
-  function reportMissing(key: string): void {
-    // Replacing the Set rather than mutating it is what makes the dependent
-    // `.has()` reads re-evaluate.
-    reportedKeys.value = new Set(reportedKeys.value).add(key);
-  }
-
   function selectChannel(networkSlug: string, channelId: string): void {
     channelSelections.value = { ...channelSelections.value, [networkSlug]: channelId };
     try {
@@ -119,7 +112,6 @@ export const useUiStore = defineStore('ui', () => {
     typeFilter,
     ageFilter,
     previewSlug,
-    reportedKeys,
     flicker,
     channelSelections,
     C,
@@ -129,7 +121,6 @@ export const useUiStore = defineStore('ui', () => {
     setTypeFilter,
     setAgeFilter,
     setPreview,
-    reportMissing,
     selectChannel,
     selectedChannelId,
     netColour,

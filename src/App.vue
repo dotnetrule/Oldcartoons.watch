@@ -47,6 +47,7 @@ const pageCode = computed(() => {
     const i = content.channels.findIndex((channel) => channel.id === route.params.channelId);
     return `5${pad2(i + 1)}`;
   }
+  if (route.name === 'niet-gevonden') return '404';
   return '100';
 });
 
@@ -96,7 +97,7 @@ const flashStyle = computed(() => ({
     <div class="ntv-flash" :style="flashStyle"></div>
     <div class="ntv-chrome" :style="{ background: C.bg }">
       <HeaderBar :page-code="pageCode" />
-      <ChannelTabs :active-slug="activeNetworkSlug" />
+      <ChannelTabs :active-slug="activeNetworkSlug" :guide-active="route.name === 'gids'" />
     </div>
     <main class="ntv-main">
       <router-view />
@@ -167,5 +168,14 @@ const flashStyle = computed(() => ({
 
 .ntv-footer a {
   text-decoration: underline;
+}
+
+/* On a phone the wrapped controls plus the horizontally scrolling channel
+ * strip take a substantial part of the viewport. Keep both rows together on
+ * desktop, but let that whole block scroll away on compact screens. */
+@media (max-width: 640px) {
+  .ntv-chrome {
+    position: relative;
+  }
 }
 </style>

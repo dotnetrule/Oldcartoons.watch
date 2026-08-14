@@ -236,29 +236,28 @@ function goGuide(): void {
           :key="item.slug"
           class="cover-card"
           :class="{ locked: isLocked(item) }"
+          :style="{ borderColor: C.border, background: C.bg2 }"
           role="button"
           :tabindex="isLocked(item) ? -1 : 0"
           :aria-disabled="isLocked(item)"
-          :title="isLocked(item) ? AGE_COPY.lockedHint : undefined"
+          :title="isLocked(item) ? AGE_COPY.lockedHint : `${item.name} · ${seriesYearsLabel(item)} · ${epLabel(item)}`"
           @click="goSeries(item)"
           @keydown.enter="goSeries(item)"
           @keydown.space.prevent="goSeries(item)"
         >
+          <div class="cover-card-status">
+            <SeriesStatusDot :status="statusFor(item)" :label="statusLabelFor(item)" />
+          </div>
           <CoverImage
             :title="item.name"
             :file-path="item.poster"
             size="w342"
+            fit="contain"
             :accent-color="colour"
             class="cover-card-img"
+            :style="{ background: C.bg2 }"
           />
-          <strong :style="{ color: C.ink }">
-            <SeriesStatusDot :status="statusFor(item)" :label="statusLabelFor(item)" />
-            {{ item.name }}
-          </strong>
-          <span class="mono" :style="{ color: C.dim }">
-            <template v-if="isLocked(item)">{{ AGE_COPY.locked }} · </template>
-            <template v-else-if="dutchLabel(item)">{{ dutchLabel(item) }} · </template>{{ seriesYearsLabel(item) }} · {{ epLabel(item) }}
-          </span>
+          <strong>{{ item.name }}</strong>
         </div>
       </div>
     </section>
@@ -488,8 +487,7 @@ function goGuide(): void {
 }
 
 .status-legend > span,
-.archive-row .title,
-.cover-card strong {
+.archive-row .title {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -512,8 +510,7 @@ function goGuide(): void {
   font: 18px 'Oswald', sans-serif;
 }
 
-.archive-row .mono,
-.cover-card .mono {
+.archive-row .mono {
   font-size: 10px;
 }
 
@@ -525,19 +522,76 @@ function goGuide(): void {
 }
 
 .cover-card {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border: 1px solid;
+  background: rgba(11, 15, 22, 0.35);
   cursor: pointer;
 }
 
+.cover-card-status {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(11, 15, 22, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+  pointer-events: none;
+}
+
+.cover-card-status :deep(.series-status-dot) {
+  transform: scale(1.15);
+  transform-origin: center;
+}
+
 .cover-card-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 16 / 9;
 }
 
 .cover-card strong {
-  margin-top: 7px;
-  font: 16px 'Oswald', sans-serif;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 1;
+  margin: 0;
+  overflow: hidden;
+  color: #fff;
+  font: 600 clamp(13px, 1.8vw, 17px) 'Oswald', sans-serif;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  -webkit-text-stroke: 1.1px rgba(0, 0, 0, 0.98);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+.cover-card::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 58%;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 15, 22, 0) 0%,
+    rgba(11, 15, 22, 0.16) 24%,
+    rgba(11, 15, 22, 0.88) 100%
+  );
 }
 
 /* A title above the viewer's ceiling keeps its place in the list — the archive
@@ -582,6 +636,13 @@ function goGuide(): void {
 
   .archive-head {
     align-items: flex-start;
+  }
+
+  .cover-card-status {
+    top: 8px;
+    left: 8px;
+    width: 20px;
+    height: 20px;
   }
 
   .coming-up {

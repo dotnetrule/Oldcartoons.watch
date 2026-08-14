@@ -5,7 +5,7 @@ import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import { pad2 } from '../data/helpers';
 
-const props = defineProps<{ activeSlug?: string | null }>();
+const props = defineProps<{ activeSlug?: string | null; guideActive?: boolean }>();
 
 const router = useRouter();
 const ui = useUiStore();
@@ -31,11 +31,11 @@ function goGuide(): void {
     <button
       class="ntv-tab ntv-tab-guide"
       :style="{
-        background: props.activeSlug ? 'transparent' : C.ink,
-        color: props.activeSlug ? C.dim2 : C.chipFg,
+        background: props.guideActive ? C.ink : 'transparent',
+        color: props.guideActive ? C.chipFg : C.dim2,
         borderColor: C.border2,
       }"
-      :aria-current="props.activeSlug ? undefined : 'page'"
+      :aria-current="props.guideActive ? 'page' : undefined"
       @click="goGuide"
     >
       <span class="ntv-tab-ch">100</span>

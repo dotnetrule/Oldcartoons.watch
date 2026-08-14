@@ -16,6 +16,7 @@ const props = withDefaults(
     /** TMDB file_path, or null when there is no artwork. */
     filePath?: string | null;
     size?: string;
+    fit?: 'cover' | 'contain';
     accentColor?: string;
     loading?: 'eager' | 'lazy';
     fetchPriority?: 'high' | 'low' | 'auto';
@@ -23,6 +24,7 @@ const props = withDefaults(
   {
     filePath: null,
     size: 'w500',
+    fit: 'cover',
     accentColor: '#8A93A6',
     loading: 'lazy',
     fetchPriority: 'auto',
@@ -46,6 +48,7 @@ watch(src, () => {
       :alt="title"
       :loading="loading"
       :fetchpriority="fetchPriority"
+      :style="{ objectFit: fit }"
       @error="imageFailed = true"
     />
     <div v-else class="ntv-cover-empty" :style="{ color: accentColor }" :title="title">

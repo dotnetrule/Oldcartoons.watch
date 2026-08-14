@@ -76,6 +76,4 @@ export const COPY = {
   firstAired: 'eerste uitzending',
   hoverHint: 'Selecteer een titel voor de eerste uitzenddatum, zender en het aantal afleveringen.',
   missingNote: 'Voor deze aflevering is nog geen video gevonden.',
-  reportLink: 'Werkende link doorgeven',
-  reportedThanks: 'Ontvangen — bedankt.',
 } as const;

@@ -23,18 +23,23 @@ const content = useContentStore();
 const ui = useUiStore();
 const C = computed(() => ui.C);
 const nowMs = ref(Date.now());
-/** The channel map is one card per station that actually broadcast. It is
- * built from the primary feeds only: bookkeeping buckets are not networks,
+const listedNetworkSlugs = computed(
+  () => new Set(content.listedNetworks.map((network) => network.slug)),
+);
+/** The channel map is one card per station that actually broadcast, but only
+ * the public listing gets a card here. Bookkeeping buckets are not networks,
  * and a network's preserved weeks are further views of one station rather
  * than stations of their own. Both are handled below, away from the map. */
 const prioritizedChannels = computed(() =>
-  [...content.primaryChannels].sort((a, b) => {
-    const languageOrder = Number(b.language === 'nl') - Number(a.language === 'nl');
-    const countryOrder = Number(b.country === 'NL') - Number(a.country === 'NL');
-    const aNumber = content.network(a.networkSlug)?.channelNumber ?? 999;
-    const bNumber = content.network(b.networkSlug)?.channelNumber ?? 999;
-    return languageOrder || countryOrder || aNumber - bNumber;
-  }),
+  [...content.primaryChannels]
+    .filter((channel) => listedNetworkSlugs.value.has(channel.networkSlug))
+    .sort((a, b) => {
+      const languageOrder = Number(b.language === 'nl') - Number(a.language === 'nl');
+      const countryOrder = Number(b.country === 'NL') - Number(a.country === 'NL');
+      const aNumber = content.network(a.networkSlug)?.channelNumber ?? 999;
+      const bNumber = content.network(b.networkSlug)?.channelNumber ?? 999;
+      return languageOrder || countryOrder || aNumber - bNumber;
+    }),
 );
 
 const channelCards = computed(() =>
@@ -57,10 +62,8 @@ const otherChannelCards = computed(() => channelCards.value.filter((item) => ite
 /** Preserved weeks of a real station's own schedule. They are listed apart
  * from the channel map and labelled by the station they came off, so no one
  * reads them as extra channels that never existed — which means a week can
- * only be listed while the station it names is. */
-const shownNetworkSlugs = computed(
-  () => new Set(content.stockedNetworks.map((network) => network.slug)),
-);
+ * only be listed while the station it names is still public. */
+const shownNetworkSlugs = listedNetworkSlugs;
 const archiveCards = computed(() =>
   content.channels
     .filter((item) => item.kind === 'archive' && item.scheduleId !== null)
