@@ -4,7 +4,6 @@
 
 import type { CSSProperties } from 'vue';
 
-export type ThemeId = 'dark' | 'light';
 export type ViewMode = 'listings' | 'covers';
 
 export type ThemeTokens = {
@@ -30,27 +29,17 @@ export type ThemeTokens = {
   heroFade: string;
 };
 
-export const THEMES: Record<ThemeId, ThemeTokens> = {
-  dark: {
-    bg: '#0B0F16', bg2: '#0E121A', ink: '#F3ECDD', dim: '#8A93A6', dim2: '#B7BECB',
-    border: 'rgba(255,255,255,.1)', border2: 'rgba(255,255,255,.16)',
-    hoverBg: 'rgba(255,255,255,.06)', focusBg: 'rgba(255,255,255,.1)', railBg: 'rgba(255,255,255,.08)',
-    rowStripe: 'rgba(255,255,255,.02)', missing: '#F2544C', flashColor: '#F3ECDD', flashBlend: 'overlay',
-    videoBg: '#000', chipFg: '#0B0F16', titleRule: '1px solid rgba(255,255,255,.16)', heroFade: 'rgba(11,15,22,.97)',
-  },
-  light: {
-    bg: '#F1EDE3', bg2: '#E7E1D1', ink: '#1A1B1E', dim: '#6B6A64', dim2: '#4B4A45',
-    border: 'rgba(26,27,30,.14)', border2: 'rgba(26,27,30,.22)',
-    hoverBg: 'rgba(26,27,30,.05)', focusBg: 'rgba(26,27,30,.08)', railBg: 'rgba(26,27,30,.07)',
-    rowStripe: 'rgba(26,27,30,.025)', missing: '#A3372B', flashColor: '#1A1B1E', flashBlend: 'multiply',
-    videoBg: '#15140F', chipFg: '#F1EDE3', titleRule: '3px double rgba(26,27,30,.5)', heroFade: 'rgba(241,237,227,.97)',
-  },
+/** The app has one look, permanently — a toggle used to sit next to
+ * `VIEW_OPTS` in the header for a second, lighter palette, but nothing ever
+ * set it programmatically and it turned out to be a mis-tap away from a
+ * jarring flash to a half-white page. Removed rather than fixed in place. */
+export const THEME: ThemeTokens = {
+  bg: '#0B0F16', bg2: '#0E121A', ink: '#F3ECDD', dim: '#8A93A6', dim2: '#B7BECB',
+  border: 'rgba(255,255,255,.1)', border2: 'rgba(255,255,255,.16)',
+  hoverBg: 'rgba(255,255,255,.06)', focusBg: 'rgba(255,255,255,.1)', railBg: 'rgba(255,255,255,.08)',
+  rowStripe: 'rgba(255,255,255,.02)', missing: '#F2544C', flashColor: '#F3ECDD', flashBlend: 'overlay',
+  videoBg: '#000', chipFg: '#0B0F16', titleRule: '1px solid rgba(255,255,255,.16)', heroFade: 'rgba(11,15,22,.97)',
 };
-
-export const THEME_OPTS: { id: ThemeId; label: string }[] = [
-  { id: 'dark', label: 'DONKER' },
-  { id: 'light', label: 'LICHT' },
-];
 
 export const VIEW_OPTS: { id: ViewMode; label: string }[] = [
   { id: 'listings', label: 'LIJST' },
