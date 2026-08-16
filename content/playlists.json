@@ -303,13 +303,13 @@
     "id": "PLyysPNL1mmLsa-i4C1Vx9Ypegs37uyw8x",
     "name": null,
     "curator": null,
-    "language": "en",
+    "language": "nl",
     "covers": [
       "medabots"
     ],
     "episodesFor": "medabots",
     "maxDurationSeconds": null,
-    "note": "Aangeleverd als bron voor Medabots; taal nog niet geverifieerd."
+    "note": "Nederlandstalige afleveringen van Medabots."
   },
   {
     "id": "PLdk1HWx2zmIFGS60LMC3VEBRVtZiI5HSM",
@@ -454,5 +454,17 @@
     "episodesFor": "kabouter-plop",
     "maxDurationSeconds": null,
     "note": ""
+  },
+  {
+    "id": "PLFndtc0PkkDNkLK3csQSiUyu05xMw-XyL",
+    "name": null,
+    "curator": null,
+    "language": "en",
+    "covers": [
+      "biker-mice"
+    ],
+    "episodesFor": "biker-mice",
+    "maxDurationSeconds": null,
+    "note": "Aangeleverd als aanvullende bron voor Biker Mice from Mars, afkomstig van Fox Kids; taal nog niet geverifieerd."
   }
 ]
