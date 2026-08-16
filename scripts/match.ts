@@ -108,10 +108,20 @@ function rebuildFromSource(
     for (const playlist of owner.playlists) {
       const dump = youtubeSources.find((yt) => yt.id === playlist.id);
       if (!dump) {
-        throw new Error(
-          `${playlistLabel(playlist)} owns part of the episode list for '${source.slug}' ` +
-            `but has not been fetched — run 'npm run fetch' first`,
+        // A playlist that could not be fetched this run — network trouble, or
+        // the page shape moving on — must not silently drop out of the middle
+        // of the group: the videos after it would shift into its slot and
+        // take its episode numbers. Skip the whole series this run instead,
+        // the same way an all-unreadable hand-picked set is skipped below,
+        // and leave its episode list exactly as an earlier successful run
+        // left it. (`main` already throws up front if nothing was fetched at
+        // all, so reaching this with some other dump present means this one
+        // specific source is what failed.)
+        console.warn(
+          `  ${source.slug}: ${playlistLabel(playlist)} owns part of its episode list but was not ` +
+            `fetched this run — leaving the episode list as it was`,
         );
+        return null;
       }
       // A playlist that cached nothing means the fetch went wrong: the reader
       // throws on an unreadable playlist rather than returning an empty one,
@@ -199,6 +209,14 @@ function main(): void {
   const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
   const videoSets = readValidated(contentPath('videos.json'), videoSetsFileSchema);
   const youtubeSources = loadYoutubeSources();
+  // Distinguishes "fetch ran and one source among many failed" (handled per
+  // series below, by leaving that series alone) from "fetch was never run at
+  // all" (every playlist- and video-set-owned series would otherwise fail
+  // that same way, one at a time, which reads as forty broken sources rather
+  // than one missed step).
+  if (youtubeSources.length === 0 && (playlists.length > 0 || videoSets.length > 0)) {
+    throw new Error(`no fetched YouTube sources found in data/youtube/ — run 'npm run fetch' first`);
+  }
   // A series lifted from a historical TV guide has its identity here rather
   // than in a metadata file; loadSeriesCache needs it to answer for that series
   // at all, whether the answer is an empty episode list or one a playlist wrote.

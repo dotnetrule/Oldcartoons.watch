@@ -58,8 +58,21 @@ async function fetchYoutube(): Promise<void> {
   }
 
   for (const channel of channels) {
-    const uploads = await getUploadsPlaylistId(channel.id);
-    const videos = await listPlaylistVideos(uploads);
+    let videos: YoutubeVideo[];
+    try {
+      const uploads = await getUploadsPlaylistId(channel.id);
+      videos = await listPlaylistVideos(uploads);
+    } catch (error) {
+      // One channel that cannot be read this run — network trouble, the page
+      // shape moving on — must not take every other source down with it. Its
+      // cache file is simply not rewritten, so match.ts sees the same dump
+      // (or none) it saw last time and leaves that series exactly as it was.
+      console.warn(
+        `  channel ${channel.name}: could not be read (${(error as Error).message.split('\n')[0]}) ` +
+          `— skipping this run, its episodes stay as they were`,
+      );
+      continue;
+    }
     const cache: YoutubeSourceCache = {
       fetchedAt: new Date().toISOString(),
       kind: 'channel',
@@ -76,7 +89,20 @@ async function fetchYoutube(): Promise<void> {
   // same per-page cost. Only the recorded provenance differs, and that is what
   // lets a rotting source be identified and dropped as a unit later.
   for (const playlist of playlists) {
-    const videos = await listPlaylistVideos(playlist.id);
+    let videos: YoutubeVideo[];
+    try {
+      videos = await listPlaylistVideos(playlist.id);
+    } catch (error) {
+      // Same reasoning as a channel: one rotting or temporarily unreadable
+      // playlist among dozens must not abort the whole run. match.ts already
+      // knows how to leave a series alone when its source has nothing new to
+      // say — this is what puts it in that position instead of crashing here.
+      console.warn(
+        `  playlist ${playlist.name ?? playlist.id}: could not be read (${(error as Error).message.split('\n')[0]}) ` +
+          `— skipping this run, its episodes stay as they were`,
+      );
+      continue;
+    }
     const cache: YoutubeSourceCache = {
       fetchedAt: new Date().toISOString(),
       kind: 'playlist',
