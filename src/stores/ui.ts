@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { THEME, type TypeFilter, type ViewMode } from '../data/themes';
 import { AGE_CEILINGS, type AgeCeiling } from '../data/age';
+import { LANGUAGE_MODES, type ChannelLanguageMode } from '../data/language';
 
 function readStored<T extends string>(key: string, fallback: T, allowed: readonly T[]): T {
   try {
@@ -35,6 +36,12 @@ export const useUiStore = defineStore('ui', () => {
   // a ceiling means it to hold — a lock that lifts itself the next time the
   // page is opened is not a lock.
   const ageFilter = ref<AgeCeiling>(readStored('ntv-age', 'All', AGE_CEILINGS));
+  // Survives a reload for the same reason the ceiling does: a viewer who has
+  // opened up the line-up is describing the archive they want, not making a
+  // choice about this one visit. Defaults to the station as it broadcast.
+  const languageMode = ref<ChannelLanguageMode>(
+    readStored('ntv-language', 'dutch', LANGUAGE_MODES),
+  );
   const previewSlug = ref<string | null>(null);
   const flicker = ref(false);
   const menuOpen = ref(false);
@@ -69,6 +76,11 @@ export const useUiStore = defineStore('ui', () => {
     persist('ntv-age', value);
   }
 
+  function setLanguageMode(value: ChannelLanguageMode): void {
+    languageMode.value = value;
+    persist('ntv-language', value);
+  }
+
   function setPreview(slug: string | null): void {
     previewSlug.value = slug;
   }
@@ -91,6 +103,7 @@ export const useUiStore = defineStore('ui', () => {
     viewMode,
     typeFilter,
     ageFilter,
+    languageMode,
     previewSlug,
     flicker,
     menuOpen,
@@ -99,6 +112,7 @@ export const useUiStore = defineStore('ui', () => {
     setViewMode,
     setTypeFilter,
     setAgeFilter,
+    setLanguageMode,
     setPreview,
     netColour,
     closeMenu,

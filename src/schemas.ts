@@ -169,6 +169,7 @@ export const broadcastChannelSourcesFileSchema = z
 
 export const broadcastChannelSchema = broadcastChannelSourceSchema.extend({
   scheduleId: slugSchema.nullable(),
+  openScheduleId: slugSchema.nullable(),
 });
 
 export const mediaAssetSchema = z.object({
@@ -263,6 +264,21 @@ export const broadcastDataFileSchema = z
       }
     });
   });
+
+/**
+ * The wider line-ups, in their own payload.
+ *
+ * Kept out of `broadcast.json` because they are the same size again as the
+ * broadcast feeds, and the viewer who never widens the line-up would be paying
+ * for them on every route. Fetched only once the setting asks for them.
+ *
+ * The channel → schedule reference cannot be checked here, since the channels
+ * live in the other file; `build-data.ts` asserts it across the pair instead.
+ */
+export const broadcastOpenFileSchema = z.object({
+  generatedAt: z.string().datetime(),
+  schedules: z.array(broadcastScheduleSchema),
+});
 
 export const networksFileSchema = z
   .array(networkSchema)

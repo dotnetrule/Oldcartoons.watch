@@ -3,6 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router';
 import AudioTrackNotice from '../components/AudioTrackNotice.vue';
 import NetworkLogo from '../components/NetworkLogo.vue';
+import TrackControls from '../components/TrackControls.vue';
 import { useContentStore } from '../stores/content';
 import { useUiStore } from '../stores/ui';
 import {
@@ -162,6 +163,10 @@ const timeFor = (iso: string): string =>
   channel.value ? formatChannelTime(iso, channel.value.timezone) : '';
 
 let player: YtPlayer | null = null;
+/** The same player, for the template. `player` stays a plain binding because
+ * the playback code reassigns it constantly and none of that needs to be
+ * reactive; the track buttons do need to know when an embed exists. */
+const playerRef = ref<YtPlayer | null>(null);
 let loadedKey: string | null = null;
 let clockTimer: ReturnType<typeof setInterval> | undefined;
 let overlayTimer: ReturnType<typeof setTimeout> | undefined;
@@ -250,6 +255,7 @@ function destroyPlayer(): void {
   const hadPlayer = player !== null;
   player?.destroy();
   player = null;
+  playerRef.value = null;
   loadedKey = null;
   playerReady.value = false;
   isPlaying.value = false;
@@ -355,6 +361,10 @@ async function syncPlayer(): Promise<void> {
       // menu read "Audiotrack", which is where AudioTrackNotice sends the
       // viewer.
       hl: 'nl',
+      // Which subtitles to show *if* they are turned on. Deliberately without
+      // `cc_load_policy`: that would force subtitles onto every viewer, and
+      // what was asked for is a button.
+      cc_lang_pref: 'nl',
     },
     // One player instance outlives many broadcasts: `loadVideoById` above swaps
     // the video without rebuilding it, so these handlers must report against
@@ -365,6 +375,10 @@ async function syncPlayer(): Promise<void> {
     events: {
       onReady: (event) => {
         playerReady.value = true;
+        // Only now: before this the object exists but will not answer, and a
+        // track button that reports "the player would not say" because it was
+        // pressed too early would be blaming the wrong thing.
+        playerRef.value = event.target;
         allowIframeFullscreen(event.target);
         applyAudioPreference(event.target, loadedKey);
         // Browsers reject autoplay with sound after an asynchronous route
@@ -625,6 +639,16 @@ onBeforeUnmount(() => {
             {{ isFullscreen ? 'Verlaat volledig scherm' : 'Volledig scherm' }}
           </button>
         </div>
+
+        <!-- The station's own language, not a hardcoded Dutch: an English slot
+             on a widened line-up should offer the track it actually has. -->
+        <TrackControls
+          v-if="!isInterlude && broadcastLanguage"
+          class="track-row"
+          :player="playerRef"
+          :language="broadcastLanguage"
+          :video-key="playerKey"
+        />
       </div>
     </template>
 
@@ -825,6 +849,15 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: flex-end;
   gap: 7px;
+}
+
+/* Its own line under the navigation buttons rather than another item in that
+   row: these two act on what is playing rather than on where the viewer is,
+   and the status line they print needs room to be a sentence. */
+.track-row {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  pointer-events: auto;
 }
 
 .actions button,

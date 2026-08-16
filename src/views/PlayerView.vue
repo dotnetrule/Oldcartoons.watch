@@ -16,6 +16,7 @@ import {
   type YtPlayer,
 } from '../player/youtubeApi';
 import AudioTrackNotice from '../components/AudioTrackNotice.vue';
+import TrackControls from '../components/TrackControls.vue';
 import type { PublicEpisode } from '../types';
 
 const props = defineProps<{ slug: string; season: string; episode: string }>();
@@ -123,12 +124,15 @@ const mount = ref<HTMLDivElement | null>(null);
 const stage = ref<HTMLElement | null>(null);
 const { isFullscreen, cssFullscreen, toggle: toggleFullscreen } = useFullscreen(stage);
 let player: YtPlayer | null = null;
+/** The same player, for the template — see the note in LivePlayerView. */
+const playerRef = ref<YtPlayer | null>(null);
 let playerVideoId: string | null = null;
 const playbackFailed = ref(false);
 
 function destroyPlayer(): void {
   player?.destroy();
   player = null;
+  playerRef.value = null;
   playerVideoId = null;
   audioPreference.value = null;
 }
@@ -190,10 +194,15 @@ async function syncPlayer(videoId: string | null): Promise<void> {
     // what makes the settings menu read "Audiotrack" instead of "Audio track",
     // which is the wording AudioTrackNotice points the viewer at on the embeds
     // where the switch below cannot be made for them.
-    playerVars: { rel: 0, modestbranding: 1, playsinline: 1, hl: 'nl' },
+    // `cc_lang_pref` says which subtitles to show if they are turned on, and
+    // deliberately comes without `cc_load_policy`, which would turn them on for
+    // everybody. The button below is what turns them on.
+    playerVars: { rel: 0, modestbranding: 1, playsinline: 1, hl: 'nl', cc_lang_pref: 'nl' },
     events: {
       onReady: (event) => {
         allowIframeFullscreen(event.target);
+        // Only now — before this the object exists but will not answer.
+        playerRef.value = event.target;
         applyAudioPreference(event.target, videoId);
       },
       onStateChange: (event) => {
@@ -271,6 +280,14 @@ onBeforeUnmount(destroyPlayer);
           <span class="mono bar-title">
             S{{ pad2(episode.season) }}E{{ pad2(episode.episode) }} · {{ episode.title }}
           </span>
+          <!-- Always Dutch here. There is no station on demand, and the archive
+               is Dutch-first — see the note on `dubbedAudio` above. -->
+          <TrackControls
+            v-if="episode.youtubeId && !isLocked && !playbackFailed"
+            :player="playerRef"
+            language="nl"
+            :video-key="episode.youtubeId"
+          />
           <button
             v-if="episode.youtubeId && !isLocked && !playbackFailed"
             class="bar-btn"
@@ -385,6 +402,10 @@ onBeforeUnmount(destroyPlayer);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* The bar carries the episode title, the two track buttons and their status
+     line now. On a narrow window that is more than one row's worth, and
+     wrapping it beats squeezing the title down to an ellipsis. */
+  flex-wrap: wrap;
   gap: 12px;
   padding: 7px 14px;
   border-top: 1px solid;

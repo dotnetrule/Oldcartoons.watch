@@ -43,6 +43,22 @@ watch(
   { immediate: true },
 );
 
+/**
+ * Fetch the wider line-ups the first time a viewer asks for them.
+ *
+ * The route guards cover a page opened with the setting already on; this covers
+ * flipping it while the page is up. Until the payload lands every channel keeps
+ * playing its broadcast feed (see `activeScheduleId`), so this is a swap rather
+ * than a gap, and a failed fetch leaves the site exactly as it was.
+ */
+watch(
+  () => ui.languageMode,
+  (mode) => {
+    if (mode === 'all') void content.loadOpenSchedules().catch(() => undefined);
+  },
+  { immediate: true },
+);
+
 const activeNetworkSlug = computed<string | null>(() => {
   if (route.name === 'zender') return String(route.params.slug);
   if (route.name === 'live') return content.channel(String(route.params.channelId))?.networkSlug ?? null;

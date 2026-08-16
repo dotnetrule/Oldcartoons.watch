@@ -36,6 +36,11 @@ export type YtPlayer = {
   getAvailableAudioTracks?: () => YtAudioTrack[] | undefined;
   getAudioTrack?: () => YtAudioTrack | undefined;
   setAudioTrack?: (track: YtAudioTrack) => void;
+  /* The captions module, equally undocumented — see `preferSubtitleLanguage`. */
+  loadModule?: (module: string) => void;
+  unloadModule?: (module: string) => void;
+  setOption?: (module: string, option: string, value: unknown) => void;
+  getOption?: (module: string, option: string) => unknown;
 };
 
 type YtPlayerEvent = { data: number; target: YtPlayer };
@@ -196,6 +201,150 @@ export async function preferAudioLanguage(
   }
 
   return 'unsupported';
+}
+
+/* ---------------------------------------------------------------- */
+/* Subtitles                                                         */
+/* ---------------------------------------------------------------- */
+
+/**
+ * What asking the player for subtitles in a language got us.
+ *
+ * `translated` is deliberately not folded into `switched`: machine-translated
+ * subtitles are a different thing from ones somebody wrote, and the viewer who
+ * asked for Dutch should be told which one they got rather than left to work it
+ * out from the prose.
+ */
+export type SubtitlePreference =
+  | 'switched' /* a real subtitle track in that language is now showing */
+  | 'already' /* it was already the showing track */
+  | 'translated' /* no such track; YouTube is auto-translating one into it */
+  | 'unavailable' /* the player listed its tracks and offered neither */
+  | 'unsupported'; /* the player would not say — no caption control on this embed */
+
+/**
+ * The captions module has two names.
+ *
+ * `cc` is the older one and `captions` the newer, and which one answers depends
+ * on the player the embed happens to load. Asking both costs one no-op call and
+ * removes the guess.
+ */
+const CAPTION_MODULES = ['captions', 'cc'] as const;
+
+/** The player's own list of what it can auto-translate into. Undocumented like
+ * everything else here, and read through the same "some strings, names unknown"
+ * lens as the audio tracks. */
+function translationLanguages(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((entry) => {
+    if (typeof entry === 'string') {
+      return LANGUAGE_TAG.test(entry) ? [primarySubtag(entry.replace(/^\./, ''))] : [];
+    }
+    if (entry && typeof entry === 'object') return trackLanguages(entry as YtAudioTrack);
+    return [];
+  });
+}
+
+/**
+ * Show subtitles in `language`, translating them if that is the only way.
+ *
+ * The counterpart to `preferAudioLanguage`, and undocumented in exactly the same
+ * way: `loadModule`/`setOption`/`getOption` are on the player object but in no
+ * specification, so every call here is optional-chained, guarded and caught. The
+ * failure mode is the site's previous behaviour — no subtitles, and a button
+ * that says the player would not answer.
+ *
+ * The two steps are ordered the way a viewer would want them: a real Nederlands
+ * track first, and only when the video does not have one does this fall back to
+ * asking YouTube to translate one, which it will do from any track it has.
+ */
+export async function preferSubtitleLanguage(
+  player: YtPlayer,
+  language: string,
+  /** Lets a caller abandon a video it has already navigated away from. */
+  isCurrent: () => boolean = () => true,
+): Promise<SubtitlePreference> {
+  if (typeof player.setOption !== 'function' || typeof player.getOption !== 'function') {
+    return 'unsupported';
+  }
+
+  const wanted = primarySubtag(language);
+  const deadline = Date.now() + TRACK_WAIT_MS;
+  const { setOption, getOption } = player;
+
+  // The list only exists once the module is running, and loading it is also
+  // what turns captions on for an embed that started with them off.
+  for (const module of CAPTION_MODULES) {
+    try {
+      player.loadModule?.(module);
+    } catch {
+      /* the other name may still answer */
+    }
+  }
+
+  while (isCurrent()) {
+    for (const module of CAPTION_MODULES) {
+      let tracks: unknown;
+      try {
+        tracks = getOption.call(player, module, 'tracklist');
+      } catch {
+        continue;
+      }
+      // As with audio: an empty list is what both a caption-less video and a
+      // module that has not loaded yet look like, so it is waited on.
+      if (!Array.isArray(tracks) || tracks.length === 0) continue;
+
+      const match = (tracks as YtAudioTrack[]).find((track) =>
+        trackLanguages(track).includes(wanted),
+      );
+      try {
+        if (match) {
+          const showing = getOption.call(player, module, 'track');
+          if (
+            showing &&
+            typeof showing === 'object' &&
+            trackLanguages(showing as YtAudioTrack).includes(wanted)
+          ) {
+            return 'already';
+          }
+          setOption.call(player, module, 'track', match);
+          return 'switched';
+        }
+
+        const translations = translationLanguages(
+          getOption.call(player, module, 'translationLanguages'),
+        );
+        if (!translations.includes(wanted)) return 'unavailable';
+        // A track has to be showing before there is anything to translate.
+        setOption.call(player, module, 'track', tracks[0]);
+        setOption.call(player, module, 'translationLanguage', { languageCode: language });
+        return 'translated';
+      } catch {
+        return 'unsupported';
+      }
+    }
+
+    // Same reasoning as the audio path: a player that never answered has not
+    // ruled Dutch subtitles out, so this says so rather than asserting there
+    // were none.
+    if (Date.now() >= deadline) return 'unsupported';
+    await sleep(TRACK_POLL_MS);
+  }
+
+  return 'unsupported';
+}
+
+/** Take the subtitles back off. Best-effort by the same rules — a player that
+ * will not unload its captions module is one the viewer can turn off from
+ * YouTube's own control bar. */
+export function disableSubtitles(player: YtPlayer): void {
+  for (const module of CAPTION_MODULES) {
+    try {
+      player.unloadModule?.(module);
+    } catch {
+      /* nothing to undo */
+    }
+  }
 }
 
 const API_SRC = 'https://www.youtube.com/iframe_api';

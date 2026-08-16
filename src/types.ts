@@ -113,6 +113,16 @@ export type BroadcastChannel = {
   timezone: string;
   /** Null while this channel has no playable schedule in the archive. */
   scheduleId: string | null;
+  /**
+   * The same station without the language filter: every programme on this
+   * network the archive can play, whatever it is spoken in.
+   *
+   * A second timeline rather than a flag on the first, because a schedule is an
+   * absolute running order and a viewer setting cannot rewrite one. Null when
+   * the wider line-up would be the Dutch one — either the network has nothing
+   * else, or it has nothing at all.
+   */
+  openScheduleId: string | null;
 };
 
 export type BroadcastType =
@@ -182,6 +192,19 @@ export type Broadcast = Omit<ScheduledBroadcast, 'startsAtOffsetSeconds' | 'ends
 export type BroadcastDataFile = {
   generatedAt: string;
   channels: BroadcastChannel[];
+  schedules: BroadcastSchedule[];
+};
+
+/**
+ * public/data/broadcast-open.json — the wider line-ups, fetched only when a
+ * viewer asks for them.
+ *
+ * Its own payload rather than more of `broadcast.json` because these schedules
+ * are the same size again as the broadcast ones, and every route loads that
+ * file. A viewer who never widens the line-up never downloads this.
+ */
+export type BroadcastOpenFile = {
+  generatedAt: string;
   schedules: BroadcastSchedule[];
 };
 
@@ -283,7 +306,7 @@ export type ChannelSource = {
 };
 
 /** Hand-curated input from content/broadcast-channels.json. */
-export type BroadcastChannelSource = Omit<BroadcastChannel, 'scheduleId'>;
+export type BroadcastChannelSource = Omit<BroadcastChannel, 'scheduleId' | 'openScheduleId'>;
 
 /** A whitelisted third-party playlist. Same ingest path as a channel — the
  * only difference is provenance and the trust that follows from it. */
