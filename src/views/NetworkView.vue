@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
 import NetworkLogo from '../components/NetworkLogo.vue';
+import ProgrammeFilter from '../components/ProgrammeFilter.vue';
 import SeriesStatusDot from '../components/SeriesStatusDot.vue';
 import { episodeCountLabel, pad2, yearRangeLabel } from '../data/helpers';
 import {
@@ -15,6 +16,12 @@ import {
 } from '../data/series-status';
 import { broadcastProgress, formatChannelTime, nowAndNext } from '../broadcast/engine';
 import { AGE_COPY, isBlockedByAge } from '../data/age';
+import {
+  PROGRAMME_FILTER_COPY,
+  defaultProgrammeFilter,
+  filterProgrammes,
+  isProgrammeFilterActive,
+} from '../data/programme-filter';
 import type { Broadcast, SeriesStub } from '../types';
 
 const props = defineProps<{ slug: string }>();
@@ -37,17 +44,18 @@ const yearsLabel = computed(() =>
   network.value ? yearRangeLabel(network.value.activeYears[0], network.value.activeYears[1]) : '',
 );
 
-const series = computed<SeriesStub[]>(() =>
-  network.value
-    ? content.stubs
-        .filter((item) => item.networkSlugs.includes(props.slug))
-        .sort(
-          (a, b) =>
-            Number(b.availableLanguages.includes('nl')) - Number(a.availableLanguages.includes('nl')) ||
-            a.firstAirYear - b.firstAirYear,
-        )
-    : [],
+/** Every programme this station carries, before the viewer narrows it. */
+const allSeries = computed<SeriesStub[]>(() =>
+  network.value ? content.stubs.filter((item) => item.networkSlugs.includes(props.slug)) : [],
 );
+
+// Reset per station: opening a channel page shows its whole line-up on name,
+// which is what the default is for.
+const filter = ref(defaultProgrammeFilter());
+watch(() => props.slug, () => (filter.value = defaultProgrammeFilter()));
+
+const series = computed<SeriesStub[]>(() => filterProgrammes(allSeries.value, filter.value));
+const filtering = computed(() => isProgrammeFilterActive(filter.value));
 
 let clockTimer: ReturnType<typeof setInterval> | undefined;
 onMounted(() => {
@@ -169,10 +177,19 @@ function goGuide(): void {
             </span>
           </div>
         </div>
-        <span class="mono" :style="{ color: C.dim }">{{ series.length }} TITELS</span>
+        <span class="mono" :style="{ color: C.dim }">
+          <template v-if="filtering">{{ series.length }} VAN {{ allSeries.length }} TITELS</template>
+          <template v-else>{{ allSeries.length }} TITELS</template>
+        </span>
       </div>
 
-      <div v-if="ui.viewMode === 'listings'" class="archive-list">
+      <ProgrammeFilter v-model="filter" />
+
+      <p v-if="series.length === 0" class="archive-empty" :style="{ color: C.dim }">
+        {{ PROGRAMME_FILTER_COPY.empty }}
+      </p>
+
+      <div v-else-if="ui.viewMode === 'listings'" class="archive-list">
         <div
           v-for="item in series"
           :key="item.slug"
@@ -397,6 +414,9 @@ function goGuide(): void {
 .archive-head h2 {
   margin: 2px 0 0;
   font: 600 25px 'Oswald', sans-serif;
+  /* Station names are mixed case now that Fox Kids and Jetix are separate
+   * entries; the heading is set in caps either way. */
+  text-transform: uppercase;
 }
 
 .archive-heading {
@@ -421,6 +441,13 @@ function goGuide(): void {
 
 .archive-head > .mono {
   font-size: 10px;
+  white-space: nowrap;
+}
+
+.archive-empty {
+  margin: 0;
+  padding: 28px 6px;
+  font-size: 13px;
 }
 
 .archive-row {

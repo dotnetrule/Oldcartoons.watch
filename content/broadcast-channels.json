@@ -24,17 +24,9 @@
     "timezone": "Europe/Amsterdam"
   },
   {
-    "id": "rtl4-nl",
-    "networkSlug": "rtl4",
-    "name": "RTL 4",
-    "country": "NL",
-    "language": "nl",
-    "timezone": "Europe/Amsterdam"
-  },
-  {
-    "id": "rtl5-nl",
-    "networkSlug": "rtl5",
-    "name": "RTL 5",
+    "id": "yorkiddin-nl",
+    "networkSlug": "yorkiddin",
+    "name": "Yorkiddin’",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -48,17 +40,9 @@
     "timezone": "Europe/Amsterdam"
   },
   {
-    "id": "rtl7-nl",
-    "networkSlug": "rtl7",
-    "name": "RTL 7",
-    "country": "NL",
-    "language": "nl",
-    "timezone": "Europe/Amsterdam"
-  },
-  {
     "id": "foxkids-nl",
     "networkSlug": "foxkids",
-    "name": "FOXKIDS / JETIX",
+    "name": "Fox Kids",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
@@ -75,6 +59,14 @@
     "id": "nickelodeon-nl",
     "networkSlug": "nickelodeon",
     "name": "Nickelodeon / Talpa",
+    "country": "NL",
+    "language": "nl",
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": "jetix-nl",
+    "networkSlug": "jetix",
+    "name": "Jetix",
     "country": "NL",
     "language": "nl",
     "timezone": "Europe/Amsterdam"
