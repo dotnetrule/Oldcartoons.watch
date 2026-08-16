@@ -88,10 +88,6 @@ export type Network = {
   channelNumber: number;
   /** Hex, from the design token set. */
   colour: string;
-  /** Light-theme variant of `colour`. Deviation from the spec's single hex:
-   * the shipped light theme reads this, and collapsing to one value would
-   * silently break it. */
-  colourLight: string;
   /** Path under /networks/. */
   logo: string;
   /** [first, last] active year. A last year at or beyond the current year

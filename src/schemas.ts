@@ -131,7 +131,6 @@ export const networkSchema = z.object({
   listed: z.boolean(),
   channelNumber: z.number().int().nonnegative(),
   colour: hexColourSchema,
-  colourLight: hexColourSchema,
   logo: z.string().startsWith('/networks/'),
   activeYears: z
     .tuple([z.number().int(), z.number().int()])

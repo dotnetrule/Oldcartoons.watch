@@ -3,6 +3,7 @@ import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import HeaderBar from './components/HeaderBar.vue';
 import ChannelTabs from './components/ChannelTabs.vue';
+import ChannelDrawer from './components/ChannelDrawer.vue';
 import { useUiStore } from './stores/ui';
 import { useContentStore } from './stores/content';
 import { pad2 } from './data/helpers';
@@ -128,6 +129,7 @@ const flashStyle = computed(() => ({
       <HeaderBar :page-code="pageCode" />
       <ChannelTabs :active-slug="activeNetworkSlug" :guide-active="route.name === 'gids'" />
     </div>
+    <ChannelDrawer :active-slug="activeNetworkSlug" :guide-active="route.name === 'gids'" />
     <main class="ntv-main">
       <router-view />
     </main>
