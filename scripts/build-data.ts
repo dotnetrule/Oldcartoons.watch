@@ -11,6 +11,7 @@ import { rmSync } from 'node:fs';
 import type {
   BroadcastChannelSource,
   BroadcastDataFile,
+  BroadcastOpenFile,
   BroadcastSchedule,
   ChannelSource,
   ContentLanguage,
@@ -32,6 +33,7 @@ import type {
 import {
   broadcastChannelSourcesFileSchema,
   broadcastDataFileSchema,
+  broadcastOpenFileSchema,
   channelsFileSchema,
   episodesFileSchema,
   historicalGuidesFileSchema,
@@ -156,6 +158,10 @@ function rotate<T>(values: T[], offset: number): T[] {
 function buildSchedule(
   channel: BroadcastChannelSource,
   seeds: ScheduleSeed[],
+  /** Distinguishes a channel's two feeds — see `scheduleVariants` below. Part
+   * of the id, and of every hash that orders the cycle, so the two timelines
+   * are independently shuffled rather than one being a prefix of the other. */
+  variant: 'daily' | 'open',
   historicalGuide: HistoricalGuide | null = null,
 ): BroadcastSchedule | null {
   if (seeds.length === 0) return null;
@@ -185,14 +191,14 @@ function buildSchedule(
   function orderPass(pass: number): ScheduleSeed[] {
     const rotated = sortedGroups.map((group) => ({
       slug: group.slug,
-      episodes: rotate(group.episodes, stableHash(`${channel.id}:${group.slug}:${pass}`)),
+      episodes: rotate(group.episodes, stableHash(`${channel.id}:${variant}:${group.slug}:${pass}`)),
     }));
     // An archive week reconstructs a printed running order, so its shows go out
     // in the order the guide listed them. Everywhere else the starting show
     // rotates too, or every pass would open with the same programme.
     const groups = historicalGuide
       ? rotated
-      : rotate(rotated, stableHash(`${channel.id}:pass:${pass}`));
+      : rotate(rotated, stableHash(`${channel.id}:${variant}:pass:${pass}`));
 
     const ordered: ScheduleSeed[] = [];
     let row = 0;
@@ -229,8 +235,21 @@ function buildSchedule(
     const durationSeconds = slotSeconds(seed);
     const startsAtOffsetSeconds = cursor;
     cursor += durationSeconds;
+    /**
+     * What this slot is actually spoken in.
+     *
+     * The station's language whenever the video can be heard in it, and the
+     * video's own otherwise. That second case only arises on the open schedule
+     * below, where a channel airs whatever the archive has for it rather than
+     * only what it can broadcast in its own language — and there, claiming the
+     * station's language would ask the player for a track that is not on the
+     * video and point the viewer at a menu that cannot deliver one.
+     */
+    const spoken = seed.languages.some((language) => language === channel.language)
+      ? channel.language
+      : seed.defaultLanguage;
     return {
-      id: `${channel.id}:${index}:${seed.showSlug}:s${seed.season}e${seed.episode}`,
+      id: `${channel.id}:${variant}:${index}:${seed.showSlug}:s${seed.season}e${seed.episode}`,
       type: 'Episode',
       startsAtOffsetSeconds,
       endsAtOffsetSeconds: cursor,
@@ -251,21 +270,21 @@ function buildSchedule(
       },
       metadata: {
         runtimeEstimated: seed.runtimeSeconds === null && seed.runtime === null,
-        // The channel's language when this video does not start in it: the
-        // track exists, but the viewer has to pick it in the player. Null when
-        // the audio needs no intervention, which is the ordinary case.
+        // The slot's language when this video does not start in it: the track
+        // exists, but the viewer has to pick it in the player. Null when the
+        // audio needs no intervention, which is the ordinary case.
         //
         // Decided here rather than in the player because the player knows what
         // is loaded, not what the schedule chose it for — and it is precisely
         // the difference between those two that the viewer has to be told
         // about.
-        dubbedAudio: seed.defaultLanguage === channel.language ? null : channel.language,
-        // The language this station broadcasts in, said plainly and always —
+        dubbedAudio: seed.defaultLanguage === spoken ? null : spoken,
+        // The language this slot goes out in, said plainly and always —
         // `dubbedAudio` above only speaks up when the video disagrees with it,
         // so it cannot be what the player asks for. Preferring a track is not
-        // a correction of anything; it is the station's language, every slot,
+        // a correction of anything; it is the slot's language, every time,
         // whether or not the upload already happened to be in it.
-        audioLanguage: channel.language,
+        audioLanguage: spoken,
         historicalGuide: historicalGuide?.id ?? null,
         requestedWeek: historicalGuide
           ? `${historicalGuide.requestedFrom}/${historicalGuide.requestedTo}`
@@ -276,7 +295,7 @@ function buildSchedule(
   });
 
   return {
-    id: `${channel.id}-daily`,
+    id: `${channel.id}-${variant}`,
     channelId: channel.id,
     anchorAt: '2000-01-01T00:00:00.000Z',
     cycleDurationSeconds: cursor,
@@ -766,31 +785,65 @@ function main(): void {
 
   writeJson(`${PUBLIC_DATA_DIR}/index.json`, indexFileSchema.parse(index));
 
-  const schedules = broadcastChannelSources.flatMap((channel) => {
+  /**
+   * Each channel's two feeds.
+   *
+   * `daily` is the station as it broadcasts: only what it can carry in its own
+   * language, which is the archive's whole premise and stays the default.
+   * `open` is the same network without that filter — every programme the
+   * archive can play on it, whatever it is spoken in. A viewer picks between
+   * them; both are ordinary gapless timelines, so neither has to apologise for
+   * gaps the other does not have.
+   *
+   * Two generated timelines rather than one filtered at runtime because a
+   * schedule is an absolute running order: a per-viewer setting can hide a slot
+   * (see the age ceiling) but cannot conjure one, and filtering the wide feed
+   * down to Dutch would leave the default viewer watching skip cards.
+   */
+  const scheduleVariants = broadcastChannelSources.flatMap((channel) => {
     const historicalGuide = historicalGuides.find((guide) => guide.channelId === channel.id) ?? null;
     const guideSeries = historicalGuide ? new Set(historicalGuide.seriesSlugs) : null;
-    const schedule = buildSchedule(
-      channel,
-      scheduleSeeds.filter(
-        (seed) =>
-          seed.networkSlug === channel.networkSlug &&
-          // `channel.language` is a plain string on the channel source, so this
-          // compares rather than casts.
-          seed.languages.some((language) => language === channel.language) &&
-          (!guideSeries || guideSeries.has(seed.showSlug)),
-      ),
-      historicalGuide,
+    const onNetwork = scheduleSeeds.filter(
+      (seed) =>
+        seed.networkSlug === channel.networkSlug &&
+        (!guideSeries || guideSeries.has(seed.showSlug)),
     );
-    return schedule ? [schedule] : [];
+    // `channel.language` is a plain string on the channel source, so this
+    // compares rather than casts.
+    const inLanguage = onNetwork.filter((seed) =>
+      seed.languages.some((language) => language === channel.language),
+    );
+
+    const daily = buildSchedule(channel, inLanguage, 'daily', historicalGuide);
+    // Only when it is a different station. A network whose material is all in
+    // the channel's language would produce the same line-up under another id,
+    // and shipping that doubles the payload to offer the viewer a choice
+    // between two identical things.
+    const open =
+      onNetwork.length > inLanguage.length
+        ? buildSchedule(channel, onNetwork, 'open', historicalGuide)
+        : null;
+    return [{ channel, daily, open }];
   });
-  const scheduleIdByChannel = new Map(schedules.map((schedule) => [schedule.channelId, schedule.id]));
+
+  const isSchedule = (schedule: BroadcastSchedule | null): schedule is BroadcastSchedule =>
+    schedule !== null;
+  const schedules = scheduleVariants.map((entry) => entry.daily).filter(isSchedule);
+  const openSchedules = scheduleVariants.map((entry) => entry.open).filter(isSchedule);
+  const scheduleIdsByChannel = new Map(
+    scheduleVariants.map((entry) => [
+      entry.channel.id,
+      { scheduleId: entry.daily?.id ?? null, openScheduleId: entry.open?.id ?? null },
+    ]),
+  );
   const channelOrder = new Map(networks.map((network, index) => [network.slug, index]));
   const broadcastData: BroadcastDataFile = {
     generatedAt: index.generatedAt,
     channels: broadcastChannelSources
       .map((channel) => ({
         ...channel,
-        scheduleId: scheduleIdByChannel.get(channel.id) ?? null,
+        scheduleId: scheduleIdsByChannel.get(channel.id)?.scheduleId ?? null,
+        openScheduleId: scheduleIdsByChannel.get(channel.id)?.openScheduleId ?? null,
       }))
       .sort(
         (a, b) =>
@@ -801,11 +854,27 @@ function main(): void {
   };
   writeJson(`${PUBLIC_DATA_DIR}/broadcast.json`, broadcastDataFileSchema.parse(broadcastData));
 
+  const openData: BroadcastOpenFile = { generatedAt: index.generatedAt, schedules: openSchedules };
+  // The one reference the schemas cannot check, because the two sides of it are
+  // written to different files: a channel pointing at a wider line-up that was
+  // never emitted would go dark the moment a viewer asked for it.
+  const openIds = new Set(openSchedules.map((schedule) => schedule.id));
+  for (const channel of broadcastData.channels) {
+    if (channel.openScheduleId !== null && !openIds.has(channel.openScheduleId)) {
+      throw new Error(
+        `channel '${channel.id}' names open schedule '${channel.openScheduleId}', ` +
+          'which broadcast-open.json does not carry',
+      );
+    }
+  }
+  writeJson(`${PUBLIC_DATA_DIR}/broadcast-open.json`, broadcastOpenFileSchema.parse(openData));
+
   const playable = stubs.reduce((total, s) => total + s.availableCount, 0);
   console.log(
-    `emitted index.json + broadcast.json + ${stubs.length} series files — ` +
+    `emitted index.json + broadcast.json + broadcast-open.json + ${stubs.length} series files — ` +
       `${networks.length} networks, ${broadcastData.channels.length} channels, ` +
-      `${schedules.length} live schedules, ${playable} playable episodes`,
+      `${schedules.length} live schedules, ${openSchedules.length} wider line-ups, ` +
+      `${playable} playable episodes`,
   );
 }
 

@@ -3,12 +3,14 @@ import { computed, ref } from 'vue';
 import type {
   BroadcastChannel,
   BroadcastDataFile,
+  BroadcastOpenFile,
   BroadcastSchedule,
   IndexFile,
   Network,
   SeriesFile,
   SeriesStub,
 } from '../types';
+import { useUiStore } from './ui';
 
 /**
  * The generated payload, and nothing else.
@@ -29,18 +31,23 @@ export const useContentStore = defineStore('content', () => {
   const index = ref<IndexFile | null>(null);
   const seriesFiles = ref(new Map<string, SeriesFile>());
   const broadcastData = ref<BroadcastDataFile | null>(null);
+  const openData = ref<BroadcastOpenFile | null>(null);
 
   let indexRequest: Promise<IndexFile> | null = null;
   const seriesRequests = new Map<string, Promise<SeriesFile>>();
   let broadcastRequest: Promise<BroadcastDataFile> | null = null;
+  let openRequest: Promise<BroadcastOpenFile> | null = null;
 
   const networks = computed<Network[]>(() => index.value?.networks ?? []);
   const stubs = computed<SeriesStub[]>(() => index.value?.series ?? []);
   const decades = computed<string[]>(() => index.value?.decades ?? []);
   const channels = computed<BroadcastChannel[]>(() => broadcastData.value?.channels ?? []);
-  const schedules = computed<BroadcastSchedule[]>(() => broadcastData.value?.schedules ?? []);
+  const schedules = computed<BroadcastSchedule[]>(() => [
+    ...(broadcastData.value?.schedules ?? []),
+    ...(openData.value?.schedules ?? []),
+  ]);
   const liveChannels = computed<BroadcastChannel[]>(() =>
-    channels.value.filter((channel) => channel.scheduleId !== null),
+    channels.value.filter((channel) => activeScheduleId(channel) !== null),
   );
 
   /** Broadcasters that actually went on air. The catalogue also carries
@@ -119,6 +126,16 @@ export const useContentStore = defineStore('content', () => {
     return broadcastRequest;
   }
 
+  /** The wider line-ups, which are the same size again as the broadcast feeds.
+   * Fetched only once a viewer asks for them — see `BroadcastOpenFile`. */
+  function loadOpenSchedules(): Promise<BroadcastOpenFile> {
+    openRequest ??= loadJson<BroadcastOpenFile>('/data/broadcast-open.json').then((data) => {
+      openData.value = data;
+      return data;
+    });
+    return openRequest;
+  }
+
   const networkBySlug = computed(() => new Map(networks.value.map((n) => [n.slug, n])));
 
   function network(slug: string | null | undefined): Network | null {
@@ -147,8 +164,27 @@ export const useContentStore = defineStore('content', () => {
     return id ? schedules.value.find((item) => item.id === id) ?? null : null;
   }
 
+  /**
+   * Which of a channel's two feeds this viewer is watching.
+   *
+   * Falls back to the broadcast feed whenever the wider one is not an option —
+   * the channel has no wider line-up, or `broadcast-open.json` has not arrived
+   * yet. A setting about *adding* programmes should never be what takes a
+   * channel off the air, and the fallback resolves itself: `schedules` is
+   * computed, so the moment the payload lands every caller re-evaluates and the
+   * wider line-up takes over.
+   */
+  function activeScheduleId(item: BroadcastChannel | null): string | null {
+    if (!item) return null;
+    if (useUiStore().languageMode !== 'all') return item.scheduleId;
+    const open = item.openScheduleId;
+    return open !== null && schedules.value.some((entry) => entry.id === open)
+      ? open
+      : item.scheduleId;
+  }
+
   function scheduleForChannel(channelId: string | null | undefined): BroadcastSchedule | null {
-    return schedule(channel(channelId)?.scheduleId);
+    return schedule(activeScheduleId(channel(channelId)));
   }
 
   return {
@@ -167,12 +203,14 @@ export const useContentStore = defineStore('content', () => {
     loadIndex,
     loadSeries,
     loadBroadcastData,
+    loadOpenSchedules,
     network,
     stub,
     series,
     channel,
     channelsForNetwork,
     schedule,
+    activeScheduleId,
     scheduleForChannel,
   };
 });

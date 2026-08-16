@@ -77,6 +77,17 @@ Dutch feed therefore never silently switches to an English upload. Its anchor,
 slot order and durations are stable, so a timestamp produces the same result
 for every viewer and a rebuild introduces no random programming changes.
 
+Each channel also gets a second, wider line-up built from the same network
+without that language filter, written to `public/data/broadcast-open.json`. A
+viewer chooses between the two, and the choice is remembered; the station's own
+line-up is the default. This is two generated timelines rather than one filter,
+because a schedule is an absolute running order — a per-viewer setting can hide
+a programme the way the age ceiling does, but it cannot conjure one. The wider
+feeds are a separate payload so that the viewer who never asks for them never
+downloads them, and a slot there is labelled with the language the video
+actually carries, so widening the line-up adds programmes without ever claiming
+a dub that does not exist.
+
 Viewer-facing broadcast channels are deliberately separate from
 `content/channels.json`: the latter remains the whitelist of YouTube ingest
 sources. A broadcast channel can exist with a null schedule while its media

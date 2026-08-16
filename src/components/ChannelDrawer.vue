@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import { pad2 } from '../data/helpers';
+import { LANGUAGE_COPY, LANGUAGE_OPTS } from '../data/language';
 import NetworkLogo from './NetworkLogo.vue';
 
 const props = defineProps<{ activeSlug?: string | null; guideActive?: boolean }>();
@@ -68,6 +69,36 @@ onBeforeUnmount(() => {
         :style="{ background: C.bg2, borderColor: C.border }"
         @click.stop
       >
+        <!-- Above the stations because it decides what is on them. A viewer who
+             opens the menu looking for something to watch should be able to
+             widen the line-up without first learning that the header has a
+             chip for it. -->
+        <section class="ntv-drawer-setting" :style="{ borderColor: C.border2 }">
+          <span class="ntv-drawer-setting-heading" :style="{ color: C.dim2 }">
+            {{ LANGUAGE_COPY.drawerHeading }}
+          </span>
+          <div class="ntv-drawer-chips" role="group" :aria-label="LANGUAGE_COPY.chipGroup">
+            <button
+              v-for="opt in LANGUAGE_OPTS"
+              :key="opt.id"
+              type="button"
+              class="ntv-drawer-chip"
+              :style="{
+                background: opt.id === ui.languageMode ? C.ink : 'transparent',
+                color: opt.id === ui.languageMode ? C.chipFg : C.dim,
+                borderColor: C.border2,
+              }"
+              :aria-pressed="opt.id === ui.languageMode"
+              @click="ui.setLanguageMode(opt.id)"
+            >
+              {{ opt.label }}
+            </button>
+          </div>
+          <p class="ntv-drawer-setting-hint" :style="{ color: C.dim }">
+            {{ LANGUAGE_COPY.drawerHint }}
+          </p>
+        </section>
+
         <nav class="ntv-drawer-list" aria-label="Zenders en programmering">
           <button
             class="ntv-drawer-tab ntv-drawer-tab-guide"
@@ -119,10 +150,56 @@ onBeforeUnmount(() => {
   max-width: 100%;
   height: 100%;
   border-left: 1px solid;
+  /* A column so the setting block keeps its height and the station list — the
+   * only part that can grow — takes the rest and scrolls inside it. */
+  display: flex;
+  flex-direction: column;
+}
+
+.ntv-drawer-setting {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 16px 14px;
+  border-bottom: 1px solid;
+}
+
+.ntv-drawer-setting-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.ntv-drawer-chips {
+  display: flex;
+  gap: 4px;
+}
+
+.ntv-drawer-chip {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 6px 10px;
+  border: 1px solid;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.ntv-drawer-chip:active {
+  transform: scale(0.94);
+}
+
+.ntv-drawer-setting-hint {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .ntv-drawer-list {
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

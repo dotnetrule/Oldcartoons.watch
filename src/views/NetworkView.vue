@@ -92,12 +92,16 @@ function goSeries(item: SeriesStub): void {
   void router.push({ path: `/programma/${item.slug}`, query: { zender: props.slug } });
 }
 
+/** Whether this station is on air for this viewer — which feed it uses is the
+ * store's business, not the button's. */
+const hasFeed = computed(() => content.activeScheduleId(channel.value) !== null);
+
 function watchLive(): void {
-  if (channel.value?.scheduleId) void router.push(`/kijken/${channel.value.id}`);
+  if (hasFeed.value && channel.value) void router.push(`/kijken/${channel.value.id}`);
 }
 
 function goGuide(): void {
-  if (channel.value?.scheduleId) {
+  if (hasFeed.value && channel.value) {
     void router.push({ name: 'gids', query: { channel: channel.value.id } });
   }
 }

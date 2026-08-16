@@ -9,6 +9,7 @@ import NetworkView from './views/NetworkView.vue';
 import SeriesView from './views/SeriesView.vue';
 import PlayerView from './views/PlayerView.vue';
 import { useContentStore } from './stores/content';
+import { useUiStore } from './stores/ui';
 
 /** Series and episode routes load their series file before the view renders,
  * so a view never has to draw a loading state over data it was promised. A
@@ -17,14 +18,24 @@ const notFound = (): RouteLocationRaw => ({ path: '/niet-gevonden' });
 
 async function loadSeriesData(slug: string): Promise<void | RouteLocationRaw> {
   const content = useContentStore();
-  await Promise.all([content.loadIndex(), content.loadBroadcastData()]);
+  // Via the shared loader: a series page prints the next airing of this show,
+  // which is a question about whichever line-up the viewer is watching.
+  await loadBroadcastData();
   if (!content.stub(slug)) return notFound();
   await content.loadSeries(slug);
 }
 
 async function loadBroadcastData(): Promise<void> {
   const content = useContentStore();
-  await Promise.all([content.loadIndex(), content.loadBroadcastData()]);
+  const ui = useUiStore();
+  // The wider line-ups are a second payload, and a viewer who has that setting
+  // on should not watch their channel tune to the Dutch feed and then jump. On
+  // by default it is never requested at all.
+  await Promise.all([
+    content.loadIndex(),
+    content.loadBroadcastData(),
+    ui.languageMode === 'all' ? content.loadOpenSchedules() : Promise.resolve(),
+  ]);
 }
 
 async function loadNetworkData(slug: string): Promise<void | RouteLocationRaw> {

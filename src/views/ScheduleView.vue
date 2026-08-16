@@ -61,7 +61,13 @@ const otherChannelCards = computed(() => channelCards.value.filter((item) => ite
 const initialChannelId = (() => {
   const fromQuery = typeof route.query.channel === 'string' ? route.query.channel : null;
   if (fromQuery && content.liveChannels.some((channel) => channel.id === fromQuery)) return fromQuery;
-  return prioritizedChannels.value.find((channel) => channel.scheduleId !== null)?.id ?? null;
+  // Through the store rather than off `scheduleId`: which feed a channel has
+  // depends on the viewer's line-up setting, and a station that only broadcasts
+  // once the line-up is widened is a valid first pick.
+  return (
+    prioritizedChannels.value.find((channel) => content.activeScheduleId(channel) !== null)?.id ??
+    null
+  );
 })();
 
 const selectedChannelId = ref<string | null>(initialChannelId);
@@ -113,7 +119,7 @@ watch(channel, (next, previous) => {
 });
 
 function selectChannel(target: BroadcastChannel): void {
-  if (!target.scheduleId) return;
+  if (content.activeScheduleId(target) === null) return;
   selectedChannelId.value = target.id;
   void router.replace({ query: { ...route.query, channel: target.id } });
 }

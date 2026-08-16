@@ -43,6 +43,18 @@ cost time if you rediscover them by hand.
    would be a lie about every video in it, including the ones with no dub.
    When unsure, pick `en` — the failure is quieter and reversible with one
    field.
+7. **Every channel has two line-ups, and the language rule only governs one.**
+   `build-data.ts` emits a `-daily` schedule per channel under the rule above,
+   and a `-open` one over the same network with no language filter — the
+   viewer's `ntv-language` setting picks between them (`src/data/language.ts`).
+   `-daily` is the default and the premise; nothing about the wider feed
+   loosens rule 6, because a slot's `metadata.audioLanguage` is derived from
+   what the video actually carries rather than from the station, so an English
+   programme on a widened line-up is asked for in English. A channel whose
+   material is all in its own language gets no `-open` schedule and no entry to
+   ship. The wider schedules live in their own `broadcast-open.json`, fetched
+   only once a viewer asks for them: they are the same size again as the
+   broadcast feeds, and every route loads `broadcast.json`.
 
 ## Adding playlists (the common job)
 
@@ -200,7 +212,22 @@ Which language is asked for differs by player, and neither reads the scan:
 | player | asks for | why |
 | --- | --- | --- |
 | `PlayerView` | always `nl` | the archive is Dutch-first, and on demand there is no station to speak for |
-| `LivePlayerView` | `Broadcast.metadata.audioLanguage` | the station's own language, on every slot — `dubbedAudio` only speaks up when the video disagrees, so it cannot be what is asked for. An English channel must not start speaking Dutch because an upload quietly gained a track. |
+| `LivePlayerView` | `Broadcast.metadata.audioLanguage` | the slot's own language, every time — `dubbedAudio` only speaks up when the video disagrees, so it cannot be what is asked for. An English channel must not start speaking Dutch because an upload quietly gained a track, and on a widened line-up an English-only programme is asked for in English rather than promised a dub it does not have. |
+
+Both players also carry `src/components/TrackControls.vue`, next to their play
+controls: a button that asks for the audio track again and says out loud what
+came back, and a subtitle toggle beside it. The audio button is the same
+`preferAudioLanguage` call the page already makes on its own — it exists
+because when that quietly fails the viewer's only recourse is a gear menu that
+is easy to miss and, in fullscreen, easy to lose.
+
+Subtitles work the same way and are equally undocumented:
+`preferSubtitleLanguage` loads the captions module under both names it has ever
+had, prefers a real Nederlands track, and falls back to asking YouTube to
+translate one — reported as `translated` rather than folded into `switched`,
+because a machine translation is a different thing from subtitles somebody
+wrote. Nothing turns subtitles on by itself: the embeds set `cc_lang_pref` but
+deliberately not `cc_load_policy`, so captions stay off until a viewer asks.
 
 The scan stays the record of what the archive *knows*, and it is still what
 colours a series `dubbed` rather than green — Dutch that a viewer may yet have
