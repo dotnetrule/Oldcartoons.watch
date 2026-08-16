@@ -1,0 +1,42 @@
+{
+  "fetchedAt": "2026-08-16T12:30:30.018Z",
+  "detail": {
+    "id": -88,
+    "name": "Yu-Gi-Oh!",
+    "overview": "Uit de historische Nederlandse tv-gids geïmporteerde catalogusvermelding voor Yu-Gi-Oh!. Afleveringen worden afzonderlijk geïndexeerd zodra een controleerbare bron beschikbaar is.",
+    "first_air_date": null,
+    "last_air_date": null,
+    "number_of_episodes": 1,
+    "backdrop_path": null,
+    "poster_path": null,
+    "seasons": [
+      {
+        "season_number": 1,
+        "name": "Season 1",
+        "episode_count": 1
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "season_number": 1,
+      "name": "Season 1",
+      "episodes": [
+        {
+          "id": -88001,
+          "name": "Het hart van de kaarten",
+          "season_number": 1,
+          "episode_number": 1,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": null,
+          "still_path": null
+        }
+      ]
+    }
+  ],
+  "images": {
+    "backdrops": [],
+    "posters": []
+  }
+}

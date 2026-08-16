@@ -1,19 +1,19 @@
 {
-  "fetchedAt": "2026-08-14T08:40:42.691Z",
+  "fetchedAt": "2026-08-16T12:30:30.023Z",
   "detail": {
     "id": -118,
     "name": "Biker Mice from Mars",
     "overview": "Amerikaanse tekenfilmserie over drie muizen van Mars die op motoren naar de aarde vluchten en in Chicago de strijd aanbinden met de plutarkiaanse vijand die hun planeet leegroofde.",
     "first_air_date": null,
     "last_air_date": null,
-    "number_of_episodes": 58,
+    "number_of_episodes": 124,
     "backdrop_path": null,
     "poster_path": null,
     "seasons": [
       {
         "season_number": 1,
         "name": "Season 1",
-        "episode_count": 58
+        "episode_count": 124
       }
     ]
   },
@@ -600,6 +600,666 @@
           "air_date": null,
           "runtime": null,
           "runtimeSeconds": 3494,
+          "still_path": null
+        },
+        {
+          "id": -118059,
+          "name": "Intro/Outro",
+          "season_number": 1,
+          "episode_number": 59,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 90,
+          "still_path": null
+        },
+        {
+          "id": -118060,
+          "name": "(1) - Rock and Ride!",
+          "season_number": 1,
+          "episode_number": 60,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1224,
+          "still_path": null
+        },
+        {
+          "id": -118061,
+          "name": "(2) - The Reeking Reign of the Head Cheese: Part 1",
+          "season_number": 1,
+          "episode_number": 61,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1223,
+          "still_path": null
+        },
+        {
+          "id": -118062,
+          "name": "(3) - The Reeking Reign of the Head Cheese: Part 2",
+          "season_number": 1,
+          "episode_number": 62,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1223,
+          "still_path": null
+        },
+        {
+          "id": -118063,
+          "name": "(4) - We Don't Need No Stinkin' City",
+          "season_number": 1,
+          "episode_number": 63,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1192,
+          "still_path": null
+        },
+        {
+          "id": -118064,
+          "name": "(5) - A Mouse and His Motorcycle",
+          "season_number": 1,
+          "episode_number": 64,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1220,
+          "still_path": null
+        },
+        {
+          "id": -118065,
+          "name": "(6) - Test of Friendship",
+          "season_number": 1,
+          "episode_number": 65,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1221,
+          "still_path": null
+        },
+        {
+          "id": -118066,
+          "name": "(7) - The Masked Motorcyclist",
+          "season_number": 1,
+          "episode_number": 66,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1224,
+          "still_path": null
+        },
+        {
+          "id": -118067,
+          "name": "(8) - The Pits",
+          "season_number": 1,
+          "episode_number": 67,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1223,
+          "still_path": null
+        },
+        {
+          "id": -118068,
+          "name": "(9) - Road Ravens",
+          "season_number": 1,
+          "episode_number": 68,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1194,
+          "still_path": null
+        },
+        {
+          "id": -118069,
+          "name": "(10) - A Scent, a Memory, a Far Distant Cheese",
+          "season_number": 1,
+          "episode_number": 69,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1223,
+          "still_path": null
+        },
+        {
+          "id": -118070,
+          "name": "(11) - Steelfinger",
+          "season_number": 1,
+          "episode_number": 70,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -118071,
+          "name": "(12) - Chill Zone",
+          "season_number": 1,
+          "episode_number": 71,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -118072,
+          "name": "(13) - Hard Rock",
+          "season_number": 1,
+          "episode_number": 72,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -118073,
+          "name": "(14) - Steal of the Century",
+          "season_number": 1,
+          "episode_number": 73,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1196,
+          "still_path": null
+        },
+        {
+          "id": -118074,
+          "name": "(15) - We're Going to Cheesyland",
+          "season_number": 1,
+          "episode_number": 74,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -118075,
+          "name": "(16) - Stone Broke",
+          "season_number": 1,
+          "episode_number": 75,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1194,
+          "still_path": null
+        },
+        {
+          "id": -118076,
+          "name": "(17) - The Motor City Maniac",
+          "season_number": 1,
+          "episode_number": 76,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1196,
+          "still_path": null
+        },
+        {
+          "id": -118077,
+          "name": "(18) - Upwardly Mobile",
+          "season_number": 1,
+          "episode_number": 77,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1166,
+          "still_path": null
+        },
+        {
+          "id": -118078,
+          "name": "(19) - Last Stand at Last Chance",
+          "season_number": 1,
+          "episode_number": 78,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1194,
+          "still_path": null
+        },
+        {
+          "id": -118079,
+          "name": "(20) - Back to Mars: Part 1",
+          "season_number": 1,
+          "episode_number": 79,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1194,
+          "still_path": null
+        },
+        {
+          "id": -118080,
+          "name": "(21) - Back to Mars: Part 2",
+          "season_number": 1,
+          "episode_number": 80,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -118081,
+          "name": "(22) - Back to Mars: Part 3",
+          "season_number": 1,
+          "episode_number": 81,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -118082,
+          "name": "(23) - The Tribunal",
+          "season_number": 1,
+          "episode_number": 82,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1193,
+          "still_path": null
+        },
+        {
+          "id": -118083,
+          "name": "(24) - Motocross Trap",
+          "season_number": 1,
+          "episode_number": 83,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1193,
+          "still_path": null
+        },
+        {
+          "id": -118084,
+          "name": "(25) - Unforgiven Cheese",
+          "season_number": 1,
+          "episode_number": 84,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1164,
+          "still_path": null
+        },
+        {
+          "id": -118085,
+          "name": "(26) - Bleu Cheese Bros",
+          "season_number": 1,
+          "episode_number": 85,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1182,
+          "still_path": null
+        },
+        {
+          "id": -118086,
+          "name": "(27) - The Inquisition",
+          "season_number": 1,
+          "episode_number": 86,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1194,
+          "still_path": null
+        },
+        {
+          "id": -118087,
+          "name": "(28) - Stalkers",
+          "season_number": 1,
+          "episode_number": 87,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1193,
+          "still_path": null
+        },
+        {
+          "id": -118088,
+          "name": "(29) - I, Greasepit",
+          "season_number": 1,
+          "episode_number": 88,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118089,
+          "name": "(30) - Villain of the Year",
+          "season_number": 1,
+          "episode_number": 89,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1179,
+          "still_path": null
+        },
+        {
+          "id": -118090,
+          "name": "(31) - Cheeseloggers",
+          "season_number": 1,
+          "episode_number": 90,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1164,
+          "still_path": null
+        },
+        {
+          "id": -118091,
+          "name": "(32) - Hickory Dickory Doc",
+          "season_number": 1,
+          "episode_number": 91,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1166,
+          "still_path": null
+        },
+        {
+          "id": -118092,
+          "name": "(33) - Die Fledermice",
+          "season_number": 1,
+          "episode_number": 92,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1179,
+          "still_path": null
+        },
+        {
+          "id": -118093,
+          "name": "(34) - Law of the Pits",
+          "season_number": 1,
+          "episode_number": 93,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1180,
+          "still_path": null
+        },
+        {
+          "id": -118094,
+          "name": "(35) - Danger Is Our Business",
+          "season_number": 1,
+          "episode_number": 94,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1193,
+          "still_path": null
+        },
+        {
+          "id": -118095,
+          "name": "(36) - Mad Scientist Wanted",
+          "season_number": 1,
+          "episode_number": 95,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1193,
+          "still_path": null
+        },
+        {
+          "id": -118096,
+          "name": "(37) - Lake Michi-Gone",
+          "season_number": 1,
+          "episode_number": 96,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118097,
+          "name": "(38) - Seeds of Victory",
+          "season_number": 1,
+          "episode_number": 97,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1179,
+          "still_path": null
+        },
+        {
+          "id": -118098,
+          "name": "(39) - Pwetty Wady",
+          "season_number": 1,
+          "episode_number": 98,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1180,
+          "still_path": null
+        },
+        {
+          "id": -118099,
+          "name": "(40) - My Cheese Is Quick",
+          "season_number": 1,
+          "episode_number": 99,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118100,
+          "name": "(41) - Verminator",
+          "season_number": 1,
+          "episode_number": 100,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1180,
+          "still_path": null
+        },
+        {
+          "id": -118101,
+          "name": "(42) - Cheese Cadets",
+          "season_number": 1,
+          "episode_number": 101,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118102,
+          "name": "(43) - So Life Like",
+          "season_number": 1,
+          "episode_number": 102,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1180,
+          "still_path": null
+        },
+        {
+          "id": -118103,
+          "name": "(44) - Garbage Wars",
+          "season_number": 1,
+          "episode_number": 103,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1163,
+          "still_path": null
+        },
+        {
+          "id": -118104,
+          "name": "(45) - Vicious Cycles",
+          "season_number": 1,
+          "episode_number": 104,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1179,
+          "still_path": null
+        },
+        {
+          "id": -118105,
+          "name": "(46) - Cycle Centaurs",
+          "season_number": 1,
+          "episode_number": 105,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1179,
+          "still_path": null
+        },
+        {
+          "id": -118106,
+          "name": "(47) - Modo Hangs It Up",
+          "season_number": 1,
+          "episode_number": 106,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1164,
+          "still_path": null
+        },
+        {
+          "id": -118107,
+          "name": "(48) - What Smells Worse Than a Plutarkian Lawyer?",
+          "season_number": 1,
+          "episode_number": 107,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1164,
+          "still_path": null
+        },
+        {
+          "id": -118108,
+          "name": "(49) - Below the Horizon",
+          "season_number": 1,
+          "episode_number": 108,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1163,
+          "still_path": null
+        },
+        {
+          "id": -118109,
+          "name": "(50) - Big Trouble",
+          "season_number": 1,
+          "episode_number": 109,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118110,
+          "name": "(51) - Academy of Hard Knocks",
+          "season_number": 1,
+          "episode_number": 110,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118111,
+          "name": "(52) - High Rollin' Rodents",
+          "season_number": 1,
+          "episode_number": 111,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1164,
+          "still_path": null
+        },
+        {
+          "id": -118112,
+          "name": "(53) - Biker Knights of the Round Table: Part 1",
+          "season_number": 1,
+          "episode_number": 112,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1192,
+          "still_path": null
+        },
+        {
+          "id": -118113,
+          "name": "(54) - Biker Knights of the Round Table: Part 2",
+          "season_number": 1,
+          "episode_number": 113,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118114,
+          "name": "(55) - Virtual Unreality",
+          "season_number": 1,
+          "episode_number": 114,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118115,
+          "name": "(56) - Pitfall",
+          "season_number": 1,
+          "episode_number": 115,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118116,
+          "name": "(57) - Diet of Worms",
+          "season_number": 1,
+          "episode_number": 116,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1165,
+          "still_path": null
+        },
+        {
+          "id": -118117,
+          "name": "(58) - Rocketh and Rideth",
+          "season_number": 1,
+          "episode_number": 117,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1179,
+          "still_path": null
+        },
+        {
+          "id": -118118,
+          "name": "(59) - Too Many Limburgers Spoil the Cheese",
+          "season_number": 1,
+          "episode_number": 118,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1179,
+          "still_path": null
+        },
+        {
+          "id": -118119,
+          "name": "(60) - Hit the Road, Jack",
+          "season_number": 1,
+          "episode_number": 119,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1194,
+          "still_path": null
+        },
+        {
+          "id": -118120,
+          "name": "(61) - Caveat Mentor",
+          "season_number": 1,
+          "episode_number": 120,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1164,
+          "still_path": null
+        },
+        {
+          "id": -118121,
+          "name": "(62) - Where No Mouse Has Gone Before",
+          "season_number": 1,
+          "episode_number": 121,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1194,
+          "still_path": null
+        },
+        {
+          "id": -118122,
+          "name": "(63) - Once Upon a Time on Mars: Part 1",
+          "season_number": 1,
+          "episode_number": 122,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
+          "still_path": null
+        },
+        {
+          "id": -118123,
+          "name": "(64) - Once Upon a Time on Mars: Part 2",
+          "season_number": 1,
+          "episode_number": 123,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1194,
+          "still_path": null
+        },
+        {
+          "id": -118124,
+          "name": "(65) - Once Upon a Time on Mars: Part 3",
+          "season_number": 1,
+          "episode_number": 124,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 1195,
           "still_path": null
         }
       ]
