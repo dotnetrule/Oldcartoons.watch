@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
-import { COPY, THEME_OPTS, VIEW_OPTS } from '../data/themes';
+import { COPY, VIEW_OPTS } from '../data/themes';
 import { AGE_COPY, AGE_OPTS } from '../data/age';
 
 defineProps<{ pageCode?: string }>();
@@ -31,18 +31,6 @@ function chipStyle(active: boolean) {
       <span>TV</span><span :style="{ color: C.dim }">VAN</span><span>TOEN</span>
     </button>
     <div class="ntv-header-right">
-      <div class="ntv-chipgroup">
-        <button
-          v-for="opt in THEME_OPTS"
-          :key="opt.id"
-          class="ntv-chip"
-          :style="chipStyle(opt.id === ui.theme)"
-          :aria-pressed="opt.id === ui.theme"
-          @click="ui.setTheme(opt.id)"
-        >
-          {{ opt.label }}
-        </button>
-      </div>
       <div class="ntv-chipgroup">
         <button
           v-for="opt in VIEW_OPTS"

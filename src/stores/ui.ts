@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { THEMES, type ThemeId, type TypeFilter, type ViewMode } from '../data/themes';
+import { THEME, type TypeFilter, type ViewMode } from '../data/themes';
 import { AGE_CEILINGS, type AgeCeiling } from '../data/age';
 
 function readStored<T extends string>(key: string, fallback: T, allowed: readonly T[]): T {
@@ -29,7 +29,6 @@ const prefersReducedMotion = (): boolean =>
  * flicker. Ported from the design port's `useAppState` singleton composable,
  * minus the region and language axes the spec drops. */
 export const useUiStore = defineStore('ui', () => {
-  const theme = ref<ThemeId>(readStored('ntv-theme', 'dark', ['dark', 'light']));
   const viewMode = ref<ViewMode>(readStored('ntv-view', 'listings', ['listings', 'covers']));
   const typeFilter = ref<TypeFilter>('All');
   // Unlike the type filter, this one survives a reload. A household that sets
@@ -39,8 +38,10 @@ export const useUiStore = defineStore('ui', () => {
   const previewSlug = ref<string | null>(null);
   const flicker = ref(false);
 
-  /** Active theme tokens. Every component reads colours through this. */
-  const C = computed(() => THEMES[theme.value]);
+  /** Active theme tokens. Every component reads colours through this. There is
+   * only one theme, so this is a computed purely so every existing `ui.C.x`
+   * read stays a reactive ref access rather than a plain object property. */
+  const C = computed(() => THEME);
 
   let flickerTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -51,13 +52,6 @@ export const useUiStore = defineStore('ui', () => {
     flickerTimer = setTimeout(() => {
       flicker.value = false;
     }, 220);
-  }
-
-  function setTheme(id: ThemeId): void {
-    if (id === theme.value) return;
-    triggerFlicker();
-    theme.value = id;
-    persist('ntv-theme', id);
   }
 
   function setViewMode(id: ViewMode): void {
@@ -78,13 +72,13 @@ export const useUiStore = defineStore('ui', () => {
     previewSlug.value = slug;
   }
 
-  /** Network accent, swapped for the light theme's darker variant. */
-  function netColour(network: { colour: string; colourLight: string }): string {
-    return theme.value === 'dark' ? network.colour : network.colourLight;
+  /** Network accent colour. Used to be a switch between a network's dark- and
+   * light-theme variants; with one theme it is just the network's colour. */
+  function netColour(network: { colour: string }): string {
+    return network.colour;
   }
 
   return {
-    theme,
     viewMode,
     typeFilter,
     ageFilter,
@@ -92,7 +86,6 @@ export const useUiStore = defineStore('ui', () => {
     flicker,
     C,
     triggerFlicker,
-    setTheme,
     setViewMode,
     setTypeFilter,
     setAgeFilter,
