@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-10",
+  "fetchedAt": "2026-08-16T12:30:30.005Z",
   "detail": {
     "id": -27,
     "name": "Kabouter Plop",
@@ -12,68 +12,1014 @@
     "seasons": [
       {
         "season_number": 1,
-        "name": "Seizoen 1",
-        "episode_count": 6
+        "name": "Season 1",
+        "episode_count": 100
       }
     ]
   },
   "seasons": [
     {
       "season_number": 1,
-      "name": "Seizoen 1",
+      "name": "Season 1",
       "episodes": [
         {
-          "id": -37,
-          "name": "Plop en de Kabouterschool",
+          "id": -27001,
+          "name": "Abonneer je op het Kabouter Plop Kanaal!",
           "season_number": 1,
           "episode_number": 1,
-          "air_date": "1997-09-01",
-          "runtime": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 20,
           "still_path": null
         },
         {
-          "id": -38,
-          "name": "Plop is Verdwaald",
+          "id": -27002,
+          "name": "De slingergrammofoon (Aflevering)",
           "season_number": 1,
           "episode_number": 2,
-          "air_date": "1997-09-08",
-          "runtime": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 398,
           "still_path": null
         },
         {
-          "id": -39,
-          "name": "De Grote Kabouterparade",
+          "id": -27003,
+          "name": "Biljarten",
           "season_number": 1,
           "episode_number": 3,
-          "air_date": "1997-09-15",
-          "runtime": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 355,
           "still_path": null
         },
         {
-          "id": -40,
-          "name": "Kwebbel's Toverdrank",
+          "id": -27004,
+          "name": "Klus krachtpatser",
           "season_number": 1,
           "episode_number": 4,
-          "air_date": "1997-09-22",
-          "runtime": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 312,
           "still_path": null
         },
         {
-          "id": -41,
-          "name": "Plop Wordt Koning",
+          "id": -27005,
+          "name": "Klus op dieet",
           "season_number": 1,
           "episode_number": 5,
-          "air_date": "1997-09-29",
-          "runtime": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 372,
           "still_path": null
         },
         {
-          "id": -42,
-          "name": "Het Kabouterfeest",
+          "id": -27006,
+          "name": "Kegelen (Aflevering)",
           "season_number": 1,
           "episode_number": 6,
-          "air_date": "1997-10-06",
-          "runtime": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 338,
+          "still_path": null
+        },
+        {
+          "id": -27007,
+          "name": "De slaapwandelaar",
+          "season_number": 1,
+          "episode_number": 7,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 315,
+          "still_path": null
+        },
+        {
+          "id": -27008,
+          "name": "Klus is ziek",
+          "season_number": 1,
+          "episode_number": 8,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 345,
+          "still_path": null
+        },
+        {
+          "id": -27009,
+          "name": "De zaagwedstrijd (Aflevering)",
+          "season_number": 1,
+          "episode_number": 9,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 326,
+          "still_path": null
+        },
+        {
+          "id": -27010,
+          "name": "De verjaardagskalender",
+          "season_number": 1,
+          "episode_number": 10,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 312,
+          "still_path": null
+        },
+        {
+          "id": -27011,
+          "name": "De weegschaal",
+          "season_number": 1,
+          "episode_number": 11,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 368,
+          "still_path": null
+        },
+        {
+          "id": -27012,
+          "name": "Het portret van Smal",
+          "season_number": 1,
+          "episode_number": 12,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 373,
+          "still_path": null
+        },
+        {
+          "id": -27013,
+          "name": "Smal is jarig",
+          "season_number": 1,
+          "episode_number": 13,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 332,
+          "still_path": null
+        },
+        {
+          "id": -27014,
+          "name": "Het mooiste gedicht",
+          "season_number": 1,
+          "episode_number": 14,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 479,
+          "still_path": null
+        },
+        {
+          "id": -27015,
+          "name": "Het bloemperkje",
+          "season_number": 1,
+          "episode_number": 15,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 372,
+          "still_path": null
+        },
+        {
+          "id": -27016,
+          "name": "De baardwedstrijd",
+          "season_number": 1,
+          "episode_number": 16,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 352,
+          "still_path": null
+        },
+        {
+          "id": -27017,
+          "name": "Het wensketeltje",
+          "season_number": 1,
+          "episode_number": 17,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 503,
+          "still_path": null
+        },
+        {
+          "id": -27018,
+          "name": "De lift",
+          "season_number": 1,
+          "episode_number": 18,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 292,
+          "still_path": null
+        },
+        {
+          "id": -27019,
+          "name": "Harde pap",
+          "season_number": 1,
+          "episode_number": 19,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 336,
+          "still_path": null
+        },
+        {
+          "id": -27020,
+          "name": "Kaboutertennis (Aflevering)",
+          "season_number": 1,
+          "episode_number": 20,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 311,
+          "still_path": null
+        },
+        {
+          "id": -27021,
+          "name": "Het hobbelkonijn (Aflevering)",
+          "season_number": 1,
+          "episode_number": 21,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 344,
+          "still_path": null
+        },
+        {
+          "id": -27022,
+          "name": "De schatkist (Aflevering)",
+          "season_number": 1,
+          "episode_number": 22,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 353,
+          "still_path": null
+        },
+        {
+          "id": -27023,
+          "name": "De trommel van Lui",
+          "season_number": 1,
+          "episode_number": 23,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 332,
+          "still_path": null
+        },
+        {
+          "id": -27024,
+          "name": "De kleren van Kwebbel",
+          "season_number": 1,
+          "episode_number": 24,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 274,
+          "still_path": null
+        },
+        {
+          "id": -27025,
+          "name": "Plopkoekzoeken (Aflevering)",
+          "season_number": 1,
+          "episode_number": 25,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 327,
+          "still_path": null
+        },
+        {
+          "id": -27026,
+          "name": "De reiger",
+          "season_number": 1,
+          "episode_number": 26,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 319,
+          "still_path": null
+        },
+        {
+          "id": -27027,
+          "name": "Het everzwijn",
+          "season_number": 1,
+          "episode_number": 27,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 344,
+          "still_path": null
+        },
+        {
+          "id": -27028,
+          "name": "Een slechte taart (Aflevering)",
+          "season_number": 1,
+          "episode_number": 28,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 317,
+          "still_path": null
+        },
+        {
+          "id": -27029,
+          "name": "De waterspuit",
+          "season_number": 1,
+          "episode_number": 29,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 315,
+          "still_path": null
+        },
+        {
+          "id": -27030,
+          "name": "Een natte mop (Aflevering)",
+          "season_number": 1,
+          "episode_number": 30,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 363,
+          "still_path": null
+        },
+        {
+          "id": -27031,
+          "name": "De lijm van Klus",
+          "season_number": 1,
+          "episode_number": 31,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 345,
+          "still_path": null
+        },
+        {
+          "id": -27032,
+          "name": "De stoelendans (Aflevering)",
+          "season_number": 1,
+          "episode_number": 32,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 309,
+          "still_path": null
+        },
+        {
+          "id": -27033,
+          "name": "De stenen bal (Aflevering)",
+          "season_number": 1,
+          "episode_number": 33,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 318,
+          "still_path": null
+        },
+        {
+          "id": -27034,
+          "name": "Verspringen (Aflevering)",
+          "season_number": 1,
+          "episode_number": 34,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 317,
+          "still_path": null
+        },
+        {
+          "id": -27035,
+          "name": "Hoogspringen",
+          "season_number": 1,
+          "episode_number": 35,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 351,
+          "still_path": null
+        },
+        {
+          "id": -27036,
+          "name": "De pijp van Klus",
+          "season_number": 1,
+          "episode_number": 36,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 292,
+          "still_path": null
+        },
+        {
+          "id": -27037,
+          "name": "Zaklopen (Aflevering)",
+          "season_number": 1,
+          "episode_number": 37,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 344,
+          "still_path": null
+        },
+        {
+          "id": -27038,
+          "name": "Verstoppertje spelen (Aflevering)",
+          "season_number": 1,
+          "episode_number": 38,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 340,
+          "still_path": null
+        },
+        {
+          "id": -27039,
+          "name": "De dansmarathon",
+          "season_number": 1,
+          "episode_number": 39,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 272,
+          "still_path": null
+        },
+        {
+          "id": -27040,
+          "name": "De lolly",
+          "season_number": 1,
+          "episode_number": 40,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 302,
+          "still_path": null
+        },
+        {
+          "id": -27041,
+          "name": "Kwebbel gaat trouwen",
+          "season_number": 1,
+          "episode_number": 41,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 349,
+          "still_path": null
+        },
+        {
+          "id": -27042,
+          "name": "De mattenklopper",
+          "season_number": 1,
+          "episode_number": 42,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 322,
+          "still_path": null
+        },
+        {
+          "id": -27043,
+          "name": "De kunstschilder (Aflevering)",
+          "season_number": 1,
+          "episode_number": 43,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 423,
+          "still_path": null
+        },
+        {
+          "id": -27044,
+          "name": "Kleuren",
+          "season_number": 1,
+          "episode_number": 44,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 299,
+          "still_path": null
+        },
+        {
+          "id": -27045,
+          "name": "Rommel in het bos",
+          "season_number": 1,
+          "episode_number": 45,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 327,
+          "still_path": null
+        },
+        {
+          "id": -27046,
+          "name": "De parachute (Aflevering)",
+          "season_number": 1,
+          "episode_number": 46,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 326,
+          "still_path": null
+        },
+        {
+          "id": -27047,
+          "name": "De trampoline",
+          "season_number": 1,
+          "episode_number": 47,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 226,
+          "still_path": null
+        },
+        {
+          "id": -27048,
+          "name": "Wie zijn handen verbrandt",
+          "season_number": 1,
+          "episode_number": 48,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 235,
+          "still_path": null
+        },
+        {
+          "id": -27049,
+          "name": "Lui moet in bad (Aflevering)",
+          "season_number": 1,
+          "episode_number": 49,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 314,
+          "still_path": null
+        },
+        {
+          "id": -27050,
+          "name": "Poppenkast (Aflevering)",
+          "season_number": 1,
+          "episode_number": 50,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 360,
+          "still_path": null
+        },
+        {
+          "id": -27051,
+          "name": "Een nieuwe voordeur",
+          "season_number": 1,
+          "episode_number": 51,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 265,
+          "still_path": null
+        },
+        {
+          "id": -27052,
+          "name": "De slaapzak van Plop",
+          "season_number": 1,
+          "episode_number": 52,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 363,
+          "still_path": null
+        },
+        {
+          "id": -27053,
+          "name": "Ballet",
+          "season_number": 1,
+          "episode_number": 53,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 324,
+          "still_path": null
+        },
+        {
+          "id": -27054,
+          "name": "Kwebbel zangeres (Aflevering)",
+          "season_number": 1,
+          "episode_number": 54,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 339,
+          "still_path": null
+        },
+        {
+          "id": -27055,
+          "name": "Klus wordt drummer",
+          "season_number": 1,
+          "episode_number": 55,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 332,
+          "still_path": null
+        },
+        {
+          "id": -27056,
+          "name": "Lui brandweerkabouter",
+          "season_number": 1,
+          "episode_number": 56,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 356,
+          "still_path": null
+        },
+        {
+          "id": -27057,
+          "name": "Pannenkoeken bakken",
+          "season_number": 1,
+          "episode_number": 57,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 274,
+          "still_path": null
+        },
+        {
+          "id": -27058,
+          "name": "Bril in de kabouterpap (Aflevering)",
+          "season_number": 1,
+          "episode_number": 58,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 337,
+          "still_path": null
+        },
+        {
+          "id": -27059,
+          "name": "Het konijn van Lui",
+          "season_number": 1,
+          "episode_number": 59,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 364,
+          "still_path": null
+        },
+        {
+          "id": -27060,
+          "name": "Lui is groen",
+          "season_number": 1,
+          "episode_number": 60,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 345,
+          "still_path": null
+        },
+        {
+          "id": -27061,
+          "name": "Ruzie om een taart (Aflevering)",
+          "season_number": 1,
+          "episode_number": 61,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 447,
+          "still_path": null
+        },
+        {
+          "id": -27062,
+          "name": "De tovenaar",
+          "season_number": 1,
+          "episode_number": 62,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 312,
+          "still_path": null
+        },
+        {
+          "id": -27063,
+          "name": "Donder en bliksem (Aflevering)",
+          "season_number": 1,
+          "episode_number": 63,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 285,
+          "still_path": null
+        },
+        {
+          "id": -27064,
+          "name": "Bang voor niets (Aflevering)",
+          "season_number": 1,
+          "episode_number": 64,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 345,
+          "still_path": null
+        },
+        {
+          "id": -27065,
+          "name": "Het levende standbeeld",
+          "season_number": 1,
+          "episode_number": 65,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 382,
+          "still_path": null
+        },
+        {
+          "id": -27066,
+          "name": "De wasdraad",
+          "season_number": 1,
+          "episode_number": 66,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 340,
+          "still_path": null
+        },
+        {
+          "id": -27067,
+          "name": "Klus geeft turnles",
+          "season_number": 1,
+          "episode_number": 67,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 328,
+          "still_path": null
+        },
+        {
+          "id": -27068,
+          "name": "Gewichtheffen (Aflevering)",
+          "season_number": 1,
+          "episode_number": 68,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 305,
+          "still_path": null
+        },
+        {
+          "id": -27069,
+          "name": "Het wonderzaad van Klus",
+          "season_number": 1,
+          "episode_number": 69,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 360,
+          "still_path": null
+        },
+        {
+          "id": -27070,
+          "name": "De zeilboot van Klus",
+          "season_number": 1,
+          "episode_number": 70,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 368,
+          "still_path": null
+        },
+        {
+          "id": -27071,
+          "name": "Lui gaat walsen (Aflevering)",
+          "season_number": 1,
+          "episode_number": 71,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 354,
+          "still_path": null
+        },
+        {
+          "id": -27072,
+          "name": "De kabouterfanfare (Aflevering)",
+          "season_number": 1,
+          "episode_number": 72,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 310,
+          "still_path": null
+        },
+        {
+          "id": -27073,
+          "name": "Klus gaat zwemmen (Aflevering)",
+          "season_number": 1,
+          "episode_number": 73,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 334,
+          "still_path": null
+        },
+        {
+          "id": -27074,
+          "name": "De springplank (Aflevering)",
+          "season_number": 1,
+          "episode_number": 74,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 300,
+          "still_path": null
+        },
+        {
+          "id": -27075,
+          "name": "De toeterfoon",
+          "season_number": 1,
+          "episode_number": 75,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 463,
+          "still_path": null
+        },
+        {
+          "id": -27076,
+          "name": "Schattenjacht",
+          "season_number": 1,
+          "episode_number": 76,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 285,
+          "still_path": null
+        },
+        {
+          "id": -27077,
+          "name": "Poppenkast",
+          "season_number": 1,
+          "episode_number": 77,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 377,
+          "still_path": null
+        },
+        {
+          "id": -27078,
+          "name": "De bloemenplanters (Aflevering)",
+          "season_number": 1,
+          "episode_number": 78,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 355,
+          "still_path": null
+        },
+        {
+          "id": -27079,
+          "name": "De sprekende taart (Aflevering)",
+          "season_number": 1,
+          "episode_number": 79,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 410,
+          "still_path": null
+        },
+        {
+          "id": -27080,
+          "name": "De taartendief (Aflevering)",
+          "season_number": 1,
+          "episode_number": 80,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 357,
+          "still_path": null
+        },
+        {
+          "id": -27081,
+          "name": "De klok van Plop (Aflevering)",
+          "season_number": 1,
+          "episode_number": 81,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 371,
+          "still_path": null
+        },
+        {
+          "id": -27082,
+          "name": "De schommel van Klus",
+          "season_number": 1,
+          "episode_number": 82,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 307,
+          "still_path": null
+        },
+        {
+          "id": -27083,
+          "name": "De pap van Smul",
+          "season_number": 1,
+          "episode_number": 83,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 375,
+          "still_path": null
+        },
+        {
+          "id": -27084,
+          "name": "De verjaardag van Smul (Aflevering)",
+          "season_number": 1,
+          "episode_number": 84,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 454,
+          "still_path": null
+        },
+        {
+          "id": -27085,
+          "name": "De noot (Aflevering)",
+          "season_number": 1,
+          "episode_number": 85,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 349,
+          "still_path": null
+        },
+        {
+          "id": -27086,
+          "name": "Het varkenmysterie",
+          "season_number": 1,
+          "episode_number": 86,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 374,
+          "still_path": null
+        },
+        {
+          "id": -27087,
+          "name": "De kabouterprins",
+          "season_number": 1,
+          "episode_number": 87,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 397,
+          "still_path": null
+        },
+        {
+          "id": -27088,
+          "name": "Klus is zijn stem kwijt",
+          "season_number": 1,
+          "episode_number": 88,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 364,
+          "still_path": null
+        },
+        {
+          "id": -27089,
+          "name": "Meester Klus",
+          "season_number": 1,
+          "episode_number": 89,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 468,
+          "still_path": null
+        },
+        {
+          "id": -27090,
+          "name": "De truc met de kast",
+          "season_number": 1,
+          "episode_number": 90,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 415,
+          "still_path": null
+        },
+        {
+          "id": -27091,
+          "name": "Niezen",
+          "season_number": 1,
+          "episode_number": 91,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 360,
+          "still_path": null
+        },
+        {
+          "id": -27092,
+          "name": "Het kabouterziekenhuis",
+          "season_number": 1,
+          "episode_number": 92,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 400,
+          "still_path": null
+        },
+        {
+          "id": -27093,
+          "name": "Superklus (Aflevering)",
+          "season_number": 1,
+          "episode_number": 93,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 413,
+          "still_path": null
+        },
+        {
+          "id": -27094,
+          "name": "De boomstronk",
+          "season_number": 1,
+          "episode_number": 94,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 443,
+          "still_path": null
+        },
+        {
+          "id": -27095,
+          "name": "Smalmelk",
+          "season_number": 1,
+          "episode_number": 95,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 373,
+          "still_path": null
+        },
+        {
+          "id": -27096,
+          "name": "Het Kluskoekenfeest (Aflevering)",
+          "season_number": 1,
+          "episode_number": 96,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 397,
+          "still_path": null
+        },
+        {
+          "id": -27097,
+          "name": "Plop - De schat van Klus",
+          "season_number": 1,
+          "episode_number": 97,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 392,
+          "still_path": null
+        },
+        {
+          "id": -27098,
+          "name": "De beste kaboutertennisser (Aflevering)",
+          "season_number": 1,
+          "episode_number": 98,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 304,
+          "still_path": null
+        },
+        {
+          "id": -27099,
+          "name": "Het beeldhouwwerk (Aflevering)",
+          "season_number": 1,
+          "episode_number": 99,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 416,
+          "still_path": null
+        },
+        {
+          "id": -27100,
+          "name": "De plopquiz",
+          "season_number": 1,
+          "episode_number": 100,
+          "air_date": null,
+          "runtime": null,
+          "runtimeSeconds": 514,
           "still_path": null
         }
       ]
