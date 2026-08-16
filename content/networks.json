@@ -36,27 +36,15 @@
     "neutral": false
   },
   {
-    "slug": "rtl4",
-    "name": "RTL 4",
+    "slug": "yorkiddin",
+    "name": "Yorkiddin’",
     "real": true,
     "listed": true,
-    "channelNumber": 4,
-    "colour": "#F29B38",
-    "logo": "/networks/rtl4.svg",
-    "activeYears": [1989, 2005],
-    "note": "De commerciële familiezender van RTL, jarenlang het thuis van Telekids.",
-    "neutral": false
-  },
-  {
-    "slug": "rtl5",
-    "name": "RTL 5",
-    "real": true,
-    "listed": false,
     "channelNumber": 5,
-    "colour": "#8C74D9",
-    "logo": "/networks/rtl5.svg",
-    "activeYears": [1993, 2005],
-    "note": "De tweede Nederlandse RTL-zender, op voorkeuzepositie 5.",
+    "colour": "#F2B705",
+    "logo": "/networks/yorkiddin.svg",
+    "activeYears": [2001, 2005],
+    "note": "Het jeugdblok van Yorin, van de start van de zender in 2001 tot het einde van Yorin in 2005.",
     "neutral": false
   },
   {
@@ -72,27 +60,15 @@
     "neutral": false
   },
   {
-    "slug": "rtl7",
-    "name": "RTL 7",
-    "real": true,
-    "listed": true,
-    "channelNumber": 7,
-    "colour": "#4FC0A4",
-    "logo": "/networks/rtl7.svg",
-    "activeYears": [2005, 2005],
-    "note": "De opvolger van Yorin vanaf augustus 2005, op voorkeuzepositie 7.",
-    "neutral": false
-  },
-  {
     "slug": "foxkids",
-    "name": "FOXKIDS / JETIX",
+    "name": "Fox Kids",
     "real": true,
     "listed": true,
     "channelNumber": 8,
     "colour": "#4CD97A",
     "logo": "/networks/foxkids.svg",
     "activeYears": [1997, 2005],
-    "note": "Fox Kids werd in februari 2005 Jetix.",
+    "note": "De Nederlandse jeugdzender van Fox Kids, van de start in 1997 tot de omdoping naar Jetix in februari 2005.",
     "neutral": false
   },
   {
@@ -117,6 +93,18 @@
     "logo": "/networks/nickelodeon.svg",
     "activeYears": [2002, 2005],
     "note": "Nickelodeon zond overdag uit op het kanaal dat vanaf augustus 2005 ’s avonds Talpa doorgaf.",
+    "neutral": false
+  },
+  {
+    "slug": "jetix",
+    "name": "Jetix",
+    "real": true,
+    "listed": true,
+    "channelNumber": 11,
+    "colour": "#6E5BE8",
+    "logo": "/networks/jetix.svg",
+    "activeYears": [2005, 2009],
+    "note": "De opvolger van Fox Kids vanaf februari 2005, met een line-up die deels meeverhuisde en deels nieuw was.",
     "neutral": false
   },
   {

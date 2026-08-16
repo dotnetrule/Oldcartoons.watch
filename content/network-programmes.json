@@ -2,76 +2,59 @@
   {
     "networkSlug": "nederland1",
     "seriesSlugs": [
-      "sesamstraat",
-      "klokhuis",
-      "villa-achterwerk",
-      "tik-tak",
-      "smurfs",
+      "bassie-en-adriaan",
       "calimero",
+      "klokhuis",
+      "sesamstraat",
+      "smurfs",
       "thomas-de-stoomlocomotief",
-      "bassie-en-adriaan"
+      "tik-tak",
+      "villa-achterwerk"
     ]
   },
   {
     "networkSlug": "nederland2",
     "seriesSlugs": [
-      "sesamstraat",
+      "big-betsy",
+      "de-bende-van-vijf",
       "de-opkopers",
+      "kabouter-plop",
       "merlina",
       "postbus-x",
       "samson-gert",
-      "big-betsy",
-      "kabouter-plop",
-      "de-bende-van-vijf",
+      "sesamstraat",
       "smurfs"
     ]
   },
   {
     "networkSlug": "nederland3",
     "seriesSlugs": [
-      "sesamstraat",
-      "klokhuis",
-      "villa-achterwerk",
-      "tik-tak",
       "calimero",
       "inspector-gadget",
+      "klokhuis",
+      "peppa-big",
+      "sesamstraat",
       "smurfs",
       "thomas-de-stoomlocomotief",
-      "peppa-big"
+      "tik-tak",
+      "villa-achterwerk"
     ]
   },
   {
-    "networkSlug": "rtl4",
+    "networkSlug": "yorkiddin",
     "seriesSlugs": [
-      "heman",
-      "inspector-gadget",
-      "ducktales",
-      "tmnt",
-      "captain-planet",
-      "tiny-toons",
-      "animaniacs",
-      "power-rangers",
-      "spc",
-      "pokemon",
-      "dennis-the-menace",
-      "de-troetelbeertjes"
-    ]
-  },
-  {
-    "networkSlug": "rtl7",
-    "seriesSlugs": [
-      "pokemon",
+      "action-man",
       "digimon-adventure",
-      "shinzo",
+      "flint-the-time-detective",
+      "funky-cops",
       "medabots",
       "monster-rancher",
-      "flint-the-time-detective",
-      "yu-gi-oh",
+      "pokemon",
+      "power-rangers",
       "shin-chan",
-      "funky-cops",
-      "action-man",
+      "shinzo",
       "x-men",
-      "power-rangers"
+      "yu-gi-oh"
     ]
   },
   {
@@ -81,10 +64,28 @@
   {
     "networkSlug": "nickelodeon",
     "seriesSlugs": [
+      "ppg",
       "rugrats-dutch-dub",
-      "smurfs",
       "scooby-doo",
-      "ppg"
+      "smurfs"
+    ]
+  },
+  {
+    "networkSlug": "jetix",
+    "seriesSlugs": [
+      "digimon-adventure",
+      "funky-cops",
+      "medabots",
+      "pokemon",
+      "power-rangers",
+      "shin-chan",
+      "sonic-x",
+      "spider-man-unlimited",
+      "the-tofus",
+      "totally-spies",
+      "whats-with-andy",
+      "wunschpunsch",
+      "yu-gi-oh"
     ]
   }
 ]
