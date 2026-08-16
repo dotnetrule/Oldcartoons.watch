@@ -37,6 +37,7 @@ export const useUiStore = defineStore('ui', () => {
   const ageFilter = ref<AgeCeiling>(readStored('ntv-age', 'All', AGE_CEILINGS));
   const previewSlug = ref<string | null>(null);
   const flicker = ref(false);
+  const menuOpen = ref(false);
 
   /** Active theme tokens. Every component reads colours through this. There is
    * only one theme, so this is a computed purely so every existing `ui.C.x`
@@ -72,6 +73,14 @@ export const useUiStore = defineStore('ui', () => {
     previewSlug.value = slug;
   }
 
+  function closeMenu(): void {
+    menuOpen.value = false;
+  }
+
+  function toggleMenu(): void {
+    menuOpen.value = !menuOpen.value;
+  }
+
   /** Network accent colour. Used to be a switch between a network's dark- and
    * light-theme variants; with one theme it is just the network's colour. */
   function netColour(network: { colour: string }): string {
@@ -84,6 +93,7 @@ export const useUiStore = defineStore('ui', () => {
     ageFilter,
     previewSlug,
     flicker,
+    menuOpen,
     C,
     triggerFlicker,
     setViewMode,
@@ -91,5 +101,7 @@ export const useUiStore = defineStore('ui', () => {
     setAgeFilter,
     setPreview,
     netColour,
+    closeMenu,
+    toggleMenu,
   };
 });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { COPY, VIEW_OPTS } from '../data/themes';
@@ -10,6 +10,16 @@ defineProps<{ pageCode?: string }>();
 const router = useRouter();
 const ui = useUiStore();
 const C = computed(() => ui.C);
+const menuBtnRef = ref<HTMLButtonElement | null>(null);
+
+/** The drawer moves focus to itself while open; give it back to the button
+ * that opened it once it closes, rather than letting focus fall to <body>. */
+watch(
+  () => ui.menuOpen,
+  (open) => {
+    if (!open) menuBtnRef.value?.focus();
+  },
+);
 
 function goSchedule(): void {
   ui.triggerFlicker();
@@ -57,6 +67,18 @@ function chipStyle(active: boolean) {
         </button>
       </div>
       <div class="ntv-pagecode" :style="{ color: C.dim }">{{ COPY.page }} {{ pageCode }}</div>
+      <button
+        ref="menuBtnRef"
+        class="ntv-menu-btn"
+        type="button"
+        :aria-label="ui.menuOpen ? 'Sluit menu' : 'Menu'"
+        :aria-expanded="ui.menuOpen"
+        @click="ui.toggleMenu()"
+      >
+        <span class="ntv-menu-bar" :style="{ background: C.ink }"></span>
+        <span class="ntv-menu-bar" :style="{ background: C.ink }"></span>
+        <span class="ntv-menu-bar" :style="{ background: C.ink }"></span>
+      </button>
     </div>
   </header>
 </template>
@@ -133,5 +155,26 @@ function chipStyle(active: boolean) {
   font-size: 12px;
   letter-spacing: 0.08em;
   white-space: nowrap;
+}
+
+.ntv-menu-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 4px;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex: none;
+}
+
+.ntv-menu-bar {
+  display: block;
+  height: 2px;
+  border-radius: 1px;
 }
 </style>

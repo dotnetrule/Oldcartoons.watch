@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import { pad2 } from '../data/helpers';
+import NetworkLogo from './NetworkLogo.vue';
 
 const props = defineProps<{ activeSlug?: string | null; guideActive?: boolean }>();
 
@@ -53,13 +54,7 @@ function goGuide(): void {
       :aria-current="net.slug === props.activeSlug ? 'page' : undefined"
       @click="go(net.slug)"
     >
-      <img
-        v-if="ui.viewMode === 'covers'"
-        class="ntv-tab-logo"
-        :src="net.logo"
-        :alt="''"
-        aria-hidden="true"
-      />
+      <NetworkLogo :network="net" :size="22" decorative />
       <span class="ntv-tab-ch">{{ pad2(net.channelNumber) }}</span>
       <span class="ntv-tab-name">{{ net.name }}</span>
     </button>
@@ -94,22 +89,6 @@ function goGuide(): void {
 
 .ntv-tab:hover {
   transform: translateY(-1px);
-}
-
-.ntv-tab-logo {
-  width: 22px;
-  height: 22px;
-  flex: none;
-  border-radius: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  /* The mark is a monogram drawn in currentColor, so it inherits the tab's
-     active/neutral colour rather than needing a second palette. */
-  object-fit: contain;
 }
 
 .ntv-tab-ch {
