@@ -52,56 +52,51 @@ export const episodeSourceSchema = z.object({
   id: z.string().min(1),
 });
 
+/**
+ * One upload of an episode.
+ *
+ * The invariants the old single-video shape enforced across a record now live
+ * here, where they are simpler: a video row always *has* a video, so there is
+ * no "id set but status says missing" contradiction left to check. What
+ * remains is the one claim that can still go wrong — a reading of audio tracks
+ * has to belong to a video somebody can open.
+ */
+export const episodeVideoSchema = z.object({
+  youtubeId: youtubeIdSchema,
+  source: episodeSourceSchema,
+  status: episodeStatusSchema,
+  checkedAt: z.string().min(1),
+  // Defaulted rather than required: every record written before the audio
+  // scan existed lacks the key, and those are decisions the archive keeps.
+  // Null reads as 'not looked up yet', which is exactly what they are.
+  audioLanguages: z.array(contentLanguageSchema).nullable().default(null),
+});
+
 export const episodeSchema = z
   .object({
     tmdbEpisodeId: tmdbIdSchema,
     seriesId: tmdbIdSchema,
     season: z.number().int().nonnegative(),
     episode: z.number().int().positive(),
-    youtubeId: youtubeIdSchema.nullable(),
-    status: episodeStatusSchema,
-    checkedAt: z.string().min(1),
-    source: episodeSourceSchema.nullable(),
-    // Defaulted rather than required: every record written before the audio
-    // scan existed lacks the key, and those are decisions the archive keeps.
-    // Null reads as 'not looked up yet', which is exactly what they are.
-    audioLanguages: z.array(contentLanguageSchema).nullable().default(null),
+    videos: z.array(episodeVideoSchema),
   })
   .superRefine((ep, ctx) => {
-    // The spec's headline invariant: a non-null id with status 'missing' is
-    // incoherent — either the video exists and plays, or the row is a gap.
-    if (ep.status === 'missing' && ep.youtubeId !== null) {
+    // One row per upload. The same video listed twice for one episode would
+    // offer the viewer a choice between a thing and itself, and would double
+    // that episode's weight in the schedule.
+    const seen = new Map<string, number>();
+    ep.videos.forEach((video, index) => {
+      const first = seen.get(video.youtubeId);
+      if (first === undefined) {
+        seen.set(video.youtubeId, index);
+        return;
+      }
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ['youtubeId'],
-        message: `status is 'missing' but youtubeId is '${ep.youtubeId}' — a missing episode has no video`,
+        path: ['videos', index, 'youtubeId'],
+        message: `video '${video.youtubeId}' is listed twice for this episode (also at index ${first})`,
       });
-    }
-    if (ep.status !== 'missing' && ep.youtubeId === null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['youtubeId'],
-        message: `status is '${ep.status}' but youtubeId is null — only 'missing' episodes may lack a video`,
-      });
-    }
-    // Provenance tracks the video, so the two are present or absent together.
-    if ((ep.youtubeId === null) !== (ep.source === null)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['source'],
-        message: 'youtubeId and source must both be set or both be null',
-      });
-    }
-    // Audio tracks describe a video. A row that lost its video keeps no
-    // reading of one, or the health check would leave a claim about a file
-    // nobody can play behind.
-    if (ep.youtubeId === null && ep.audioLanguages !== null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['audioLanguages'],
-        message: 'youtubeId is null but audioLanguages is set — a row with no video has no tracks',
-      });
-    }
+    });
   });
 
 export const episodesFileSchema = z.array(episodeSchema).superRefine((all, ctx) => {

@@ -359,17 +359,22 @@ function main(): void {
             seriesId: source.tmdbId,
             season: episode.season_number,
             episode: episode.episode_number,
-            youtubeId: best.youtubeId,
-            // Region-locking is decided at ingest by the health check, which
-            // reads contentDetails.regionRestriction. Matching only asserts
-            // that a video exists for this episode.
-            status: 'available',
-            checkedAt: today,
-            source: best.source,
-            // Which audio tracks the video carries is a reading of the video
-            // itself, and matching never opens one. `scan-audio-tracks` fills
-            // this in on the same run, after this script has decided.
-            audioLanguages: null,
+            videos: [
+              {
+                youtubeId: best.youtubeId,
+                // Region-locking is decided at ingest by the health check,
+                // which reads contentDetails.regionRestriction. Matching only
+                // asserts that a video exists for this episode.
+                status: 'available',
+                checkedAt: today,
+                source: best.source,
+                // Which audio tracks the video carries is a reading of the
+                // video itself, and matching never opens one.
+                // `scan-audio-tracks` fills this in on the same run, after this
+                // script has decided.
+                audioLanguages: null,
+              },
+            ],
           });
           decided.add(key);
           continue;

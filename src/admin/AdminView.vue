@@ -49,26 +49,37 @@ async function selectCandidate(): Promise<void> {
   const candidate = candidates.value[candidateIdx.value];
   if (!current || !candidate) return;
 
+  const isSameSlot = (ep: Episode): boolean =>
+    ep.seriesId === current.seriesId &&
+    ep.season === current.season &&
+    ep.episode === current.episode;
+
+  const existing = episodes.value.find(isSameSlot);
+
   const next: Episode = {
     tmdbEpisodeId: current.tmdbEpisodeId,
     seriesId: current.seriesId,
     season: current.season,
     episode: current.episode,
-    youtubeId: candidate.youtubeId,
-    status: 'available',
-    checkedAt: new Date().toISOString().slice(0, 10),
-    source: candidate.source,
-    // A human accepting a candidate decides which video this episode is, not
-    // what is inside it. The audio scan reads that on its next run.
-    audioLanguages: null,
+    // The chosen video leads. A person looked at the candidates and said which
+    // one this episode is, and that outranks anything a score put first —
+    // whatever was already there stays behind it as an alternate rather than
+    // being thrown away.
+    videos: [
+      {
+        youtubeId: candidate.youtubeId,
+        status: 'available',
+        checkedAt: new Date().toISOString().slice(0, 10),
+        source: candidate.source,
+        // A human accepting a candidate decides which video this episode is,
+        // not what is inside it. The audio scan reads that on its next run.
+        audioLanguages: null,
+      },
+      ...(existing?.videos ?? []).filter((video) => video.youtubeId !== candidate.youtubeId),
+    ],
   };
 
-  // Replace rather than append: there is exactly one record per episode, and
-  // a seeded 'missing' placeholder for this slot may already exist.
-  const others = episodes.value.filter(
-    (ep) =>
-      !(ep.seriesId === next.seriesId && ep.season === next.season && ep.episode === next.episode),
-  );
+  const others = episodes.value.filter((ep) => !isSameSlot(ep));
   const merged = [...others, next];
 
   await post('/__admin/episodes', merged);

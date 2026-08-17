@@ -315,19 +315,26 @@ export function derivePlaylistSeries(args: {
       seriesId: source.tmdbId,
       season: SEASON,
       episode: position,
-      youtubeId: video.youtubeId,
-      // The source listed the video, so it exists and is claimed playable.
-      // Embeddability and region locks are the health check's call, at ingest,
-      // never at render.
-      status: 'available',
-      checkedAt: today,
-      source:
-        playlistId === null
-          ? { kind: 'video', id: video.youtubeId }
-          : { kind: 'playlist', id: playlistId },
-      // Not looked up here: a playlist listing states a title and a length,
-      // never a track list. `scan-audio-tracks` reads that per video.
-      audioLanguages: null,
+      // Exactly one upload, because this path numbers episodes *from* the
+      // uploads: the playlist said this video is the nth episode, so there is
+      // no second candidate for that slot to hold.
+      videos: [
+        {
+          youtubeId: video.youtubeId,
+          // The source listed the video, so it exists and is claimed playable.
+          // Embeddability and region locks are the health check's call, at
+          // ingest, never at render.
+          status: 'available',
+          checkedAt: today,
+          source:
+            playlistId === null
+              ? { kind: 'video', id: video.youtubeId }
+              : { kind: 'playlist', id: playlistId },
+          // Not looked up here: a playlist listing states a title and a length,
+          // never a track list. `scan-audio-tracks` reads that per video.
+          audioLanguages: null,
+        },
+      ],
     });
   });
 

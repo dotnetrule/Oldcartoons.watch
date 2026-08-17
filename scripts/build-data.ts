@@ -56,6 +56,7 @@ import {
   writeJson,
 } from './lib/paths';
 import { loadSeriesCache } from './lib/series-metadata';
+import { audioLanguagesOf, defaultVideo, episodeStatus } from './lib/episodes';
 
 /** The normalized series object an override is merged over. Its key space is
  * exactly the Override key space — that is what makes the "every override key
@@ -545,10 +546,12 @@ function main(): void {
           `which is not in content/series.json`,
       );
     }
-    if (episode.source && !sourceLanguageByKey.has(`${episode.source.kind}:${episode.source.id}`)) {
-      throw new Error(
-        `content/episodes.json references unknown ${episode.source.kind} source '${episode.source.id}'`,
-      );
+    for (const video of episode.videos) {
+      if (!sourceLanguageByKey.has(`${video.source.kind}:${video.source.id}`)) {
+        throw new Error(
+          `content/episodes.json references unknown ${video.source.kind} source '${video.source.id}'`,
+        );
+      }
     }
     const bucket = episodesBySeries.get(episode.seriesId);
     if (bucket) bucket.push(episode);
@@ -609,14 +612,18 @@ function main(): void {
     const audioOf = (
       episode: Episode,
     ): { defaultLanguage: ContentLanguage; languages: ContentLanguage[] } | null => {
-      if (!episode.source) return null;
-      const defaultLanguage = sourceLanguageByKey.get(
-        `${episode.source.kind}:${episode.source.id}`,
-      );
+      const chosen = defaultVideo(episode);
+      if (!chosen) return null;
+      const defaultLanguage = sourceLanguageByKey.get(`${chosen.source.kind}:${chosen.source.id}`);
       if (!defaultLanguage) return null;
-      // The scan writes the default track's own language too, so the union is
-      // the whole answer and the order never matters.
-      const languages = [...new Set([defaultLanguage, ...(episode.audioLanguages ?? [])])].sort();
+      // Every upload of this episode counts, not just the default one: an
+      // English default with a Dutch alternate behind it genuinely is available
+      // in Dutch, and a viewer can reach it from the player. The scan writes
+      // each video's own default language too, so the union is the whole
+      // answer and the order never matters.
+      const languages = audioLanguagesOf(episode, (video) =>
+        sourceLanguageByKey.get(`${video.source.kind}:${video.source.id}`) ?? null,
+      );
       return { defaultLanguage, languages };
     };
 
@@ -628,7 +635,7 @@ function main(): void {
     );
 
     const playableAudio = (episodesBySeries.get(source.tmdbId) ?? []).flatMap((episode) =>
-      episode.status === 'missing' ? [] : (audioOf(episode) ?? []),
+      episodeStatus(episode) === 'missing' ? [] : (audioOf(episode) ?? []),
     );
     const availableLanguages = [...new Set(playableAudio.flatMap((audio) => audio.languages))].sort();
     // A language nothing plays by default is reachable only through the
@@ -660,7 +667,8 @@ function main(): void {
         const audio = audioByEpisode.get(`${episode.season_number}:${episode.episode_number}`);
         statusByEpisode.delete(`${episode.season_number}:${episode.episode_number}`);
 
-        if (record && record.status !== 'missing') availableCount += 1;
+        const chosen = record ? defaultVideo(record) : null;
+        if (chosen) availableCount += 1;
 
         return {
           season: episode.season_number,
@@ -673,8 +681,8 @@ function main(): void {
           // No record at all means nobody has looked for this episode yet,
           // which reads the same way to a viewer as looking and finding
           // nothing: a gap.
-          status: record?.status ?? 'missing',
-          youtubeId: record?.youtubeId ?? null,
+          status: record ? episodeStatus(record) : 'missing',
+          youtubeId: chosen?.youtubeId ?? null,
           still: episode.still_path,
           // Absent for a gap, and absent for a video whose tracks nobody has
           // read yet — the player says nothing in either case.

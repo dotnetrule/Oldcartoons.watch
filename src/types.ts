@@ -39,19 +39,24 @@ export type EpisodeSource = {
   id: string;
 };
 
-export type Episode = {
-  tmdbEpisodeId: number;
-  /** TMDB series id, not the slug. */
-  seriesId: number;
-  season: number;
-  episode: number;
-  /** Exactly 11 characters, or null when status is 'missing'. */
-  youtubeId: string | null;
+/**
+ * One upload that carries a given episode.
+ *
+ * The same episode can exist on YouTube several times over — a rights-holder
+ * upload and a curator's copy, an English original and a Dutch dub. They are
+ * genuinely different files with different lifetimes: one can be taken down,
+ * region-locked or re-encoded while the others keep playing. So availability,
+ * the last check and the audio tracks are all recorded per video rather than
+ * per episode, and a viewer can be offered the choice.
+ */
+export type EpisodeVideo = {
+  /** Exactly 11 characters. */
+  youtubeId: string;
+  /** Where this particular upload came from. */
+  source: EpisodeSource;
   status: EpisodeStatus;
   /** ISO date, written by the health check. */
   checkedAt: string;
-  /** Null exactly when youtubeId is null. */
-  source: EpisodeSource | null;
   /**
    * Every spoken language this video carries an audio track for, written by
    * `scripts/scan-audio-tracks.ts`.
@@ -67,11 +72,30 @@ export type Episode = {
    *   • null  — not looked up yet
    *   • []    — looked up, and this video has only its default track
    *   • [..]  — looked up; these are the languages on offer, default included
-   *
-   * Null exactly when youtubeId is null, for the same reason `source` is: a
-   * row with no video has nothing to have tracks.
    */
   audioLanguages: ContentLanguage[] | null;
+};
+
+export type Episode = {
+  tmdbEpisodeId: number;
+  /** TMDB series id, not the slug. */
+  seriesId: number;
+  season: number;
+  episode: number;
+  /**
+   * Every upload found for this episode, best first.
+   *
+   * The head is the default — what the player opens and what the schedule
+   * books. It is deliberately stable: `match.ts` appends newly found uploads to
+   * the tail and never reorders, because the head may have been chosen by a
+   * human in the admin and a later run finding a higher-scoring candidate is
+   * not grounds for overruling that.
+   *
+   * An empty array is a gap: nobody has found a video for this episode, or
+   * every one that was found has since gone. That is a normal state and the
+   * archive renders it as a greyed row rather than hiding the episode.
+   */
+  videos: EpisodeVideo[];
 };
 
 export type Network = {
