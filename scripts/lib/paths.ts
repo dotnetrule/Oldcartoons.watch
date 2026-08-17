@@ -15,6 +15,11 @@ export const PUBLIC_DATA_DIR = join(ROOT, 'public', 'data');
 /** Committed stand-in metadata for series not yet resolved against TMDB. */
 export const TMDB_SEED_DIR = join(CONTENT_DIR, 'tmdb-seed');
 
+/** Committed real TMDB season/episode lists, keyed by the placeholder id of the
+ * series they belong to. See content/tmdb-episodes/README.md for why these are
+ * not in TMDB_SEED_DIR. */
+export const TMDB_EPISODES_DIR = join(CONTENT_DIR, 'tmdb-episodes');
+
 export const contentPath = (name: string): string => join(CONTENT_DIR, name);
 export const tmdbCachePath = (id: number | string): string => join(TMDB_CACHE_DIR, `${id}.json`);
 export const youtubeCachePath = (id: string): string => join(YOUTUBE_CACHE_DIR, `${id}.json`);
@@ -32,6 +37,17 @@ export const youtubeCachePath = (id: string): string => join(YOUTUBE_CACHE_DIR, 
  */
 export const seriesMetadataPath = (tmdbId: number): string =>
   tmdbId < 0 ? join(TMDB_SEED_DIR, `${tmdbId}.json`) : tmdbCachePath(tmdbId);
+
+/**
+ * Where the real TMDB episode list for a placeholder-id series lives.
+ *
+ * Deliberately separate from `seriesMetadataPath`: that one answers "where does
+ * this series' metadata live today", which may be a playlist-authored seed.
+ * This one names a single file that only `fetch` writes, so the two owners
+ * cannot overwrite each other.
+ */
+export const tmdbEpisodesPath = (placeholderId: number): string =>
+  join(TMDB_EPISODES_DIR, `${placeholderId}.json`);
 
 export function readJson(path: string): unknown {
   let raw: string;

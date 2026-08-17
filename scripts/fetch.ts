@@ -5,24 +5,45 @@
  * Quota: 10,000 units/day. channels.list and playlistItems.list cost 1 unit
  * per call, so a full refetch of thirty channels lands well under a thousand.
  */
+import { existsSync } from 'node:fs';
+import type {
+  HistoricalSeriesSeed,
+  SeriesSource,
+  TmdbMetadataFile,
+} from '../src/types';
 import {
   channelsFileSchema,
+  historicalSeriesSeedsFileSchema,
   isPlaceholderTmdbId,
   playlistsFileSchema,
   seriesSourceFileSchema,
+  tmdbMetadataFileSchema,
   videoSetsFileSchema,
 } from '../src/schemas';
 import {
   CONTENT_DIR,
   TMDB_CACHE_DIR,
+  TMDB_EPISODES_DIR,
   YOUTUBE_CACHE_DIR,
   contentPath,
   ensureDirs,
+  readJson,
   readValidated,
+  seriesMetadataPath,
+  tmdbEpisodesPath,
   writeJson,
   youtubeCachePath,
 } from './lib/paths';
-import { getImages, getSeason, getSeriesDetail, type TmdbSeriesCache } from './lib/tmdb';
+import {
+  getExternalIds,
+  getImages,
+  getSeason,
+  getSeriesDetail,
+  hasTmdbCredential,
+  type TmdbSeason,
+  type TmdbSeriesCache,
+} from './lib/tmdb';
+import { SERIES_MAX_FIRST_AIR_YEAR, isSeriesInScope, yearOfDate } from './lib/cutoff';
 import { DEFAULT_MAX_AGE_HOURS, freshnessLabel, isFresh } from './lib/freshness';
 import {
   getUploadsPlaylistId,
@@ -178,10 +199,53 @@ async function fetchYoutube(maxAgeHours: number): Promise<void> {
   }
 }
 
-async function fetchTmdb(only: string[] | null): Promise<void> {
+/**
+ * Which real TMDB id, if any, stands behind a series' placeholder id.
+ *
+ * Every series in this archive is keyed by a negative placeholder, so the id in
+ * `content/series.json` is never something TMDB can answer for. The mapping is
+ * whatever `npm run enrich-tmdb` reviewed and wrote down. A series with no
+ * entry has not been matched — that is the ordinary state of a catalogue
+ * listing, not an error, and it keeps whatever episode list a playlist gave it.
+ */
+function resolveTmdbId(
+  source: SeriesSource,
+  metadata: TmdbMetadataFile,
+): number | null {
+  if (!isPlaceholderTmdbId(source.tmdbId)) return source.tmdbId;
+  return metadata.matches[String(source.tmdbId)]?.tmdbId ?? null;
+}
+
+/**
+ * The first air year the era gate is measured against.
+ *
+ * Taken from the same three places `build-data.ts` reads identity from, in the
+ * same order, so a series cannot be in period for one and out for the other.
+ */
+function firstAirYearOf(
+  source: SeriesSource,
+  historicalSeed: HistoricalSeriesSeed | undefined,
+  metadata: TmdbMetadataFile,
+): number | null {
+  if (historicalSeed) return historicalSeed.firstAirYear;
+  const matched = metadata.matches[String(source.tmdbId)];
+  const fromMatch = yearOfDate(matched?.firstAirDate);
+  if (fromMatch !== null) return fromMatch;
+
+  const seedPath = seriesMetadataPath(source.tmdbId);
+  if (!existsSync(seedPath)) return null;
+  const seed = readJson(seedPath) as { detail?: { first_air_date?: string | null } };
+  return yearOfDate(seed.detail?.first_air_date);
+}
+
+async function fetchTmdb(only: string[] | null, maxAgeHours: number): Promise<void> {
   const all = readValidated(contentPath('series.json'), seriesSourceFileSchema);
-  const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
-  const videoSets = readValidated(contentPath('videos.json'), videoSetsFileSchema);
+  const metadata = readValidated(contentPath('tmdb-metadata.json'), tmdbMetadataFileSchema);
+  const historicalById = new Map(
+    readValidated(contentPath('historical-series.json'), historicalSeriesSeedsFileSchema).map(
+      (seed) => [seed.tmdbId, seed] as const,
+    ),
+  );
 
   if (only) {
     const known = new Set(all.map((s) => s.slug));
@@ -193,54 +257,115 @@ async function fetchTmdb(only: string[] | null): Promise<void> {
 
   const selected = only ? all.filter((s) => only.includes(s.slug)) : all;
 
-  // A series whose episode list comes from a curated source has no TMDB half
-  // to fetch — `match` writes its metadata seed from that source itself.
-  // Asking TMDB for it would fail on the placeholder id and block the one path
-  // that does not need TMDB at all.
-  const sourceBacked = new Set([
-    ...playlists.map((p) => p.episodesFor).filter((slug): slug is string => slug !== null),
-    ...videoSets.map((set) => set.episodesFor),
-  ]);
-  const series = selected.filter((s) => !sourceBacked.has(s.slug));
+  let fetched = 0;
+  let reused = 0;
+  let unmatched = 0;
+  let outOfPeriod = 0;
 
-  const skipped = selected.length - series.length;
-  if (skipped > 0) {
-    console.log(`  ${skipped} series take their episodes from a curated source — no TMDB fetch needed`);
-  }
+  for (const entry of selected) {
+    // The era gate, before any request. A series that began after the ceiling
+    // is not part of this archive; nothing is spent asking TMDB about it.
+    if (!isSeriesInScope(firstAirYearOf(entry, historicalById.get(entry.tmdbId), metadata))) {
+      outOfPeriod += 1;
+      continue;
+    }
 
-  // Scoped to the selected series, so one series can be brought up without
-  // first resolving a real TMDB id for every other series in the catalog.
-  const unresolved = series.filter((s) => isPlaceholderTmdbId(s.tmdbId));
-  if (unresolved.length > 0) {
-    throw new Error(
-      `${unresolved.length} series still carry placeholder TMDB ids and cannot be fetched:\n` +
-        unresolved.map((s) => `  • ${s.slug} (${s.tmdbId})`).join('\n') +
-        `\nLook each one up on TMDB and set its real id in content/series.json,` +
-        `\nor scope this run with --series <slug,slug>.`,
-    );
-  }
+    // No reviewed match means TMDB has nothing to say about this series under
+    // an id anyone has checked. Guessing one here is exactly what enrich-tmdb
+    // exists to do carefully, so this declines to do it carelessly.
+    const tmdbId = resolveTmdbId(entry, metadata);
+    if (tmdbId === null) {
+      unmatched += 1;
+      continue;
+    }
 
-  for (const entry of series) {
-    const detail = await getSeriesDetail(entry.tmdbId);
+    const cachePath = tmdbEpisodesPath(entry.tmdbId);
+    if (isFresh(cachePath, maxAgeHours)) {
+      reused += 1;
+      continue;
+    }
+
+    const detail = await getSeriesDetail(tmdbId, 'nl-NL');
 
     // Season 0 is TMDB's specials bucket; it is a real part of the archive and
     // is fetched like any other.
-    const seasons = [];
+    const seasons: TmdbSeason[] = [];
     for (const season of detail.seasons) {
-      seasons.push(await getSeason(entry.tmdbId, season.season_number));
+      seasons.push(await getSeason(tmdbId, season.season_number));
     }
 
+    const [images, externalIds] = await Promise.all([getImages(tmdbId), getExternalIds(tmdbId)]);
+
+    // Every id downstream is the placeholder, because that is what
+    // content/series.json and content/episodes.json are keyed by. `tmdbId`
+    // below is the one field that remembers where this came from — overwriting
+    // detail.id with the upstream id would break every identity check in
+    // loadSeriesCache.
     const cache: TmdbSeriesCache = {
       fetchedAt: new Date().toISOString(),
-      detail,
-      seasons,
-      images: await getImages(entry.tmdbId),
+      detail: { ...detail, id: entry.tmdbId },
+      seasons: seasons.map((season) => ({
+        ...season,
+        episodes: season.episodes.map((episode) => ({
+          ...episode,
+          // Preserve any IMDb id an earlier bounded pass already read, so a
+          // metadata refresh does not throw that work away.
+          imdbId: episode.imdbId,
+        })),
+      })),
+      images,
+      imdbId: externalIds.imdb_id || null,
+      tmdbId,
     };
-    writeJson(`${TMDB_CACHE_DIR}/${entry.tmdbId}.json`, cache);
+    writeJson(cachePath, mergeEpisodeImdbIds(cachePath, cache));
 
+    fetched += 1;
     const episodeCount = seasons.reduce((total, s) => total + s.episodes.length, 0);
-    console.log(`  ${entry.slug}: ${seasons.length} seasons, ${episodeCount} episodes`);
+    console.log(
+      `  ${entry.slug}: ${seasons.length} seasons, ${episodeCount} episodes (TMDB ${tmdbId})`,
+    );
   }
+
+  const notes = [
+    `${fetched} fetched`,
+    reused > 0 ? `${reused} still fresh` : null,
+    unmatched > 0 ? `${unmatched} without a reviewed TMDB match` : null,
+    outOfPeriod > 0 ? `${outOfPeriod} after ${SERIES_MAX_FIRST_AIR_YEAR}` : null,
+  ].filter(Boolean);
+  console.log(`  ${notes.join(', ')}`);
+}
+
+/**
+ * Carry forward the per-episode IMDb ids a previous run read.
+ *
+ * They cost one request each and are gathered by a separate bounded pass, so a
+ * routine metadata refresh must not discard them. Matched on season/episode
+ * number rather than position, because TMDB can insert an episode.
+ */
+function mergeEpisodeImdbIds(cachePath: string, fresh: TmdbSeriesCache): TmdbSeriesCache {
+  if (!existsSync(cachePath)) return fresh;
+
+  const previous = readJson(cachePath) as TmdbSeriesCache;
+  const known = new Map<string, string | null | undefined>();
+  for (const season of previous.seasons ?? []) {
+    for (const episode of season.episodes ?? []) {
+      if (episode.imdbId !== undefined) {
+        known.set(`${episode.season_number}:${episode.episode_number}`, episode.imdbId);
+      }
+    }
+  }
+  if (known.size === 0) return fresh;
+
+  return {
+    ...fresh,
+    seasons: fresh.seasons.map((season) => ({
+      ...season,
+      episodes: season.episodes.map((episode) => {
+        const carried = known.get(`${episode.season_number}:${episode.episode_number}`);
+        return carried === undefined ? episode : { ...episode, imdbId: carried };
+      }),
+    })),
+  };
 }
 
 /** `--series slug,slug` limits the TMDB half of the run. Absent, every series
@@ -294,10 +419,10 @@ function parseMaxAgeHours(argv: string[]): number {
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const only = parseSeriesFilter(argv);
-  // An archive built entirely from playlists has no TMDB half to run: every
-  // series still carries a placeholder id, which fetchTmdb refuses by design.
-  // This says so out loud instead of scoping around it with a slug list that
-  // has to be kept in step with content/playlists.json.
+  // Skips the TMDB half outright. It used to be the only way to run at all —
+  // every series carried a placeholder id and the TMDB half refused those — and
+  // it now means what it says: read the video sources and leave the episode
+  // lists alone.
   const youtubeOnly = argv.includes('--youtube-only');
   const maxAgeHours = parseMaxAgeHours(argv);
 
@@ -305,7 +430,7 @@ async function main(): Promise<void> {
     throw new Error('--youtube-only and --series contradict each other: one skips TMDB, the other scopes it');
   }
 
-  ensureDirs(CONTENT_DIR, TMDB_CACHE_DIR, YOUTUBE_CACHE_DIR);
+  ensureDirs(CONTENT_DIR, TMDB_CACHE_DIR, TMDB_EPISODES_DIR, YOUTUBE_CACHE_DIR);
 
   console.log(
     maxAgeHours > 0
@@ -316,12 +441,20 @@ async function main(): Promise<void> {
 
   if (youtubeOnly) {
     console.log('skipping TMDB (--youtube-only)');
+  } else if (!hasTmdbCredential()) {
+    // The safe fallback. content/tmdb-episodes/ is committed, so an archive
+    // built without a credential still has every episode list it had at the
+    // last successful fetch — it simply does not learn anything new.
+    console.log(
+      'no TMDB credential set — keeping the committed episode lists in content/tmdb-episodes/.\n' +
+        '  Set TMDB_API_TOKEN to refresh them; the build needs no key either way.',
+    );
   } else {
     console.log(only ? `fetching TMDB metadata for ${only.join(', ')}…` : 'fetching TMDB metadata…');
-    await fetchTmdb(only);
+    await fetchTmdb(only, maxAgeHours);
   }
 
-  console.log('done — cache written to data/');
+  console.log('done — cache written to data/ and content/tmdb-episodes/');
 }
 
 await main();

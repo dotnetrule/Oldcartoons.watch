@@ -332,6 +332,10 @@ export const historicalSeriesSeedsFileSchema = z
   .array(historicalSeriesSeedSchema)
   .refine((all) => new Set(all.map((seed) => seed.tmdbId)).size === all.length, 'duplicate historical series id');
 
+/** IMDb title ids are `tt` followed by at least seven digits. Validated rather
+ * than trusted because it is interpolated straight into a link. */
+export const imdbIdSchema = z.string().regex(/^tt\d{7,}$/, 'an IMDb id looks like tt0123456');
+
 export const tmdbSeriesMetadataSchema = z.object({
   tmdbId: z.number().int().positive(),
   name: z.string().min(1),
@@ -342,6 +346,7 @@ export const tmdbSeriesMetadataSchema = z.object({
   backdrop: z.string().startsWith('/').nullable(),
   poster: z.string().startsWith('/').nullable(),
   genres: z.array(z.string().min(1)),
+  imdbId: imdbIdSchema.nullable().optional(),
 });
 
 export const tmdbMetadataFileSchema = z.object({

@@ -258,6 +258,15 @@ export type TmdbSeriesMetadata = {
   backdrop: string | null;
   poster: string | null;
   genres: string[];
+  /**
+   * The series' IMDb id, from TMDB's external_ids.
+   *
+   * There is no free IMDb API, and none is needed: TMDB already holds the
+   * mapping, so one credential produces links to both. Optional because every
+   * record written before this field existed has no opinion, which is not the
+   * same as TMDB having looked and found nothing (null).
+   */
+  imdbId?: string | null;
 };
 
 export type TmdbMetadataFile = {
