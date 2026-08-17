@@ -56,6 +56,8 @@ content/playlists.json   whitelisted third-party playlists
 content/videos.json      hand-picked individual videos, where no playlist exists
 content/queue.json       unresolved matches awaiting a human
 content/tmdb-seed/       stand-in metadata for series with no real TMDB id yet
+content/tmdb-metadata.json  reviewed placeholder → real TMDB id, plus artwork
+content/tmdb-episodes/   fetched TMDB season/episode lists, keyed by placeholder
 
 data/tmdb/{id}.json      cached TMDB responses    — gitignored, disposable
 data/youtube/{id}.json   cached source dumps      — gitignored, disposable
@@ -229,17 +231,19 @@ the difference between a full series page and a page of gaps.
 
 `--covers` says the playlist **holds uploads that may match** those series'
 episodes. Matching compares upload titles against **TMDB episode titles**, so
-this only produces rows for a series that already has real TMDB metadata — a
-real positive `tmdbId` in `content/series.json`, not a seed placeholder. Point
-it at a series carrying a placeholder id and the ingest succeeds, the videos
-cache, and nothing matches, because there is no episode list on the other side
-of the comparison.
+this produces rows for any series that has an episode list to match into —
+which now means any series `npm run enrich-tmdb` has resolved to a real TMDB id
+and `npm run fetch` has pulled the seasons for. Point it at a series with no
+such match and the ingest still succeeds, the videos cache, and nothing
+matches, because there is no episode list on the other side of the comparison.
 
 `--episodes-for` says the playlist **is** that series' episode list. Playlist
 order becomes episode order, video titles become episode titles, and
 `content/tmdb-seed/{id}.json` is regenerated from the playlist — no TMDB, no
-key, no matching. That is the right answer for a series with no real TMDB id,
-which is every series in this checkout.
+key, no matching. That is the right answer for a series with no real TMDB
+match, and it stays the right answer even after one arrives: a playlist that
+covers a show better than TMDB matching can place it keeps the series, under
+the retention guarantee in `scripts/match.ts`.
 
 What it deliberately does not invent: an upload date is not an air date, and a
 playlist carries no runtime, so both stay empty rather than becoming
@@ -395,9 +399,14 @@ push changes an ingest whitelist, and commits the derived episodes back to the
 same branch — so an environment that can edit `content/` but not reach YouTube
 can still fill the archive in. It never runs on `Master`.
 
-`npm run fetch -- --youtube-only` skips the TMDB half outright, which is what
-an archive built entirely from playlists needs: every series here still carries
-a placeholder id, and the TMDB half refuses those by design.
+`npm run fetch -- --youtube-only` skips the TMDB half outright. It used to be
+mandatory — every series carries a placeholder id and the TMDB half refused
+those — and is now just a way to read the video sources without touching the
+episode lists.
+
+`npm run fetch` re-reads a source only if its cached dump is over 24 hours old.
+`--max-age-hours N` moves that line and `--force` ignores it, so several pushes
+in one afternoon do not re-read every playlist each time.
 
 #### Without an API key
 
@@ -485,13 +494,15 @@ to youtube.com, so `.github/workflows/ingest.yml` resolves the titles and pulls
 the episodes in on a runner. Until that lands, the stations they fill stay
 hidden by the rule above rather than appearing empty.
 
-Every series carries a **negative placeholder `tmdbId`**, which `fetch.ts`
-refuses outright. A plausible-looking positive id would make a mis-seeded
-series quietly fetch the wrong show.
+Every series carries a **negative placeholder `tmdbId`**. It is the archive's
+own key and never an upstream one, so a mis-seeded series cannot quietly fetch
+the wrong show. The real id lives in `content/tmdb-metadata.json`, put there by
+a reviewed match rather than guessed from the seed.
 
-This is also why `--covers` cannot fill a seeded series in yet: there is no real
-TMDB episode list to match uploads against. `--episodes-for` is the route that
-works today, because it does not need one.
+A series with such a match takes its episode list from
+`content/tmdb-episodes/{placeholderId}.json`, and `--covers` works for it.
+Without one there is nothing to match uploads against, and `--episodes-for` is
+the route that works, because it does not need one.
 
 To go live, either route works per series:
 

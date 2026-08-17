@@ -26,6 +26,9 @@ on:
       - 'content/channels.json'
       - 'content/videos.json'
       - 'content/series.json'
+      # Which real TMDB series each placeholder stands for. Changing a match
+      # changes which episode list a series has, so it has to re-run too.
+      - 'content/tmdb-metadata.json'
       - 'scripts/**'
       - '.github/workflows/ingest.yml'
   workflow_dispatch:
@@ -79,13 +82,23 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: npm run resolve-playlists
 
-      # --youtube-only because every series in content/ still carries a
-      # placeholder TMDB id, which the TMDB half refuses by design. Drop the
-      # flag once real ids land.
+      # Which real TMDB series each placeholder id stands for. Optional in the
+      # strictest sense: with no TMDB_API_TOKEN the step says so and stops, and
+      # the ingest carries on against the matches already committed.
+      - name: Resolve TMDB matches
+        env:
+          TMDB_API_TOKEN: ${{ secrets.TMDB_API_TOKEN }}
+        run: npm run enrich-tmdb
+
+      # Both halves now. --youtube-only used to be mandatory here: every series
+      # carried a placeholder TMDB id and the TMDB half refused those outright.
+      # It resolves them through content/tmdb-metadata.json instead, so the
+      # episode lists are fetched on the same run that reads the videos.
       - name: Fetch sources
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: npm run fetch -- --youtube-only
+          TMDB_API_TOKEN: ${{ secrets.TMDB_API_TOKEN }}
+        run: npm run fetch
 
       - name: Derive episodes
         run: npm run match

@@ -18,13 +18,18 @@ cost time if you rediscover them by hand.
    for `curl` and for `WebFetch`. Do not try to work around it; whitelisting a
    playlist and ingesting it are separable acts, and `.github/workflows/ingest.yml`
    runs the network half on a GitHub runner.
-3. **Every series carries a negative placeholder `tmdbId`.** No series has real
-   TMDB metadata, so `--covers` ingests and then matches nothing.
-   `--episodes-for` is the only route that produces episodes today.
+3. **Every series carries a negative placeholder `tmdbId`, and TMDB is still
+   leading.** The placeholder is the archive's own key; the real upstream id
+   lives in `content/tmdb-metadata.json`, written by `npm run enrich-tmdb`. A
+   series that has one takes its episode list from
+   `content/tmdb-episodes/{placeholderId}.json` and `--covers` matching works
+   for it. A series with no match keeps the older world, where `--episodes-for`
+   is the only route that produces episodes.
 4. **`content/` is hand-curated source; `public/data/` and `data/` are
    generated.** Never hand-edit generated output. `content/episodes.json`,
-   `content/queue.json` and `content/tmdb-seed/` are written by the pipeline
-   but committed, so they show up in diffs and that is expected.
+   `content/queue.json`, `content/tmdb-seed/` and `content/tmdb-episodes/` are
+   written by the pipeline but committed, so they show up in diffs and that is
+   expected.
 5. **A broadcast slot is cut from the video's measured length.** Ingest reads it
    (`lengthSeconds` or the thumbnail badge on the public page; `videos.list`
    with an API key) and stores it as `runtimeSeconds` on the metadata seed. Only
@@ -255,19 +260,43 @@ episode list — see below.
 ## Where a series' metadata comes from
 
 `scripts/lib/series-metadata.ts` (`loadSeriesCache`) is the single answer, used
-by both `match.ts` and `build-data.ts`. Three kinds of series:
+by both `match.ts` and `build-data.ts`. Four kinds of series, in precedence
+order — the first that applies wins:
 
 | kind | identity from | episodes from |
 | --- | --- | --- |
+| resolved against TMDB | `content/tmdb-metadata.json`, or the guide when there is one | `content/tmdb-episodes/{placeholderId}.json` (committed) |
 | real TMDB id (positive) | `data/tmdb/{id}.json` (cache, gitignored) | same file |
 | seeded id (negative) | `content/tmdb-seed/{id}.json` (committed) | same file |
 | guide listing | `content/historical-series.json` | `content/tmdb-seed/{id}.json`, once a playlist writes one |
 
-The third row is the subtle one. A guide says what the show **is**; a playlist
-says what its episodes **are**. Identity always wins from the guide — nothing a
-playlist writes may overrule the name, overview or years. Before this existed,
-a guide listing could never hold episodes and `match.ts` crashed looking for a
-seed file that was never going to appear.
+The first row is what makes TMDB leading: real seasons, real numbering, real air
+dates, and honest gaps where no upload was found. A TMDB record with **no**
+episodes does not count — TMDB carries entries for shows it has registered and
+not catalogued, and taking one as the list would blank a series that plays
+today.
+
+Identity still wins from the guide wherever there is one. A guide says what the
+show **is**; a playlist says what its episodes **are**, and an upstream record
+may be a reboot, a dub or a differently-scoped entry. Nothing either of them
+writes may overrule the name, overview or years the guide recorded.
+
+## The retention guarantee
+
+When a series gains a TMDB episode list, its playlist stops authoring the list
+and becomes a pool of candidates to match into one. That is an improvement in
+shape and a risk to content: Dutch upload titles match English TMDB titles
+badly, and a playlist that covered a show completely can come out of matching
+half empty.
+
+So `match.ts` computes both answers and the TMDB-led one has to earn the
+switch. If it places fewer playable episodes than the playlist supplies, the
+playlist keeps the series and the run says so out loud. Gaining gaps is the
+point; losing episodes a viewer can watch today is not.
+
+When an upstream match is simply wrong — the wrong show, a reboot, a
+differently-scoped entry — `npm run enrich-tmdb -- --remove <slug>` drops it and
+the series goes back to being playlist-led permanently.
 
 ## Which channels are shown
 
@@ -285,7 +314,7 @@ inside a programme, never station-shaped.
 
 | workflow | fires on | what it does |
 | --- | --- | --- |
-| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `scripts/**` or itself; `workflow_dispatch` | `resolve-playlists` → `fetch --youtube-only` → `match` → `scan-audio` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. |
+| `ingest.yml` | push to any branch **except Master** touching `content/playlists.json`, `content/channels.json`, `content/videos.json`, `content/series.json`, `content/tmdb-metadata.json`, `scripts/**` or itself; `workflow_dispatch` | restores the `data/` cache, then `resolve-playlists` → `enrich-tmdb` → `fetch` → `match` → `scan-audio` → `build-data`, then commits `content/` back to the same branch. This is how an offline environment fills the archive. It pushes with `GITHUB_TOKEN`, so it cannot re-trigger itself. `TMDB_API_TOKEN` is optional — without it both TMDB steps say so and stop, and the run proceeds on the committed data. |
 | `build.yml` | push to Master, every pull request, `workflow_dispatch` | `npm run build` — the same three gates Vercel runs (Zod, `vue-tsc`, vite), on a runner that costs nothing to fail. Needs no secrets. |
 | `health-check.yml` | weekly cron (Mondays 05:00 UTC), `workflow_dispatch` | Re-checks every matched video, then reads the audio tracks of any it has not read yet. Gone or un-embeddable flips the episode to `missing`. Opens a **pull request** rather than pushing, because removing episodes should be reviewed. |
 
@@ -323,7 +352,8 @@ npm run build-data   # generate public/data/ from content/ — safe, offline, ru
 npm run build        # build-data + typecheck + vite build; the full gate
 npm run dev          # dev server; /admin exists only here
 npm run add-playlist -- "<url>" --episodes-for <slug> --language nl|en
-npm run fetch        # needs network
+npm run enrich-tmdb  # needs network + TMDB token; matches placeholders to real TMDB ids
+npm run fetch        # needs network (--youtube-only, --series, --force, --max-age-hours N)
 npm run match        # needs data/youtube/ from fetch
 npm run scan-audio   # needs network; reads each video's audio tracks (--all, --limit N)
 npm run resolve-playlists  # needs network; fills in playlist title + curator
@@ -332,15 +362,34 @@ npm run resolve-playlists  # needs network; fills in playlist title + curator
 ## Traps
 
 - **`data/` and `public/data/` are gitignored and disposable.** A fresh clone
-  builds without API keys because `content/tmdb-seed/` is committed. Do not
-  gitignore that directory by analogy with `data/tmdb/`.
+  builds without API keys because `content/tmdb-seed/` and
+  `content/tmdb-episodes/` are committed. Do not gitignore either directory by
+  analogy with `data/tmdb/` — without the second, a clone with no TMDB
+  credential builds an archive with no episode lists at all.
+- **`fetch` skips a source read in the last 24 hours.** That is what
+  `--force` and `--max-age-hours N` are for. On a runner the skip only works
+  because `ingest.yml` caches `data/` between runs; without that step every
+  source looks unfetched and, worse, skipping one would leave `match` with
+  nothing to read.
 - **`match.ts` overwrites `content/`.** It rewrites `episodes.json`,
   `queue.json` and the seed files of playlist-backed series. Never run it to
   "see what happens" in the working tree.
-- **Episode records are decisions.** `match` never overwrites an existing one.
-  The exception is a source-derived series — playlist or hand-picked set —
-  whose whole list is rebuilt every run. That is what lets a playlist that
-  gained episodes, or a video added to a set, show up on a re-run.
+- **Episode records are decisions.** `match` never reorders or replaces an
+  existing upload; newly found ones are appended to the tail, so the default a
+  person chose in the admin stays the default. The exception is a
+  source-derived series — playlist or hand-picked set — whose whole list is
+  rebuilt every run. That is what lets a playlist that gained episodes, or a
+  video added to a set, show up on a re-run.
+- **An episode holds a list of uploads, not one.** `Episode.videos[]`, best
+  first; the head is what plays and what the schedule books. Episode-level
+  status is derived (`scripts/lib/episodes.ts`) — `missing` precisely when no
+  upload plays — so an episode with alternates survives losing one.
+- **Two year ceilings, and they are not the same.** A series is in scope when
+  it first aired in or before **2005**, checked at fetch so no request is spent
+  outside the period. An episode is listed when it aired in or before **2008**,
+  checked at build. An episode with no air date is kept: reading absence as
+  "too recent" would empty the archive rather than trim it. Both live in
+  `scripts/lib/cutoff.ts`.
 - **`resolve-playlists` currently resolves nothing.** It fails to read title and
   owner from the public playlist page for every unattributed playlist, while
   `fetch` reads the same page for videos successfully — so it is the
