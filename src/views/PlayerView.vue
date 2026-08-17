@@ -17,6 +17,7 @@ import {
 } from '../player/youtubeApi';
 import AudioTrackNotice from '../components/AudioTrackNotice.vue';
 import TrackControls from '../components/TrackControls.vue';
+import SourcePicker from '../components/SourcePicker.vue';
 import type { PublicEpisode } from '../types';
 
 const props = defineProps<{ slug: string; season: string; episode: string }>();
@@ -46,6 +47,40 @@ const episode = computed<PublicEpisode | null>(
   () => season.value?.episodes.find((e) => e.episode === episodeNumber.value) ?? null,
 );
 const isLocked = computed(() => isBlockedByAge(series.value?.age, ui.ageFilter));
+
+/** Identifies the episode on screen. The source picker remembers a choice
+ * against this, so a switch belongs to one episode and not to the series. */
+const episodeKey = computed(() => `${props.slug}:${seasonNumber.value}:${episodeNumber.value}`);
+
+/**
+ * A viewer's choice of upload, when they have made one for *this* episode.
+ *
+ * Carrying the episode key rather than being reset by a watcher is what keeps
+ * this honest across navigation: the override simply stops applying the moment
+ * the key moves on, with no ordering to get wrong between this and the picker.
+ * It is re-checked against the episode's sources too, so a choice cannot
+ * outlive the upload it named.
+ */
+const sourceOverride = ref<{ key: string; youtubeId: string } | null>(null);
+
+/** The upload actually on screen: the viewer's pick if it still stands, and the
+ * archive's default otherwise. */
+const activeVideoId = computed<string | null>(() => {
+  const current = episode.value;
+  if (!current) return null;
+  const override = sourceOverride.value;
+  if (
+    override?.key === episodeKey.value &&
+    current.sources.some((source) => source.youtubeId === override.youtubeId)
+  ) {
+    return override.youtubeId;
+  }
+  return current.youtubeId;
+});
+
+function selectSource(youtubeId: string): void {
+  sourceOverride.value = { key: episodeKey.value, youtubeId };
+}
 
 /**
  * Dutch when this video carries a Nederlands audiospoor that is not the one it
@@ -178,12 +213,12 @@ async function syncPlayer(videoId: string | null): Promise<void> {
   try {
     YT = await loadYoutubeApi();
   } catch {
-    if (episode.value?.youtubeId === videoId && !isLocked.value) playbackFailed.value = true;
+    if (activeVideoId.value === videoId && !isLocked.value) playbackFailed.value = true;
     return;
   }
   const element = mount.value;
   // The route may have moved on while the API was loading.
-  if (!element || episode.value?.youtubeId !== videoId || isLocked.value) return;
+  if (!element || activeVideoId.value !== videoId || isLocked.value) return;
 
   playerVideoId = videoId;
   player = new YT.Player(element, {
@@ -219,7 +254,7 @@ async function syncPlayer(videoId: string | null): Promise<void> {
 }
 
 watch(
-  [() => episode.value?.youtubeId ?? null, isLocked],
+  [activeVideoId, isLocked],
   ([videoId]) => {
     void syncPlayer(videoId);
   },
@@ -227,7 +262,7 @@ watch(
 );
 
 function retryPlayback(): void {
-  const videoId = episode.value?.youtubeId;
+  const videoId = activeVideoId.value;
   if (!videoId || isLocked.value) return;
   playbackFailed.value = false;
   if (player) {
@@ -254,7 +289,7 @@ onBeforeUnmount(destroyPlayer);
         <div class="video">
           <!-- youtube-nocookie embed. No video is hosted or proxied here; the
                player is the only playback path. -->
-          <div v-if="episode.youtubeId && !isLocked" ref="mount" class="video-frame"></div>
+          <div v-if="activeVideoId && !isLocked" ref="mount" class="video-frame"></div>
           <div v-if="isLocked" class="video-gap" :style="{ color: C.dim }">
             <strong :style="{ color: C.ink }">{{ AGE_COPY.locked }}</strong>
             <span>{{ AGE_COPY.seriesNotice }}</span>
@@ -266,7 +301,7 @@ onBeforeUnmount(destroyPlayer);
               Opnieuw proberen
             </button>
           </div>
-          <div v-else-if="!episode.youtubeId" class="video-gap" :style="{ color: C.dim }">
+          <div v-else-if="!activeVideoId" class="video-gap" :style="{ color: C.dim }">
             {{ AVAILABILITY_LABELS.missing }}
           </div>
         </div>
@@ -283,13 +318,22 @@ onBeforeUnmount(destroyPlayer);
           <!-- Always Dutch here. There is no station on demand, and the archive
                is Dutch-first — see the note on `dubbedAudio` above. -->
           <TrackControls
-            v-if="episode.youtubeId && !isLocked && !playbackFailed"
+            v-if="activeVideoId && !isLocked && !playbackFailed"
             :player="playerRef"
             language="nl"
-            :video-key="episode.youtubeId"
+            :video-key="activeVideoId"
+          />
+          <!-- Draws nothing unless this episode has a second upload. Next to
+               the track buttons because it answers the same kind of question:
+               this copy is not working for me, what else is there. -->
+          <SourcePicker
+            v-if="activeVideoId && !isLocked"
+            :sources="episode.sources"
+            :storage-key="episodeKey"
+            @select="selectSource"
           />
           <button
-            v-if="episode.youtubeId && !isLocked && !playbackFailed"
+            v-if="activeVideoId && !isLocked && !playbackFailed"
             class="bar-btn"
             :style="{ borderColor: C.border2, color: C.dim2 }"
             @click="toggleFullscreen"
