@@ -50,6 +50,42 @@ export function formatAirDate(isoDate: string | null): string {
   });
 }
 
+/* ------------------------------------------------------------------ */
+/* Outward links                                                       */
+/* ------------------------------------------------------------------ */
+
+/** The show's page on themoviedb.org, or null when it has no reviewed match. */
+export function tmdbSeriesUrl(tmdbRealId: number | null): string | null {
+  return tmdbRealId === null ? null : `https://www.themoviedb.org/tv/${tmdbRealId}`;
+}
+
+/** The show's page on IMDb, or null when TMDB knows no IMDb id for it. */
+export function imdbSeriesUrl(imdbId: string | null): string | null {
+  return imdbId === null ? null : `https://www.imdb.com/title/${imdbId}/`;
+}
+
+/**
+ * Where an episode's IMDb link should point.
+ *
+ * The episode's own page when its id is known, and otherwise the show's episode
+ * list opened at the right season. The fallback is the common case rather than
+ * a rare one — TMDB serves episode ids one request at a time, so they arrive
+ * gradually — and it is why every row can carry a link from the first build
+ * instead of most of them being dead.
+ *
+ * Null only when nothing about the show is known on IMDb, which is the one case
+ * where there is genuinely nowhere to send anybody.
+ */
+export function imdbEpisodeUrl(
+  episodeImdbId: string | null,
+  seriesImdbId: string | null,
+  season: number,
+): string | null {
+  if (episodeImdbId) return `https://www.imdb.com/title/${episodeImdbId}/`;
+  if (seriesImdbId) return `https://www.imdb.com/title/${seriesImdbId}/episodes?season=${season}`;
+  return null;
+}
+
 export function countryLabel(country: string): string {
   return ({ NL: 'Nederland', BE: 'België', GB: 'Verenigd Koninkrijk', US: 'Verenigde Staten' } as Record<string, string>)[country]
     ?? country;

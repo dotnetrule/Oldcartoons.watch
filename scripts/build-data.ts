@@ -56,6 +56,8 @@ import {
   writeJson,
 } from './lib/paths';
 import { loadSeriesCache } from './lib/series-metadata';
+import { audioLanguagesOf, defaultVideo, episodeStatus, playableVideos } from './lib/episodes';
+import { EPISODE_MAX_AIR_YEAR, isEpisodeInScope } from './lib/cutoff';
 
 /** The normalized series object an override is merged over. Its key space is
  * exactly the Override key space — that is what makes the "every override key
@@ -538,6 +540,33 @@ function main(): void {
       set.videos.map((youtubeId) => [`video:${youtubeId}`, set.language] as const),
     ),
   ]);
+
+  /**
+   * What to call each source in front of a viewer.
+   *
+   * The app is never told a playlist id — it gets something a person can read
+   * and, where a curator is known, the credit they are owed. A source that was
+   * whitelisted from its id alone has no name yet (`resolve-playlists` fills
+   * those in), and rather than print a raw id at somebody the archive says what
+   * it honestly knows: this came from a playlist.
+   */
+  const sourceLabelByKey = new Map<string, string>([
+    ...youtubeChannelSources.map((source) => [`channel:${source.id}`, source.name] as const),
+    ...playlists.map(
+      (source) =>
+        [
+          `playlist:${source.id}`,
+          source.name
+            ? source.curator
+              ? `${source.name} — ${source.curator}`
+              : source.name
+            : 'Playlist',
+        ] as const,
+    ),
+    ...videoSets.flatMap((set) =>
+      set.videos.map((youtubeId) => [`video:${youtubeId}`, 'Losse upload'] as const),
+    ),
+  ]);
   for (const episode of episodes) {
     if (!seriesByTmdbId.has(episode.seriesId)) {
       throw new Error(
@@ -545,10 +574,12 @@ function main(): void {
           `which is not in content/series.json`,
       );
     }
-    if (episode.source && !sourceLanguageByKey.has(`${episode.source.kind}:${episode.source.id}`)) {
-      throw new Error(
-        `content/episodes.json references unknown ${episode.source.kind} source '${episode.source.id}'`,
-      );
+    for (const video of episode.videos) {
+      if (!sourceLanguageByKey.has(`${video.source.kind}:${video.source.id}`)) {
+        throw new Error(
+          `content/episodes.json references unknown ${video.source.kind} source '${video.source.id}'`,
+        );
+      }
     }
     const bucket = episodesBySeries.get(episode.seriesId);
     if (bucket) bucket.push(episode);
@@ -563,6 +594,9 @@ function main(): void {
   const stubs: SeriesStub[] = [];
   const scheduleSeeds: ScheduleSeed[] = [];
   const decades = new Set<string>();
+  /** Episodes the era ceiling removed, reported at the end so a sudden change
+   * in the archive's size has a stated reason rather than being noticed later. */
+  let cutByYear = 0;
 
   for (const source of seriesSources) {
     const historicalSeed = historicalSeriesByTmdbId.get(source.tmdbId);
@@ -609,14 +643,18 @@ function main(): void {
     const audioOf = (
       episode: Episode,
     ): { defaultLanguage: ContentLanguage; languages: ContentLanguage[] } | null => {
-      if (!episode.source) return null;
-      const defaultLanguage = sourceLanguageByKey.get(
-        `${episode.source.kind}:${episode.source.id}`,
-      );
+      const chosen = defaultVideo(episode);
+      if (!chosen) return null;
+      const defaultLanguage = sourceLanguageByKey.get(`${chosen.source.kind}:${chosen.source.id}`);
       if (!defaultLanguage) return null;
-      // The scan writes the default track's own language too, so the union is
-      // the whole answer and the order never matters.
-      const languages = [...new Set([defaultLanguage, ...(episode.audioLanguages ?? [])])].sort();
+      // Every upload of this episode counts, not just the default one: an
+      // English default with a Dutch alternate behind it genuinely is available
+      // in Dutch, and a viewer can reach it from the player. The scan writes
+      // each video's own default language too, so the union is the whole
+      // answer and the order never matters.
+      const languages = audioLanguagesOf(episode, (video) =>
+        sourceLanguageByKey.get(`${video.source.kind}:${video.source.id}`) ?? null,
+      );
       return { defaultLanguage, languages };
     };
 
@@ -628,7 +666,7 @@ function main(): void {
     );
 
     const playableAudio = (episodesBySeries.get(source.tmdbId) ?? []).flatMap((episode) =>
-      episode.status === 'missing' ? [] : (audioOf(episode) ?? []),
+      episodeStatus(episode) === 'missing' ? [] : (audioOf(episode) ?? []),
     );
     const availableLanguages = [...new Set(playableAudio.flatMap((audio) => audio.languages))].sort();
     // A language nothing plays by default is reachable only through the
@@ -655,12 +693,29 @@ function main(): void {
     let availableCount = 0;
 
     for (const season of cache.seasons) {
-      const publicEpisodes: PublicEpisode[] = season.episodes.map((episode) => {
-        const record = statusByEpisode.get(`${episode.season_number}:${episode.episode_number}`);
-        const audio = audioByEpisode.get(`${episode.season_number}:${episode.episode_number}`);
+      // The era ceiling. A series that ran past it keeps the seasons that fall
+      // inside and loses the ones that do not, so the archive stays what it
+      // says it is rather than following a long-running show into the 2010s.
+      //
+      // Episodes are dropped here rather than filtered later because the
+      // orphan check below reads what survived: a record for an episode we
+      // deliberately cut is not the same fault as a record for one TMDB never
+      // listed, and only the second should fail the build.
+      const inPeriod = season.episodes.filter((episode) => isEpisodeInScope(episode.air_date));
+      for (const episode of season.episodes) {
+        if (inPeriod.includes(episode)) continue;
         statusByEpisode.delete(`${episode.season_number}:${episode.episode_number}`);
+        cutByYear += 1;
+      }
 
-        if (record && record.status !== 'missing') availableCount += 1;
+      const publicEpisodes: PublicEpisode[] = inPeriod.map((episode) => {
+        const slot = `${episode.season_number}:${episode.episode_number}` as const;
+        const record = statusByEpisode.get(slot);
+        const audio = audioByEpisode.get(slot);
+        statusByEpisode.delete(slot);
+
+        const chosen = record ? defaultVideo(record) : null;
+        if (chosen) availableCount += 1;
 
         return {
           season: episode.season_number,
@@ -673,9 +728,29 @@ function main(): void {
           // No record at all means nobody has looked for this episode yet,
           // which reads the same way to a viewer as looking and finding
           // nothing: a gap.
-          status: record?.status ?? 'missing',
-          youtubeId: record?.youtubeId ?? null,
+          status: record ? episodeStatus(record) : 'missing',
+          youtubeId: chosen?.youtubeId ?? null,
           still: episode.still_path,
+          // Every upload, default first, so the player can offer a way around
+          // a bad one. A dead upload is left out: it is not a choice.
+          sources: (record ? playableVideos(record) : []).map((video) => {
+            const key = `${video.source.kind}:${video.source.id}`;
+            const defaultLanguage = sourceLanguageByKey.get(key) ?? null;
+            return {
+              youtubeId: video.youtubeId,
+              kind: video.source.kind,
+              label: sourceLabelByKey.get(key) ?? 'Onbekende bron',
+              status: video.status,
+              defaultAudioLanguage: defaultLanguage,
+              audioLanguages: [
+                ...new Set([
+                  ...(defaultLanguage ? [defaultLanguage] : []),
+                  ...(video.audioLanguages ?? []),
+                ]),
+              ].sort(),
+            };
+          }),
+          imdbId: episode.imdbId ?? null,
           // Absent for a gap, and absent for a video whose tracks nobody has
           // read yet — the player says nothing in either case.
           defaultAudioLanguage: audio?.defaultLanguage ?? null,
@@ -709,9 +784,19 @@ function main(): void {
     const decade = decadeOf(base.firstAirYear);
     decades.add(decade);
 
+    // What the archive actually lists, not what TMDB says the show ran to.
+    // The two differ whenever the era ceiling cut a late season, and the
+    // difference is not cosmetic: `availableCount / episodeCount` is what
+    // decides whether a series reads as complete, and measuring completeness
+    // against episodes the archive deliberately does not show would leave every
+    // long-running series permanently short of itself.
+    const episodeCount = seasons.reduce((total, season) => total + season.episodes.length, 0);
+
     const seriesFile: SeriesFile = {
       slug: source.slug,
       tmdbId: source.tmdbId,
+      tmdbRealId: cache.tmdbId ?? metadata?.tmdbId ?? null,
+      imdbId: cache.imdbId ?? metadata?.imdbId ?? null,
       name: base.name,
       overview: base.overview,
       networkSlug: base.networkSlug,
@@ -722,7 +807,7 @@ function main(): void {
       lastAirYear: Math.max(lastAirYear, base.firstAirYear),
       firstAirDate: metadata?.firstAirDate ?? (historicalSeed ? null : detail.first_air_date),
       decade,
-      episodeCount: detail.number_of_episodes,
+      episodeCount,
       availableCount,
       availableLanguages,
       dubbedLanguages,
@@ -874,7 +959,8 @@ function main(): void {
     `emitted index.json + broadcast.json + broadcast-open.json + ${stubs.length} series files — ` +
       `${networks.length} networks, ${broadcastData.channels.length} channels, ` +
       `${schedules.length} live schedules, ${openSchedules.length} wider line-ups, ` +
-      `${playable} playable episodes`,
+      `${playable} playable episodes` +
+      (cutByYear > 0 ? `\n${cutByYear} episodes aired after ${EPISODE_MAX_AIR_YEAR} and are not listed` : ''),
   );
 }
 

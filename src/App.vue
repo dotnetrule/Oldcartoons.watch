@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import HeaderBar from './components/HeaderBar.vue';
 import ChannelTabs from './components/ChannelTabs.vue';
@@ -17,6 +17,39 @@ const C = computed(() => ui.C);
 /** The live route is the one page meant to fill the screen like a TV set
  * rather than a document that scrolls. See the `.ntv-app--live` rule below. */
 const isLive = computed(() => route.name === 'live');
+
+/**
+ * How tall the sticky chrome currently is, published as `--ntv-chrome-height`.
+ *
+ * Anything else that wants to stick to the top of the viewport — the season
+ * headings on a series page — has to clear this bar or it scrolls underneath
+ * and is never seen. The height is not a constant worth hard-coding: the filter
+ * row and the channel strip wrap at narrow widths, so it changes with the
+ * viewport and with the theme's font loading. Measuring it is the only version
+ * that stays true.
+ */
+const chrome = ref<HTMLElement | null>(null);
+let chromeObserver: ResizeObserver | undefined;
+
+onMounted(() => {
+  const element = chrome.value;
+  if (!element) return;
+  const publish = (): void => {
+    document.documentElement.style.setProperty(
+      '--ntv-chrome-height',
+      `${Math.round(element.getBoundingClientRect().height)}px`,
+    );
+  };
+  publish();
+  // Guarded because jsdom-less environments and older Safari lack it; without
+  // the observer the headings simply keep the height measured at mount.
+  if (typeof ResizeObserver !== 'undefined') {
+    chromeObserver = new ResizeObserver(publish);
+    chromeObserver.observe(element);
+  }
+});
+
+onBeforeUnmount(() => chromeObserver?.disconnect());
 
 /**
  * `.ntv-app`'s own background only paints its box, so anything the box does
@@ -141,7 +174,7 @@ const flashStyle = computed(() => ({
 <template>
   <div class="ntv-app" :class="{ 'ntv-app--live': isLive }" :style="{ background: C.bg, color: C.ink }">
     <div class="ntv-flash" :style="flashStyle"></div>
-    <div class="ntv-chrome" :style="{ background: C.bg }">
+    <div ref="chrome" class="ntv-chrome" :style="{ background: C.bg }">
       <HeaderBar :page-code="pageCode" />
       <ChannelTabs :active-slug="activeNetworkSlug" :guide-active="route.name === 'gids'" />
     </div>

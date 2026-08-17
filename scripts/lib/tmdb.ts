@@ -39,6 +39,22 @@ function authentication(url: URL): Record<string, string> {
   );
 }
 
+/**
+ * Whether any TMDB credential is present.
+ *
+ * Callers ask before starting rather than catching the throw above, because the
+ * two situations are not the same. A missing key means "this machine was never
+ * going to do the TMDB half" — a clone without secrets, or a workflow whose
+ * secret is unset — and the right response is to say so once and carry on with
+ * the committed metadata. A key that is present and rejected is a real failure
+ * and still throws.
+ */
+export function hasTmdbCredential(): boolean {
+  return Boolean(
+    process.env.TMDB_API_TOKEN ?? process.env.TMDB_READ_ONLY_KEY ?? process.env.TMDB_API_KEY,
+  );
+}
+
 async function tmdbGet<T>(path: string, params: Record<string, string> = {}): Promise<T> {
   const url = new URL(API_BASE + path);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
@@ -88,6 +104,20 @@ export type TmdbEpisode = {
   runtime: number | null;
   still_path: string | null;
   /**
+   * This episode's IMDb id, in three states — the same shape `audioLanguages`
+   * uses on an `Episode`, and for the same reason:
+   *
+   *   • undefined — nobody has looked yet
+   *   • null      — looked, and IMDb has no id for this episode
+   *   • "tt…"     — the id
+   *
+   * The difference between the last two is what makes the scan repeatable.
+   * TMDB only serves these one episode at a time, so they are filled in by a
+   * bounded pass over episodes that actually have a video rather than by the
+   * season fetch — see `fetchEpisodeImdbIds` in scripts/fetch.ts.
+   */
+  imdbId?: string | null;
+  /**
    * The exact length of the video backing this episode, when a source stated
    * it. TMDB's own `runtime` is editorial and rounded to whole minutes, which
    * is too coarse to cut a broadcast slot from; this is not, and it is absent
@@ -115,12 +145,35 @@ export type TmdbImages = {
   posters: TmdbImage[];
 };
 
+/** What TMDB knows about this series elsewhere. Only IMDb is read today. */
+export type TmdbExternalIds = {
+  imdb_id: string | null;
+};
+
 /** Everything cached for one series under data/tmdb/{id}.json. */
 export type TmdbSeriesCache = {
   fetchedAt: string;
   detail: TmdbSeriesDetail;
   seasons: TmdbSeason[];
   images: TmdbImages;
+  /**
+   * The series' IMDb id, when TMDB knows one.
+   *
+   * Optional rather than nullable because every seed written before this
+   * existed simply has no opinion, and that is different from a series TMDB has
+   * looked at and has no IMDb id for.
+   */
+  imdbId?: string | null;
+  /**
+   * The real, positive TMDB id this cache was fetched from.
+   *
+   * A series in this archive is keyed by a negative placeholder id, so the
+   * file name cannot carry the upstream id and `detail.id` is rewritten to the
+   * placeholder so every downstream identity check keeps working. This is the
+   * one field that remembers where the data actually came from — it is what
+   * builds a themoviedb.org link, and what a refetch resolves against.
+   */
+  tmdbId?: number;
 };
 
 export const getSeriesDetail = (id: number, language?: string): Promise<TmdbSeriesDetail> =>
@@ -137,6 +190,34 @@ export const getSeason = (id: number, season: number): Promise<TmdbSeason> =>
   tmdbGet<TmdbSeason>(`/tv/${id}/season/${season}`);
 
 export const getImages = (id: number): Promise<TmdbImages> => tmdbGet<TmdbImages>(`/tv/${id}/images`);
+
+/** The series' ids on other databases. One call per series, so it rides along
+ * with every series fetch. */
+export const getExternalIds = (id: number): Promise<TmdbExternalIds> =>
+  tmdbGet<TmdbExternalIds>(`/tv/${id}/external_ids`);
+
+/**
+ * One episode's ids elsewhere.
+ *
+ * TMDB has no bulk form of this — it is a call per episode, which is why no
+ * caller may loop it over a whole catalogue. Returns null rather than throwing
+ * when TMDB does not have the episode, because an episode list that runs past
+ * what IMDb indexes is ordinary and should not fail a run.
+ */
+export async function getEpisodeExternalIds(
+  id: number,
+  season: number,
+  episode: number,
+): Promise<string | null> {
+  try {
+    const ids = await tmdbGet<TmdbExternalIds>(
+      `/tv/${id}/season/${season}/episode/${episode}/external_ids`,
+    );
+    return ids.imdb_id || null;
+  } catch {
+    return null;
+  }
+}
 
 /** Build an absolute image URL from a TMDB file_path. Images hotlink
  * image.tmdb.org rather than being proxied or re-hosted. */

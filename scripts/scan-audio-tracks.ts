@@ -84,10 +84,16 @@ async function main(): Promise<void> {
 
   // One reading per video, not per episode: the same upload can be numbered
   // into more than one series, and the page says the same thing both times.
-  const unread = episodes.filter(
-    (ep) => ep.youtubeId !== null && (flags.all || ep.audioLanguages === null),
+  // An episode with several uploads contributes each of them separately —
+  // they are different files and each has its own tracks.
+  const allVideos = episodes.flatMap((ep) => ep.videos.map((video) => ({ ep, video })));
+  const unread = allVideos.filter(
+    ({ video }) =>
+      // A dead upload is not worth a page fetch: nobody can play it, so what it
+      // is spoken in changes nothing.
+      video.status !== 'missing' && (flags.all || video.audioLanguages === null),
   );
-  const pending = [...new Set(unread.map((ep) => ep.youtubeId as string))];
+  const pending = [...new Set(unread.map(({ video }) => video.youtubeId))];
 
   /**
    * Least-read source first.
@@ -101,19 +107,18 @@ async function main(): Promise<void> {
    * which is exactly the run that just created its episodes.
    */
   const readBySource = new Map<string, { read: number; total: number }>();
-  for (const ep of episodes) {
-    if (!ep.source || ep.youtubeId === null) continue;
-    const key = `${ep.source.kind}:${ep.source.id}`;
+  for (const { video } of allVideos) {
+    const key = `${video.source.kind}:${video.source.id}`;
     const tally = readBySource.get(key) ?? { read: 0, total: 0 };
     tally.total += 1;
-    if (ep.audioLanguages !== null) tally.read += 1;
+    if (video.audioLanguages !== null) tally.read += 1;
     readBySource.set(key, tally);
   }
   const priorities = new Map(
-    unread.map((ep) => {
-      const tally = ep.source ? readBySource.get(`${ep.source.kind}:${ep.source.id}`) : undefined;
+    unread.map(({ video }) => {
+      const tally = readBySource.get(`${video.source.kind}:${video.source.id}`);
       const ratio = tally && tally.total > 0 ? tally.read / tally.total : 0;
-      return [ep.youtubeId as string, ratio] as const;
+      return [video.youtubeId, ratio] as const;
     }),
   );
   pending.sort((a, b) => (priorities.get(a) ?? 0) - (priorities.get(b) ?? 0));
@@ -166,14 +171,19 @@ async function main(): Promise<void> {
 
   let changedEpisodes = 0;
   const updated = episodes.map<Episode>((ep) => {
-    if (ep.youtubeId === null) return ep;
-    const languages = readById.get(ep.youtubeId);
-    // `undefined` means this run did not read that video — either it was not
-    // in scope or the page stayed quiet. Neither is a reason to overwrite what
-    // an earlier run established.
-    if (languages === undefined) return ep;
-    if (!sameLanguages(ep.audioLanguages, languages)) changedEpisodes += 1;
-    return { ...ep, audioLanguages: languages };
+    let touched = false;
+    const videos = ep.videos.map((video) => {
+      const languages = readById.get(video.youtubeId);
+      // `undefined` means this run did not read that video — either it was not
+      // in scope or the page stayed quiet. Neither is a reason to overwrite what
+      // an earlier run established.
+      if (languages === undefined) return video;
+      if (!sameLanguages(video.audioLanguages, languages)) touched = true;
+      return { ...video, audioLanguages: languages };
+    });
+    if (!touched) return ep;
+    changedEpisodes += 1;
+    return { ...ep, videos };
   });
 
   writeJson(contentPath('episodes.json'), episodesFileSchema.parse(updated));

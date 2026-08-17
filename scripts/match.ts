@@ -19,6 +19,7 @@ import { readdirSync } from 'node:fs';
 import type {
   Episode,
   EpisodeSource,
+  EpisodeVideo,
   HistoricalSeriesSeed,
   PlaylistSource,
   QueueCandidate,
@@ -26,6 +27,8 @@ import type {
   SeriesSource,
   VideoSetSource,
 } from '../src/types';
+import type { TmdbSeriesCache } from './lib/tmdb';
+import type { YoutubeVideo } from './lib/youtube';
 import {
   episodesFileSchema,
   historicalSeriesSeedsFileSchema,
@@ -42,7 +45,8 @@ import {
   seriesMetadataPath,
   writeJson,
 } from './lib/paths';
-import { loadSeriesCache } from './lib/series-metadata';
+import { isTmdbLed, loadSeriesCache } from './lib/series-metadata';
+import { isPlayable } from './lib/episodes';
 import { CONFIDENCE_THRESHOLD, scoreMatch } from './lib/similarity';
 import { derivePlaylistSeries, type SourcedVideo } from './lib/playlist-episodes';
 import type { YoutubeSourceCache } from './fetch';
@@ -51,6 +55,178 @@ import type { YoutubeSourceCache } from './fetch';
  * few enough to scan without scrolling — the admin is built for one decision
  * per keystroke. */
 const MAX_CANDIDATES = 6;
+
+/**
+ * How many uploads one episode may carry.
+ *
+ * A viewer choosing between two or three copies is being offered a way around
+ * a bad upload. A viewer choosing between twelve is being handed the matcher's
+ * uncertainty to sort out, and past a few the extras are almost always the same
+ * episode found again rather than a genuinely different copy.
+ */
+const MAX_SOURCES = 5;
+
+/** One upload's claim on one episode. */
+type Candidate = {
+  youtubeId: string;
+  title: string;
+  publishedAt: string;
+  score: number;
+  source: EpisodeSource;
+};
+
+/** What matching one series against a fixed episode list produced. */
+type MatchOutcome = {
+  episodes: Episode[];
+  queue: QueueEntry[];
+  /** Episodes that ended up with at least one upload somebody can play. This
+   * is the number the retention guarantee compares. */
+  playable: number;
+};
+
+/**
+ * Fit a pool of uploads into an episode list that already exists.
+ *
+ * This is the TMDB-led path: the list is fixed and authoritative, and the
+ * uploads are candidates for its slots. An episode nobody found a video for
+ * gets no record at all — absence is how the archive spells a gap, and writing
+ * an empty record would mark the episode decided and exclude it from every
+ * future run.
+ */
+function matchIntoList(
+  source: SeriesSource,
+  cache: TmdbSeriesCache,
+  pool: { video: YoutubeVideo; provenance: EpisodeSource }[],
+  existingBySlot: Map<string, Episode>,
+  today: string,
+): MatchOutcome {
+  const episodes: Episode[] = [];
+  const queue: QueueEntry[] = [];
+  let playable = 0;
+
+  /**
+   * Uploads already spoken for by an earlier episode of this series.
+   *
+   * One video is one episode. Without this a generically titled upload that
+   * scores above the threshold against several episodes is booked into all of
+   * them, and the schedule then plays the same file three times over claiming
+   * it is three different episodes. Earlier episodes win, which is arbitrary
+   * but stable — and the alternative, letting one video stand for many, is
+   * wrong rather than merely arbitrary.
+   */
+  const spokenFor = new Set<string>();
+  for (const episode of existingBySlot.values()) {
+    for (const video of episode.videos) spokenFor.add(video.youtubeId);
+  }
+
+  for (const season of cache.seasons) {
+    for (const tmdbEpisode of season.episodes) {
+      const slot = `${tmdbEpisode.season_number}:${tmdbEpisode.episode_number}`;
+      const existing = existingBySlot.get(slot);
+
+      const ranked: Candidate[] = pool
+        .map(({ video, provenance }) => ({
+          youtubeId: video.youtubeId,
+          title: video.title,
+          publishedAt: video.publishedAt,
+          score: scoreMatch({
+            videoTitle: video.title,
+            episodeTitle: tmdbEpisode.name,
+            seriesName: cache.detail.name,
+            season: tmdbEpisode.season_number,
+            episode: tmdbEpisode.episode_number,
+          }),
+          source: provenance,
+        }))
+        .filter((candidate) => candidate.score > 0)
+        .sort((a, b) => b.score - a.score);
+
+      // Everything confident enough, not merely the best one — that is what
+      // gives an episode alternates to fall back on. Existing uploads keep
+      // their place at the head: one of them may have been chosen by a person
+      // in the admin, and a fresh run scoring something higher is not grounds
+      // for overruling that.
+      const kept = existing?.videos ?? [];
+      const additions: Candidate[] = [];
+      for (const candidate of ranked) {
+        if (candidate.score < CONFIDENCE_THRESHOLD) break;
+        if (kept.length + additions.length >= MAX_SOURCES) break;
+        if (spokenFor.has(candidate.youtubeId)) continue;
+        additions.push(candidate);
+        spokenFor.add(candidate.youtubeId);
+      }
+
+      const videos: EpisodeVideo[] = [
+        ...kept,
+        ...additions.map((candidate) => ({
+          youtubeId: candidate.youtubeId,
+          // Region-locking is decided at ingest by the health check, which
+          // reads contentDetails.regionRestriction. Matching only asserts that
+          // a video exists for this episode.
+          status: 'available' as const,
+          checkedAt: today,
+          source: candidate.source,
+          // Which audio tracks the video carries is a reading of the video
+          // itself, and matching never opens one. `scan-audio-tracks` fills
+          // this in on the same run, after this script has decided.
+          audioLanguages: null,
+        })),
+      ];
+
+      if (videos.length > 0) {
+        episodes.push({
+          tmdbEpisodeId: tmdbEpisode.id,
+          seriesId: source.tmdbId,
+          season: tmdbEpisode.season_number,
+          episode: tmdbEpisode.episode_number,
+          videos,
+        });
+        if (videos.some((video) => video.status !== 'missing')) playable += 1;
+        continue;
+      }
+
+      // Nothing confident, but something scored: a person can settle it.
+      if (ranked.length > 0) {
+        queue.push({
+          tmdbEpisodeId: tmdbEpisode.id,
+          seriesId: source.tmdbId,
+          seriesSlug: source.slug,
+          season: tmdbEpisode.season_number,
+          episode: tmdbEpisode.episode_number,
+          episodeTitle: tmdbEpisode.name,
+          candidates: ranked.slice(0, MAX_CANDIDATES) satisfies QueueCandidate[],
+        });
+      }
+    }
+  }
+
+  return { episodes, queue, playable };
+}
+
+/**
+ * The records worth carrying into a fresh match of this series.
+ *
+ * A record is kept only when the episode list still has its slot *and* still
+ * agrees about which episode that is. That second half is what makes the switch
+ * to a TMDB-led list safe: records numbered by an earlier playlist ordering
+ * carry that ordering's episode ids, fail the check, and are dropped rather
+ * than left pointing at whichever episode now happens to sit at S01E07.
+ */
+function carryForward(existing: Episode[], cache: TmdbSeriesCache): Map<string, Episode> {
+  const listed = new Map<string, number>();
+  for (const season of cache.seasons) {
+    for (const episode of season.episodes) {
+      listed.set(`${episode.season_number}:${episode.episode_number}`, episode.id);
+    }
+  }
+
+  const carried = new Map<string, Episode>();
+  for (const record of existing) {
+    const slot = `${record.season}:${record.episode}`;
+    if (listed.get(slot) === record.tmdbEpisodeId) carried.set(slot, record);
+  }
+  return carried;
+}
 
 function loadYoutubeSources(): YoutubeSourceCache[] {
   let files: string[];
@@ -99,7 +275,13 @@ function rebuildFromSource(
   historicalSeed: HistoricalSeriesSeed | undefined,
   youtubeSources: YoutubeSourceCache[],
   today: string,
+  // A TMDB-led series computes this path only to weigh it against the matched
+  // one — see the retention guarantee in `main`. Reporting that speculative
+  // pass would describe an episode list the run is about to discard, and it
+  // must not write the metadata seed for the same reason.
+  options: { quiet?: boolean } = {},
 ): Episode[] | null {
+  const quiet = options.quiet ?? false;
   // The group's playlists are read in whitelist order and their videos laid
   // end to end. That order is the episode order, so it is preserved exactly as
   // content/playlists.json states it.
@@ -117,10 +299,12 @@ function rebuildFromSource(
         // left it. (`main` already throws up front if nothing was fetched at
         // all, so reaching this with some other dump present means this one
         // specific source is what failed.)
-        console.warn(
-          `  ${source.slug}: ${playlistLabel(playlist)} owns part of its episode list but was not ` +
-            `fetched this run — leaving the episode list as it was`,
-        );
+        if (!quiet) {
+          console.warn(
+            `  ${source.slug}: ${playlistLabel(playlist)} owns part of its episode list but was not ` +
+              `fetched this run — leaving the episode list as it was`,
+          );
+        }
         return null;
       }
       // A playlist that cached nothing means the fetch went wrong: the reader
@@ -150,10 +334,12 @@ function rebuildFromSource(
     // sources to ingest and leaves any episodes a previous run derived exactly
     // where they are.
     if (dump.videos.length === 0) {
-      console.warn(
-        `  ${source.slug}: none of the ${owner.set.videos.length} hand-picked videos could be read — ` +
-          `leaving the episode list as it was`,
-      );
+      if (!quiet) {
+        console.warn(
+          `  ${source.slug}: none of the ${owner.set.videos.length} hand-picked videos could be read — ` +
+            `leaving the episode list as it was`,
+        );
+      }
       return null;
     }
     videos.push(
@@ -179,6 +365,11 @@ function rebuildFromSource(
         : { kind: 'videos', label: owner.set.episodesFor },
     today,
   });
+
+  // A speculative pass must leave no trace. Writing the seed here would hand
+  // the series a metadata file describing an episode list the run is about to
+  // throw away in favour of TMDB's.
+  if (quiet) return episodes;
 
   writeJson(seedPath, cache);
   console.log(
@@ -263,134 +454,111 @@ function main(): void {
     }
   }
 
-  const derived: Episode[] = [];
-  const derivedSeries = new Set<number>();
-
-  for (const source of seriesSources) {
-    const owner = episodeListOwner.get(source.slug);
-    if (!owner) continue;
-    const episodes = rebuildFromSource(
-      source,
-      owner,
-      historicalSeedById.get(source.tmdbId),
-      youtubeSources,
-      today,
-    );
-    // Null is "this source had nothing to say this run". Leaving the series
-    // out of `derivedSeries` is what preserves whatever it already had.
-    if (episodes === null) continue;
-    derived.push(...episodes);
-    derivedSeries.add(source.tmdbId);
+  const existingBySeries = new Map<number, Episode[]>();
+  for (const record of existing) {
+    const bucket = existingBySeries.get(record.seriesId);
+    if (bucket) bucket.push(record);
+    else existingBySeries.set(record.seriesId, [record]);
   }
 
-  // The old records for a derived series are discarded, not merged: the
-  // playlist just restated the whole list, and keeping a record from a
-  // previous ordering would leave an episode pointing at the wrong video.
-  const preserved = existing.filter((ep) => !derivedSeries.has(ep.seriesId));
-
-  // A record in episodes.json means a decision was made about that episode —
-  // auto-matched here, chosen by a human in the admin, or corrected by the
-  // health check — and a decision is final. Absence means nobody has looked
-  // yet, which is the only state matching is allowed to act on.
-  //
-  // Nothing may write a placeholder record for an unexamined episode. Doing so
-  // marks it decided and silently excludes it from every future match run;
-  // build-data.ts already renders a record-less episode as a gap, so a
-  // placeholder buys nothing and costs the episode its chance of being found.
-  const decided = new Set(
-    [...preserved, ...derived].map((ep) => `${ep.seriesId}:${ep.season}:${ep.episode}`),
-  );
-
-  const added: Episode[] = [];
+  const resulting: Episode[] = [];
   const queue: QueueEntry[] = [];
+  let derivedCount = 0;
+  let matchedCount = 0;
+  let heldBack = 0;
+  let flipped = 0;
 
   for (const source of seriesSources) {
-    if (episodeListOwner.has(source.slug)) continue;
+    const historicalSeed = historicalSeedById.get(source.tmdbId);
+    const owner = episodeListOwner.get(source.slug);
+    const priorRecords = existingBySeries.get(source.tmdbId) ?? [];
 
-    const cache = loadSeriesCache(source, historicalSeedById.get(source.tmdbId));
+    // A series TMDB has not been matched to keeps the world it has always had:
+    // a playlist authors its episode list, or it has none.
+    if (!isTmdbLed(source)) {
+      if (!owner) {
+        resulting.push(...priorRecords);
+        continue;
+      }
+      const episodes = rebuildFromSource(source, owner, historicalSeed, youtubeSources, today);
+      // Null is "this source had nothing to say this run", so whatever the
+      // series already had is what it keeps.
+      if (episodes === null) {
+        resulting.push(...priorRecords);
+        continue;
+      }
+      resulting.push(...episodes);
+      derivedCount += episodes.length;
+      continue;
+    }
 
-    // A channel carries only its rights-holder's material, so it is open to
-    // every series. A playlist is scoped by its `covers` list, which stops a
-    // third-party playlist from pulling in series it has no business matching.
-    //
-    // A hand-picked set never joins the pool. It is already the whole episode
-    // list of the one series it names, and that series left this loop at the
-    // top — so the only thing scoring its videos here could do is offer them
-    // to some other show.
+    // TMDB-led. The episode list is fixed; every whitelisted upload scoped to
+    // this series is a candidate for one of its slots — including a
+    // hand-picked set's, which under the old rules could never be matched
+    // because the set owned the list outright.
+    const cache = loadSeriesCache(source, historicalSeed);
     const pool = youtubeSources
-      .filter((yt): yt is YoutubeSourceCache & { kind: 'channel' | 'playlist' } => yt.kind !== 'videos')
       .filter((yt) => yt.kind === 'channel' || yt.covers.includes(source.slug))
       .flatMap((yt) =>
         yt.videos.map((video) => ({
           video,
-          provenance: { kind: yt.kind, id: yt.id } satisfies EpisodeSource,
+          provenance: {
+            // A hand-picked video is its own source: a curator chose each one
+            // separately and any one can rot while the rest keep playing.
+            kind: yt.kind === 'videos' ? ('video' as const) : yt.kind,
+            id: yt.kind === 'videos' ? video.youtubeId : yt.id,
+          } satisfies EpisodeSource,
         })),
       );
 
-    if (pool.length === 0) continue;
+    const outcome = matchIntoList(source, cache, pool, carryForward(priorRecords, cache), today);
 
-    for (const season of cache.seasons) {
-      for (const episode of season.episodes) {
-        const key = `${source.tmdbId}:${episode.season_number}:${episode.episode_number}`;
-        if (decided.has(key)) continue;
+    // The retention guarantee.
+    //
+    // Switching a series to a TMDB-led list is an improvement in shape — real
+    // seasons, real numbering, honest gaps — but only if it does not cost the
+    // archive episodes a viewer can currently watch. Dutch upload titles match
+    // English TMDB titles badly, and a series whose playlist covered it fully
+    // could come out of matching nearly empty.
+    //
+    // So both answers are computed and the TMDB-led one has to earn it. If it
+    // plays fewer episodes than the playlist did, the playlist keeps the
+    // series and this says so out loud. `npm run enrich-tmdb -- --remove
+    // <slug>` makes that permanent when the upstream match is simply wrong.
+    if (owner) {
+      const fallback = rebuildFromSource(source, owner, historicalSeed, youtubeSources, today, {
+        quiet: true,
+      });
+      const fallbackPlayable = fallback?.filter((ep) => isPlayable(ep)).length ?? 0;
 
-        const ranked = pool
-          .map(({ video, provenance }) => ({
-            youtubeId: video.youtubeId,
-            title: video.title,
-            publishedAt: video.publishedAt,
-            score: scoreMatch({
-              videoTitle: video.title,
-              episodeTitle: episode.name,
-              seriesName: cache.detail.name,
-              season: episode.season_number,
-              episode: episode.episode_number,
-            }),
-            source: provenance,
-          }))
-          .filter((candidate) => candidate.score > 0)
-          .sort((a, b) => b.score - a.score);
-
-        const best = ranked[0];
-
-        if (best && best.score >= CONFIDENCE_THRESHOLD) {
-          added.push({
-            tmdbEpisodeId: episode.id,
-            seriesId: source.tmdbId,
-            season: episode.season_number,
-            episode: episode.episode_number,
-            youtubeId: best.youtubeId,
-            // Region-locking is decided at ingest by the health check, which
-            // reads contentDetails.regionRestriction. Matching only asserts
-            // that a video exists for this episode.
-            status: 'available',
-            checkedAt: today,
-            source: best.source,
-            // Which audio tracks the video carries is a reading of the video
-            // itself, and matching never opens one. `scan-audio-tracks` fills
-            // this in on the same run, after this script has decided.
-            audioLanguages: null,
-          });
-          decided.add(key);
-          continue;
-        }
-
-        if (ranked.length > 0) {
-          queue.push({
-            tmdbEpisodeId: episode.id,
-            seriesId: source.tmdbId,
-            seriesSlug: source.slug,
-            season: episode.season_number,
-            episode: episode.episode_number,
-            episodeTitle: episode.name,
-            candidates: ranked.slice(0, MAX_CANDIDATES) satisfies QueueCandidate[],
-          });
-        }
+      if (fallback !== null && outcome.playable < fallbackPlayable) {
+        heldBack += 1;
+        console.warn(
+          `  ${source.slug}: TMDB lists ${countEpisodes(cache)} episodes but matching placed only ` +
+            `${outcome.playable} of the ${fallbackPlayable} videos ${ownerLabel(owner)} supplies — ` +
+            `keeping the source-authored list`,
+        );
+        resulting.push(...fallback);
+        derivedCount += fallback.length;
+        continue;
       }
+
+      // Taking the TMDB list means the source-authored seed is no longer this
+      // series' metadata. It is left on disk rather than deleted: it is what
+      // the series falls back to if the TMDB match is ever removed.
+      flipped += 1;
+      console.log(
+        `  ${source.slug}: ${outcome.playable} of ${countEpisodes(cache)} TMDB episodes matched ` +
+          `(was ${fallbackPlayable} from ${ownerLabel(owner)})`,
+      );
     }
+
+    resulting.push(...outcome.episodes);
+    queue.push(...outcome.queue);
+    matchedCount += outcome.episodes.length;
   }
 
-  const episodes = [...preserved, ...derived, ...added].sort(
+  const episodes = resulting.sort(
     (a, b) => a.seriesId - b.seriesId || a.season - b.season || a.episode - b.episode,
   );
 
@@ -399,12 +567,20 @@ function main(): void {
   writeJson(contentPath('episodes.json'), episodesFileSchema.parse(episodes));
   writeJson(contentPath('queue.json'), queueFileSchema.parse(queue));
 
-  const attempted = added.length + queue.length;
-  const rate = attempted > 0 ? Math.round((added.length / attempted) * 100) : 0;
+  const playable = episodes.filter((ep) => isPlayable(ep)).length;
+  const alternates = episodes.filter((ep) => ep.videos.length > 1).length;
   console.log(
-    (derived.length > 0 ? `took ${derived.length} episodes straight from playlists, ` : '') +
-      `matched ${added.length} automatically, queued ${queue.length} for review (${rate}% automatic)`,
+    `${episodes.length} episode records — ${playable} playable, ${alternates} with a second source.\n` +
+      `  ${matchedCount} from TMDB-led matching across ${flipped} series, ` +
+      `${derivedCount} straight from curated sources, ${queue.length} queued for review.` +
+      (heldBack > 0
+        ? `\n  ${heldBack} series kept their source-authored list because TMDB-led matching would have lost episodes.`
+        : ''),
   );
 }
+
+/** How many episodes a resolved list actually holds. */
+const countEpisodes = (cache: TmdbSeriesCache): number =>
+  cache.seasons.reduce((total, season) => total + season.episodes.length, 0);
 
 main();

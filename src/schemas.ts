@@ -52,56 +52,51 @@ export const episodeSourceSchema = z.object({
   id: z.string().min(1),
 });
 
+/**
+ * One upload of an episode.
+ *
+ * The invariants the old single-video shape enforced across a record now live
+ * here, where they are simpler: a video row always *has* a video, so there is
+ * no "id set but status says missing" contradiction left to check. What
+ * remains is the one claim that can still go wrong — a reading of audio tracks
+ * has to belong to a video somebody can open.
+ */
+export const episodeVideoSchema = z.object({
+  youtubeId: youtubeIdSchema,
+  source: episodeSourceSchema,
+  status: episodeStatusSchema,
+  checkedAt: z.string().min(1),
+  // Defaulted rather than required: every record written before the audio
+  // scan existed lacks the key, and those are decisions the archive keeps.
+  // Null reads as 'not looked up yet', which is exactly what they are.
+  audioLanguages: z.array(contentLanguageSchema).nullable().default(null),
+});
+
 export const episodeSchema = z
   .object({
     tmdbEpisodeId: tmdbIdSchema,
     seriesId: tmdbIdSchema,
     season: z.number().int().nonnegative(),
     episode: z.number().int().positive(),
-    youtubeId: youtubeIdSchema.nullable(),
-    status: episodeStatusSchema,
-    checkedAt: z.string().min(1),
-    source: episodeSourceSchema.nullable(),
-    // Defaulted rather than required: every record written before the audio
-    // scan existed lacks the key, and those are decisions the archive keeps.
-    // Null reads as 'not looked up yet', which is exactly what they are.
-    audioLanguages: z.array(contentLanguageSchema).nullable().default(null),
+    videos: z.array(episodeVideoSchema),
   })
   .superRefine((ep, ctx) => {
-    // The spec's headline invariant: a non-null id with status 'missing' is
-    // incoherent — either the video exists and plays, or the row is a gap.
-    if (ep.status === 'missing' && ep.youtubeId !== null) {
+    // One row per upload. The same video listed twice for one episode would
+    // offer the viewer a choice between a thing and itself, and would double
+    // that episode's weight in the schedule.
+    const seen = new Map<string, number>();
+    ep.videos.forEach((video, index) => {
+      const first = seen.get(video.youtubeId);
+      if (first === undefined) {
+        seen.set(video.youtubeId, index);
+        return;
+      }
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ['youtubeId'],
-        message: `status is 'missing' but youtubeId is '${ep.youtubeId}' — a missing episode has no video`,
+        path: ['videos', index, 'youtubeId'],
+        message: `video '${video.youtubeId}' is listed twice for this episode (also at index ${first})`,
       });
-    }
-    if (ep.status !== 'missing' && ep.youtubeId === null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['youtubeId'],
-        message: `status is '${ep.status}' but youtubeId is null — only 'missing' episodes may lack a video`,
-      });
-    }
-    // Provenance tracks the video, so the two are present or absent together.
-    if ((ep.youtubeId === null) !== (ep.source === null)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['source'],
-        message: 'youtubeId and source must both be set or both be null',
-      });
-    }
-    // Audio tracks describe a video. A row that lost its video keeps no
-    // reading of one, or the health check would leave a claim about a file
-    // nobody can play behind.
-    if (ep.youtubeId === null && ep.audioLanguages !== null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['audioLanguages'],
-        message: 'youtubeId is null but audioLanguages is set — a row with no video has no tracks',
-      });
-    }
+    });
   });
 
 export const episodesFileSchema = z.array(episodeSchema).superRefine((all, ctx) => {
@@ -332,6 +327,10 @@ export const historicalSeriesSeedsFileSchema = z
   .array(historicalSeriesSeedSchema)
   .refine((all) => new Set(all.map((seed) => seed.tmdbId)).size === all.length, 'duplicate historical series id');
 
+/** IMDb title ids are `tt` followed by at least seven digits. Validated rather
+ * than trusted because it is interpolated straight into a link. */
+export const imdbIdSchema = z.string().regex(/^tt\d{7,}$/, 'an IMDb id looks like tt0123456');
+
 export const tmdbSeriesMetadataSchema = z.object({
   tmdbId: z.number().int().positive(),
   name: z.string().min(1),
@@ -342,6 +341,7 @@ export const tmdbSeriesMetadataSchema = z.object({
   backdrop: z.string().startsWith('/').nullable(),
   poster: z.string().startsWith('/').nullable(),
   genres: z.array(z.string().min(1)),
+  imdbId: imdbIdSchema.nullable().optional(),
 });
 
 export const tmdbMetadataFileSchema = z.object({
@@ -554,18 +554,53 @@ export const queueFileSchema = z.array(queueEntrySchema);
 /* Public outputs                                                      */
 /* ------------------------------------------------------------------ */
 
-export const publicEpisodeSchema = z.object({
-  season: z.number().int().nonnegative(),
-  episode: z.number().int().positive(),
-  title: z.string().min(1),
-  airDate: z.string().nullable(),
-  runtime: z.number().int().positive().nullable(),
+export const publicEpisodeSourceSchema = z.object({
+  youtubeId: youtubeIdSchema,
+  kind: z.enum(['channel', 'playlist', 'video']),
+  label: z.string().min(1),
   status: episodeStatusSchema,
-  youtubeId: youtubeIdSchema.nullable(),
-  still: z.string().startsWith('/').nullable(),
   defaultAudioLanguage: contentLanguageSchema.nullable(),
   audioLanguages: z.array(contentLanguageSchema),
 });
+
+export const publicEpisodeSchema = z
+  .object({
+    season: z.number().int().nonnegative(),
+    episode: z.number().int().positive(),
+    title: z.string().min(1),
+    airDate: z.string().nullable(),
+    runtime: z.number().int().positive().nullable(),
+    status: episodeStatusSchema,
+    youtubeId: youtubeIdSchema.nullable(),
+    still: z.string().startsWith('/').nullable(),
+    sources: z.array(publicEpisodeSourceSchema),
+    imdbId: imdbIdSchema.nullable(),
+    defaultAudioLanguage: contentLanguageSchema.nullable(),
+    audioLanguages: z.array(contentLanguageSchema),
+  })
+  .superRefine((ep, ctx) => {
+    // The app reads `youtubeId` to decide whether to draw a player and
+    // `sources` to decide whether to draw a picker. If those two disagreed the
+    // page would offer a choice it cannot honour, or play a video it claims
+    // not to have.
+    if ((ep.youtubeId === null) !== (ep.sources.length === 0)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['sources'],
+        message:
+          `youtubeId is ${ep.youtubeId === null ? 'null' : `'${ep.youtubeId}'`} but sources has ` +
+          `${ep.sources.length} entries — a playable episode has sources and a gap has none`,
+      });
+    }
+    // The default is the head of the list, not a separate choice.
+    if (ep.youtubeId !== null && ep.sources[0]?.youtubeId !== ep.youtubeId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['sources', 0],
+        message: `sources[0] must be the episode's own youtubeId '${ep.youtubeId}'`,
+      });
+    }
+  });
 
 export const publicSeasonSchema = z.object({
   season: z.number().int().nonnegative(),
@@ -576,6 +611,8 @@ export const publicSeasonSchema = z.object({
 export const seriesFileSchema = z.object({
   slug: slugSchema,
   tmdbId: tmdbIdSchema,
+  tmdbRealId: z.number().int().positive().nullable(),
+  imdbId: imdbIdSchema.nullable(),
   name: z.string().min(1),
   overview: z.string(),
   networkSlug: slugSchema,

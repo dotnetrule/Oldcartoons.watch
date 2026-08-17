@@ -27,12 +27,15 @@ import {
   writeJson,
 } from './lib/paths';
 import {
+  getExternalIds,
   getImages,
   getSeriesDetail,
+  hasTmdbCredential,
   searchSeries,
   type TmdbImage,
   type TmdbSeriesSearchResult,
 } from './lib/tmdb';
+import { SERIES_MAX_FIRST_AIR_YEAR, isSeriesInScope } from './lib/cutoff';
 
 type Identity = {
   placeholderId: number;
@@ -231,10 +234,11 @@ function bestImage(images: TmdbImage[]): string | null {
 }
 
 async function fetchMetadata(tmdbId: number): Promise<TmdbSeriesMetadata> {
-  const [localized, english, images] = await Promise.all([
+  const [localized, english, images, externalIds] = await Promise.all([
     getSeriesDetail(tmdbId, 'nl-NL'),
     getSeriesDetail(tmdbId, 'en-US'),
     getImages(tmdbId),
+    getExternalIds(tmdbId),
   ]);
 
   return {
@@ -247,6 +251,11 @@ async function fetchMetadata(tmdbId: number): Promise<TmdbSeriesMetadata> {
     backdrop: bestImage(images.backdrops) || localized.backdrop_path || english.backdrop_path,
     poster: localized.poster_path || english.poster_path || bestImage(images.posters),
     genres: (localized.genres?.length ? localized.genres : english.genres)?.map((genre) => genre.name) ?? [],
+    // TMDB is the only place this archive asks about IMDb. There is no free
+    // IMDb API, and TMDB already holds the mapping — so every IMDb link on the
+    // site is built from an id that arrived with the metadata, and no second
+    // credential is needed to make one.
+    imdbId: externalIds.imdb_id || null,
   };
 }
 
@@ -293,6 +302,20 @@ async function main(): Promise<void> {
   for (const source of sources) {
     if (args.removals.has(source.slug)) delete matches[String(source.tmdbId)];
   }
+
+  // A removal is a decision that needs no network, so it is applied and saved
+  // even on a machine that cannot reach TMDB. Everything past this point does
+  // need a credential.
+  if (!hasTmdbCredential()) {
+    const output: TmdbMetadataFile = { fetchedAt: current.fetchedAt, matches };
+    if (!args.dryRun && args.removals.size > 0) writeJson(METADATA_PATH, output);
+    console.log(
+      'no TMDB credential set — leaving content/tmdb-metadata.json as committed.\n' +
+        '  The archive builds from it either way; set TMDB_API_TOKEN to refresh or extend it.',
+    );
+    return;
+  }
+
   const targeted = args.explicitMatches.size > 0 || args.removals.size > 0;
   const selected = sources.filter(
     (source) =>
@@ -300,7 +323,24 @@ async function main(): Promise<void> {
       (!args.only || args.only.has(source.slug)) &&
       (!targeted || args.explicitMatches.has(source.slug)),
   );
-  const identities = selected.map((source) => readIdentity(source, historicalById));
+  const identities = selected
+    .map((source) => readIdentity(source, historicalById))
+    // The era gate, applied before a single request is made. A series that
+    // began after the ceiling is not part of this archive, so nothing is spent
+    // discovering what TMDB thinks of it. Anything it already has is left
+    // exactly where it is — this decides where effort goes, not what exists.
+    .filter((identity) => {
+      if (isSeriesInScope(identity.firstAirYear)) return true;
+      if (args.explicitMatches.has(identity.slug)) return true;
+      return false;
+    });
+
+  const outOfPeriod = selected.length - identities.length;
+  if (outOfPeriod > 0) {
+    console.log(
+      `  ${outOfPeriod} series first aired after ${SERIES_MAX_FIRST_AIR_YEAR} — outside the archive's period, not looked up`,
+    );
+  }
   let matched = 0;
   let unmatched = 0;
 

@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUiStore } from '../stores/ui';
 import { useContentStore } from '../stores/content';
 import CoverImage from '../components/CoverImage.vue';
 import SeriesStatusDot from '../components/SeriesStatusDot.vue';
-import { episodeCountLabel, formatAirDate, pad2, yearRangeLabel } from '../data/helpers';
+import {
+  episodeCountLabel,
+  formatAirDate,
+  imdbEpisodeUrl,
+  imdbSeriesUrl,
+  pad2,
+  tmdbSeriesUrl,
+  yearRangeLabel,
+} from '../data/helpers';
 import {
   seriesArchiveStatus,
   seriesArchiveStatusLabel,
@@ -48,13 +56,20 @@ const network = computed(() => {
 const colour = computed(() => (network.value ? ui.netColour(network.value) : C.value.dim));
 const seasons = computed(() => series.value?.seasons ?? []);
 
-const activeSeasonIdx = ref(0);
-watch(
-  () => props.slug,
-  () => {
-    activeSeasonIdx.value = 0;
-  },
-);
+/**
+ * Where this show can be read about elsewhere.
+ *
+ * Null for a series nobody has matched upstream, which is most of the
+ * catalogue: a title lifted from a Dutch TV guide often has no TMDB entry at
+ * all. The links are simply absent then rather than pointing at a search.
+ */
+const tmdbUrl = computed(() => tmdbSeriesUrl(series.value?.tmdbRealId ?? null));
+const imdbUrl = computed(() => imdbSeriesUrl(series.value?.imdbId ?? null));
+
+/** The episode's own IMDb page when known, otherwise the show's episode list
+ * opened at that season — see `imdbEpisodeUrl`. */
+const episodeImdbUrl = (episode: PublicEpisode): string | null =>
+  imdbEpisodeUrl(episode.imdbId, series.value?.imdbId ?? null, episode.season);
 
 const yearsLabel = computed(() =>
   series.value ? yearRangeLabel(series.value.firstAirYear, series.value.lastAirYear) : '',
@@ -96,7 +111,13 @@ const sourceSearchMessage = computed(() => {
   }
 });
 
-const episodes = computed<PublicEpisode[]>(() => seasons.value[activeSeasonIdx.value]?.episodes ?? []);
+/**
+ * Whether to draw a season heading at all.
+ *
+ * A single-season show has nothing to divide, and a lone "Seizoen 1" above one
+ * list is a label rather than a signpost.
+ */
+const showSeasonHeadings = computed(() => seasons.value.length > 1);
 
 const nextBroadcast = computed<{ broadcast: Broadcast; channel: BroadcastChannel } | null>(() => {
   if (!series.value) return null;
@@ -209,6 +230,24 @@ function reportUrl(episode: PublicEpisode): string {
             <SeriesStatusDot :status="archiveStatus" :label="archiveStatusLabel" />
             {{ archiveStatusLabel }}
           </span>
+          <!-- Absent rather than guessed for a series nobody has matched
+               upstream, which is most of the catalogue. -->
+          <span v-if="tmdbUrl || imdbUrl" class="hero-links">
+            <a
+              v-if="tmdbUrl"
+              :href="tmdbUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="`${series.name} op TMDB`"
+            >TMDB ↗</a>
+            <a
+              v-if="imdbUrl"
+              :href="imdbUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="`${series.name} op IMDb`"
+            >IMDb ↗</a>
+          </span>
         </div>
       </div>
     </div>
@@ -272,50 +311,66 @@ function reportUrl(episode: PublicEpisode): string {
       </button>
     </div>
 
-    <div v-if="seasons.length > 1" class="season-tabs">
-      <button
-        v-for="(sea, idx) in seasons"
-        :key="sea.season"
-        class="chip"
-        :style="{
-          background: idx === activeSeasonIdx ? C.ink : 'transparent',
-          color: idx === activeSeasonIdx ? C.chipFg : C.dim,
-          borderColor: C.border2,
-        }"
-        @click="activeSeasonIdx = idx"
-      >
-        {{ sea.name }}
-      </button>
-    </div>
-
+    <!-- One list, however many seasons. A season is a heading you scroll past,
+         not a tab you switch between: the archive's whole point is showing what
+         a show was, and a tab strip hides most of it behind a click and makes
+         the gaps in season four invisible from season one. -->
     <div class="episodes">
-      <div v-for="ep in episodes" :key="`${ep.season}-${ep.episode}`" class="ep-block">
-        <div class="ep-row" :style="{ borderColor: C.border, opacity: isOpenable(ep) ? 1 : 0.55 }">
-          <span class="mono ep-num" :style="{ color: C.dim }">{{ ep.episode }}</span>
-          <button
-            type="button"
-            class="ep-title"
-            :disabled="!isOpenable(ep)"
-            :style="{ color: C.ink, cursor: isOpenable(ep) ? 'pointer' : 'default' }"
-            @click="goEpisode(ep)"
-          >{{ ep.title }}</button>
-          <span class="mono ep-meta" :style="{ color: C.dim }">
-            {{ ep.runtime ? `${ep.runtime} min · ` : '' }}{{ formatAirDate(ep.airDate) }}
-          </span>
-          <span
-            class="mono ep-tag"
-            :style="{ color: isLocked ? C.dim : tagFor(ep).colour }"
-          >{{ isLocked ? AGE_COPY.locked : tagFor(ep).label }}</span>
+      <template v-for="sea in seasons" :key="sea.season">
+        <h2
+          v-if="showSeasonHeadings"
+          class="mono season-heading"
+          :style="{ color: C.dim, background: C.bg, borderColor: C.border2 }"
+        >
+          {{ sea.name }}
+          <span class="season-count">{{ sea.episodes.length }} afl.</span>
+        </h2>
+        <div v-for="ep in sea.episodes" :key="`${ep.season}-${ep.episode}`" class="ep-block">
+          <div class="ep-row" :style="{ borderColor: C.border, opacity: isOpenable(ep) ? 1 : 0.55 }">
+            <span class="mono ep-num" :style="{ color: C.dim }">{{ ep.episode }}</span>
+            <button
+              type="button"
+              class="ep-title"
+              :disabled="!isOpenable(ep)"
+              :style="{ color: C.ink, cursor: isOpenable(ep) ? 'pointer' : 'default' }"
+              @click="goEpisode(ep)"
+            >{{ ep.title }}</button>
+            <span class="mono ep-meta" :style="{ color: C.dim }">
+              {{ ep.runtime ? `${ep.runtime} min · ` : '' }}{{ formatAirDate(ep.airDate) }}
+            </span>
+            <!-- More than one upload is worth advertising on the row, but the
+                 choosing happens in the player where the video is. -->
+            <span
+              v-if="ep.sources.length > 1"
+              class="mono ep-sources"
+              :style="{ color: C.dim, borderColor: C.border2 }"
+              :title="`${ep.sources.length} bronnen — kies er een in de speler`"
+            >{{ ep.sources.length }} BRONNEN</span>
+            <a
+              v-if="episodeImdbUrl(ep)"
+              class="mono ep-imdb"
+              :href="episodeImdbUrl(ep)!"
+              target="_blank"
+              rel="noopener noreferrer"
+              :style="{ color: C.dim }"
+              :aria-label="`Bekijk S${pad2(ep.season)}E${pad2(ep.episode)} — ${ep.title} op IMDb`"
+              @click.stop
+            >IMDb ↗</a>
+            <span
+              class="mono ep-tag"
+              :style="{ color: isLocked ? C.dim : tagFor(ep).colour }"
+            >{{ isLocked ? AGE_COPY.locked : tagFor(ep).label }}</span>
+          </div>
+          <!-- The gap is information: a missing episode keeps its row, title and
+               air date, and says plainly that no upload was found. -->
+          <div v-if="!isPlayable(ep)" class="ep-report" :style="{ color: C.dim }">
+            {{ COPY.missingNote }}
+            <a :href="reportUrl(ep)" target="_blank" rel="noopener noreferrer">
+              Werkende link melden ↗
+            </a>
+          </div>
         </div>
-        <!-- The gap is information: a missing episode keeps its row, title and
-             air date, and says plainly that no upload was found. -->
-        <div v-if="!isPlayable(ep)" class="ep-report" :style="{ color: C.dim }">
-          {{ COPY.missingNote }}
-          <a :href="reportUrl(ep)" target="_blank" rel="noopener noreferrer">
-            Werkende link melden ↗
-          </a>
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -382,6 +437,27 @@ function reportUrl(episode: PublicEpisode): string {
 
 .hero-genres {
   margin-left: 8px;
+}
+
+.hero-links {
+  display: inline-flex;
+  gap: 10px;
+  margin-left: 8px;
+  /* The rest of .hero-text is click-through so the backdrop reads as one
+     image; these are the only things on it anybody can follow. */
+  pointer-events: auto;
+}
+
+.hero-links a {
+  color: #d8dce4;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(216, 220, 228, 0.4);
+}
+
+.hero-links a:hover,
+.hero-links a:focus-visible {
+  color: #f3ecdd;
+  border-bottom-color: #f3ecdd;
 }
 
 .synopsis {
@@ -507,10 +583,38 @@ function reportUrl(episode: PublicEpisode): string {
   opacity: 0.6;
 }
 
-.season-tabs {
+/* Sticky so the season you are reading names itself the whole way down. A show
+   with two hundred episodes is otherwise a wall of titles with no sense of
+   where you are in it. */
+.season-heading {
+  position: sticky;
+  /* Clears the app's own sticky chrome, which is also pinned to the top — see
+     `--ntv-chrome-height` in App.vue. Without the offset these scroll behind
+     the channel strip and are never actually seen. */
+  top: var(--ntv-chrome-height, 0px);
+  /* Below the chrome's own z-index of 50, so the bar always wins. */
+  z-index: 1;
   display: flex;
-  gap: 6px;
-  padding: 16px 24px 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 10px 8px 8px;
+  border-bottom: 1px solid;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.season-heading:first-child {
+  margin-top: 0;
+}
+
+.season-count {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
 }
 
 .chip {
@@ -562,6 +666,32 @@ function reportUrl(episode: PublicEpisode): string {
 .ep-meta {
   font-size: 12px;
   white-space: nowrap;
+}
+
+.ep-sources {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  padding: 2px 6px;
+  border: 1px solid;
+  border-radius: 2px;
+}
+
+/* Its own target, not part of the title button: following it must not also
+   open the episode. */
+.ep-imdb {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 120ms ease;
+}
+
+.ep-imdb:hover,
+.ep-imdb:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 .ep-tag {
@@ -634,12 +764,6 @@ function reportUrl(episode: PublicEpisode): string {
     align-self: flex-start;
   }
 
-  .season-tabs {
-    padding: 14px 14px 0;
-    flex-wrap: wrap;
-    row-gap: 6px;
-  }
-
   .episodes {
     padding: 14px 14px 32px;
   }
@@ -660,6 +784,13 @@ function reportUrl(episode: PublicEpisode): string {
     flex: 1 1 auto;
     margin-left: 32px;
     white-space: normal;
+  }
+
+  /* Both sit on the metadata line rather than claiming a column of their own,
+     which there is no room for at this width. */
+  .ep-sources,
+  .ep-imdb {
+    flex: none;
   }
 
   /* The 130px reservation only earns its keep when the tags column-align. */
