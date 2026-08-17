@@ -51,6 +51,27 @@ jobs:
 
       - run: npm ci
 
+      # What makes the fetch skip in scripts/lib/freshness.ts mean anything.
+      #
+      # `data/` is gitignored and a runner starts empty, so without this every
+      # source would look unfetched on every run and the skip would never fire.
+      # Restoring the dumps is also what makes skipping *safe*: `match` reads
+      # `data/youtube/`, and a run that skipped the fetch without them would
+      # have nothing to derive episodes from.
+      #
+      # The key carries the run id so each run saves its own entry — a cache
+      # entry is immutable once written, so a fixed key would freeze the first
+      # dump of the day forever. `restore-keys` is what actually finds the
+      # previous one, newest first.
+      - name: Restore fetched source dumps
+        uses: actions/cache@v4
+        with:
+          path: data
+          key: ingest-data-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            ingest-data-${{ github.ref_name }}-
+            ingest-data-
+
       # Attribution for any playlist whitelisted from its id alone. Optional:
       # an unreachable playlist keeps its null and the ingest carries on.
       - name: Resolve playlist attribution

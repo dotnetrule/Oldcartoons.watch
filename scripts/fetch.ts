@@ -23,6 +23,7 @@ import {
   youtubeCachePath,
 } from './lib/paths';
 import { getImages, getSeason, getSeriesDetail, type TmdbSeriesCache } from './lib/tmdb';
+import { DEFAULT_MAX_AGE_HOURS, freshnessLabel, isFresh } from './lib/freshness';
 import {
   getUploadsPlaylistId,
   listPlaylistVideos,
@@ -47,7 +48,7 @@ export type YoutubeSourceCache = {
  * series it fills in is the only name it has. */
 const videoSetCacheId = (slug: string): string => `videoset-${slug}`;
 
-async function fetchYoutube(): Promise<void> {
+async function fetchYoutube(maxAgeHours: number): Promise<void> {
   const channels = readValidated(contentPath('channels.json'), channelsFileSchema);
   const playlists = readValidated(contentPath('playlists.json'), playlistsFileSchema);
   const videoSets = readValidated(contentPath('videos.json'), videoSetsFileSchema);
@@ -58,6 +59,12 @@ async function fetchYoutube(): Promise<void> {
   }
 
   for (const channel of channels) {
+    const cachePath = youtubeCachePath(channel.id);
+    if (isFresh(cachePath, maxAgeHours)) {
+      console.log(`  channel ${channel.name}: cached ${freshnessLabel(cachePath)} — skipping`);
+      continue;
+    }
+
     let videos: YoutubeVideo[];
     try {
       const uploads = await getUploadsPlaylistId(channel.id);
@@ -89,6 +96,14 @@ async function fetchYoutube(): Promise<void> {
   // same per-page cost. Only the recorded provenance differs, and that is what
   // lets a rotting source be identified and dropped as a unit later.
   for (const playlist of playlists) {
+    const cachePath = youtubeCachePath(playlist.id);
+    if (isFresh(cachePath, maxAgeHours)) {
+      console.log(
+        `  playlist ${playlist.name ?? playlist.id}: cached ${freshnessLabel(cachePath)} — skipping`,
+      );
+      continue;
+    }
+
     let videos: YoutubeVideo[];
     try {
       videos = await listPlaylistVideos(playlist.id);
@@ -120,6 +135,12 @@ async function fetchYoutube(): Promise<void> {
   // to nothing is reported and skipped: numbering an episode around a video
   // nobody can play would ship a row that renders as available and is not.
   for (const set of videoSets) {
+    const cachePath = youtubeCachePath(videoSetCacheId(set.episodesFor));
+    if (isFresh(cachePath, maxAgeHours)) {
+      console.log(`  video set ${set.episodesFor}: cached ${freshnessLabel(cachePath)} — skipping`);
+      continue;
+    }
+
     const resolved = await listVideos(set.videos);
 
     const videos = resolved.filter((video): video is YoutubeVideo => video !== null);
@@ -129,6 +150,19 @@ async function fetchYoutube(): Promise<void> {
         `  video set ${set.episodesFor}: ${missing.length} of ${set.videos.length} could not be read ` +
           `(${missing.join(', ')}) — private, removed or region-blocked from here`,
       );
+    }
+
+    // Every video unreadable is a fact about this run, not about the archive —
+    // the same thing an unreachable channel or playlist says, and it gets the
+    // same answer: leave the previous dump alone. Writing an empty one here
+    // would stamp a failure as a successful read, and the freshness check above
+    // would then decline to retry it for a whole day.
+    if (videos.length === 0 && set.videos.length > 0) {
+      console.warn(
+        `  video set ${set.episodesFor}: none of its ${set.videos.length} videos could be read ` +
+          `— skipping this run, its episodes stay as they were`,
+      );
+      continue;
     }
 
     const cache: YoutubeSourceCache = {
@@ -227,6 +261,36 @@ function parseSeriesFilter(argv: string[]): string[] | null {
   return slugs;
 }
 
+/**
+ * How old a cached dump may be before it is read again, in hours.
+ *
+ * `--force` is the same statement as `--max-age-hours 0` and is spelled out
+ * because that is what a person reaches for. The environment variable exists so
+ * a workflow can set the policy once rather than repeating a flag on every step.
+ */
+function parseMaxAgeHours(argv: string[]): number {
+  if (argv.includes('--force')) return 0;
+
+  const index = argv.findIndex(
+    (arg) => arg === '--max-age-hours' || arg.startsWith('--max-age-hours='),
+  );
+  const raw =
+    index === -1
+      ? process.env.FETCH_MAX_AGE_HOURS
+      : argv[index]?.startsWith('--max-age-hours=')
+        ? argv[index].slice('--max-age-hours='.length)
+        : argv[index + 1];
+
+  if (raw === undefined || raw === '') return DEFAULT_MAX_AGE_HOURS;
+  if (raw.startsWith('--')) throw new Error('--max-age-hours needs a value');
+
+  const hours = Number(raw);
+  if (!Number.isFinite(hours) || hours < 0) {
+    throw new Error(`--max-age-hours needs a non-negative number, got '${raw}'`);
+  }
+  return hours;
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const only = parseSeriesFilter(argv);
@@ -235,6 +299,7 @@ async function main(): Promise<void> {
   // This says so out loud instead of scoping around it with a slug list that
   // has to be kept in step with content/playlists.json.
   const youtubeOnly = argv.includes('--youtube-only');
+  const maxAgeHours = parseMaxAgeHours(argv);
 
   if (youtubeOnly && only) {
     throw new Error('--youtube-only and --series contradict each other: one skips TMDB, the other scopes it');
@@ -242,8 +307,12 @@ async function main(): Promise<void> {
 
   ensureDirs(CONTENT_DIR, TMDB_CACHE_DIR, YOUTUBE_CACHE_DIR);
 
-  console.log('fetching YouTube sources…');
-  await fetchYoutube();
+  console.log(
+    maxAgeHours > 0
+      ? `fetching YouTube sources… (reusing dumps under ${maxAgeHours}h old)`
+      : 'fetching YouTube sources… (--force: ignoring cached dumps)',
+  );
+  await fetchYoutube(maxAgeHours);
 
   if (youtubeOnly) {
     console.log('skipping TMDB (--youtube-only)');
