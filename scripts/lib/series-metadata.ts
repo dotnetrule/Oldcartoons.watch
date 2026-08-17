@@ -133,6 +133,16 @@ export function loadSeriesCache(
  * would replace a working playlist-authored list with an empty one — a series
  * that plays today going dark because an upstream record exists but is bare.
  */
+/**
+ * Whether TMDB owns this series' episode list.
+ *
+ * `match.ts` asks because the answer changes what a playlist means for that
+ * series: it either authors the episode list or supplies candidates to match
+ * into one. `loadSeriesCache` alone cannot say, because it deliberately returns
+ * the same shape whichever source answered.
+ */
+export const isTmdbLed = (source: SeriesSource): boolean => readTmdbEpisodes(source) !== null;
+
 function readTmdbEpisodes(source: SeriesSource): TmdbSeriesCache | null {
   const path = tmdbEpisodesPath(source.tmdbId);
   if (!existsSync(path)) return null;
