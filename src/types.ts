@@ -437,6 +437,26 @@ export type QueueCandidate = {
 /* Public outputs — generated into public/data/, read by the app       */
 /* ------------------------------------------------------------------ */
 
+/**
+ * One upload a viewer can choose between, as the app sees it.
+ *
+ * A flattened, named version of `EpisodeVideo`: the app never learns a source
+ * id, only something it can put in front of a person. The picker in the player
+ * is the only thing that reads this.
+ */
+export type PublicEpisodeSource = {
+  youtubeId: string;
+  /** Where it came from, for the one-line provenance under each choice. */
+  kind: EpisodeSource['kind'];
+  /** What to call this upload: a playlist's title and curator, or a channel's
+   * name. Falls back to something honest when the source was never named. */
+  label: string;
+  status: EpisodeStatus;
+  /** The track that plays without the viewer doing anything. */
+  defaultAudioLanguage: ContentLanguage | null;
+  audioLanguages: ContentLanguage[];
+};
+
 export type PublicEpisode = {
   season: number;
   episode: number;
@@ -449,6 +469,23 @@ export type PublicEpisode = {
   youtubeId: string | null;
   /** TMDB file_path for the episode still. */
   still: string | null;
+  /**
+   * Every upload of this episode, best first, the default at index 0.
+   *
+   * Empty exactly when `youtubeId` is null. One entry is the ordinary case and
+   * the player shows no picker for it; two or more is what the picker exists
+   * for.
+   */
+  sources: PublicEpisodeSource[];
+  /**
+   * This episode's IMDb id, when one is known.
+   *
+   * Null is common and not a failure: TMDB serves these one episode at a time,
+   * so they are gathered by a bounded pass over episodes that have a video. The
+   * app falls back to the series' own IMDb page for the season, so a row always
+   * has somewhere to link.
+   */
+  imdbId: string | null;
   /**
    * The track that plays without the viewer doing anything — the language of
    * the source this episode came from. Null when there is no video.
@@ -471,7 +508,19 @@ export type PublicSeason = {
 /** public/data/series-{slug}.json — fetched on series/episode route entry. */
 export type SeriesFile = {
   slug: string;
+  /** The archive's own id — negative for every series in the catalogue today. */
   tmdbId: number;
+  /**
+   * The real themoviedb.org id behind it, when the series has been matched.
+   *
+   * Kept apart from `tmdbId` because they answer different questions: one keys
+   * the archive's own records, the other builds a link somebody can follow.
+   * Null for a series nobody has matched yet.
+   */
+  tmdbRealId: number | null;
+  /** The series' IMDb id, when TMDB knows one. Also the fallback for building
+   * per-season episode links when an episode has no id of its own. */
+  imdbId: string | null;
   name: string;
   overview: string;
   networkSlug: string;

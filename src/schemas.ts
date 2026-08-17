@@ -554,18 +554,53 @@ export const queueFileSchema = z.array(queueEntrySchema);
 /* Public outputs                                                      */
 /* ------------------------------------------------------------------ */
 
-export const publicEpisodeSchema = z.object({
-  season: z.number().int().nonnegative(),
-  episode: z.number().int().positive(),
-  title: z.string().min(1),
-  airDate: z.string().nullable(),
-  runtime: z.number().int().positive().nullable(),
+export const publicEpisodeSourceSchema = z.object({
+  youtubeId: youtubeIdSchema,
+  kind: z.enum(['channel', 'playlist', 'video']),
+  label: z.string().min(1),
   status: episodeStatusSchema,
-  youtubeId: youtubeIdSchema.nullable(),
-  still: z.string().startsWith('/').nullable(),
   defaultAudioLanguage: contentLanguageSchema.nullable(),
   audioLanguages: z.array(contentLanguageSchema),
 });
+
+export const publicEpisodeSchema = z
+  .object({
+    season: z.number().int().nonnegative(),
+    episode: z.number().int().positive(),
+    title: z.string().min(1),
+    airDate: z.string().nullable(),
+    runtime: z.number().int().positive().nullable(),
+    status: episodeStatusSchema,
+    youtubeId: youtubeIdSchema.nullable(),
+    still: z.string().startsWith('/').nullable(),
+    sources: z.array(publicEpisodeSourceSchema),
+    imdbId: imdbIdSchema.nullable(),
+    defaultAudioLanguage: contentLanguageSchema.nullable(),
+    audioLanguages: z.array(contentLanguageSchema),
+  })
+  .superRefine((ep, ctx) => {
+    // The app reads `youtubeId` to decide whether to draw a player and
+    // `sources` to decide whether to draw a picker. If those two disagreed the
+    // page would offer a choice it cannot honour, or play a video it claims
+    // not to have.
+    if ((ep.youtubeId === null) !== (ep.sources.length === 0)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['sources'],
+        message:
+          `youtubeId is ${ep.youtubeId === null ? 'null' : `'${ep.youtubeId}'`} but sources has ` +
+          `${ep.sources.length} entries — a playable episode has sources and a gap has none`,
+      });
+    }
+    // The default is the head of the list, not a separate choice.
+    if (ep.youtubeId !== null && ep.sources[0]?.youtubeId !== ep.youtubeId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['sources', 0],
+        message: `sources[0] must be the episode's own youtubeId '${ep.youtubeId}'`,
+      });
+    }
+  });
 
 export const publicSeasonSchema = z.object({
   season: z.number().int().nonnegative(),
@@ -576,6 +611,8 @@ export const publicSeasonSchema = z.object({
 export const seriesFileSchema = z.object({
   slug: slugSchema,
   tmdbId: tmdbIdSchema,
+  tmdbRealId: z.number().int().positive().nullable(),
+  imdbId: imdbIdSchema.nullable(),
   name: z.string().min(1),
   overview: z.string(),
   networkSlug: slugSchema,
