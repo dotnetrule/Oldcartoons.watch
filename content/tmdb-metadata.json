@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-13T19:55:53.500Z",
+  "fetchedAt": "2026-08-17T07:07:16.723Z",
   "matches": {
     "-1": {
       "tmdbId": 19240,
@@ -10,7 +10,8 @@
       "lastAirDate": "1976-01-04",
       "backdrop": "/7bdIDN5CuMx46MWCkBnXwna1gI4.jpg",
       "poster": "/2t5dyEhgg2rcSRVhrDtV4ssEFmo.jpg",
-      "genres": []
+      "genres": [],
+      "imdbId": "tt0243086"
     },
     "-3": {
       "tmdbId": 10583,
@@ -23,7 +24,8 @@
       "poster": "/mQcwiJBo7OALSBV9cLOVTZgsfkU.jpg",
       "genres": [
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0224947"
     },
     "-4": {
       "tmdbId": 7768,
@@ -39,7 +41,8 @@
         "Action & Adventure",
         "Drama",
         "Animatie"
-      ]
+      ],
+      "imdbId": "tt0078692"
     },
     "-5": {
       "tmdbId": 91841,
@@ -52,7 +55,8 @@
       "poster": "/6CculGQ5g5hpzx2MCcfaScK6Jhy.jpg",
       "genres": [
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0299401"
     },
     "-6": {
       "tmdbId": 61564,
@@ -65,7 +69,8 @@
       "poster": "/oJvYWuL94S4n6KAICe0sexYp3UL.jpg",
       "genres": [
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0235936"
     },
     "-7": {
       "tmdbId": 931,
@@ -81,7 +86,8 @@
         "Animatie",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0126158"
     },
     "-8": {
       "tmdbId": 4035,
@@ -98,7 +104,8 @@
         "Kids",
         "Action & Adventure",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0085033"
     },
     "-9": {
       "tmdbId": 720,
@@ -115,7 +122,8 @@
         "Sci-Fi & Fantasy",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0092345"
     },
     "-10": {
       "tmdbId": 160,
@@ -131,7 +139,8 @@
         "Animatie",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0131613"
     },
     "-11": {
       "tmdbId": 12080,
@@ -145,7 +154,8 @@
       "genres": [
         "Kids",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0176374"
     },
     "-12": {
       "tmdbId": 66191,
@@ -159,7 +169,8 @@
       "genres": [
         "Kids",
         "Drama"
-      ]
+      ],
+      "imdbId": "tt0233095"
     },
     "-13": {
       "tmdbId": 478,
@@ -175,7 +186,8 @@
         "Action & Adventure",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0098763"
     },
     "-14": {
       "tmdbId": 33088,
@@ -188,11 +200,12 @@
       "poster": "/99kGWN0jMMbFoRWs6SVFk1XicLH.jpg",
       "genres": [
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0155446"
     },
     "-15": {
       "tmdbId": 10797,
-      "name": "キャッ党 忍伝 てやんでえ",
+      "name": "Samurai Pizza Cats",
       "originalName": "キャッ党 忍伝 てやんでえ",
       "overview": "De setting is een Japans ogend dorp genaamd 'Little Tokyo', waar de Pizza Cats een pizza-fastfoodbedrijf runnen. Little Tokyo wordt bevolkt door allerlei dieren. De officiële gouverneur van de stad is de keizer, maar sinds hij gek is geworden, zorgt een raad voor het welzijn van het dorp. Een van de leden van deze raad heet Seymour 'Big' Cheese, die in het geheim de controle over het dorp wil overnemen. Het pizza-afhaalrestaurant is slechts een dekmantel voor hun ware werk... Wanneer het kwaad op de loer ligt, worden de Pizza Cats op het gevaar afgevuurd vanaf de op wapens lijkende klokkentoren die boven uit hun restaurant tevoorschijn komt.",
       "firstAirDate": "1990-02-01",
@@ -204,7 +217,8 @@
         "Komedie",
         "Action & Adventure",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0122834"
     },
     "-16": {
       "tmdbId": 1830,
@@ -220,7 +234,8 @@
         "Komedie",
         "Familie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0098929"
     },
     "-17": {
       "tmdbId": 3022,
@@ -236,7 +251,8 @@
         "Animatie",
         "Kids",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0101188"
     },
     "-18": {
       "tmdbId": 2098,
@@ -252,7 +268,8 @@
         "Animatie",
         "Drama",
         "Mysterie"
-      ]
+      ],
+      "imdbId": "tt0103359"
     },
     "-19": {
       "tmdbId": 926,
@@ -269,7 +286,8 @@
         "Komedie",
         "Familie",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0063950"
     },
     "-20": {
       "tmdbId": 82,
@@ -285,7 +303,8 @@
         "Kids",
         "Komedie",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0105941"
     },
     "-21": {
       "tmdbId": 5687,
@@ -302,7 +321,8 @@
         "Sci-Fi & Fantasy",
         "Kids",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0081933"
     },
     "-22": {
       "tmdbId": 2328,
@@ -317,7 +337,8 @@
         "Action & Adventure",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0106064"
     },
     "-24": {
       "tmdbId": 236623,
@@ -328,7 +349,8 @@
       "lastAirDate": "2003-02-23",
       "backdrop": null,
       "poster": "/65z98yKl5aLwWC1lfpP5MQBJgaD.jpg",
-      "genres": []
+      "genres": [],
+      "imdbId": null
     },
     "-25": {
       "tmdbId": 4229,
@@ -343,7 +365,8 @@
         "Animatie",
         "Komedie",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0115157"
     },
     "-26": {
       "tmdbId": 2405,
@@ -358,7 +381,8 @@
         "Animatie",
         "Komedie",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0118360"
     },
     "-27": {
       "tmdbId": 13687,
@@ -372,7 +396,8 @@
       "genres": [
         "Kids",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0437016"
     },
     "-28": {
       "tmdbId": 8930,
@@ -386,7 +411,8 @@
       "genres": [
         "Komedie",
         "Animatie"
-      ]
+      ],
+      "imdbId": "tt0149545"
     },
     "-29": {
       "tmdbId": 4574,
@@ -402,7 +428,8 @@
         "Sci-Fi & Fantasy",
         "Animatie",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0103584"
     },
     "-30": {
       "tmdbId": 384,
@@ -417,7 +444,8 @@
         "Animatie",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0101084"
     },
     "-32": {
       "tmdbId": 504,
@@ -433,7 +461,8 @@
         "Sci-Fi & Fantasy",
         "Komedie",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0101178"
     },
     "-33": {
       "tmdbId": 607,
@@ -450,7 +479,8 @@
         "Komedie",
         "Kids",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0175058"
     },
     "-34": {
       "tmdbId": 251,
@@ -464,7 +494,8 @@
       "genres": [
         "Animatie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0297494"
     },
     "-35": {
       "tmdbId": 416,
@@ -481,7 +512,8 @@
         "Komedie",
         "Action & Adventure",
         "Misdaad"
-      ]
+      ],
+      "imdbId": "tt0294097"
     },
     "-36": {
       "tmdbId": 334,
@@ -495,7 +527,8 @@
       "genres": [
         "Animatie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0278877"
     },
     "-37": {
       "tmdbId": 1762,
@@ -510,11 +543,12 @@
         "Animatie",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0289036"
     },
     "-38": {
       "tmdbId": 21175,
-      "name": "マシュランボー",
+      "name": "Shinzo",
       "originalName": "マシュランボー",
       "overview": "Shinzo, known as Mushrambo in Japan, is an anime produced by Toei Animation and based on the Chinese legend Journey to the West. In the series, creatures known as Enterrans take over Earth and rename it in their own image: Enterra. Now three Enterrans have to protect the last human in order to restore the human race. The anime focuses primarily on the adventures they undergo while working to accomplish this task.",
       "firstAirDate": "2000-02-05",
@@ -525,11 +559,12 @@
         "Animatie",
         "Sci-Fi & Fantasy",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0293741"
     },
     "-39": {
       "tmdbId": 8908,
-      "name": "時空探偵ゲンシクン",
+      "name": "Flint the Time Detective",
       "originalName": "時空探偵ゲンシクン",
       "overview": "Tijd dief Petra Fina reist met haar twee 25e-eeuwse assistenten door de tijd om de geschiedenis voor de Heer van het Duister te verknoeien en de Tijdengelen te stelen die door de tijd verspreid zijn. Op een van hun reizen naar het stenen tijdperk ontmoeten ze Flint Hammerhead en zijn vader, die ze in steen veranderen om een engel van hen te nemen. In de 25e eeuw worden de twee mensen uit het stenen tijdperk opnieuw opgegraven en nieuw leven ingeblazen door Bernie Goodman in de tijdpolitie. Dit geeft Flint bovenmenselijke kracht, terwijl zijn vader een sprekende steen blijft en hem in de toekomst als hamer zal dienen.",
       "firstAirDate": "1998-10-01",
@@ -543,7 +578,8 @@
         "Mysterie",
         "Sci-Fi & Fantasy",
         "Misdaad"
-      ]
+      ],
+      "imdbId": "tt0238782"
     },
     "-40": {
       "tmdbId": 1767,
@@ -559,11 +595,12 @@
         "Animatie",
         "Familie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0103373"
     },
     "-41": {
       "tmdbId": 11235,
-      "name": "メダロット",
+      "name": "Medabots",
       "originalName": "メダロット",
       "overview": "Medabots speelt zich af in de nabije toekomst en draait om de supergeladen strijdavonturen van een groep kinderen en hun huisdierenrobots. Gevoed door kunstmatige intelligentie en een gespecialiseerd arsenaal aan krachtige wapens, strijden Medabots tegen elkaar in spannende Robattles, waarbij de winnaars Medaparts overnemen van de verslagen Medabot.",
       "firstAirDate": "1999-07-02",
@@ -576,7 +613,8 @@
         "Action & Adventure",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0293731"
     },
     "-42": {
       "tmdbId": 31654,
@@ -591,11 +629,12 @@
         "Animatie",
         "Action & Adventure",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0210418"
     },
     "-43": {
       "tmdbId": 15130,
-      "name": "モンスターファーム",
+      "name": "Monster Rancher",
       "originalName": "モンスターファーム",
       "overview": "Genki is een jongen die graag de Monster Rancher-spellen speelt en op een dag wordt hij getransporteerd naar de wereld van de videogame, waar hij het meisje Holly en de monsters Mochi, Suezo, Golem, Tiger en Hare ontmoet. Samen zoeken ze naar een manier om de Phoenix weer tot leven te wekken, het enige monster dat de kwaadaardige Moo kan tegenhouden.",
       "firstAirDate": "1999-08-30",
@@ -608,7 +647,8 @@
         "Action & Adventure",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0218775"
     },
     "-44": {
       "tmdbId": 11191,
@@ -623,7 +663,8 @@
         "Animatie",
         "Komedie",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0242210"
     },
     "-45": {
       "tmdbId": 63820,
@@ -639,7 +680,8 @@
         "Action & Adventure",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0251514"
     },
     "-46": {
       "tmdbId": 11718,
@@ -653,7 +695,8 @@
       "genres": [
         "Animatie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0283817"
     },
     "-47": {
       "tmdbId": 16821,
@@ -666,7 +709,8 @@
       "poster": "/8G4MwaOQYdeHzpuDJEPPcII5uoa.jpg",
       "genres": [
         "Animatie"
-      ]
+      ],
+      "imdbId": null
     },
     "-48": {
       "tmdbId": 1763,
@@ -681,7 +725,8 @@
         "Drama",
         "Animatie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0286347"
     },
     "-49": {
       "tmdbId": 3898,
@@ -696,11 +741,12 @@
         "Animatie",
         "Sci-Fi & Fantasy",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0098892"
     },
     "-50": {
       "tmdbId": 20494,
-      "name": "昆虫物語みなしごハッチ",
+      "name": "Honeybee Hutch",
       "originalName": "昆虫物語みなしごハッチ",
       "overview": "De kleine Hutchi is sinds zijn geboorte opgevoed door zijn tante en zal op een dag ontdekken dat hij eigenlijk de zoon is van de bijenkoningin, die kort voor de bevalling verdween. De weesprins gaat vervolgens op zoek naar zijn moeder, waar ze ook is, en gaat op avontuur. Hij zal kennis nemen van een vijandige en gevaarlijke omgeving en geconfronteerd worden met veel vreugde en verdriet, en met duizend gevaren, terwijl hij het leven om hem heen ontdekt.",
       "firstAirDate": "1970-04-07",
@@ -710,7 +756,8 @@
       "genres": [
         "Animatie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0179574"
     },
     "-52": {
       "tmdbId": 60572,
@@ -725,7 +772,8 @@
         "Animatie",
         "Action & Adventure",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0168366"
     },
     "-54": {
       "tmdbId": 3518,
@@ -741,7 +789,8 @@
         "Animatie",
         "Komedie",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0166910"
     },
     "-55": {
       "tmdbId": 41729,
@@ -755,7 +804,8 @@
       "genres": [
         "Animatie",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0147743"
     },
     "-57": {
       "tmdbId": 2264,
@@ -770,11 +820,12 @@
         "Kids",
         "Animatie",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0284713"
     },
     "-58": {
       "tmdbId": 10491,
-      "name": "森の陽気な小人たち ベルフィーとリルビット",
+      "name": "The Littl’ Bits",
       "originalName": "森の陽気な小人たち ベルフィーとリルビット",
       "overview": "The Littl' Bits is a Japanese anime television series with 26 episodes, produced in 1980 by Tatsunoko Productions in Japan. First shown on TV Tokyo, its Saban-produced English translation was featured on the children's television station Nick Jr. from 1991 to 1995 alongside other children's anime series such as Adventures of the Little Koala, Maya the Bee, Noozles, The Mysterious Cities of Gold.\n\nDue to their similar size and naming scheme, an analogy is often drawn between the Littl' Bits and the Smurfs.",
       "firstAirDate": "1980-01-07",
@@ -785,7 +836,8 @@
         "Animatie",
         "Kids",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0179584"
     },
     "-61": {
       "tmdbId": 35073,
@@ -800,7 +852,8 @@
         "Animatie",
         "Drama",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0283213"
     },
     "-63": {
       "tmdbId": 369,
@@ -815,7 +868,8 @@
         "Action & Adventure",
         "Kids",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0144296"
     },
     "-64": {
       "tmdbId": 3471,
@@ -831,7 +885,8 @@
         "Sci-Fi & Fantasy",
         "Drama",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0189392"
     },
     "-65": {
       "tmdbId": 105114,
@@ -848,7 +903,8 @@
         "Animatie",
         "Kids",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0112021"
     },
     "-67": {
       "tmdbId": 10079,
@@ -864,7 +920,8 @@
         "Action & Adventure",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0207120"
     },
     "-68": {
       "tmdbId": 4064,
@@ -877,7 +934,8 @@
       "poster": "/jYVS8pFKHoboJYRnetisDn4e3uL.jpg",
       "genres": [
         "Animatie"
-      ]
+      ],
+      "imdbId": "tt0204777"
     },
     "-69": {
       "tmdbId": 4251,
@@ -893,7 +951,8 @@
         "Komedie",
         "Kids",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0112047"
     },
     "-70": {
       "tmdbId": 16953,
@@ -911,7 +970,8 @@
         "Action & Adventure",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0275849"
     },
     "-71": {
       "tmdbId": 3370,
@@ -925,7 +985,8 @@
       "genres": [
         "Animatie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0103408"
     },
     "-72": {
       "tmdbId": 4045,
@@ -940,7 +1001,8 @@
         "Mysterie",
         "Sci-Fi & Fantasy",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0101088"
     },
     "-73": {
       "tmdbId": 5835,
@@ -956,7 +1018,8 @@
         "Mysterie",
         "Kids",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0111987"
     },
     "-74": {
       "tmdbId": 2136,
@@ -971,7 +1034,8 @@
         "Action & Adventure",
         "Kids",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0115674"
     },
     "-75": {
       "tmdbId": 11241,
@@ -985,7 +1049,8 @@
       "genres": [
         "Komedie",
         "Drama"
-      ]
+      ],
+      "imdbId": "tt0124934"
     },
     "-77": {
       "tmdbId": 11041,
@@ -998,7 +1063,8 @@
       "poster": "/4bn9pp0ka0Wk31h9v0A6MRwOsMc.jpg",
       "genres": [
         "Animatie"
-      ]
+      ],
+      "imdbId": "tt0326700"
     },
     "-78": {
       "tmdbId": 1458,
@@ -1013,7 +1079,8 @@
         "Animatie",
         "Kids",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0203254"
     },
     "-80": {
       "tmdbId": 16613,
@@ -1027,7 +1094,8 @@
       "genres": [
         "Animatie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0442647"
     },
     "-81": {
       "tmdbId": 13871,
@@ -1042,7 +1110,8 @@
         "Familie",
         "Animatie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0445882"
     },
     "-82": {
       "tmdbId": 2808,
@@ -1058,7 +1127,8 @@
         "Kids",
         "Komedie",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0283226"
     },
     "-83": {
       "tmdbId": 30623,
@@ -1072,7 +1142,8 @@
       "genres": [
         "Animatie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt12853970"
     },
     "-84": {
       "tmdbId": 4575,
@@ -1087,7 +1158,8 @@
         "Komedie",
         "Kids",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0273366"
     },
     "-85": {
       "tmdbId": 10926,
@@ -1102,7 +1174,8 @@
         "Animatie",
         "Action & Adventure",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0367413"
     },
     "-86": {
       "tmdbId": 69758,
@@ -1116,11 +1189,12 @@
       "genres": [
         "Animatie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0362384"
     },
     "-88": {
       "tmdbId": 902,
-      "name": "遊☆戯☆王デュエルモンスターズ",
+      "name": "Yu-Gi-Oh!",
       "originalName": "遊☆戯☆王デュエルモンスターズ",
       "overview": "Pestkoppen richten zich vaak op iemand die zwak is – iemand die precies op Yûgi Muto lijkt. Hij koestert zijn Millenniumpuzzel, een oud Egyptisch artefact dat naar de spelwinkel van zijn grootvader werd gebracht. In de overtuiging dat het oplossen van de puzzel hem zijn wens zal vervullen, voltooit hij de puzzel en laat hij een nieuwe persoonlijkheid in hem los, de ziel van de 'King of Games'. De nieuwe persoonlijkheid genaamd Yami Yûgi is precies het tegenovergestelde van Yûgi. Bij enig onrecht jegens hem neemt Yami Yûgi het lichaam van Yûgi over en dwingt de tegenstander tot een 'Schaduwspel'.",
       "firstAirDate": "2000-04-18",
@@ -1130,7 +1204,8 @@
       "genres": [
         "Animatie",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0247902"
     },
     "-89": {
       "tmdbId": 17070,
@@ -1145,7 +1220,8 @@
         "Animatie",
         "Komedie",
         "Misdaad"
-      ]
+      ],
+      "imdbId": "tt0367324"
     },
     "-90": {
       "tmdbId": 1570,
@@ -1160,7 +1236,8 @@
         "Animatie",
         "Action & Adventure",
         "Mysterie"
-      ]
+      ],
+      "imdbId": "tt0179552"
     },
     "-91": {
       "tmdbId": 65392,
@@ -1177,7 +1254,8 @@
         "Familie",
         "Western",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0175863"
     },
     "-92": {
       "tmdbId": 16665,
@@ -1191,7 +1269,8 @@
       "genres": [
         "Drama",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0419385"
     },
     "-93": {
       "tmdbId": 2010,
@@ -1205,7 +1284,8 @@
       "genres": [
         "Animatie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0350468"
     },
     "-94": {
       "tmdbId": 17352,
@@ -1219,7 +1299,8 @@
       "genres": [
         "Animatie",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0443301"
     },
     "-95": {
       "tmdbId": 11671,
@@ -1233,7 +1314,8 @@
       "genres": [
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0108949"
     },
     "-96": {
       "tmdbId": 4630,
@@ -1249,7 +1331,8 @@
         "Komedie",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0235918"
     },
     "-98": {
       "tmdbId": 20959,
@@ -1264,7 +1347,8 @@
         "Animatie",
         "Familie",
         "Kids"
-      ]
+      ],
+      "imdbId": null
     },
     "-99": {
       "tmdbId": 2304,
@@ -1278,7 +1362,8 @@
       "genres": [
         "Animatie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0086815"
     },
     "-100": {
       "tmdbId": 35150,
@@ -1292,7 +1377,8 @@
       "genres": [
         "Komedie",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0103357"
     },
     "-101": {
       "tmdbId": 387,
@@ -1307,7 +1393,8 @@
         "Animatie",
         "Komedie",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0206512"
     },
     "-102": {
       "tmdbId": 4345,
@@ -1321,7 +1408,8 @@
       "genres": [
         "Familie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0096694"
     },
     "-103": {
       "tmdbId": 605,
@@ -1336,7 +1424,8 @@
         "Komedie",
         "Familie",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0115341"
     },
     "-104": {
       "tmdbId": 657,
@@ -1351,7 +1440,8 @@
         "Animatie",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0106115"
     },
     "-105": {
       "tmdbId": 2009,
@@ -1367,7 +1457,8 @@
         "Komedie",
         "Familie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0244926"
     },
     "-106": {
       "tmdbId": 1835,
@@ -1382,7 +1473,8 @@
         "Familie",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0115231"
     },
     "-107": {
       "tmdbId": 544,
@@ -1400,7 +1492,8 @@
         "Animatie",
         "Familie",
         "Mysterie"
-      ]
+      ],
+      "imdbId": "tt0122353"
     },
     "-108": {
       "tmdbId": 2129,
@@ -1417,7 +1510,8 @@
         "Sci-Fi & Fantasy",
         "Action & Adventure",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0320808"
     },
     "-109": {
       "tmdbId": 537,
@@ -1433,7 +1527,8 @@
         "Komedie",
         "Drama",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0115200"
     },
     "-112": {
       "tmdbId": 6510,
@@ -1448,7 +1543,8 @@
         "Komedie",
         "Familie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0167567"
     },
     "-113": {
       "tmdbId": 1567,
@@ -1463,7 +1559,8 @@
         "Animatie",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0154061"
     },
     "-114": {
       "tmdbId": 1760,
@@ -1479,7 +1576,8 @@
         "Animatie",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0235911"
     },
     "-115": {
       "tmdbId": 10821,
@@ -1495,7 +1593,8 @@
         "Komedie",
         "Animatie",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0163929"
     },
     "-116": {
       "tmdbId": 79,
@@ -1504,14 +1603,15 @@
       "overview": "De avonturen van Dora de Ontdekker spelen zich af in de Zuid-Amerikaanse jungle. Aapje Boots, haar rugzakje en de zingende kaart helpen haar altijd uit de brand.",
       "firstAirDate": "2000-08-14",
       "lastAirDate": "2019-08-09",
-      "backdrop": "/uEPbIAmsZENHL5B50WNYSyItFjf.jpg",
+      "backdrop": "/4EvgShbukpyeLBu0BKYNCyQi27y.jpg",
       "poster": "/iaJNOSpEQgU4yePsbcC6yxneRNF.jpg",
       "genres": [
         "Action & Adventure",
         "Animatie",
         "Familie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0235917"
     },
     "-117": {
       "tmdbId": 3634,
@@ -1527,7 +1627,8 @@
         "Komedie",
         "Kids",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0417369"
     },
     "-118": {
       "tmdbId": 3320,
@@ -1544,7 +1645,8 @@
         "Action & Adventure",
         "Komedie",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt0147752"
     },
     "-120": {
       "tmdbId": 12225,
@@ -1558,7 +1660,8 @@
       "genres": [
         "Animatie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0426769"
     },
     "-121": {
       "tmdbId": 2005,
@@ -1574,7 +1677,8 @@
         "Animatie",
         "Komedie",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0165052"
     },
     "-31": {
       "tmdbId": 3022,
@@ -1590,7 +1694,8 @@
         "Animatie",
         "Kids",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0101188"
     },
     "-51": {
       "tmdbId": 66695,
@@ -1606,7 +1711,8 @@
         "Kids",
         "Sci-Fi & Fantasy",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0283808"
     },
     "-56": {
       "tmdbId": 2328,
@@ -1621,7 +1727,8 @@
         "Action & Adventure",
         "Sci-Fi & Fantasy",
         "Kids"
-      ]
+      ],
+      "imdbId": "tt0106064"
     },
     "-66": {
       "tmdbId": 208749,
@@ -1637,7 +1744,8 @@
         "Action & Adventure",
         "Kids",
         "Sci-Fi & Fantasy"
-      ]
+      ],
+      "imdbId": "tt1564987"
     },
     "-110": {
       "tmdbId": 2408,
@@ -1654,7 +1762,8 @@
         "Action & Adventure",
         "Kids",
         "Familie"
-      ]
+      ],
+      "imdbId": "tt0167743"
     },
     "-111": {
       "tmdbId": 3579,
@@ -1668,7 +1777,8 @@
       "genres": [
         "Animatie",
         "Komedie"
-      ]
+      ],
+      "imdbId": "tt0131664"
     },
     "-62": {
       "tmdbId": 105121,
@@ -1683,7 +1793,2112 @@
         "Animatie",
         "Komedie",
         "Action & Adventure"
-      ]
+      ],
+      "imdbId": "tt0493191"
+    },
+    "-300": {
+      "tmdbId": 506,
+      "name": "Ace Lightning",
+      "originalName": "Ace Lightning",
+      "overview": "Ace Lightning is een kindertelevisieserie, gecoproduceerd door de BBC en Alliance Atlantis, die zowel in de Verenigde Staten als in het Verenigd Koninkrijk en Australië is uitgezonden. De show werd gefilmd in Canada, maar het programma speelde zich af in Amerika. Het liep twee seizoenen en bracht verschillende boeken voort, waaronder een jaarboek voor het jaar 2003, een activiteitenboek en een aanvulling op de serie. Een computerspel gebaseerd op de show werd uitgebracht in 2002.\n\nHet grootste deel van het programma was live-action, hoewel de helden en schurken uit de videogame zijn gemaakt met behulp van CGI. De primaire focus van de serie is de kracht van vriendschap, evenals de strijd tussen goed en kwaad. De serie is belangrijk omdat er tot de creatie ervan niet in zo'n grote en constante mate met live action en CGI was geprobeerd in een wekelijkse televisieserie.",
+      "firstAirDate": "2002-09-02",
+      "lastAirDate": "2005-05-18",
+      "backdrop": "/6idyf4ZNTiIWK7TVWBZ09kb51u8.jpg",
+      "poster": "/wJnswCLoOk8TzEP5MqBzv9ZUCps.jpg",
+      "genres": [
+        "Komedie",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0309125"
+    },
+    "-301": {
+      "tmdbId": 1887,
+      "name": "Alfred J. Kwak",
+      "originalName": "小さなアヒルの大きな愛の物語 あひるのクワック",
+      "overview": "Alfred Jodocus Kwak wordt geboren als zoon van Johan Sebastiaan Kwak en Anna van de Polder. Vlak na zijn geboorte verliest Alfred zijn ouders en zijn broertjes en zusjes, die worden overreden door een grote auto, wanneer zij vanwege projectontwikkeling de polder waarin zij leefden hebben moeten ontvluchten. Henk de Mol, een goede vriend van de familie Kwak, ontfermt zich over de kleine, gele eend. Onder toezicht van zijn adoptie vader groeit Alfred op in een woonklomp in Groot Waterland. Daarbij beleeft hij een groot aantal avonturen.",
+      "firstAirDate": "1989-04-03",
+      "lastAirDate": "1990-03-29",
+      "backdrop": "/5LBqFGDs3ibLDTVjxQOr6fEYeBt.jpg",
+      "poster": "/AmAj7dvDCf7f2rKQY4zlycFSF7Y.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0098737"
+    },
+    "-142": {
+      "tmdbId": 346,
+      "name": "Disney's American Dragon: Jake Long",
+      "originalName": "American Dragon: Jake Long",
+      "overview": "Animatiereeks over Jake Long die net als zijn voorouders magische wezens moet beschermen tegen de mensen.",
+      "firstAirDate": "2005-01-21",
+      "lastAirDate": "2007-09-01",
+      "backdrop": "/5LU77x2BK2IFn0hhyA8GbqjzMt4.jpg",
+      "poster": "/sAgoJOdvuMa3DD0JDpos9bdaF9S.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Action & Adventure",
+        "Familie",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0429305"
+    },
+    "-226": {
+      "tmdbId": 5373,
+      "name": "Angela Anaconda",
+      "originalName": "Angela Anaconda",
+      "overview": "Een unieke stijl van knipselanimatie vertelt het verhaal van de achtjarige Angela, haar vreemde en wonderlijke vrienden en haar aartsvijand: de snobistische Nanette Manoir.",
+      "firstAirDate": "1999-10-05",
+      "lastAirDate": "2001-11-29",
+      "backdrop": "/9EKmJUscWv9oqV0hkpKCJ88yvzc.jpg",
+      "poster": "/dFp7Qupi4MGVsVvSozo4J9Ton9d.jpg",
+      "genres": [
+        "Kids",
+        "Animatie",
+        "Komedie"
+      ],
+      "imdbId": "tt0224455"
+    },
+    "-302": {
+      "tmdbId": 11335,
+      "name": "Animal Crackers",
+      "originalName": "Animal Crackers",
+      "overview": "Somewhere, deep in the heart of Africa lies the Freedom willife Preserve. It's a haven of unmitigated natural beauty, a sanctuary our cast of neurotic characters call home.",
+      "firstAirDate": "1997-09-07",
+      "lastAirDate": "2003-02-06",
+      "backdrop": "/8GLmA6uI6RQYrMPplqiidfU8OJb.jpg",
+      "poster": "/5W1hB9e1tWTfTrZGfB5atxCMVra.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0283703"
+    },
+    "-303": {
+      "tmdbId": 6636,
+      "name": "Animorphs",
+      "originalName": "Animorphs",
+      "overview": "Five kids are given the power to morph into any creature they wish to help them fight villainous Visser Three and his fellow Yeerks, a breed of parasitic aliens threatening Earth.",
+      "firstAirDate": "1998-09-15",
+      "lastAirDate": "1999-10-08",
+      "backdrop": "/oAtUzdKIoxHyb3jsngYNLwcDDcl.jpg",
+      "poster": "/iRySFvDrJOTW1f1WuE5BlVFXEt7.jpg",
+      "genres": [
+        "Drama",
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0154147"
+    },
+    "-304": {
+      "tmdbId": 2913,
+      "name": "Are You Afraid of the Dark?",
+      "originalName": "Are You Afraid of the Dark?",
+      "overview": "\"The Midnight Society\", is een geheim genootschap dat elke zaterdagnacht in het bos rond een kampvuur bijeenkomt. De groep bestaat uit de tieners Betty-Ann, Eric, Kirsten, David, Kiki, Frank en Gary, die elkaar met bloedstollende verhalen de stuipen op het lijf proberen te jagen. Gary is de leider van het stel, en bepaalt wie zijn verhaal mag vertellen. De uitverkorene gooit vervolgens wat zand in het vuur, geeft een naam aan zijn verzinsel, en de kijker wordt vervolgens getuige van het verhaal. De onderwerpen zijn steeds verschillend maar hebben één ding gemeen: alle gaan over spookachtige bovennatuurlijke zaken.",
+      "firstAirDate": "1992-08-15",
+      "lastAirDate": "2000-06-11",
+      "backdrop": "/nXmuzHiT3ODY9v50x8ipfSAFaNs.jpg",
+      "poster": "/2HA7bHYyWgQ0CeEq2mVepY30I7j.jpg",
+      "genres": [
+        "Mysterie",
+        "Kids",
+        "Drama"
+      ],
+      "imdbId": "tt0103352"
+    },
+    "-126": {
+      "tmdbId": 1903,
+      "name": "A.T.O.M. - Alpha Teens on Machines",
+      "originalName": "A.T.O.M. - Alpha Teens on Machines",
+      "overview": "ATOOM. is een Franse animatieserie, die de avonturen van vijf tieners beschrijft, die zich afspeelt in de fictieve Landmark City. De Alpha Teens,ze testen prototypes van voertuigen en wapens voor Lee Industries en gebruiken deze prototypes om criminelen te bestrijden, met name de sadistische Alexander Paine.",
+      "firstAirDate": "2005-08-27",
+      "lastAirDate": "2007-04-03",
+      "backdrop": "/gQ1r7bIGC6HniH0F4YhGRQ23zdw.jpg",
+      "poster": "/q6PQMghAFF9hQ6PXWCgvc3SAteD.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie"
+      ],
+      "imdbId": "tt0497578"
+    },
+    "-227": {
+      "tmdbId": 2030,
+      "name": "Atomic Betty",
+      "originalName": "Atomic Betty",
+      "overview": "De ogenschijnlijk gewone Betty Barrett leidt een dubbelleven: ze bestrijdt criminaliteit met de hulp van een luidruchtige alien en een betweterige robot. Zo beschermt ze het heelal tegen de kwaadaardige klauwen van Maximus IQ.",
+      "firstAirDate": "2004-09-17",
+      "lastAirDate": "2008-01-29",
+      "backdrop": "/wDwxAgGrsfjPHEIaANGYdzZapco.jpg",
+      "poster": "/2yhMWAmzKcCTgTSh1UkdFxTMLke.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0424603"
+    },
+    "-305": {
+      "tmdbId": 513,
+      "name": "Batman Beyond",
+      "originalName": "Batman Beyond",
+      "overview": "Terwijl nieuwe schurken Gotham City van de toekomst overspoelen, hangt de ouder wordende Bruce Wayne de cape van de ooit onoverwinnelijke Batman op. Maar wanneer de onrustige tiener Terry McGinnis op het geheim van de Dark Knight stuit, wordt een nieuwe alliantie gesmeed. En een triomfantelijke nieuwe Batman is geboren.",
+      "firstAirDate": "1999-01-10",
+      "lastAirDate": "2001-12-18",
+      "backdrop": "/A8We2BSM6hJ1VWzncssnU2fFsft.jpg",
+      "poster": "/rpbHPyhLstNd5qgtjaDMdPtyPeQ.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0147746"
+    },
+    "-229": {
+      "tmdbId": 5594,
+      "name": "Battle B-Daman",
+      "originalName": "B-伝説! バトルビーダマン",
+      "overview": "The people of the B-Daworld have been using B-DAMAN marble-shooters in sport since ancient times. Yamato is a headstrong boy who has been given Cobalt Blade, the most powerful B-Daman. Yamato must use Cobalt Blade to fend off the members of the evil Shadow Alliance in his quest to become the B-Daman champion.",
+      "firstAirDate": "2005-04-02",
+      "lastAirDate": "2015-03-07",
+      "backdrop": null,
+      "poster": "/tfZvZ71KdBMdfa9SaDlxWMQqedn.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Komedie",
+        "Drama",
+        "Familie",
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0455244"
+    },
+    "-351": {
+      "tmdbId": 958,
+      "name": "Beast Wars: Transformers",
+      "originalName": "Beast Wars: Transformers",
+      "overview": "De kwaadaardige schurk Megatron en zijn band, de Predacons, stelen een gouden schijf van Cybertron. Megatron is van plan genoeg energie te krijgen om de melkweg te veroveren. Optimus Primal en zijn team, de Maximals, achtervolgen de roedel van Megatron totdat beide partijen een noodlanding maken op een mysterieuze planeet.\n\nOp deze planeet is het niveau van energon erg hoog, wat de metalen structuren van maximals en predacons kan beschadigen. Om zichzelf te beschermen, combineerden beide groepen hun cybernetische codes met het DNA van dieren op de planeet, waardoor ze een \"dierlijke modus\" kregen.",
+      "firstAirDate": "1996-04-22",
+      "lastAirDate": "1999-05-07",
+      "backdrop": "/bhe9fryG3wwYvWQ2ZNfZ0surHDc.jpg",
+      "poster": "/kWwaoXeonbgcstnVVqlUEB0wlDr.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0115108"
+    },
+    "-155": {
+      "tmdbId": 2136,
+      "name": "Big Bad BeetleBorgs",
+      "originalName": "Big Bad BeetleBorgs",
+      "overview": "When three kids explore Charterville's haunted Hillhurst Mansion on a dare, they discover a lot more than they bargain for! The trio find a wild and wacky phasm named Flabber, who changes their lives forever when he grants their wish to become the superheroes they've read about in BeetleBorgs comics. However, not only does Flabber grant the kids' wish, but he also accidentally facilitates the escape of supervillains from the comic books as well! Now it's up to these three newly tapped superheroes - aided by a friendly neighborhood phasm and armed with fantastic powers and awesome vehicles - to save the world from the forces of darkness that threaten the peace and harmony of all mankind.",
+      "firstAirDate": "1996-09-07",
+      "lastAirDate": "1998-03-02",
+      "backdrop": "/bkDJm5MHw9ttRnUk2fd43eBPpao.jpg",
+      "poster": "/aIHIj3VxKTlhdeclpnw1dT9581w.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0115674"
+    },
+    "-230": {
+      "tmdbId": 10299,
+      "name": "Beverly Hills Teens",
+      "originalName": "Beverly Hills Teens",
+      "overview": "Beverly Hills Teens is an animated children's television program which debuted in 1987, animated by DIC Entertainment. The namesake teenagers have exaggerated wealth, and face stereotypical teenage concerns. They represent a variety of English backgrounds.\n\nIn 1989, Beverly Hills Teens was nominated for the Young Artist award for Best Animated Series. In the same year, the show was syndicated by Claster Television.\n\nThe French dub is known as BéCéBéGé, or sometimes Le Club BCBG, a title derived from the acronym BCBG.",
+      "firstAirDate": "1987-09-19",
+      "lastAirDate": "1988-12-10",
+      "backdrop": "/kNyujHwTfTEQ0gRM20CfvqAe4PV.jpg",
+      "poster": "/3fG5N6yRIrz7PH1tp2NFK0bWdJq.jpg",
+      "genres": [
+        "Animatie",
+        "Familie",
+        "Komedie",
+        "Kids",
+        "Drama"
+      ],
+      "imdbId": "tt0092321"
+    },
+    "-231": {
+      "tmdbId": 54728,
+      "name": "Beyblade",
+      "originalName": "爆転シュートベイブレード",
+      "overview": "De dertienjarige Takao Kinomiya (Tyson Granger) streeft er samen met zijn teamgenoten Kai Hiwatari, Max Mizuhura (Max Tate) en Rei Kon (Ray Kon) naar om de grootste Beybladers ter wereld te worden. Met de technische hulp van het genie van het team, Kyoujyu (Kenny), en met de krachtige kracht van hun BitBeasts, proberen de Bladebreakers gewapend met hun Beys hun doel te bereiken.",
+      "firstAirDate": "2001-01-08",
+      "lastAirDate": "2003-12-29",
+      "backdrop": "/9feA6Kd1G456nq2XrDqpDQpFlcG.jpg",
+      "poster": "/YwtG30zIY88LmGtOa5m4wTwxDv.jpg",
+      "genres": [
+        "Kids",
+        "Action & Adventure",
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Komedie"
+      ],
+      "imdbId": "tt0328733"
+    },
+    "-232": {
+      "tmdbId": 6,
+      "name": "Strange Days at Blake Holsey High",
+      "originalName": "Strange Days at Blake Holsey High",
+      "overview": "In het fictieve internaat  waar een Science Club mysterieuze verschijnselen onderzoekt, waarvan het grootste deel zich afspeelt rond een wormgat op het schoolterrein. De serie besloeg vier seizoenen en ontwikkelde zich tot een succes en werd verkocht aan netwerken over de hele wereld.\n\nDe serie, gemaakt door Jim Rapsas, verweeft elementen van mysterie, drama, romantiek en komedie. Het schrijven van de show is gestructureerd rond verschillende wetenschappelijke principes, met emotionele en academische strijd gecombineerd met zich ontvouwende mysteries van bovennatuurlijke aard.",
+      "firstAirDate": "2002-10-05",
+      "lastAirDate": "2006-01-28",
+      "backdrop": "/1UBSvWEwGsMCsf3m3l4V5bK0jr3.jpg",
+      "poster": "/hIcUkdPH91cwx5LdkZb8x8cYuom.jpg",
+      "genres": [
+        "Mysterie",
+        "Sci-Fi & Fantasy",
+        "Komedie"
+      ],
+      "imdbId": "tt0337539"
+    },
+    "-233": {
+      "tmdbId": 10938,
+      "name": "Bob de bouwer",
+      "originalName": "Bob the Builder",
+      "overview": "Bob de Bouwer is een Britse animatieserie voor kinderen die draait rond Bob, een goedlachse bouwvakker. Bobs leus is \"Kunnen wij het maken?!\", waarop de machines in koor roepen: \"Nou en of!\" De ietwat verlegen Liftie voegt daar tussen neus en lippen \"Ik denk het wel, ja\" aan toe.\n\nBob doet het werk, maar is niet altijd de handigste. Zijn assistente Wendy helpt hem dan en samen maken ze de klus af. Spud de vogelverschrikker houdt van flauwe geintjes. Zijn naïviteit brengt hem vaak in de problemen, samen met de machines die hij vaak bij zijn plannetjes probeert te betrekken. Bob en Wendy weten de schade altijd weer te repareren, vaak met behulp van de machines.",
+      "firstAirDate": "1999-04-12",
+      "lastAirDate": "2011-10-05",
+      "backdrop": "/5tf3hx7RbUovAYGMZ6slmoROWI1.jpg",
+      "poster": "/jfIAxRMSLuMjczB0ezl8L9Ukzfi.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0262151"
+    },
+    "-235": {
+      "tmdbId": 35236,
+      "name": "Bobobo-bo Bo-bobo",
+      "originalName": "ボボボーボ・ボーボボ",
+      "overview": "In de 31e eeuw valt de aarde onder de heerschappij van de kwaadaardige keizer Biljartbal IV, die mensen met haar haat, waarschijnlijk uit jaloezie. Daarom besluit hij een leger Hair Hunters op te richten, die zich inzetten voor het scheren van mensen over de hele wereld. Bobobo, die sinds zijn jeugd het bijzondere vermogen had om met zijn eigen haar te communiceren, wordt gedwongen om te vechten tegen Bola de Billar IV en neemt het pseudoniem 'El liberta-cabelleras' aan. Met de hulp van steeds meer personages die net zo divers zijn als hij, zal hij de verschillende divisies van het leger van de kwaadaardige keizer verslaan, totdat hij een wereld creëert waarin het haar van mensen vrij kan zijn...",
+      "firstAirDate": "2005-10-01",
+      "lastAirDate": "2007-10-13",
+      "backdrop": "/sZpV2xQwf9lREUuWTobmzXoOcJA.jpg",
+      "poster": "/92jw3GcbwtgBMiL4n7HHNQVXu2s.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0450373"
+    },
+    "-306": {
+      "tmdbId": 102130,
+      "name": "Boes",
+      "originalName": "Boes",
+      "overview": "Boes is een oer-Hollandse os op klompen die heel wat te stellen heeft met de dieren die op en om zijn boerderij wonen. Dit zijn onder andere de niet al te slimme hond Saffie, de schildpad Dolly die geregeld haar schild verliest, Shampoo de gorilla en TumTum de olifant. Samen beleeft deze groep de nodige avonturen.",
+      "firstAirDate": "1988-10-06",
+      "lastAirDate": "1991-02-02",
+      "backdrop": "/93uJEdiWbiLCmkol8xYxLrtBIVl.jpg",
+      "poster": "/nWVAj1oqXG0JNavNJGy2PURETyY.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Komedie"
+      ],
+      "imdbId": null
+    },
+    "-307": {
+      "tmdbId": 9891,
+      "name": "Bump in the Night",
+      "originalName": "Bump in the Night",
+      "overview": "Bump in the Night is een animatieserie van Danger Productions die werd gefilmd met stop-motionanimatie en van 1994 tot 1995 werd uitgezonden op ABC. De serie is gemaakt en geregisseerd door Ken Pontac en David Bleiman. De serie werd vervolgens van 1998 tot 2001 uitgezonden op Toon Disney.",
+      "firstAirDate": "1994-09-10",
+      "lastAirDate": "1995-10-16",
+      "backdrop": "/s9oRl7HngkFuTRSJR6wYdgfq0Q1.jpg",
+      "poster": "/kwgJPEPwfn0yfy9dRjr98xu3DJl.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0162796"
+    },
+    "-159": {
+      "tmdbId": 6607,
+      "name": "Camp Candy",
+      "originalName": "Camp Candy",
+      "overview": "Camp Candy is een geanimeerde televisieserie uit 1989-1992, geproduceerd door DIC Entertainment, waarbij komiek John Candy de stem vertolkte voor een geanimeerde versie van zichzelf.",
+      "firstAirDate": "1989-09-09",
+      "lastAirDate": "1991-01-19",
+      "backdrop": "/6JIyeQb8kT4jukobzZ4UjgaVIYu.jpg",
+      "poster": "/A3i4GRWCvw2PAyu41uokAOvekSt.jpg",
+      "genres": [
+        "Familie",
+        "Animatie",
+        "Komedie"
+      ],
+      "imdbId": "tt0096553"
+    },
+    "-308": {
+      "tmdbId": 35790,
+      "name": "Cardcaptor Sakura",
+      "originalName": "カードキャプターさくら",
+      "overview": "Sakura Kinomoto, een basisschoolstudent die ontdekt dat ze magische krachten bezit nadat ze per ongeluk een set magische kaarten uit het boek bevrijdde waar ze al jaren waren verzegeld. Ze wordt vervolgens belast met het ophalen van die kaarten om een ​​onbekende catastrofe te voorkomen.",
+      "firstAirDate": "1998-04-07",
+      "lastAirDate": "2018-06-10",
+      "backdrop": "/w6a3S1E5p3UfFcP3jkieXlAY5mz.jpg",
+      "poster": "/uYauKEioj5v3riLOBEZsxccBsC6.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0221735"
+    },
+    "-238": {
+      "tmdbId": 2376,
+      "name": "Carl²",
+      "originalName": "Carl²",
+      "overview": "Carl² is a Canadian animated series which explores what would happen if a teenager had a clone. The concept of the cartoon is a mixture of biological studies and normal teenage life.\n\nCarl Crashman is a lazy 14-year-old who is only good at one thing: slacking. After a rough day and being tired of constantly doing things he hated, he was blogging on the Internet and complaining about his life when he accidentally ordered a clone from a spam e-mail using his fingerprint, a yearbook photo and a scabby band-aid; Carl is shocked when an online cloning company sends him an exact clone of himself in a box. Carl names him C2. Even though C2 looks like Carl, talks like him, and walks like him, C2 is more ambitious, hard-working, and charming, much to Carl's advantage. Since C2 arrived, Carl has been slacking off a lot more. However, C2 often does the opposite to what Carl wants. Carl decides to keep C2 a secret from everyone else except his best friend Jamie James.\n\nThe show's theme song depicts the initial arrival of C2 at Carl's house. There are two different versions of the theme songs, each version having a different opening sequence and slightly different lyrics. As of Season 2, the opening sequence includes more on how C2 was created in the cloning lab.",
+      "firstAirDate": "2005-08-07",
+      "lastAirDate": "2011-01-23",
+      "backdrop": "/pfcHiFKFFDbZNvvMsSxGW6jm9ph.jpg",
+      "poster": "/96owiMNugJY84v1PcJNJBTQkSn2.jpg",
+      "genres": [
+        "Animatie",
+        "Drama"
+      ],
+      "imdbId": "tt0482856"
+    },
+    "-309": {
+      "tmdbId": 74125,
+      "name": "Cédric",
+      "originalName": "Cédric",
+      "overview": "",
+      "firstAirDate": "2001-12-23",
+      "lastAirDate": "2010-06-18",
+      "backdrop": "/ye5JGFgdYfZBZJrFNCwP1w9FT5O.jpg",
+      "poster": "/a4ksUAAlMPznq1nwDDmOwF1tp0L.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0414729"
+    },
+    "-352": {
+      "tmdbId": 20273,
+      "name": "Chris Colorado",
+      "originalName": "Chris Colorado",
+      "overview": "Chris Colorado is a French animated television series consisting of 26 episodes, created by Thibaut Chatel, Franck Bertrand and Jacqueline Monsigny, with original series music is written by Fabrice Aboulker. It was first aired in France on 18 December 2000 on Canal+, and later on FR3, and it is broadcast regularly on the Mangas channel.\n\nEach episode is approximately 26 minutes long. DVD copies of the show are almost impossible to find, as it had a very low release rate. One DVD containing the first four episodes has been released in France.",
+      "firstAirDate": "2000-12-18",
+      "lastAirDate": "2001-12-01",
+      "backdrop": "/tGxPrXjnaJEjMkqXjpJEb2ykBwE.jpg",
+      "poster": "/6KBl0GIPGv86QyX89KAYBGJKJ2P.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0296326"
+    },
+    "-310": {
+      "tmdbId": 27521,
+      "name": "Chuck Finn",
+      "originalName": "Chuck Finn",
+      "overview": "A group of kids try to run a successful riverboat business with the help of some ghostly friends.",
+      "firstAirDate": "1999-10-18",
+      "lastAirDate": "2000-12-23",
+      "backdrop": "/2ZYMYpgiORCbOkma6GiAqOldqaz.jpg",
+      "poster": "/hRXIYqAlnoXnvkVxn22paYAzYd3.jpg",
+      "genres": [
+        "Komedie",
+        "Familie",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0218753"
+    },
+    "-240": {
+      "tmdbId": 4622,
+      "name": "Code Lyoko",
+      "originalName": "Code Lyoko",
+      "overview": "Vier leerlingen ontdekken een parallel-universum dat is verborgen in een supercomputer. Ze moeten voorkomen dat een onstuitbaar virus deze geheime wereld vernietigt.",
+      "firstAirDate": "2003-09-03",
+      "lastAirDate": "2007-11-10",
+      "backdrop": "/oSBOivU2VjjrLlslo5Hdixygneo.jpg",
+      "poster": "/tnbDoaiVjD6svXDIxJ6dMUTEBVK.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Komedie",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0417311"
+    },
+    "-241": {
+      "tmdbId": 13885,
+      "name": "Conan the Adventurer",
+      "originalName": "Conan the Adventurer",
+      "overview": "Conan was created by Robert E. Howard, who wrote novels based on the legendary barbarian. This animated series follows the legendary barbarian as he struggles against Wrath-Amon and his legions of evil.",
+      "firstAirDate": "1992-09-12",
+      "lastAirDate": "1993-11-22",
+      "backdrop": "/dF8BadDm9hMQaym4F4Usjs8u67o.jpg",
+      "poster": "/bmaAXXZ4rvRw3LSuGQwtgtBVaM6.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0315429"
+    },
+    "-346": {
+      "tmdbId": 2085,
+      "name": "Courage, het bange hondje",
+      "originalName": "Courage the Cowardly Dog",
+      "overview": "De bizarre tegenslagen van een laffe hond genaamd Courage en zijn bejaarde baasjes in een boerderij in Nowhere, Kansas.",
+      "firstAirDate": "1999-11-12",
+      "lastAirDate": "2002-11-22",
+      "backdrop": "/cFuk3BU0sid8dby05eyyBPtK4dD.jpg",
+      "poster": "/uJQsBgzlrgZpjeB5fHBtJQA04nS.jpg",
+      "genres": [
+        "Animatie",
+        "Familie",
+        "Sci-Fi & Fantasy",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0220880"
+    },
+    "-347": {
+      "tmdbId": 3611,
+      "name": "Cow & Chicken",
+      "originalName": "Cow and Chicken",
+      "overview": "Een elfjarig jongetje en zijn zevenjarige zuster wonen samen met hun ouders in een buitenwijk en kibbelen dat het een lieve lust is, net als andere broers en zussen dat voortdurend doen. Er zit echter een addertje onder het gras want hoewel beide ouders menselijk zijn, is broer een twee kilo zwaar kuiken en zus een tweehonderd kilo wegende koe. Echt waar. En alsof het niet gek genoeg is, heeft zuster Cow ook nog eens een geheime identiteit. Soms is ze namelijk Super Cow.",
+      "firstAirDate": "1997-09-16",
+      "lastAirDate": "1999-08-13",
+      "backdrop": "/yhqIybnZgmObrauyf3zRy0JD7G3.jpg",
+      "poster": "/1vsIbN9FOsr97vIAGLYpRu7ZiSq.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0118289"
+    },
+    "-160": {
+      "tmdbId": 4790,
+      "name": "Creepy Crawlers",
+      "originalName": "Creepy Crawlers",
+      "overview": "Creepy Crawlers is an joint-venture between American and French animated series from 1994, produced by Saban Entertainment.",
+      "firstAirDate": "1994-10-04",
+      "lastAirDate": "1996-03-30",
+      "backdrop": "/mWCGAeHfgOcpNOHXEXBjXkGCyr6.jpg",
+      "poster": "/uSCAIqxMJpKefDKw5lsFbRO95OD.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0128871"
+    },
+    "-353": {
+      "tmdbId": 69113,
+      "name": "Cyborg 009",
+      "originalName": "サイボーグ009 THE CYBORG SOLDIER",
+      "overview": "Nine super-powered cyborg soldiers join forces to combat Black Ghost, the terrorist organization which they were originally created to serve.",
+      "firstAirDate": "2001-10-14",
+      "lastAirDate": "2002-09-29",
+      "backdrop": "/x8T0dcllXzScXpO5jTi1m4letUY.jpg",
+      "poster": "/8O97sHxuMInR50hrBk7MW1v9ti0.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0372650"
+    },
+    "-244": {
+      "tmdbId": 44231,
+      "name": "Daigunder",
+      "originalName": "爆闘宣言ダイガンダー",
+      "overview": "Akira Akebono, a young boy who is competing in a robot tournament where many of the robots are capable of transforming into animal forms. Akira wants to win the ultimate prize, the Titan Belt, with the help of his group of robots, all of which are capable of forming into the robot Daigunder. Daigunder is the creation of Akira's father, Professor Hajime Akebono. Together with a girl named Haruka, they compete under the name of Team Akira. However, Team Akira faces opposition from not only their competition, but a robot named Ginzan who is under the control of the evil Professor Maelstrom. Created by Aeon and Takara and animated by Animation Studio Brain's Base, the series aired in TV Tokyo from April 2002 to December 2002.",
+      "firstAirDate": "2002-04-05",
+      "lastAirDate": "2002-12-27",
+      "backdrop": "/4xj78TwVL5f6rotrnovjw0PKGFs.jpg",
+      "poster": "/c9ibtcypYerYWEoobBbMp4fJBZ2.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Kids",
+        "Action & Adventure",
+        "Drama"
+      ],
+      "imdbId": "tt0385396"
+    },
+    "-190": {
+      "tmdbId": 4917,
+      "name": "De Club van Sinterklaas",
+      "originalName": "De Club van Sinterklaas",
+      "overview": "De Club van Sinterklaas was van 1999 t/m 2009 een Nederlandse soapserie en is sinds 2012 ook een filmserie voor jeugd. Elk seizoen wordt afgesloten met een theatraal popconcert met optredens weggelegd voor de vaste personages maar ook andere muzikale, artistieke of gewoonweg bekende artiesten. De crossmediale mediafranchise is gebaseerd op de mythes van Zwarte Piet en Sint Nicolaas.",
+      "firstAirDate": "1999-11-01",
+      "lastAirDate": "2009-12-04",
+      "backdrop": null,
+      "poster": "/tHT8p4vojcdZ6t6pIKoH6lMPOg9.jpg",
+      "genres": [],
+      "imdbId": "tt0756268"
+    },
+    "-161": {
+      "tmdbId": 27617,
+      "name": "Diabolik",
+      "originalName": "Diabolik",
+      "overview": "Diabolik is an internationally co-produced animated television series, based on the Italian comic book series of the same name created by Angela and Luciana Giussani.  The series features master thief Diabolik and his companion Eva, as they fight and gradually expos criminal organization known as the Brotherhood and his leader Dane, while evading Inspector Ginko.",
+      "firstAirDate": "2000-01-01",
+      "lastAirDate": "2000-01-05",
+      "backdrop": "/6XhAq949a2vjrwsaEDKvipvm2F.jpg",
+      "poster": "/u5H17BEOYHpoqm5K338a084QPQn.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0466510"
+    },
+    "-162": {
+      "tmdbId": 31654,
+      "name": "Digimon: Digital Monsters",
+      "originalName": "デジモンアドベンチャー",
+      "overview": "Tijdens een zomerkamp worden zeven kinderen getransporteerd naar een vreemde digitale wereld. In deze nieuwe wereld sluiten ze vriendschap met wezens die zichzelf Digimon noemen en die zijn geboren om hun wereld te verdedigen tegen verschillende kwade krachten.",
+      "firstAirDate": "1999-03-07",
+      "lastAirDate": "2001-03-25",
+      "backdrop": "/naP3oYVX0vSxpx0HjUkdeKbkfiA.jpg",
+      "poster": "/AlPYAJYkSfvVYAXK1a3gZqpWwda.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0210418"
+    },
+    "-246": {
+      "tmdbId": 2545,
+      "name": "Dino-Riders",
+      "originalName": "Dino-Riders",
+      "overview": "Dino-Riders is een tekenfilmserie die voor het eerst werd uitgezonden in 1988. Dino-Riders was voornamelijk een promotie om een ​​nieuwe Tyco-speelgoedlijn te lanceren. Er werden slechts veertien afleveringen geproduceerd, waarvan er drie op VHS werden geproduceerd voor de Verenigde Staten. Het werd in de VS uitgezonden als onderdeel van het Marvel Action Universe.\n\nDe serie richt zich op de strijd tussen de goede Valorians en de kwade Rulons op de prehistorische aarde. De Valorians waren een supermenselijk ras, terwijl de Rulons een mix waren van humanoïde wezens . Beiden kwamen uit de toekomst, maar werden terug in de tijd getransporteerd naar het tijdperk van de dinosauriërs. Eenmaal op aarde raakten de Valorians bevriend met dinosauriërs terwijl de Rulons hen een hersenspoeling gaven.",
+      "firstAirDate": "1988-10-01",
+      "lastAirDate": "1988-12-31",
+      "backdrop": "/v9KcsJyaNKOKkz5sxkCloSXmvkE.jpg",
+      "poster": "/diRVQ9p90HPXTqKcxPYB3XQ3I6g.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0094449"
+    },
+    "-163": {
+      "tmdbId": 34786,
+      "name": "DinoZaurs",
+      "originalName": "DinoZaurs",
+      "overview": "DinoZaurs, also known as DinoZone in Japan, is a Japanese anime which is a combination of traditional animation and computer animation.",
+      "firstAirDate": "2000-07-28",
+      "lastAirDate": "2000-12-02",
+      "backdrop": "/k6x4Pk96BjNew5wb3oxGMVxizIc.jpg",
+      "poster": "/7I9ZYMehceATnARiavwiMASrG89.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": null
+    },
+    "-354": {
+      "tmdbId": 12697,
+      "name": "Dragon Ball GT",
+      "originalName": "ドラゴンボールGT",
+      "overview": "Ten years have passed since Goku left his friends and family to hone his skills. But Goku soon finds himself helpless against the mystical power of the Dragon Balls and an accidental wish made by the devious Emperor Pilaf. The wish; that Goku once again become a child! Goku, together with Trunks, and his own granddaughter Pan, blast off into the outer reaches of space in search of the mysterious Black Star Dragon Balls. But these Dragon Balls have a fatal secret: if not collected within one year Earth will be destroyed.",
+      "firstAirDate": "1996-02-07",
+      "lastAirDate": "1997-11-19",
+      "backdrop": "/4XfjLB6mGUx9z42oFJ8IaDmkdv3.jpg",
+      "poster": "/kxXsfMR9lQr3Gem6aDFbvmyRyqd.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0139774"
+    },
+    "-355": {
+      "tmdbId": 12971,
+      "name": "Dragon Ball Z",
+      "originalName": "ドラゴンボールゼット",
+      "overview": "De avonturen van Son Goku, de vechtsportverdediger van de aarde, gaan verder met een nieuwe familie en de onthulling van zijn buitenaardse afkomst. Nu moeten Goku en zijn bondgenoten de planeet verdedigen tegen een aanval van nieuwe buitenaardse vijanden.",
+      "firstAirDate": "1989-04-26",
+      "lastAirDate": "1996-01-31",
+      "backdrop": "/ydf1CeiBLfdxiyNTpskM0802TKl.jpg",
+      "poster": "/f2zhRLqwRLrKhEMeIM7Z5buJFo3.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0121220"
+    },
+    "-247": {
+      "tmdbId": 553,
+      "name": "Dungeons & Dragons",
+      "originalName": "Dungeons & Dragons",
+      "overview": "Six friends are transported into the Dungeons & Dragons realm and must try to find a way home with the help of their guide 'Dungeon Master'.",
+      "firstAirDate": "1983-09-17",
+      "lastAirDate": "1985-12-07",
+      "backdrop": "/zgFJXU66zLmjPUpgSuA6P2TNN92.jpg",
+      "poster": "/5tn1vNSYhgLAeYioZtobgfDjO5u.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Komedie",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0085011"
+    },
+    "-164": {
+      "tmdbId": 15839,
+      "name": "Eagle Riders",
+      "originalName": "Eagle Riders",
+      "overview": "Earth is under siege from the alien menace known only by the name  Cybercon and its legion of android forces, the Vorak. The Global  Security Council convenes to address this problem, and calls upon Dr.  Thaddeus Keane for assistance. They remember the aid they had received  from Keane's special force, the Eagle Riders, in years past. Keane  assures them that the Eagle Riders are still together, still strong, and  armed with brand new weapons.\n\nEagle Riders is an adaptation of the Japanese series \"Gatchaman II\" and \"Gatchaman Fighter\", and is a sequel to the American show, \"Battle of the Planets\".",
+      "firstAirDate": "1996-09-09",
+      "lastAirDate": "1997-12-04",
+      "backdrop": "/oy1qvROnSoOznpa0MJQo9CGR2Ra.jpg",
+      "poster": "/l9fawJaP1mV2X5xS5WPsgg1Cc9I.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0115162"
+    },
+    "-348": {
+      "tmdbId": 606,
+      "name": "Ed, Edd, 'n' Eddy",
+      "originalName": "Ed, Edd n Eddy",
+      "overview": "Ed, Edd n Eddy gaat over drie goede vrienden die samen de puberteit trachten de baas te worden. De drie vrienden hebben wel totaal verschillende karakters. Hun puberale lompheid, tegenstrijdigheid en verwardheid waarmee ze dagelijks worstelen geeft daar nog eens extra accent aan. Voortdurend worstelen ze met hun hormonale chaos, jeugdpuistjes en vet haar. Maar ze zijn vrienden want ze dragen dezelfde naam. Een opeenvolging van komische kapriolen van drie verwarde jongens die de weg naar volwassenheid nog niet kennen.",
+      "firstAirDate": "1999-01-04",
+      "lastAirDate": "2008-06-29",
+      "backdrop": "/iRbNLYmqlxbqkfCuAmHaFwZ9ocY.jpg",
+      "poster": "/nfKenwmfmdtoXGhaYiDIftrBchw.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0184111"
+    },
+    "-248": {
+      "tmdbId": 17082,
+      "name": "Eerie, Indiana: The Other Dimension",
+      "originalName": "Eerie, Indiana: The Other Dimension",
+      "overview": "Een nieuw mysterie begint voor twee jonge jongens in het ogenschijnlijk gewone stadje Eerie, Indiana, terwijl ze vreemde en interessante verschijnselen ervaren.",
+      "firstAirDate": "1998-02-07",
+      "lastAirDate": "1998-05-30",
+      "backdrop": "/uugUjiOiP5sz3kAjolZl9E1BAc0.jpg",
+      "poster": "/j9BTRI7n4MVz1hWaIGJfVDYG0LP.jpg",
+      "genres": [
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0142035"
+    },
+    "-194": {
+      "tmdbId": 118516,
+      "name": "Ernst, Bobbie en de rest",
+      "originalName": "Ernst, Bobbie en de rest",
+      "overview": "Ernst en Bobbie zijn twee vrienden die samen allerlei avonturen beleven. De avonturen beginnen altijd bij de 'Boink', een tv in Bobbie's rugzak. Een nieuwslezer leest een nieuwsbericht voor waarin het probleem van het verhaal uitgelegd wordt.",
+      "firstAirDate": "1998-04-01",
+      "lastAirDate": "2004-03-05",
+      "backdrop": "/no5PK39QpJ4SsNTHUMPYLnhTSSc.jpg",
+      "poster": "/gs4myhTN0NSJFFLOtwcrVGbxsiV.jpg",
+      "genres": [
+        "Kids",
+        "Familie",
+        "Komedie",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0318217"
+    },
+    "-314": {
+      "tmdbId": 3200,
+      "name": "Even Stevens",
+      "originalName": "Even Stevens",
+      "overview": "The Stevens are a middle-class family living in Sacramento, CA. Husband and father Steve is a successful attorney. Wife and mother Eileen is a state Senator. Their oldest child Donnie ia a high-school sports legend. Ren, an 8th-grader, is just about the perfect daughter. She makes the best grades, she's popular, she does volunteer work and other extracurricular tasks by the score. Her brother Louis, in the 7th grade, is her opposite. He likes to sleep late, he's messy, his grades are not good, he's frequently in detention and he seems to take nothing seriously. But he is serious about finding something of his own that he can do to put himself on a par with the rest of his overachieving family. Though he and Ren occasionally soften their attitudes toward each other, at any given moment the're likely to be fighting like mongoose and cobra.",
+      "firstAirDate": "2000-06-17",
+      "lastAirDate": "2003-06-02",
+      "backdrop": "/unpuZD1N1Wfxo9izU1YX88qKvv6.jpg",
+      "poster": "/6wdftSHL6EF8sevUFJSVOnEBOHT.jpg",
+      "genres": [
+        "Komedie"
+      ],
+      "imdbId": "tt0206511"
+    },
+    "-249": {
+      "tmdbId": 2901,
+      "name": "Fantastic Four",
+      "originalName": "Fantastic Four",
+      "overview": "Tijdens een ruimtemissie worden Richard Reed en zijn vrouw Susan, Johnny Storm en Ben Grimm bestraald door stralen van onbekende aard. Ze ontwikkelen al snel superkrachten: Reed kan zijn ledematen verlengen, Suzanne kan zichzelf onzichtbaar maken, Johnny kan veranderen in een vliegende menselijke fakkel en Ben Grimm neemt permanent de gedaante aan van een stenen wezen begiftigd met Herculische kracht. Alle vier besluiten hun krachten in dienst te stellen van de gerechtigheid en de bescherming van de mensheid, bedreigd door allerlei soorten wezens...",
+      "firstAirDate": "1994-09-24",
+      "lastAirDate": "1996-02-24",
+      "backdrop": "/mYKYwihv940xGyDt2XckkBryNnP.jpg",
+      "poster": "/jPVGruDYZtImosRkNv7eZhqxT1p.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Kids",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0187635"
+    },
+    "-316": {
+      "tmdbId": 270553,
+      "name": "Fennec",
+      "originalName": "Fennec",
+      "overview": "Fennec VID (Very Important Detective) and his assistant Achilles form a team of cheeky detectives who solve crimes in their town, such as chewing gum theft and mysterious disappearances. Importantly, they also make sure wrongdoers do not go unpunished.",
+      "firstAirDate": "1997-10-13",
+      "lastAirDate": "1998-11-16",
+      "backdrop": null,
+      "poster": "/knzExUuMz5lndywUPRQJhUmhTi4.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt5094992"
+    },
+    "-145": {
+      "tmdbId": 1547,
+      "name": "Fillmore!",
+      "originalName": "Fillmore!",
+      "overview": "Former delinquent Cornelius Fillmore saw the light, and now fights on the side of justice at X Middle School. Joining him is Ingrid Third, who has a photographic memory. Together, Fillmore and Third fight all those who attempt to break the rules at X, all while keeping Jr. Commissioner Vallejo off their backs and trying to please the school's overly-image-conscious Principal Folsom.\n\nFillmore! is an American animated television series which was produced by Walt Disney Television Animation. The series was created by Scott M. Gimple and directed by Christian Roman. It was the last series produced by Walt Disney Television Animation alone, without association with Disney Channel.",
+      "firstAirDate": "2002-09-14",
+      "lastAirDate": "2004-01-30",
+      "backdrop": "/gXgmB9mvWGHErOKRxLK1MjtLC4n.jpg",
+      "poster": "/4Vl2aYjQ1QlrT5QkfbR1aaDZPtf.jpg",
+      "genres": [
+        "Animatie",
+        "Mysterie",
+        "Kids",
+        "Komedie"
+      ],
+      "imdbId": "tt0337761"
+    },
+    "-317": {
+      "tmdbId": 11288,
+      "name": "Foofur",
+      "originalName": "Foofur",
+      "overview": "Foofur en zijn vrienden wedijveren met een vrouw genaamd Mrs. Amelia Escrow en haar chihuahua genaamd Pepe. Foofur bewoont met zijn bende een herenhuis in 32 Maple Street, wat ook zijn geboortehuis is. Mevrouw Escrow doet er alles aan om het landgoed te verkopen, maar slaagt daar niet in.",
+      "firstAirDate": "1986-09-13",
+      "lastAirDate": "1988-02-18",
+      "backdrop": "/98M0fSnIisBkR0WXcV12JhRj0tp.jpg",
+      "poster": "/1Nuj1PuFEuYoieAUXr1aDdUTGyw.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0286359"
+    },
+    "-318": {
+      "tmdbId": 2957,
+      "name": "De Freggels",
+      "originalName": "Fraggle Rock",
+      "overview": "De Freggels zijn kleine, wollige wezentjes die in een geheime wereld wonen. Ze zijn altijd gelukkig en houden van zingen en dansen. Zij maken veel plezier in hun grot en laten de serieuze dingen over aan de kleine, maar ijverige Doeners. Het leven van de Freggels is heel spannend, want ze moeten op hun hoede zijn voor de Griezels en voor de grote, domme schepsels (de mensen!!) aan de andere kant van de muur.",
+      "firstAirDate": "1983-01-10",
+      "lastAirDate": "1987-03-30",
+      "backdrop": "/mJOBGeYAmb7gVfhtc4guOhhzrjq.jpg",
+      "poster": "/nyvNej9aHC2wydFflPMrASS6MF7.jpg",
+      "genres": [
+        "Kids",
+        "Familie",
+        "Sci-Fi & Fantasy",
+        "Komedie"
+      ],
+      "imdbId": "tt0085017"
+    },
+    "-133": {
+      "tmdbId": 16173,
+      "name": "Gadget En De Gadgetinis",
+      "originalName": "Gadget & the Gadgetinis",
+      "overview": "Inspector Gadget en zijn nichtje Penny strijden nog altijd tegen de slechterik Dr. Claw. Sinds kort wordt het duo versterkt door de Gadgetinis. De groep heeft de missie alle snode plannen van Dr. Claw te dwarsbomen en de wereld te behoeden voor het gevaar.",
+      "firstAirDate": "2002-09-11",
+      "lastAirDate": "2003-11-19",
+      "backdrop": "/hwRMAKsJsJmPqhID7eCd3ODeOQr.jpg",
+      "poster": "/p5TcfEDUrb1FNI1fOy1TFpKSlgB.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Komedie",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ],
+      "imdbId": "tt0387741"
+    },
+    "-127": {
+      "tmdbId": 3441,
+      "name": "Get Ed",
+      "originalName": "Get Ed",
+      "overview": "Get Ed is an American-Canadian computer-animated television series which debuted in 2005 that aired as a part of the Jetix programming block on the United States cable television network Toon Disney until the channel closed in 2009, and also used to run on the ABC Family channel before they switched over to a non-animated format. As of 2009, re-runs air on Toon Disney's successor, Disney XD. It was Jetix's second original show.",
+      "firstAirDate": "2005-09-19",
+      "lastAirDate": "2006-04-24",
+      "backdrop": "/vvIDIZx2xnA3d2hoQf6gwKauYeF.jpg",
+      "poster": "/lwqgRR7UNdMZ22ycjllcGihnoT1.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0756486"
+    },
+    "-319": {
+      "tmdbId": 105137,
+      "name": "Academia de Gladiadores",
+      "originalName": "Academia de Gladiadores",
+      "overview": "Four gladiators protect their land from the evil Roman emperor Gluteus Maximus, along with other monsters and invaders.",
+      "firstAirDate": "2003-09-07",
+      "lastAirDate": "2003-09-07",
+      "backdrop": "/ydy40rInTf2BAZjHDqMlQHTbUam.jpg",
+      "poster": "/nHTaJXqtW5hwcpfl8O7ec7DjBna.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt1531054"
+    },
+    "-350": {
+      "tmdbId": 3354,
+      "name": "Grim & Evil",
+      "originalName": "Grim & Evil",
+      "overview": "Grim & Evil also known as Maxwell Atoms' Grim & Evil and promotionally referred to as The Grim & Evil Show, is an American animated television series created by Maxwell Atoms. The series, which debuted on Cartoon Network, consisted of two segments which were eventually spun off into their own series, The Grim Adventures of Billy & Mandy and Evil Con Carne.",
+      "firstAirDate": "2001-08-24",
+      "lastAirDate": "2005-06-30",
+      "backdrop": "/tMfrwSCc2EsesrQj8t4V5c6vK1P.jpg",
+      "poster": "/nSem9J2J3ItD3bWaUDaqyifIhFA.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ],
+      "imdbId": null
+    },
+    "-356": {
+      "tmdbId": 21730,
+      "name": "Gundam Wing",
+      "originalName": "新機動戦記ガンダムW",
+      "overview": "De mensheid is de ruimte ingetrokken. Duizenden mensen leven in gigantische ruimte kolonies die in een baan om de aarde draaien en 'Sides' worden genoemd. De Aarderegering, die de koloniën regeert, is echter onrechtvaardig en wreed. Een groep revolutionairen bouwt vijf robotwapens, Gundams genaamd, en is van plan deze naar de aarde te sturen om hun strijd voor onafhankelijkheid te beginnen. Deze Gundams, bestuurd door vijf jonge mannen, dragen de hoop en dromen op vrijheid van de kolonisten met zich mee terwijl ze naar de aarde afdalen om Operatie Meteor te beginnen!",
+      "firstAirDate": "1995-04-07",
+      "lastAirDate": "1996-03-29",
+      "backdrop": "/6q1eredSOpFhzjoStR8V29BxAZC.jpg",
+      "poster": "/6SmgoFD32LA2utwJhXYLHNviPS.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "War & Politics"
+      ],
+      "imdbId": "tt0159193"
+    },
+    "-251": {
+      "tmdbId": 5622,
+      "name": "Hamtaro",
+      "originalName": "とっとこハム太郎",
+      "overview": "Hamtaro, het schattige en knuffelige huisdier van de 10-jarige Laura, is een kleine hamster met een groot gevoel voor avontuur! Sluit je aan bij Hamtaro en de schattige knaagdierschurken die de harten van miljoenen kinderen over de hele wereld veroverden.",
+      "firstAirDate": "2000-07-07",
+      "lastAirDate": "2006-03-31",
+      "backdrop": "/stA5GUrX734b4pmYHay4Rd6hOxU.jpg",
+      "poster": "/heeMIthcPavUaNJJl0YPARva2ua.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0318895"
+    },
+    "-255": {
+      "tmdbId": 3035,
+      "name": "He-Man and the Masters of the Universe",
+      "originalName": "He-Man and the Masters of the Universe",
+      "overview": "Jaren geleden streden twee leiders om het fantastische land Eternia, de een werd de goede koning Randor, de ander groeide uit tot het kwaadaardige monster Skeletor dat van plan is opnieuw op te staan ​​en Eternia in te nemen. Om het koninkrijk te beschermen, kozen de mystieke krachten van Castle Greyskull een held: Randors luie, impulsieve tienerzoon Adam.",
+      "firstAirDate": "2002-08-16",
+      "lastAirDate": "2004-01-10",
+      "backdrop": "/smI8NP9N7Wpsdx7YSeDeNInREYv.jpg",
+      "poster": "/2MZQ7GH4WfxeZYkuDGZD7H69X4L.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ],
+      "imdbId": "tt0331744"
+    },
+    "-253": {
+      "tmdbId": 12803,
+      "name": "Heathcliff",
+      "originalName": "Heathcliff",
+      "overview": "Heathcliff is een geanimeerde tv-serie die debuteerde op 4 oktober 1980. Het was de eerste serie gebaseerd op de Heathcliff-strip en werd geproduceerd door Ruby-Spears Productions. Het liep tot 18 september 1982 met in totaal 25 afleveringen, onder twee verschillende namen.",
+      "firstAirDate": "1980-10-04",
+      "lastAirDate": "1981-12-05",
+      "backdrop": "/2I0nEn0xnwNBQOZI8auhOI212HT.jpg",
+      "poster": "/aHY7TpTAArpScdgsBKuwWU3MRki.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0173556"
+    },
+    "-320": {
+      "tmdbId": 2567,
+      "name": "Hercules",
+      "originalName": "Hercules",
+      "overview": "Follow Herc's many labors during the years he spent training on how to be a hero under the tutelage of satyr Phil. Many of the Olympian Gods and Goddesses pay visit to the young hero-to-be and help or hinder him in his new adventures.",
+      "firstAirDate": "1998-08-31",
+      "lastAirDate": "1999-03-01",
+      "backdrop": "/RYdH7j8X1JWVc5mdMofcu9CAyY.jpg",
+      "poster": "/beKLNtsDRR6EmNCKp7KOTdztL4j.jpg",
+      "genres": [
+        "Komedie",
+        "Kids",
+        "Animatie",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0138967"
+    },
+    "-154": {
+      "tmdbId": 4605,
+      "name": "Het hotelleven van Zack en Cody",
+      "originalName": "The Suite Life of Zack & Cody",
+      "overview": "De tweelingbroers Zack en Cody gaan met hun alleenstaande moeder in het chicste hotel van Boston wonen. Samen met de verwende dochter van de hoteleigenaar, London, hun schoolvrienden, de jongere personeelsleden Maddie, Esteban en Arwin en een eclectische mix van de interessantere gasten en beroemdheden, hebben de jongens moeite om uit de problemen te blijven en zien ze het Tipton als hun persoonlijke speeltuin.",
+      "firstAirDate": "2005-03-18",
+      "lastAirDate": "2008-09-01",
+      "backdrop": "/8Il5j5hPlsBfSX9jKPCRHoAiA9p.jpg",
+      "poster": "/7eKSiMouCpGwCZzHbYlrhS4KC20.jpg",
+      "genres": [
+        "Komedie",
+        "Familie",
+        "Kids"
+      ],
+      "imdbId": "tt0426371"
+    },
+    "-321": {
+      "tmdbId": 1856,
+      "name": "Histeria!",
+      "originalName": "Histeria!",
+      "overview": "Misschien wel de enige geanimeerde educatieve sketch-comedy-serie ter wereld, Histeria! levert lessen die blijven hangen - tot in je botten. Gepresenteerd door Father Time, reist de cartooncast door de tijd om historische feiten van Siberië tot Sumerië te leveren, ondanks de inspanningen van Miss Information, de beweringen van 's werelds oudste vrouw en de voortdurend poepluiers van de eivormige Big Fat Baby.",
+      "firstAirDate": "1998-09-14",
+      "lastAirDate": "2000-10-01",
+      "backdrop": "/lVYPG2nzLUQgMnRXMmacDHoEVdc.jpg",
+      "poster": "/jnaCdjmJhiWsw5hjT4fMBxGrfG7.jpg",
+      "genres": [
+        "Animatie",
+        "Documentaire",
+        "Komedie"
+      ],
+      "imdbId": "tt0175738"
+    },
+    "-322": {
+      "tmdbId": 1797,
+      "name": "Honey, I Shrunk the Kids: The TV Show",
+      "originalName": "Honey, I Shrunk the Kids: The TV Show",
+      "overview": "Honey, I Shrunk the Kids: The TV Show is een Amerikaanse sciencefiction-sitcom gebaseerd op de film Honey, I Shrunk the Kids uit 1989. Het breidt het concept van de originele film uit van een steeds kleiner wordend experiment dat fout is gegaan en omvat een groot aantal mislukte experimenten.  Peter Scolari nam de rol over van Wayne Szalinski, de gekke uitvinder in de originele film, gespeeld door Rick Moranis. Elke aflevering bevat nieuwe technologieën en digitale effecten om de familie te laten deelnemen aan verschillende nieuwe avonturen. De serie werd gefilmd in Calgary, Alberta, met de belangrijkste studio's in Currie Barracks, een buiten gebruik gestelde slaapzaal van de Canadian Forces.",
+      "firstAirDate": "1997-09-27",
+      "lastAirDate": "2000-05-20",
+      "backdrop": "/wYvz2QbFj0BJliC5cMCL1jcgMqU.jpg",
+      "poster": "/g1NWIdQxYGlXC9SA8wkMSYvywJQ.jpg",
+      "genres": [
+        "Komedie",
+        "Action & Adventure",
+        "Familie"
+      ],
+      "imdbId": "tt0125622"
+    },
+    "-323": {
+      "tmdbId": 32429,
+      "name": "Horrible Histories",
+      "originalName": "Horrible Histories",
+      "overview": "Britse komische kindertelevisieserie, geïnspireerd op de verhalen van Terry Deary's boeken met dezelfde naam. Het brengt de geschiedenis van verschillende volkeren en rassen op een humoristische manier in beeld. Een snelle en interessante manier om wat meer geschiedenis te leren.",
+      "firstAirDate": "2001-01-01",
+      "lastAirDate": "2002-03-25",
+      "backdrop": "/gAB0RWcFPFg2EZZlCHIs0hjy3mw.jpg",
+      "poster": "/h4wBSAu3KjU0XIRx9Wm7LH4OVJu.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0478486"
+    },
+    "-349": {
+      "tmdbId": 177,
+      "name": "I Am Weasel",
+      "originalName": "I Am Weasel",
+      "overview": "The adventures of the noble, generous, intelligent and good-at-everything I.M. Weasel, who must compete once again with his arch-enemy, the bumbling, brainless and utterly talentless I.R. Baboon.",
+      "firstAirDate": "1997-07-22",
+      "lastAirDate": "1999-09-16",
+      "backdrop": "/4vR2Ctk0dBrEKIxwBaV3BCkYCRc.jpg",
+      "poster": "/ibSVhfayNItAAoGkI8bHYOHPQdH.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0218769"
+    },
+    "-259": {
+      "tmdbId": 103853,
+      "name": "The Incredible Crash Dummies",
+      "originalName": "The Incredible Crash Dummies",
+      "overview": "Dummyland is a fictional world inhabited only by living crash dummies. Many make a living testing cars, just like the real ones.\n\nThe story begins with crash dummy professor Dr. Zub has creating a new \"uncrashable\" prototype armor called the Torso 9000 and is testing it with the help of crash dummy Ted. Unfortunately the initial trial run goes awry and Ted's head is severed from his body. The following night however, Ted is accidentally replaced with the head of the evil Junkman, who can now harness the power of the Torso 9000 and manages to break free from the Crash Test facility.[3]\n\nPlotting to destroy the crash dummies, the Junkman sets up his base near an abandoned scrap heap and creates an army of killing machines out of spare car parts. When a valuable disc of information on the Torso 9000 is stolen, and finally Dr. Zub himself is kidnapped, heroes Slick & Spin step in to save the day.",
+      "firstAirDate": "1993-05-16",
+      "lastAirDate": "1993-05-16",
+      "backdrop": "/5JigdYbZVEtSsQ8jB7rzxPbXcAN.jpg",
+      "poster": "/afEg7LW3K8JAOvJ0pzpnIX38v5Z.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0445989"
+    },
+    "-262": {
+      "tmdbId": 3097,
+      "name": "Iron Man",
+      "originalName": "Iron Man",
+      "overview": "Industrialist Tony Stark leads a private team of superheroes as Iron Man against the forces of evil.",
+      "firstAirDate": "1994-09-24",
+      "lastAirDate": "1996-02-24",
+      "backdrop": "/dLlymUGv7SonWkvPJAr3peh4uCj.jpg",
+      "poster": "/4SdlLIkUQYylkgivWRlSqIHhasy.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0115218"
+    },
+    "-263": {
+      "tmdbId": 240,
+      "name": "Jackie Chan Adventures",
+      "originalName": "Jackie Chan Adventures",
+      "overview": "Jackie Chan werkt samen in dit animatie-achtige avontuur met zijn 11-jarige nichtje Jade en reist de wereld rond om een ​​tiental magische talismannen te vinden voordat de sinistere Dark Hand dat doet. Jackie en Jade worden geholpen door oom, een chagrijnige maar wijze antiquiteitenexpert. Hoewel Jackie officieel als archeoloog werkt, assisteert hij in werkelijkheid ook Captain Black, leider van de geheime politie-eenheid Sectie 13.",
+      "firstAirDate": "2000-09-09",
+      "lastAirDate": "2005-07-08",
+      "backdrop": "/cjvyqIvCKQtUzd3J5TbVnCFbSNZ.jpg",
+      "poster": "/by2GTFpd2BQ5uJxWPlfcmfrNrfB.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Komedie",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0259141"
+    },
+    "-264": {
+      "tmdbId": 13350,
+      "name": "Jacob Dubbel",
+      "originalName": "Jacob Two-Two",
+      "overview": "Jacob is de jongste van vijf kinderen en heeft als bijnaam Dubbel, omdat hij dingen soms twee keer zegt, alleen maar om gehoord te worden. Jacob heeft een groot hart in het helpen van anderen.",
+      "firstAirDate": "2003-09-07",
+      "lastAirDate": "2006-09-17",
+      "backdrop": "/oS2DMSbuIzAcNqzpF90rpHJZIUv.jpg",
+      "poster": "/sh0RNDedpE4sgo5JEromOPlF2ax.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids",
+        "Familie"
+      ],
+      "imdbId": "tt0381771"
+    },
+    "-165": {
+      "tmdbId": 592,
+      "name": "Jayce et les Conquérants de la lumière",
+      "originalName": "Jayce et les Conquérants de la lumière",
+      "overview": "The Lightning League drives white and silver vehicles with assorted weaponry, and are led by a teenager named Jayce. The villains are organic green vegetable-based creatures called the Monster Minds, who tend to take the shape of black and green vehicles. They travel via large green organic vines which can grow in and across interstellar space, and sprout seeds that rapidly grow into further Monster Minds. They are led by Saw Boss.",
+      "firstAirDate": "1985-09-01",
+      "lastAirDate": "1986-02-27",
+      "backdrop": "/mYapGUKCRx5a40Z20sKlEzUYQBq.jpg",
+      "poster": "/hf1nsMQDQL5dOmzzpoJ6s0wmBH5.jpg",
+      "genres": [
+        "Kids",
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0217941"
+    },
+    "-146": {
+      "tmdbId": 2345,
+      "name": "Kim Possible",
+      "originalName": "Kim Possible",
+      "overview": "Kim Possible gaat gewoon naar school, maar in haar vrije tijd bevrijdt ze de wereld van gevaarlijke schurken. Kim vecht overal ter wereld tegen haar aartsvijanden, samen met haar beste vriend Ron Stoppable, zijn huisdier Rufus, een naakte molrat, en hun vriend Wade, een webmaster die belangrijke informatie doorspeelt via een speciaal Kimmunicator-apparaat. Daarna gaat ze weer naar huis om haar huiswerk te maken.",
+      "firstAirDate": "2002-06-07",
+      "lastAirDate": "2007-09-07",
+      "backdrop": "/olYeeEi5aa197P0s8ETXyriP9Ih.jpg",
+      "poster": "/qsDNX8DPwWydDn9oUIhe1WcTuUH.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0278866"
+    },
+    "-147": {
+      "tmdbId": 2355,
+      "name": "Lilo & Stitch: De Serie",
+      "originalName": "Lilo & Stitch: The Series",
+      "overview": "Als Stitch, Dr. Jumba's geliefde experiment 626 was, waar zijn dan de andere 625? Jumba's overgebleven experimenten zijn overal op Hawaii geland in de vorm van uitgedroogde peulen. De experimenten worden geactiveerd wanneer ze in water terecht komen en, net als Sticth, heeft ieder experiment zijn eigen specifieke talent voor destructie...en humor. Lilo en Stitch gaan op pad om de \"neefjes\" van Stitch te vinden voor ze in de handen vallen van de kwaadaardige Dr. Jacques von Hamsterviel!",
+      "firstAirDate": "2003-09-20",
+      "lastAirDate": "2006-07-29",
+      "backdrop": "/e3F1DhLs90kk1hWZhoTUanrxjMu.jpg",
+      "poster": "/xBkLL9XoFwqqfhn8cRdocl9DEho.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0364774"
+    },
+    "-167": {
+      "tmdbId": 223680,
+      "name": "Macron 1",
+      "originalName": "Macron 1",
+      "overview": "In 1986, Saban Entertainment combined footage from GoShogun and Akū Dai Sakusen Srungle (Great Military Operation in Subspace Srungle or Mission Outer Space Srungle), a similar show produced by Kokusai Eiga-sha, to form Macron 1.\n\nIn the US version, test pilot David Chance is accidentally transported into a parallel universe controlled by a tyrannical organization called GRIP, led by Dark Star. This allows GRIP to send their forces to Earth, leaving Dark Star's cyborg henchman Orn as deputy in the alternate universe. Fighting against GRIP are two teams comprising \"Macron 1\": the first (from the GoShogun footage) battles against Dark Star's legions on Earth; Beta Command (from the Srungle footage) is working to overthrow Orn. The main focus is on the Macron team on Earth, with Beta Command appearing sporadically.",
+      "firstAirDate": "1986-01-03",
+      "lastAirDate": "1986-06-27",
+      "backdrop": "/nFvGsTnpJP7MZ3B6LUBGxCkZFIe.jpg",
+      "poster": "/rwyY60uooGvtRcLk832Qu2WqkE0.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0184693"
+    },
+    "-271": {
+      "tmdbId": 140,
+      "name": "Martin Mystère",
+      "originalName": "Martin Mystère",
+      "overview": "Martin Mystery heeft een passie voor alles wat paranormaal is. Als hij niet op school is, werkt deze tienerliefhebber van bovennatuurlijke slijk undercover voor een geheim bureau dat gespecialiseerd is in mysterieuze verschijnselen. Samen met zijn oudere stiefzus Diana, Java (een enorme holbewoner die verdwaald is in de tijd) en Billy (een klein groen zwevend wezen), onderzoekt hij vreemde wonderen. Martin barst altijd van de energie en denkt zelden na voordat hij springt. Diana is zijn beschermengel – een echte A-student, zij brengt de hersenen naar hun missies. Heb je een zombie, alien of geest gezien? Bel Martin Mysterie.",
+      "firstAirDate": "2003-10-23",
+      "lastAirDate": "2006-12-17",
+      "backdrop": "/sTRb3YjoBzzlmh3JWXLiP4Ar5ex.jpg",
+      "poster": "/5zNe6QxOdqtZ4pUt4mbNRrR8Oip.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Mysterie"
+      ],
+      "imdbId": "tt0374419"
+    },
+    "-273": {
+      "tmdbId": 4961,
+      "name": "M.A.S.K.",
+      "originalName": "M.A.S.K.",
+      "overview": "Na de dood van zijn jongere broer Andy, ontmaskert multi-miljonair Matt Trakker een internationale criminele organisatie die bekend staat als VENOM (Vicious Evil Network Of Mayhem). Trakker verzamelt een groep vrienden met buitengewone talenten en richt MASK (Mobile Armoured Strike Kommand) op. Hun doel: VENOM vernietigen. Miles Mayhem, de leider van V.E.N.O.M. is tevens degene die verantwoordelijk is voor de dood van Andy.",
+      "firstAirDate": "1985-09-30",
+      "lastAirDate": "1986-11-26",
+      "backdrop": "/cqSHB5nn84lzCuDGh2P2aSJtFAC.jpg",
+      "poster": "/cGkNcWubSCTD5HLCscBhVcvh8tt.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0088563"
+    },
+    "-274": {
+      "tmdbId": 6278,
+      "name": "Mega Babies",
+      "originalName": "Mega Babies",
+      "overview": "The disgusting adventures of Meg, Derrick and Buck: three orphaned babies who gain intense superpowers after being hit by a bolt of cosmic lightning.",
+      "firstAirDate": "1999-10-10",
+      "lastAirDate": "2001-04-30",
+      "backdrop": "/1YL9jDvLlGDeW6IcZfG0YhjKbEj.jpg",
+      "poster": "/3VT1T4gYPCBcG3dNLiHkcweMC2F.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ],
+      "imdbId": "tt0348512"
+    },
+    "-275": {
+      "tmdbId": 5653,
+      "name": "Megaman NT Warrior",
+      "originalName": "ロックマン エグゼ",
+      "overview": "In het jaar 20XX ontvangt een jonge jongen genaamd Netto Hikari een heel bijzonder geschenk als hij naar de 5e klas gaat: zijn eigen aangepaste Net Navi, Rockman.",
+      "firstAirDate": "2002-03-04",
+      "lastAirDate": "2006-09-30",
+      "backdrop": "/evF4Go6zuLKmL1yHsLILFxPVYbm.jpg",
+      "poster": "/jHJlz3T6LjpiTMsYASWdYPfzMT9.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt4909124"
+    },
+    "-168": {
+      "tmdbId": 19260,
+      "name": "Mon Colle Knights",
+      "originalName": "六門天外モンコレナイト",
+      "overview": "Scientist Ichiroubei Hiiragi discovers the existence of Six Gates, an otherdimensional world full of monsters and powerful hidden treasures known as Mon Mon Items. Ichiroubei embarks with his daughter, Rokuna, and her classmate, Mondo. However, they're foiled at every turn by Count Collection and his assistants, who want the Mon Mon Items in order to conquer both worlds. Becoming the heroes known as Mon Colle Knights, Mondo and Rokuna join forces with the monsters, striking back against Count Collection while searching for the Mon Mon Items in the name of friendship between their worlds.",
+      "firstAirDate": "2000-01-10",
+      "lastAirDate": "2000-12-25",
+      "backdrop": "/rC6XHCLZMhRGXKIdqLvNbYeEPh8.jpg",
+      "poster": "/1HZGKL0nOzrMlJOvvJvg22Qr4Nq.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0298677"
+    },
+    "-324": {
+      "tmdbId": 536,
+      "name": "Mona the Vampire",
+      "originalName": "Mona the Vampire",
+      "overview": "Follows the adventures of Mona Parker (\"Mona the Vampire\"), as well as her two best friends, and her pet cat, Fang, as they imagine themselves confronting a new supernatural foe, or solving a supernatural mystery, in every episode.",
+      "firstAirDate": "1999-09-13",
+      "lastAirDate": "2002-06-14",
+      "backdrop": "/wmMuOJQK46WK19pZotUcEZV77gY.jpg",
+      "poster": "/ijBRu72KJ9JRTGYjyJT6yzEbaj7.jpg",
+      "genres": [
+        "Familie",
+        "Animatie"
+      ],
+      "imdbId": "tt0262972"
+    },
+    "-170": {
+      "tmdbId": 2726,
+      "name": "The Mystic Knights of Tir Na Nog",
+      "originalName": "The Mystic Knights of Tir Na Nog",
+      "overview": "Four young knights, Rohan, Deirdre, Angus and Ivar, defend their ancient homeland of Kells from attacks by the evil Queen Maeve who is intent on ruling the island kingdom. The knights bravely resist Maeve's dark sorcery, battling giants, ogres and evil mythical creatures. Their quest to restore peace to the land leads the knights to discover their mystic armor and their dragon ally, Pyre, who joins them on adventures filled with danger, magic, and the roguish little people who inhabit the enchanted underworld of Tir Na Nog.",
+      "firstAirDate": "1998-09-12",
+      "lastAirDate": "1999-05-07",
+      "backdrop": "/fPZfapc4gn03TAn30ZhJJrSlUXd.jpg",
+      "poster": "/bZAKcGwgphNrQ2UTyJcxHBx9RNb.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0165588"
+    },
+    "-171": {
+      "tmdbId": 281,
+      "name": "NASCAR Racers",
+      "originalName": "NASCAR Racers",
+      "overview": "NASCAR Racers is an animated television series about two rival NASCAR racing teams, Team Fastex and Team Rexcor, competing against each other in the futuristic NASCAR Unlimited Division.",
+      "firstAirDate": "1999-11-20",
+      "lastAirDate": "2001-03-24",
+      "backdrop": "/wkR77Rlb4RGPJJaIouVSYRjM4a5.jpg",
+      "poster": "/xi3XaKx0v4gpaQcWp6Rf0yA20wm.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0236915"
+    },
+    "-173": {
+      "tmdbId": 3909,
+      "name": "Ninja Turtles: The Next Mutation",
+      "originalName": "Ninja Turtles: The Next Mutation",
+      "overview": "De favoriete tiener mutanten zijn terug in live-actie om de misdaad te bestrijden met behulp van een nieuwe ninja schildpad - een vrouwtje genaamd Venus De Milo.",
+      "firstAirDate": "1997-09-12",
+      "lastAirDate": "1998-03-20",
+      "backdrop": "/ux7yM3rc1xehJRbFu2UB4Rt2Iah.jpg",
+      "poster": "/lydnKnqsXIkRLwBEWTre4Lx4fH7.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Action & Adventure",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0127388"
+    },
+    "-278": {
+      "tmdbId": 2777,
+      "name": "Oggy en de kakkerlakken",
+      "originalName": "Oggy et les Cafards",
+      "overview": "Huiskat Oggy wil niets liever dan een dutje doen, maar hij wordt voortdurend geplaagd door drie kakkerlakken die zijn huis zijn binnengedrongen.",
+      "firstAirDate": "1999-09-06",
+      "lastAirDate": "2022-05-10",
+      "backdrop": "/fVO7r9tAnauny8DAqbetlQ1tVtu.jpg",
+      "poster": "/mA2apmkA0GZiPxBWDNjhVZb8SOE.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Familie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0213363"
+    },
+    "-123": {
+      "tmdbId": 12801,
+      "name": "Piggsburg Pigs!",
+      "originalName": "Piggsburg Pigs!",
+      "overview": "Piggsburg Pigs! is a Fox Kids animated comedy series from Ruby-Spears Productions, which aired in 1990.\n\nOn July 23, 2001, Piggsburg Pigs! and other properties of Saban Entertainment were sold to The Walt Disney Company.",
+      "firstAirDate": "1990-09-15",
+      "lastAirDate": "1990-12-15",
+      "backdrop": "/x3EYJIjuOvmT7NNB8rhvB29mzqy.jpg",
+      "poster": null,
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0098894"
+    },
+    "-215": {
+      "tmdbId": 301959,
+      "name": "Pokémon Flippo Update",
+      "originalName": "Pokémon Flippo Update",
+      "overview": "Dutch Fox Kids show dedicated to the Pokémon Flippo fad.",
+      "firstAirDate": "2001-04-09",
+      "lastAirDate": "2002-02-06",
+      "backdrop": null,
+      "poster": "/pXFaB5KvX4l4TCeFT7G0k63NBo.jpg",
+      "genres": [],
+      "imdbId": "tt7567682"
+    },
+    "-175": {
+      "tmdbId": 2328,
+      "name": "Power Rangers",
+      "originalName": "Power Rangers",
+      "overview": "Een team tieners met karakter wordt gerekruteerd om Angel Grove te redden van de boze heks Rita Repulsa en later Lord Zedd, keizer van alles wat hij ziet, en zijn horde monsters.",
+      "firstAirDate": "1993-08-28",
+      "lastAirDate": "2023-09-29",
+      "backdrop": "/i01wnWz0Z3rMATqbkAVLHEaGbNP.jpg",
+      "poster": "/qx3SJlAp2RK656TusqKx1qEqVMW.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ],
+      "imdbId": "tt0106064"
+    },
+    "-149": {
+      "tmdbId": 1546,
+      "name": "Het Speelplein",
+      "originalName": "Recess",
+      "overview": "\"Het Speelplein\" geeft het leven weer op basisschool Third Street, waar leerlingen een microkosmos van de menselijke samenleving hebben opgezet met een eigen regering, klassensysteem en ongeschreven wetten.",
+      "firstAirDate": "1997-09-13",
+      "lastAirDate": "2001-11-04",
+      "backdrop": "/PJSgscE4Es0TXmgIqp3X6ey8Ux.jpg",
+      "poster": "/r2285EsPzfvfKI4vTKrn0jAdK0m.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Komedie"
+      ],
+      "imdbId": "tt0126170"
+    },
+    "-279": {
+      "tmdbId": 3548,
+      "name": "Roboroach",
+      "originalName": "Roboroach",
+      "overview": "Verhalen van twee broers - kakkerlakken Rube en Reg. Terwijl ze op zoek waren naar voedsel, werd Rube gevangen en gebruikt voor een experiment. Toen zijn broer hem probeerde te redden, sprong Rube in een elektrisch pak en veranderde voor altijd in een robot kakkerlak - half robot, half kakkerlak. Hij beloofde echter zijn buitengewone vaardigheden alleen voor het welzijn van iedereen te gebruiken.",
+      "firstAirDate": "2002-01-08",
+      "lastAirDate": "2004-08-28",
+      "backdrop": "/zLX9NdJu0dpajFGonSmpuGUOPt4.jpg",
+      "poster": "/63CbUKrHB5cJc7ldZ1eqfj3MsMr.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ],
+      "imdbId": "tt0364865"
+    },
+    "-326": {
+      "tmdbId": 295779,
+      "name": "Sailor Moon",
+      "originalName": "Sailor Moon",
+      "overview": "The magical action-adventures of a teenage girl who learns of her destiny as the legendary warrior Sailor Moon and must band together with the other Sailor Scouts to defend the Earth and Galaxy.",
+      "firstAirDate": "1995-08-28",
+      "lastAirDate": "2002-04-08",
+      "backdrop": "/8F55Sz8gpBXznmPBpH3PZQkOige.jpg",
+      "poster": "/s1naQUEocYRcf42HrHQd7Our2Rc.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0114327"
+    },
+    "-327": {
+      "tmdbId": 16476,
+      "name": "Seabert",
+      "originalName": "Bibifoc",
+      "overview": "Deze tekenfilm gaat over het Amerikaanse jongetje Tommy. Hij mag met zijn oom Smokey mee op vakantie. Het verbaast Tommy dat ze naar Groenland gaan, maar hij komt er al snel achter waarom: zijn oom wil samen met diens handlangers Zuurmeijer en Carbonne op jacht, en hun doel is het bont van jonge zeehonden. Tommy doet er alles aan om te voorkomen dat oom Smokey zijn gang kan gaan. Hij krijgt hierbij hulp van het eskimomeisje Aura, en van een donzig jong zeehondje dat hij Seabert noemt. Samen doen ze wat ze kunnen om de zeehonden te beschermen, wat niet altijd gemakkelijk is omdat ook de meedogenloze schurk Grijpwijk op jacht is naar zeehondenbont.  Tommy, Aura en Seabert worden goede vrienden en beleven tal van spannende en soms ook gevaarlijke avonturen. Ze krijgen hierbij hulp van Aura's familie, zo krijgen ze van haar vader twee sneeuwscooters die hen snel over land èn over zee kunnen vervoeren. Het drietal biedt hulp aan dieren in nood, in het begin alleen in Groenland maar later over de hele wereld. Het doel van deze in Frankrijk en Monaco gemaakte tekenfilm was om kinderen bewust te maken van het belang van natuurbehoud en respect te hebben voor dieren.",
+      "firstAirDate": "1985-10-03",
+      "lastAirDate": "1986-12-03",
+      "backdrop": "/so3syqkGeq5PUCvjYUmKnVmNi36.jpg",
+      "poster": "/knuqpm4OlFHkeCO781adr1k8YBr.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0367288"
+    },
+    "-280": {
+      "tmdbId": 40143,
+      "name": "Shaman King",
+      "originalName": "シャーマンキング",
+      "overview": "Asakura Yoh is een sjamaan, een persoon die met geesten communiceert. Hij doet mee aan het sjamanengevecht, want degene die het toernooi wint, mag communiceren met de Grote Geest, God. . . dat en zijn verloofde Anna wil de vrouw worden van de Sjamanenkoning. Zijn vrienden Manta, Horo Horo, Ryu en zijn samurai-spookpartner, Amidamaru, helpen hem.",
+      "firstAirDate": "2001-07-04",
+      "lastAirDate": "2002-09-25",
+      "backdrop": "/f7DC5Qu0MJBtbAK9zCOU2rzz6NG.jpg",
+      "poster": "/conBjZLX8KBc18vdQjSNegZytln.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0367409"
+    },
+    "-182": {
+      "tmdbId": 1130,
+      "name": "Silver Surfer",
+      "originalName": "Silver Surfer",
+      "overview": "De avonturen van de kosmische zwerver terwijl hij zijn verloren huis zoekt nadat hij in opstand is gekomen tegen zijn meester.",
+      "firstAirDate": "1998-02-07",
+      "lastAirDate": "1998-05-29",
+      "backdrop": "/jTupUx9wdoIKe8BFoP5Z1xzEtno.jpg",
+      "poster": "/18rhdRDXAAHUTsbWtIQn2ZkjRL9.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ],
+      "imdbId": "tt0203268"
+    },
+    "-282": {
+      "tmdbId": 7579,
+      "name": "Sitting Ducks",
+      "originalName": "Sitting Ducks",
+      "overview": "The offbeat escapades of unlikely best friends Bill, a rambunctious duck, and Aldo, an alligator from Swampwood, where ducks are usually lunch, not pals.",
+      "firstAirDate": "2001-09-13",
+      "lastAirDate": "2003-05-08",
+      "backdrop": "/1t7dXhKGUZe5bvHXBrAKiIH56l3.jpg",
+      "poster": "/1uOFSZaMjUIohMNQKyd19UEPbb8.jpg",
+      "genres": [
+        "Familie",
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0368543"
+    },
+    "-328": {
+      "tmdbId": 4237,
+      "name": "De Snorkels",
+      "originalName": "Snorks",
+      "overview": "Ergens diep in de zee ligt Snorkelland waar de Snorkels, kleine wezentjes met een buisje op hun hoofd, wonen. De hoofdpersonages zijn Allstar, Okkie (zijn inktvispuppy), Kitty, Daffney, Dimmy en Toeter (die niet kan praten, alleen toeteren). Samen beleven ze heel wat onderwateravonturen. Vaak raken ze in de problemen door Junior, de verwende zoon van gouverneur Nathals. Ze gaan dan meestal te rade bij Oom Galjoen, de oom van Allstar.",
+      "firstAirDate": "1984-09-15",
+      "lastAirDate": "1989-01-14",
+      "backdrop": "/49E8mWyokr9f3tOkaT4Z58xhxLZ.jpg",
+      "poster": "/rQmrzG1US6nvVRdW4dYHIXd7NQy.jpg",
+      "genres": [
+        "Familie",
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0086802"
+    },
+    "-283": {
+      "tmdbId": 248,
+      "name": "So Little Time",
+      "originalName": "So Little Time",
+      "overview": "So Little Time is an American sitcom starring Mary-Kate and Ashley Olsen that aired on Fox Family. The first half of the series aired from June 2, 2001, to August 15, 2001. The series then went on a four-month hiatus owing to network management changes. By December 2001, Fox Family had become ABC Family, and the remaining episodes aired until May 4, 2002.",
+      "firstAirDate": "2001-06-02",
+      "lastAirDate": "2002-05-04",
+      "backdrop": "/qeJUqoZZj0JUPcOhU0tseLoNFtX.jpg",
+      "poster": "/iNkK6WIixZlJNlMu912ngUOYTmF.jpg",
+      "genres": [
+        "Komedie",
+        "Familie"
+      ],
+      "imdbId": "tt0278245"
+    },
+    "-329": {
+      "tmdbId": 1954,
+      "name": "So Weird",
+      "originalName": "So Weird",
+      "overview": "Fourteen-year-old Fi Phillips investigates the paranormal while touring the country in a bus with her widowed rock-star mom and her skeptical brother, Jack. At the beginning of Season 3, Fi passed the job of case cracker to a songbird named Annie",
+      "firstAirDate": "1999-01-18",
+      "lastAirDate": "2001-09-28",
+      "backdrop": "/owhWMSibwekc88KKjPgkD6BBVzk.jpg",
+      "poster": "/3JXACRlBkEGRdzXvHH7R1houDeS.jpg",
+      "genres": [
+        "Mysterie",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ],
+      "imdbId": "tt0169247"
+    },
+    "-284": {
+      "tmdbId": 19395,
+      "name": "Space Strikers",
+      "originalName": "Space Strikers",
+      "overview": "Space Strikers was an animated television series that was based on the Jules Verne novel Twenty Thousand Leagues Under the Sea. The series aired on UPN from 1995 to 1996. Action sequences were shown in \"Strikervision\" 3-D. It was the first animated series to be made specifically for UPN.",
+      "firstAirDate": "1995-03-08",
+      "lastAirDate": "1995-08-30",
+      "backdrop": "/8V5vVlwx2lIFJ8WO3n8IbzN8hN8.jpg",
+      "poster": "/6PXZ5zHPIZsA8RE4gJPWYRXjJJT.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0488469"
+    },
+    "-285": {
+      "tmdbId": 888,
+      "name": "Spider-Man",
+      "originalName": "Spider-Man",
+      "overview": "Na gebeten te zijn door een radioactieve spin, ontdekt Peter Parker dat de spin hem superkrachten heeft gegeven. Na de dood van Oom Ben besluit hij Spider-Man te worden om de misdaad te bestrijden. Maar naast Spider-Man is hij ook een gewone tiener met alle daarbij horende problemen.",
+      "firstAirDate": "1994-11-19",
+      "lastAirDate": "1998-01-31",
+      "backdrop": "/wr2XpWwtaFz0bfELWfSd8ynM2mB.jpg",
+      "poster": "/1BX1HZZqDoLDx9Ry4oET6dA9293.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure"
+      ],
+      "imdbId": "tt0112175"
+    },
+    "-286": {
+      "tmdbId": 4784,
+      "name": "Spider-Woman",
+      "originalName": "Spider-Woman",
+      "overview": "Toen Jessica Drew als kind gebeten werd door een giftige spin, redde haar vader haar leven door haar een experimenteel 'spinnenserum' te injecteren, wat haar ook bovenmenselijke krachten gaf. Als volwassene werkt Jessica als redacteur van Justice Magazine, maar wanneer er problemen ontstaan, glipt Jessica weg om haar geheime identiteit, Spider-Woman, aan te nemen.  Stan Lee",
+      "firstAirDate": "1979-09-22",
+      "lastAirDate": "1980-01-05",
+      "backdrop": "/pCHKnO0jSKL46IlHRmFEVmZXLkn.jpg",
+      "poster": "/cXiD1jVLjTyvO3w2jKq9QdlAYag.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0197911"
+    },
+    "-287": {
+      "tmdbId": 16033,
+      "name": "Anna Aardbei",
+      "originalName": "Strawberry Shortcake",
+      "overview": "Strawberry en haar vrienden, haar zus Apple Dumpling en haar pony, Honey Pie, gaan zoete avonturen tegemoet in Strawberry Land.",
+      "firstAirDate": "2003-03-11",
+      "lastAirDate": "2007-10-02",
+      "backdrop": "/dOqaTPGxYr7PyzSyoB1cQqnplIq.jpg",
+      "poster": "/744dPrpzK89x5H4AbFMMv0aKEgF.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt1190823"
+    },
+    "-333": {
+      "tmdbId": 12150,
+      "name": "Super Duper Sumos",
+      "originalName": "Super Duper Sumos",
+      "overview": "Super Duper Sumos, was an American animated series that is produced by DIC Entertainment and Xilam, It was created by Kevin O'Donnell and Vincent Nguyen.",
+      "firstAirDate": "2002-04-07",
+      "lastAirDate": "2002-09-22",
+      "backdrop": "/9GELUumAKHkFDcs0ZbF4gaFpdxG.jpg",
+      "poster": "/qKeJoMiimrPWSGK89KX8t8B6WJC.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ],
+      "imdbId": "tt0328795"
+    },
+    "-128": {
+      "tmdbId": 3428,
+      "name": "Super Robot Monkey Team Hyperforce Go!",
+      "originalName": "Super Robot Monkey Team Hyperforce Go!",
+      "overview": "Super Robot Monkey Team Hyperforce Go! is een Amerikaans/Japanse animatieserie, gemaakt door Ciro Nieli, een van de regisseurs van Teen Titans, waarbij de animatie wordt gemaakt door een Japanse studio die bekend staat als The Answer Studio. De serie speelt zich voornamelijk af op de fictieve planeet Shuggazoom en volgt de avonturen van vijf cyborgapen en een mensenjongen genaamd Chiro terwijl ze worstelen om hun planeet – en de rest van het universum – te beschermen tegen de krachten van het kwaad.\n\nZoals duidelijk blijkt uit het uiterlijk van de show, is er een aanzienlijke anime-invloed aanwezig, ondanks dat het voor de Amerikaanse televisie is geproduceerd. Het werd ook beïnvloed door Star Trek, Super Sentai, Voltron en Star Wars. De show bevat ook verschillende verwijzingen naar de popcultuur, met als opmerkelijk voorbeeld de aflevering 'Season of the Skull', een parodie op de thriller The Wicker Man uit de jaren 70.",
+      "firstAirDate": "2004-09-18",
+      "lastAirDate": "2006-12-16",
+      "backdrop": "/nScyq5uYMiSPhzryAqaQ2hJAl4p.jpg",
+      "poster": "/gcTY3iHLC1wm9wB4pKn2vvCxCfK.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Action & Adventure",
+        "Familie",
+        "Sci-Fi & Fantasy",
+        "Komedie"
+      ],
+      "imdbId": "tt0423746"
+    },
+    "-288": {
+      "tmdbId": 281132,
+      "name": "Symfollies",
+      "originalName": "Symfollies",
+      "overview": "Symfollies is a magic world. The inhabitants are the musical instruments from a symphonic orchestra. In Symfollies the leading characters are father Bass, mother Celine, their son Stradi and daughter Viola. Or all together: the violin family. Together with the other instruments of the symphonic orchestra, they go through exciting, funny and touching adventures.",
+      "firstAirDate": "2000-01-01",
+      "lastAirDate": "2004-12-31",
+      "backdrop": null,
+      "poster": "/yY5NdYgysheUMOCYD5i03xAg3Fv.jpg",
+      "genres": [
+        "Kids",
+        "Animatie"
+      ],
+      "imdbId": "tt0848186"
+    },
+    "-184": {
+      "tmdbId": 27231,
+      "name": "Teknoman",
+      "originalName": "Teknoman",
+      "overview": "Earth's defense forces are engaged in a losing battle with the evil alien race called the venomoids led by Darkon. During this time frame a ship plummets towards Earth and explodes, and out walks a stranger named Blade, unscathed, but suffering from amnesia. In his possession is a Tekno crystal, which he can use to transform himself into Teknoman, an unstoppable fighting machine. As the war turns in their favour, they learn that Darkon is breeding Teknomen from humans one of which looks exactly like Blade. Where did these humans come from and why is Blade able to transform into a Teknoman?",
+      "firstAirDate": "1995-09-10",
+      "lastAirDate": "1992-02-25",
+      "backdrop": "/vYjmcCcvyU05XfELz0nAMBXMnrt.jpg",
+      "poster": "/nMJN3MDmeYxYQZrr48xNIq3KWyF.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt6188134"
+    },
+    "-334": {
+      "tmdbId": 635,
+      "name": "The Adventures of Shirley Holmes",
+      "originalName": "The Adventures of Shirley Holmes",
+      "overview": "The Adventures of Shirley Holmes is a Canadian mystery TV series that originally aired from 1997 to 2000. The show was created by Ellis Iddon and Phil Meagher who had produced a successful series of books with Harper Collins, teaming up with Credo and Forefront to develop the TV series. Filmed in Winnipeg, Manitoba, the series follows the life of Shirley Holmes, the great grand-niece of Sherlock Holmes who, with the help of ex-gang member Bo Sawchuk, tackles a variety of mysteries in and around the fictional Canadian city of Redington. On some occasions, she found herself matching wits with archnemesis Molly Hardy.\n\nThe show has been broadcast in over 80 countries and has been dubbed in French, Spanish, Italian, Portuguese, German, Norwegian, Polish and Turkish.\n\nHer performance in the show led to actress Meredith Henderson being nominated for a Gemini Award in 1998 and winning one in 1999. The show itself was twice nominated for a Gemini Award in the category \"Best Children's or Youth Program or Series\" in 1998 and eventually won it in 1999. In the spring of 1998 Susin Nielsen won a Gemini Award in the category \"Best Writing in a Children's or Youth Program\" for her screenplay of the episode \"The Case of the Burning Building\". In the same year, Elizabeth Stewart won a WGC Award from the Writers Guild of Canada for her writing of the episode \"The Case of the Maestro's Ghost\".",
+      "firstAirDate": "1997-05-07",
+      "lastAirDate": "2000-05-07",
+      "backdrop": null,
+      "poster": "/8R9qtjN3IslYq5Ijx1oxFb4JMU6.jpg",
+      "genres": [
+        "Drama",
+        "Mysterie"
+      ],
+      "imdbId": "tt0115085"
+    },
+    "-185": {
+      "tmdbId": 1300,
+      "name": "The Avengers: United They Stand",
+      "originalName": "The Avengers: United They Stand",
+      "overview": "De West Coast Avengers bestaan uit de Wasp, Wonder Man, Tigra, Hawkeye, Scarlet Witch en worden geleid door Henry 'Hank' Pym. Ze kunnen soms rekenen op de hulp van de Falcon en de Vision.\n\nZe worden geconfronteerd met verschillende vijanden, zoals de tijdmeester Kang the Conqueror, de sinistere Egghead, Baron Zemo en vooral Ultron, een robot met uitzonderlijke intelligentie gemaakt door Henry 'Hank' Pym, ook bekend als Ant-Man.",
+      "firstAirDate": "1999-10-30",
+      "lastAirDate": "2000-02-26",
+      "backdrop": "/44TJgVKPto88kOF2R036dgkjJms.jpg",
+      "poster": "/oNd4XaBeBkOOJYKK5k76zz2Debg.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0203247"
+    },
+    "-260": {
+      "tmdbId": 6332,
+      "name": "The Incredible Hulk",
+      "originalName": "The Incredible Hulk",
+      "overview": "Wanneer onderzoekswetenschapper Bruce Banner wordt beschoten met een gamma straal bom tijdens een mislukt experiment, ontwikkelt hij een gevaarlijk alter ego: een gemeen, groen monster dat bekend staat als de Incredible Hulk, dat tevoorschijn komt als hij boos wordt.",
+      "firstAirDate": "1996-09-08",
+      "lastAirDate": "1997-11-23",
+      "backdrop": "/2BvGyFBjDMNIZ5ojlhHpQLwWFxU.jpg",
+      "poster": "/wa60s9NSvrH87NFCArmobnIyNnh.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Drama",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ],
+      "imdbId": "tt0115215"
+    },
+    "-336": {
+      "tmdbId": 9396,
+      "name": "The Legend of William Tell",
+      "originalName": "The Legend of William Tell",
+      "overview": "William Tell is de jeugdige leider van een bende jonge, 'brat pack' outlaws, voor altijd opgejaagd door de krachten van de duisternis, geleid door Xax en Kreel, die zich de macht hebben toegeëigend in hun thuisland. De reeks op zichzelf staande verhalen volgt Will's zoektocht om de jonge prinses Vara haar rechtmatige plaats op de koninklijke troon terug te geven en de troepen van Xax en Kreel te verslaan - en daarmee vrede en orde terug te brengen in het koninkrijk Kale.",
+      "firstAirDate": "1998-08-30",
+      "lastAirDate": "1998-12-20",
+      "backdrop": null,
+      "poster": "/887AGtb7UQtEOyV1RfftCaYU00W.jpg",
+      "genres": [
+        "Drama"
+      ],
+      "imdbId": "tt0191700"
+    },
+    "-337": {
+      "tmdbId": 896,
+      "name": "The Lost World",
+      "originalName": "The Lost World",
+      "overview": "Avonturiers uit het begin van de 20e eeuw moeten vechten om te overleven nadat hun luchtballon in een afgelegen deel van de Amazone is neergestort en hen op een prehistorisch plateau heeft laten stranden.",
+      "firstAirDate": "1999-04-03",
+      "lastAirDate": "2002-05-13",
+      "backdrop": "/ovq59utLtOqqMBphohyKqvVqfpb.jpg",
+      "poster": "/iCpCsyJ1CYLQOp4y52ctrAco9oj.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Drama"
+      ],
+      "imdbId": "tt0240278"
+    },
+    "-169": {
+      "tmdbId": 10700,
+      "name": "The Mouse and the Monster",
+      "originalName": "The Mouse and the Monster",
+      "overview": "The Mouse and the Monster is an American animated series created and executive produced by Jerry Leibowitz. The show aired on UPN network's cartoon block UPN Kids and the Fox Family Channel. It featured a mouse named Chesbro, and a monster named Mo. The show subsequently aired on Disney Europe following Disney's acquisition of Saban's library of shows.",
+      "firstAirDate": "1996-09-21",
+      "lastAirDate": "1996-12-14",
+      "backdrop": "/kiya1qNyI7pTkRmn54FRT4lR8Ex.jpg",
+      "poster": "/4qunKCTxCB9cy4pFtMabiFP45s7.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0426753"
+    },
+    "-172": {
+      "tmdbId": 21036,
+      "name": "The New Addams Family",
+      "originalName": "The New Addams Family",
+      "overview": "The spooky-ooky-kooky family lives happily together in their macabre gothic mansion much to the chagrin and confusion of outsiders and neighbors.",
+      "firstAirDate": "1998-10-19",
+      "lastAirDate": "1999-08-28",
+      "backdrop": "/yAPH4I5EHbjKYxj2qM7HeXOAlB7.jpg",
+      "poster": "/MQt1qtwoTiaEoyYZI0j5hfNi6A.jpg",
+      "genres": [
+        "Komedie",
+        "Familie",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0172031"
+    },
+    "-174": {
+      "tmdbId": 9829,
+      "name": "The New Archies",
+      "originalName": "The New Archies",
+      "overview": "The New Archies is een kindertelevisietekenfilm, gebaseerd op de langlopende Archie-stripboeken en -personages. In de serie, geproduceerd door DIC Entertainment en oorspronkelijk uitgezonden op NBC, werden Archie Andrews, Betty Cooper, Veronica Lodge, Jughead Jones, Reggie Mantle en de andere tienerstudenten van Riverdale High School opnieuw voorgesteld als pre-tieners op de middelbare school. Er werden dertien afleveringen van de show geproduceerd, die allemaal werden uitgezonden tijdens het eerste en enige seizoen van de show in 1987 en werden herhaald in 1989. Er werd een kortstondige Archie Comics-serie geproduceerd met dezelfde titel en die zich afspeelde in hetzelfde universum als de animatieserie. Herhalingen van de serie waren te zien in de zaterdagochtendopstelling van The Family Channel van 1991 tot 1993 en op Toon Disney van 1998 tot 2002.",
+      "firstAirDate": "1987-09-12",
+      "lastAirDate": "1987-12-05",
+      "backdrop": "/aJX39tpnqzk2sxvE2BzyzWagGRA.jpg",
+      "poster": "/iWA53pok1wVwRX2u8Rr1EKh7jvb.jpg",
+      "genres": [
+        "Familie",
+        "Animatie"
+      ],
+      "imdbId": "tt0176382"
+    },
+    "-150": {
+      "tmdbId": 543,
+      "name": "The Proud Family",
+      "originalName": "The Proud Family",
+      "overview": "Volg de avonturen en tegenslagen van Penny, een Afro-Amerikaans meisje dat haar best doet om de eerste tienerjaren door te komen. Elke ontmoeting draait onvermijdelijk uit op een uitbundige situatie vol grappen, hilariteit en gevoel.",
+      "firstAirDate": "2001-09-15",
+      "lastAirDate": "2005-08-19",
+      "backdrop": "/1HZpsTp3N8QQDSNDu5yEmBAb7s1.jpg",
+      "poster": "/wcfbfActZ9VZ3anFqe3YYNWOHsG.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids",
+        "Familie"
+      ],
+      "imdbId": "tt0293737"
+    },
+    "-357": {
+      "tmdbId": 1168,
+      "name": "The Real Adventures of Jonny Quest",
+      "originalName": "The Real Adventures of Jonny Quest",
+      "overview": "Jonny is een jongen die zijn vader, een wetenschapper, samen met zijn lijfwacht Race Bannon en zijn vriend Hadji vergezelt op een reeks avonturen over de hele wereld, altijd gericht op het verijdelen van een kwaadaardige samenzwering.",
+      "firstAirDate": "1996-08-26",
+      "lastAirDate": "1997-04-16",
+      "backdrop": "/iIQKA17YHJUmGYRpXmP0KXaxq99.jpg",
+      "poster": "/vx8KdVNOpHVBR0x30shg5kcGnd7.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0115226"
+    },
+    "-338": {
+      "tmdbId": 4289,
+      "name": "The Secret World of Alex Mack",
+      "originalName": "The Secret World of Alex Mack",
+      "overview": "Neem een ​​beetje sciencefiction, een grote portie speelse verbeeldingskracht, enorme hoeveelheden humor, non-stop actie en speels avontuur, en je hebt een klein meisje genaamd Alex Mack! Een gewoon meisje met ongebruikelijke vaardigheden, Alex, gebruikt haar speciale krachten om zo pijnloos en leuk mogelijk door de netelige wereld van tieners te komen. om te zijn wie ze is: een gewoon meisje, dat moet omgaan met de uitdagingen, triomfen en ontberingen van het tiener zijn.",
+      "firstAirDate": "1994-10-08",
+      "lastAirDate": "1998-01-15",
+      "backdrop": "/gdtNCKdtuu0rldOVZmn0PnYcLRd.jpg",
+      "poster": "/5pIfkimPGsMVmpgN6XO78LkPZqS.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy",
+        "Komedie",
+        "Drama",
+        "Kids",
+        "Familie"
+      ],
+      "imdbId": "tt0108921"
+    },
+    "-124": {
+      "tmdbId": 130705,
+      "name": "The Terrible Thunderlizards",
+      "originalName": "The Terrible Thunderlizards",
+      "overview": "The Terrible Thunderlizards is a segment that aired in Canada on YTV and in the United States as part of Eek! Stravaganza on the Fox Kids programming block.",
+      "firstAirDate": "1993-11-20",
+      "lastAirDate": "1993-11-20",
+      "backdrop": null,
+      "poster": "/wf1yHS94TanlGOdgGr433G1ZxNR.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": null
+    },
+    "-125": {
+      "tmdbId": 14540,
+      "name": "The Tick",
+      "originalName": "The Tick",
+      "overview": "Attention Evil-doers! The Tick is here, and he’s wearing the blue tights of justice! Together with his trusty moth-costumed sidekick Arthur, The Tick keeps the streets of The City safe from a rogue’s gallery of hilariously malevolent villains. So grab a snack, put your feet up and get ready to laugh and cheer as everyone’s favorite brawny hero swats evil on the snout with the rolled-up newspaper of goodness!",
+      "firstAirDate": "1994-09-10",
+      "lastAirDate": "1996-11-24",
+      "backdrop": "/6uqPCa6BZ45BzxPZrk45rOYOvse.jpg",
+      "poster": "/rRme2aeGyDwel0e9NSPx9FzIPq9.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0112196"
+    },
+    "-340": {
+      "tmdbId": 2666,
+      "name": "The Tribe",
+      "originalName": "The Tribe",
+      "overview": "Een virus van onbekende oorsprong decimeert alle volwassenen op aarde. De kinderen en adolescenten van de wereld bevinden zich verlaten en alleen. Zonder familieleden, ouders, leraren of politie zullen ze voor zichzelf moeten leren zorgen. Ze zullen hun eigen wetten moeten creëren, hun bescherming zal alleen afhangen van hun vermogen om aan de situatie te wennen. Om te overleven moeten ze bondgenoten vinden om voedsel te vinden, onderdak te vinden en zichzelf te beschermen tegen kwaadaardige stammen die de macht willen overnemen.",
+      "firstAirDate": "1999-04-24",
+      "lastAirDate": "2003-09-06",
+      "backdrop": "/i14O694buEhWSr5pHKnrVWMms2w.jpg",
+      "poster": "/uxS2iK6MqKOznkwd0PT24ZcZXIV.jpg",
+      "genres": [
+        "Drama",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0274988"
+    },
+    "-151": {
+      "tmdbId": 3288,
+      "name": "The Weekenders",
+      "originalName": "The Weekenders",
+      "overview": "Tekenfilmserie over vier vrienden die het ultieme weekend zoeken in het zuiden van Californië.",
+      "firstAirDate": "2000-02-26",
+      "lastAirDate": "2004-02-29",
+      "backdrop": "/4i5ALQiqsTQ2S28B0uZSvk6cV1E.jpg",
+      "poster": "/aqpaC32hWrf9jdPkLiS3u73OcyZ.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie",
+        "Kids"
+      ],
+      "imdbId": "tt0237987"
+    },
+    "-296": {
+      "tmdbId": 2340,
+      "name": "The Zack Files",
+      "originalName": "The Zack Files",
+      "overview": "The Zack Files is a science fiction television program that revolves around a young boy, played by Robert Clark, who is a magnet for paranormal activity and attends Horace White High School for Boys along with his three friends Cam, Gwen, and Spencer. Zack manages to get himself into trouble with his paranormal adventures and it is up to his friends to help him set things straight. The series is based on a series of books with the same name, written by Dan Greenburg. In August 2004, Goldhill Home Media released the first season on DVD.",
+      "firstAirDate": "2000-09-17",
+      "lastAirDate": "2002-05-05",
+      "backdrop": "/4YesTjIDofyVNAaANjgqg4Qk1iO.jpg",
+      "poster": "/1zqsOPFRgYgsbL2aboYzc9sYPKl.jpg",
+      "genres": [
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0267237"
+    },
+    "-289": {
+      "tmdbId": 2284,
+      "name": "Teenage Mutant Ninja Turtles",
+      "originalName": "Teenage Mutant Ninja Turtles",
+      "overview": "De vier gemuteerde schildpadden Leonardo, Donatello, Raphael en Michelangelo leven hun leven in de riolen van New York met een gemuteerde rat genaamd Splinter en beoefenen de kunst van ninja. Op een dag wordt hun huis verwoest en op zoek naar een nieuwe plek om te wonen, staan ze de organisatie van de mysterieuze Oroko Saki (de Shredder) in de weg. Ze ontmoeten ook laboratoriumassistent April O\"Neill, straatvechter Casey Jones en een nog onbekende vereniging wiens lot allemaal verbonden is met de machinaties van de shredder. Duistere en spannende nieuwe Turtles-serie, dit keer gebaseerd op de originele Eastmain- en Laird-strips.",
+      "firstAirDate": "2003-02-08",
+      "lastAirDate": "2009-02-28",
+      "backdrop": "/6xqMp5UfKUlYPSjwJ6jzRFxG5qR.jpg",
+      "poster": "/sEb6sTxyGoguCX4fK1G0hyzyLcv.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0318913"
+    },
+    "-358": {
+      "tmdbId": 982,
+      "name": "Transformers: Armada",
+      "originalName": "超ロボット生命体トランスフォーマー マイクロン伝説",
+      "overview": "Aardekinderen komen terecht in een conflict tussen twee facties van Transformers.",
+      "firstAirDate": "2003-01-10",
+      "lastAirDate": "2003-12-26",
+      "backdrop": "/xWBt3YbcOHAi5GqhJCdw7K9CFfv.jpg",
+      "poster": "/dp8ths1rTC7XDX8SmFEfHqiiyni.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ],
+      "imdbId": "tt0329938"
+    },
+    "-187": {
+      "tmdbId": 20469,
+      "name": "Transformers: Robots in Disguise",
+      "originalName": "トランスフォーマー・カーロボット",
+      "overview": "Only Koji and the Autobots can save the Earth from the evil Predacons! The Predacons have been battling the Autobots for thousands of years, but this time, they've kidnapped the world's greatest minds, including Dr. Onishi, a brilliant scientist. Optimus Prime, the leader of the Autobots has dispatched his troops to try to save Onishi and the others, enlisting the help of Koji, Onishi's son. But can these heroes outwit the evil Megatron, leader of the Predacons in time to save the Earth?",
+      "firstAirDate": "2000-04-05",
+      "lastAirDate": "2000-12-27",
+      "backdrop": "/63LMyxmGC6tIrWkxDK0ytpESiXb.jpg",
+      "poster": "/yhqNODaL2cy4mjll8RsIdXS8YXv.jpg",
+      "genres": [
+        "Animatie",
+        "Kids",
+        "Action & Adventure",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0290380"
+    },
+    "-291": {
+      "tmdbId": 1886,
+      "name": "Tutenstein",
+      "originalName": "Tutenstein",
+      "overview": "Tutenstein is een jongen van tien jaar. Zijn mummie wordt in een hedendaags museum tot leven gewekt nadat hij is getroffen door bliksem. In de afgelopen 3000 jaar is er heel wat veranderd in de wereld, maar één ding is hetzelfde gebleven: Tutenstein is ervan overtuigd dat hij nog steeds farao is! Gewapend met een gigantisch ego beraamt de mummie allerlei plannen om zijn rechtmatige plaats op de troon weer in te nemen!",
+      "firstAirDate": "2003-11-01",
+      "lastAirDate": "2007-01-13",
+      "backdrop": "/6KNs2jsgJzAKS0xaeDwb3UJNZLI.jpg",
+      "poster": "/64mxPXRRQEMnPNJB9VdbbVLATdc.jpg",
+      "genres": [
+        "Animatie",
+        "Kids"
+      ],
+      "imdbId": "tt0386986"
+    },
+    "-293": {
+      "tmdbId": 4025,
+      "name": "Ulysse 31",
+      "originalName": "Ulysse 31",
+      "overview": "Ulysses and his crew struggle against the divine entities that rule the universe, the ancient gods from Greek mythology.",
+      "firstAirDate": "1981-10-03",
+      "lastAirDate": "1982-03-27",
+      "backdrop": "/bkf1ArAObDs7CTQ7HTTTiPsSREP.jpg",
+      "poster": "/11BQZIJCliDSGMqV9opAJLbeAaV.jpg",
+      "genres": [
+        "Kids",
+        "Animatie",
+        "Sci-Fi & Fantasy"
+      ],
+      "imdbId": "tt0131190"
+    },
+    "-295": {
+      "tmdbId": 6066,
+      "name": "Verano azul",
+      "originalName": "Verano azul",
+      "overview": "De serie vertelt de avonturen van een groep jongeren tussen 9 en 17 jaar, terwijl ze op zomervakantie zijn in een klein kustplaatsje aan de Spaanse Middellandse Zee Costa del Sol.",
+      "firstAirDate": "1981-10-11",
+      "lastAirDate": "1982-02-14",
+      "backdrop": "/aII4b2vcRQgUaCUgzC6Wf8tNU6e.jpg",
+      "poster": "/mfRyMbvpssP5vSs3CQaRyGOGpT2.jpg",
+      "genres": [
+        "Komedie",
+        "Drama",
+        "Familie"
+      ],
+      "imdbId": "tt0077094"
+    },
+    "-343": {
+      "tmdbId": 7966,
+      "name": "Voltron: The Third Dimension",
+      "originalName": "Voltron: The Third Dimension",
+      "overview": "When the evil Prince Lotor escapes from prison and forms an alliance with Witch Haggar to create monstrous new Robeasts to threaten the galaxy, it's up to the Voltron Force to once again defend the universe",
+      "firstAirDate": "1998-09-12",
+      "lastAirDate": "2000-02-19",
+      "backdrop": null,
+      "poster": "/2kSv2lUBQSPcx1F0PEfFklOzR70.jpg",
+      "genres": [
+        "Animatie",
+        "Action & Adventure",
+        "Kids"
+      ],
+      "imdbId": "tt0164303"
+    },
+    "-186": {
+      "tmdbId": 518,
+      "name": "VR Troopers",
+      "originalName": "VR Troopers",
+      "overview": "Join the VR troopers as they use `Virtual Reality' to stop the evil GrimLord creating havoc.",
+      "firstAirDate": "1994-09-03",
+      "lastAirDate": "1996-02-21",
+      "backdrop": "/nLzFrOdNzBx1qTkjmKaOhRUp2iy.jpg",
+      "poster": "/71bZ8qGxCeCwPXjdAJQTyerjYe6.jpg",
+      "genres": [
+        "Action & Adventure",
+        "Sci-Fi & Fantasy",
+        "Kids"
+      ],
+      "imdbId": "tt0108978"
+    },
+    "-130": {
+      "tmdbId": 137,
+      "name": "W.I.T.C.H.",
+      "originalName": "W.I.T.C.H.",
+      "overview": "The Guardians must save Meridian from the evil sorcerer Phobos and Cedric who are searching for Phobos' sister, the long lost princess of Meridian and true heir to the throne. They later find her and the Guardians then set about saving her from Phobos. When Meridian is freed from evil and true heir takes the throne, a new mysterious sorceress named Nerissa frees Phobos' top henchmen and reforms them as the Knights of Vengeance. Once the Guardians learn more about the sorceress and her evil plan of reuniting former Guardians, they are able to defeat the Knights only to have more powerful Knights, in addition to the former Guardians attack them.",
+      "firstAirDate": "2004-12-18",
+      "lastAirDate": "2006-12-23",
+      "backdrop": "/71kqBPvacE6FGajjO4LfsaDLlWf.jpg",
+      "poster": "/8XTBHoLAEN3fa2QgszAgdW0pWne.jpg",
+      "genres": [
+        "Animatie",
+        "Sci-Fi & Fantasy",
+        "Komedie"
+      ],
+      "imdbId": "tt0383718"
+    },
+    "-345": {
+      "tmdbId": 65120,
+      "name": "Canards extrêmes",
+      "originalName": "Canards extrêmes",
+      "overview": "The wacky and dangerous adventures of a duo of ducks, Slax and Geextah, extreme sports fans. Both live as their passion, extreme adventures sometimes push them beyond their limits.",
+      "firstAirDate": "2001-09-05",
+      "lastAirDate": "2001-10-03",
+      "backdrop": "/7DYWlCyYy9qQBEtDn41KHeo3KBo.jpg",
+      "poster": "/o8Tsmia5XPUFJDRwhQpTxMS2EPy.jpg",
+      "genres": [
+        "Animatie",
+        "Komedie"
+      ],
+      "imdbId": "tt0482151"
+    },
+    "-344": {
+      "tmdbId": 4886,
+      "name": "Xcalibur",
+      "originalName": "Xcalibur",
+      "overview": "In the medieval-like Kingdom, King Edwin is assassinated by his sorcerer-conspiring brother, Bragan. Prince Erwann, witnessing the murder, fulfills the dying King's wish to hide Xcalibur. Kwodahn, an evil sorcerer, turns Erwann into stone. Erwann's daughter, Princess Djana, joins forces with Herik, a sorcerer's apprentice, and retrieves Xcalibur. Bragan seizes the throne, falsely accusing Erwann. Djana, Herik, Tara (from the People of the Sea), and Wip a little dragon become outlaws. Djana's resistance sparks a rebellion aided by villagers from Mallory and Quinn, and secretly by Lord Duncan, one of the Kingdom's lords.",
+      "firstAirDate": "2001-11-01",
+      "lastAirDate": "2002-02-14",
+      "backdrop": null,
+      "poster": "/vXjAiBETezA3EJJV9sKYhYvqS1h.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0305143"
+    },
+    "-188": {
+      "tmdbId": 13886,
+      "name": "Xyber 9: New Dawn",
+      "originalName": "Xyber 9: New Dawn",
+      "overview": "Jack, a precocious, blonde fifteen-year-old who is an orphan, is given the title of the Chosen One. The people of Terrana, a futuristic realm that has is amidst a war, relies upon him as the last hope to save their civilization. If Jack can achieve the Herculean task of destroying Machestro, the evil ruler of the underworld, he will be named king.",
+      "firstAirDate": "1999-09-25",
+      "lastAirDate": "2007-04-08",
+      "backdrop": "/1KaQ6Fvp0ETFweDm8f1nhAHTMhW.jpg",
+      "poster": "/lAdr0sAg1oCaW3oA0fsYZT1cXG8.jpg",
+      "genres": [
+        "Animatie"
+      ],
+      "imdbId": "tt0218796"
     }
   }
 }

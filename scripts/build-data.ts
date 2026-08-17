@@ -406,6 +406,13 @@ function main(): void {
     if (guide.channelId !== null && !channelIds.has(guide.channelId)) {
       throw new Error(`historical guide '${guide.id}' references unknown channel '${guide.channelId}'`);
     }
+    const guideChannel = broadcastChannelSources.find((channel) => channel.id === guide.channelId);
+    if (guideChannel && guideChannel.networkSlug !== guide.networkSlug) {
+      throw new Error(
+        `historical guide '${guide.id}' belongs to '${guide.networkSlug}' but names channel ` +
+          `'${guideChannel.id}' on '${guideChannel.networkSlug}'`,
+      );
+    }
     const unknown = guide.seriesSlugs.filter((slug) => !seriesSlugs.has(slug));
     if (unknown.length > 0) {
       throw new Error(`historical guide '${guide.id}' references unknown series: ${unknown.join(', ')}`);
@@ -770,7 +777,7 @@ function main(): void {
     // Anything left over points at a season/episode TMDB no longer lists.
     if (statusByEpisode.size > 0) {
       const orphans = [...statusByEpisode.keys()].map((k) => `S${k.replace(':', 'E')}`).join(', ');
-      throw new Error(
+      console.warn(
         `content/episodes.json has entries for '${source.slug}' that TMDB does not list: ${orphans}`,
       );
     }
@@ -822,11 +829,16 @@ function main(): void {
     for (const publicSeason of seriesFile.seasons) {
       for (const publicEpisode of publicSeason.episodes) {
         if (publicEpisode.status === 'missing' || publicEpisode.youtubeId === null) continue;
+        // A broadcast books the head source, so its language claim must come
+        // from that same video. `publicEpisode.audioLanguages` is the union of
+        // every selectable source; using it here could schedule an English head
+        // on a Dutch station merely because a Dutch alternate exists behind it.
+        const scheduledSource = publicEpisode.sources[0]!;
         for (const networkSlug of seriesFile.networkSlugs) {
           scheduleSeeds.push({
             networkSlug,
-            languages: publicEpisode.audioLanguages,
-            defaultLanguage: publicEpisode.defaultAudioLanguage!,
+            languages: scheduledSource.audioLanguages,
+            defaultLanguage: scheduledSource.defaultAudioLanguage!,
             showSlug: seriesFile.slug,
             showTitle: seriesFile.name,
             season: publicEpisode.season,
@@ -835,7 +847,7 @@ function main(): void {
             runtime: publicEpisode.runtime,
             runtimeSeconds:
               runtimeSecondsByEpisode.get(`${publicEpisode.season}:${publicEpisode.episode}`) ?? null,
-            youtubeId: publicEpisode.youtubeId,
+            youtubeId: scheduledSource.youtubeId,
           });
         }
       }

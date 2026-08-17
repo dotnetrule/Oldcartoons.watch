@@ -202,15 +202,20 @@ player object does carry undocumented `getAvailableAudioTracks` /
 `setAudioTrack` methods, and `preferAudioLanguage` in
 `src/player/youtubeApi.ts` uses them: both players ask for their language on
 every video, and where the embed answers, a Nederlandse dub is switched on
-before the viewer sees anything.
+before the viewer sees anything. Track objects have appeared both with a
+`getLanguageInfo()` method and as plain nested data after crossing the iframe;
+the reader deliberately handles both. After a switch it keeps checking for 12
+seconds, because YouTube can apply its own account/player preference late and
+undo an earlier choice.
 
 Written to survive their removal, because nothing promises they will stay.
 The methods are optional on `YtPlayer`, an absent or throwing one reports
-`unsupported`, and `unsupported` is the only outcome that brings back
-`src/components/AudioTrackNotice.vue` — which is the behaviour the site had
-before any of this existed. The other outcomes are informative rather than
-apologetic: `unavailable` means the player listed its tracks and this video has
-no Dutch one, so the notice would be pointing at a menu that cannot deliver.
+`unsupported`. When the upload's default language differs from the requested
+one, both `unsupported` and `unavailable` automatically try subtitles in the
+requested language next. Only when that also fails can
+`src/components/AudioTrackNotice.vue` return as the manual last resort. The
+other outcomes are informative rather than apologetic: `unavailable` means the
+player listed its tracks and this video has no Dutch one.
 
 Which language is asked for differs by player, and neither reads the scan:
 
@@ -231,8 +236,9 @@ Subtitles work the same way and are equally undocumented:
 had, prefers a real Nederlands track, and falls back to asking YouTube to
 translate one — reported as `translated` rather than folded into `switched`,
 because a machine translation is a different thing from subtitles somebody
-wrote. Nothing turns subtitles on by itself: the embeds set `cc_lang_pref` but
-deliberately not `cc_load_policy`, so captions stay off until a viewer asks.
+wrote. The embeds still omit `cc_load_policy`, so captions are not forced onto
+videos that already speak the requested language. They turn on automatically
+only as the fallback above, or when a viewer asks with the subtitle button.
 
 The scan stays the record of what the archive *knows*, and it is still what
 colours a series `dubbed` rather than green — Dutch that a viewer may yet have
@@ -280,6 +286,13 @@ Identity still wins from the guide wherever there is one. A guide says what the
 show **is**; a playlist says what its episodes **are**, and an upstream record
 may be a reboot, a dub or a differently-scoped entry. Nothing either of them
 writes may overrule the name, overview or years the guide recorded.
+
+One narrower display-name fallback also applies without a guide: when TMDB has
+no Dutch/Latin localized title and returns a Japanese, Chinese or Korean name,
+`loadSeriesCache` keeps the committed seed's reviewed Latin title. TMDB still
+owns the episode list, dates and artwork, and its original title remains in
+`tmdb-metadata.json`; East-Asian script must never become the public primary
+series name.
 
 ## The retention guarantee
 

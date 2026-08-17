@@ -68,9 +68,25 @@ function reportChanged(changed: boolean): void {
 type Flags = { all: boolean; limit: number | null };
 
 function parseFlags(argv: string[]): Flags {
-  const all = argv.includes('--all');
-  const limitIndex = argv.indexOf('--limit');
-  const limit = limitIndex === -1 ? null : Number(argv[limitIndex + 1]);
+  let all = false;
+  let limit: number | null = null;
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === '--all') {
+      if (all) throw new Error('--all was given more than once');
+      all = true;
+      continue;
+    }
+    if (arg === '--limit' || arg?.startsWith('--limit=')) {
+      if (limit !== null) throw new Error('--limit was given more than once');
+      const raw = arg.startsWith('--limit=') ? arg.slice('--limit='.length) : argv[++index];
+      if (!raw || raw.startsWith('--')) throw new Error('--limit needs a value');
+      limit = Number(raw);
+      continue;
+    }
+    throw new Error(`unknown argument '${arg}'`);
+  }
 
   if (limit !== null && (!Number.isInteger(limit) || limit <= 0)) {
     throw new Error('--limit takes a positive whole number of videos');

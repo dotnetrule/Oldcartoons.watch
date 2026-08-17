@@ -316,6 +316,7 @@ function rebuildFromSource(
           video,
           playlistId: playlist.id,
           maxDurationSeconds: playlist.maxDurationSeconds,
+          episodeNumber: null,
         })),
       );
     }
@@ -342,12 +343,27 @@ function rebuildFromSource(
       }
       return null;
     }
+    const requestedIds = dump.requestedVideoIds ?? dump.videos.map((video) => video.youtubeId);
+    if (
+      requestedIds.length !== owner.set.videos.length ||
+      requestedIds.some((id, index) => id !== owner.set.videos[index])
+    ) {
+      if (!quiet) {
+        console.warn(
+          `  ${source.slug}: the cached hand-picked set does not match content/videos.json — ` +
+            `leaving the episode list as it was; run 'npm run fetch' first`,
+        );
+      }
+      return null;
+    }
+    const positionById = new Map(owner.set.videos.map((id, index) => [id, index + 1] as const));
     videos.push(
-      ...dump.videos.map((video) => ({
-        video,
-        playlistId: null,
-        maxDurationSeconds: null,
-      })),
+      ...dump.videos.flatMap((video) => {
+        const episodeNumber = positionById.get(video.youtubeId);
+        return episodeNumber === undefined
+          ? []
+          : [{ video, playlistId: null, maxDurationSeconds: null, episodeNumber }];
+      }),
     );
   }
 

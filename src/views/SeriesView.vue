@@ -100,10 +100,9 @@ const sourceSearchMessage = computed(() => {
     case 'non-dutch':
       return 'De huidige bron is niet Nederlandstalig. Help een Nederlandse dub of playlist terug te vinden.';
     case 'dubbed':
-      // Watchable in Dutch, but only after the viewer opens the player's own
-      // audio menu — so the call for a Dutch upload stays open, in softer
-      // words than the one above it.
-      return 'De bron is Engelstalig en draagt een Nederlands audiospoor; kies dat in de speler onder het tandwiel. Een Nederlandse upload blijft welkom.';
+      // Watchable in Dutch through the automatic player switch, while a native
+      // Dutch source is still the stronger and less brittle archive source.
+      return 'De bron is Engelstalig en draagt een Nederlands audiospoor; de speler kiest dat automatisch. Een Nederlandse upload blijft welkom.';
     case 'incomplete':
       return `Er zijn ${series.value.availableCount} van de ${series.value.episodeCount} afleveringen gevonden. Zoek naar de ontbrekende Nederlandse afleveringen.`;
     case 'complete':

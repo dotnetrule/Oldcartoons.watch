@@ -132,7 +132,7 @@ export type BroadcastChannel = {
   networkSlug: string;
   name: string;
   country: string;
-  language: string;
+  language: ContentLanguage;
   /** IANA timezone used by the guide and all on-air clock labels. */
   timezone: string;
   /** Null while this channel has no playable schedule in the archive. */

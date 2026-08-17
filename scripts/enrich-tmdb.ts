@@ -57,6 +57,8 @@ type Arguments = {
   removals: Set<string>;
 };
 
+const EAST_ASIAN_SCRIPT = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af\uf900-\ufaff]/u;
+
 const METADATA_PATH = contentPath('tmdb-metadata.json');
 
 function yearOf(date: string | null | undefined): number | null {
@@ -371,7 +373,14 @@ async function main(): Promise<void> {
         continue;
       }
 
-      const metadata = await fetchMetadata(candidate.result.id);
+      const upstream = await fetchMetadata(candidate.result.id);
+      // `originalName` keeps TMDB's upstream identity. `name` is what our
+      // archive and its review diffs present, so keep the curated catalogue or
+      // seed title when TMDB has no useful Dutch localization.
+      const metadata =
+        EAST_ASIAN_SCRIPT.test(upstream.name) && !EAST_ASIAN_SCRIPT.test(identity.name)
+          ? { ...upstream, name: identity.name }
+          : upstream;
       matches[String(identity.placeholderId)] = metadata;
       matched += 1;
       console.log(`  ✓ ${identity.slug} → ${metadata.name} (${metadata.tmdbId}; ${candidate.reason})`);

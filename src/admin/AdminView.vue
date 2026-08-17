@@ -82,7 +82,7 @@ async function selectCandidate(): Promise<void> {
   const others = episodes.value.filter((ep) => !isSameSlot(ep));
   const merged = [...others, next];
 
-  await post('/__admin/episodes', merged);
+  if (!(await post('/__admin/episodes', merged))) return;
   episodes.value = merged;
   dropCurrentEntry();
 }
@@ -106,6 +106,7 @@ function dropCurrentEntry(): void {
 const seriesIdx = ref(0);
 const imageIdx = ref(0);
 const images = ref<TmdbImage[]>([]);
+let imageRequest = 0;
 const form = ref<{ name: string; overview: string; firstAirYear: string; networkSlug: string }>({
   name: '',
   overview: '',
@@ -116,16 +117,11 @@ const form = ref<{ name: string; overview: string; firstAirYear: string; network
 const activeSeries = computed<SeriesSource | null>(() => seriesSources.value[seriesIdx.value] ?? null);
 
 async function loadImages(): Promise<void> {
+  const request = ++imageRequest;
   const series = activeSeries.value;
   images.value = [];
   imageIdx.value = 0;
   if (!series) return;
-
-  const data = await getJson<ImagesResponse>(`/__admin/images/${series.tmdbId}`);
-  // The design sets titles in display type over the backdrop, so candidates
-  // with burned-in title text are filtered out rather than left to be
-  // rejected by eye.
-  images.value = data.images.backdrops.filter((img) => img.iso_639_1 === null);
 
   const existing = overrides.value[String(series.tmdbId)] ?? {};
   form.value = {
@@ -134,6 +130,25 @@ async function loadImages(): Promise<void> {
     firstAirYear: existing.firstAirYear ? String(existing.firstAirYear) : '',
     networkSlug: existing.networkSlug ?? '',
   };
+
+  let data: ImagesResponse;
+  try {
+    data = await getJson<ImagesResponse>(`/__admin/images/${series.tmdbId}`);
+  } catch (error) {
+    if (request === imageRequest) {
+      status.value = error instanceof Error ? error.message : String(error);
+    }
+    return;
+  }
+
+  // Ignore an older response when the user has already moved to another
+  // series. Dev servers can return cached and uncached TMDB files out of order.
+  if (request !== imageRequest || activeSeries.value?.tmdbId !== series.tmdbId) return;
+
+  // The design sets titles in display type over the backdrop, so candidates
+  // with burned-in title text are filtered out rather than left to be
+  // rejected by eye.
+  images.value = data.images.backdrops.filter((img) => img.iso_639_1 === null);
 }
 
 function stepSeries(delta: number): void {
@@ -162,7 +177,7 @@ async function saveOverride(backdrop?: string): Promise<void> {
   if (Object.keys(next).length === 0) delete merged[String(series.tmdbId)];
   else merged[String(series.tmdbId)] = next;
 
-  await post('/__admin/overrides', merged);
+  if (!(await post('/__admin/overrides', merged))) return;
   overrides.value = merged;
 }
 
@@ -181,7 +196,8 @@ async function getJson<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
-async function post(url: string, body: unknown): Promise<void> {
+async function post(url: string, body: unknown): Promise<boolean> {
+  if (busy.value) return false;
   busy.value = true;
   try {
     const response = await fetch(url, {
@@ -192,8 +208,10 @@ async function post(url: string, body: unknown): Promise<void> {
     const result = (await response.json()) as { error?: string; wrote?: string };
     if (!response.ok) throw new Error(result.error ?? `${response.status}`);
     status.value = `wrote content/${result.wrote}`;
+    return true;
   } catch (error) {
     status.value = error instanceof Error ? error.message : String(error);
+    return false;
   } finally {
     busy.value = false;
   }

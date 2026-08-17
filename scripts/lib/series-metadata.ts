@@ -36,6 +36,12 @@ import { readJson, seriesMetadataPath, tmdbEpisodesPath } from './paths';
 /** A guide listing carries no artwork of its own. */
 const NO_IMAGES = { backdrops: [], posters: [] };
 
+/** Scripts that are useful as upstream original-title metadata but not as the
+ * primary display name in this Dutch archive. */
+const EAST_ASIAN_SCRIPT = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af\uf900-\ufaff]/u;
+
+const hasEastAsianScript = (value: string): boolean => EAST_ASIAN_SCRIPT.test(value);
+
 /**
  * A catalogue listing's metadata: identity from the guide, episodes from the
  * seed file if a playlist has written one.
@@ -102,7 +108,28 @@ export function loadSeriesCache(
     // TMDB knows the episodes. Identity still comes from the guide where there
     // is one — a guide says what the show *is*, and that outranks an upstream
     // record that may be a reboot, a dub or a differently-scoped entry.
-    if (!historicalSeed) return resolved;
+    if (!historicalSeed) {
+      if (!hasEastAsianScript(resolved.detail.name)) return resolved;
+
+      // TMDB's Dutch response sometimes has no localized display title and
+      // falls all the way back to Japanese/Chinese/Korean. The committed seed
+      // is the archive's reviewed identity for exactly this placeholder, so
+      // keep that familiar name while still taking episodes, dates and artwork
+      // from the resolved TMDB record.
+      const seededName = readDerivedEpisodes(source)?.detail.name;
+      if (!seededName || hasEastAsianScript(seededName)) {
+        throw new Error(
+          `series '${source.slug}' resolves to '${resolved.detail.name}' and has no curated Latin display name`,
+        );
+      }
+      return {
+        ...resolved,
+        detail: {
+          ...resolved.detail,
+          name: seededName,
+        },
+      };
+    }
     return {
       ...resolved,
       detail: {

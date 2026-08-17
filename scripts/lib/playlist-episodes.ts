@@ -227,6 +227,9 @@ export type SourcedVideo = {
   playlistId: string | null;
   /** Length ceiling of the playlist this came from, null for none. */
   maxDurationSeconds: number | null;
+  /** Fixed only for a hand-picked set. A failed video leaves a hole instead of
+   * renumbering every explicitly ordered video after it. */
+  episodeNumber: number | null;
 };
 
 /**
@@ -283,17 +286,21 @@ export function derivePlaylistSeries(args: {
         `${videos.length} videos was filtered out — check the maxDurationSeconds ceiling`,
     );
   }
-  if (kept.length > MAX_EPISODES) {
+  const highestPosition = kept.reduce(
+    (highest, item, index) => Math.max(highest, item.episodeNumber ?? index + 1),
+    0,
+  );
+  if (highestPosition > MAX_EPISODES) {
     throw new Error(
-      `${originLabel(origin)} has ${kept.length} videos, past the ${MAX_EPISODES} an episode list can number for one series`,
+      `${originLabel(origin)} reaches episode ${highestPosition}, past the ${MAX_EPISODES} an episode list can number for one series`,
     );
   }
 
   const tmdbEpisodes: TmdbEpisode[] = [];
   const episodes: Episode[] = [];
 
-  kept.forEach(({ video, playlistId }, index) => {
-    const position = index + 1;
+  kept.forEach(({ video, playlistId, episodeNumber }, index) => {
+    const position = episodeNumber ?? index + 1;
     const id = derivedEpisodeId(source.tmdbId, position);
 
     tmdbEpisodes.push({
@@ -345,8 +352,8 @@ export function derivePlaylistSeries(args: {
       // The show may have aired more episodes than the playlist carries, and
       // that difference is worth showing: the series page reads "N of M".
       // Fewer would mean the seed is stale, so the playlist wins.
-      number_of_episodes: Math.max(existing.detail.number_of_episodes, tmdbEpisodes.length),
-      seasons: [{ season_number: SEASON, name: 'Season 1', episode_count: tmdbEpisodes.length }],
+      number_of_episodes: Math.max(existing.detail.number_of_episodes, highestPosition),
+      seasons: [{ season_number: SEASON, name: 'Season 1', episode_count: highestPosition }],
     },
     seasons: [{ season_number: SEASON, name: 'Season 1', episodes: tmdbEpisodes }],
     images: existing.images ?? { backdrops: [], posters: [] },

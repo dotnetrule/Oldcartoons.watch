@@ -95,13 +95,23 @@ type Args = {
 function parseArgs(argv: string[]): Args {
   const positional: string[] = [];
   const flags = new Map<string, string>();
+  const knownFlags = new Set([
+    'covers',
+    'episodes-for',
+    'max-duration',
+    'name',
+    'curator',
+    'language',
+    'note',
+  ]);
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === undefined) continue;
     if (arg.startsWith('--')) {
       const [key, inline] = arg.slice(2).split('=', 2);
-      if (!key) continue;
+      if (!key || !knownFlags.has(key)) throw new Error(`unknown option '${arg}'`);
+      if (flags.has(key)) throw new Error(`--${key} was given more than once`);
       if (inline !== undefined) {
         flags.set(key, inline);
       } else {
@@ -115,6 +125,10 @@ function parseArgs(argv: string[]): Args {
     } else {
       positional.push(arg);
     }
+  }
+
+  if (positional.length > 1) {
+    throw new Error(`unexpected argument '${positional[1]}' — give exactly one playlist URL or id`);
   }
 
   const input = positional[0];

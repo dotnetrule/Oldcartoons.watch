@@ -8,10 +8,10 @@
  * that works the viewer never sees this. Nothing promises those methods will
  * stay, and YouTube documents no supported alternative — no player parameter,
  * no IFrame API call — so when the player will not say what it is carrying,
- * this is what is left. An embedded, logged-out viewer usually gets the
- * upload's original: the archive can put an English upload carrying a
- * Nederlandse dub on a Dutch station, and then has to admit it started in
- * English and say where the switch is.
+ * the automatic subtitle fallback also failed, this is what is left. An
+ * embedded, logged-out viewer usually gets the upload's original: the archive
+ * can put an English upload carrying a Nederlandse dub on a Dutch station, and
+ * then has to admit it started in English and say where the switch is.
  *
  * Dismissible and remembered, because it is an instruction rather than a
  * warning: once a viewer knows where the menu is, repeating it every episode is

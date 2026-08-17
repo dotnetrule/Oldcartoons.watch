@@ -12,7 +12,9 @@ import {
   allowIframeFullscreen,
   loadYoutubeApi,
   preferAudioLanguage,
+  preferSubtitleLanguage,
   type AudioPreference,
+  type SubtitlePreference,
   type YtPlayer,
 } from '../player/youtubeApi';
 import AudioTrackNotice from '../components/AudioTrackNotice.vue';
@@ -78,6 +80,16 @@ const activeVideoId = computed<string | null>(() => {
   return current.youtubeId;
 });
 
+/** The metadata belonging to the upload actually on screen, not necessarily
+ * the episode's default upload after the source picker has been used. */
+const activeSource = computed(() =>
+  episode.value?.sources.find((source) => source.youtubeId === activeVideoId.value),
+);
+
+/** An English/unknown-default upload needs a hands-free fallback when the
+ * iframe refuses audio-track control. Native Dutch audio does not. */
+const needsDutchFallback = computed(() => activeSource.value?.defaultAudioLanguage !== 'nl');
+
 function selectSource(youtubeId: string): void {
   sourceOverride.value = { key: episodeKey.value, youtubeId };
 }
@@ -96,7 +108,7 @@ function selectSource(youtubeId: string): void {
  * it — it asks the player, which knows about the video in front of it.
  */
 const dubbedAudio = computed(() => {
-  const current = episode.value;
+  const current = activeSource.value;
   if (!current || current.defaultAudioLanguage === 'nl') return null;
   return current.audioLanguages.includes('nl') ? ('nl' as const) : null;
 });
@@ -109,6 +121,13 @@ const dubbedAudio = computed(() => {
  * and then vanished on the ones that switched would be worse than the switch.
  */
 const audioPreference = ref<AudioPreference | null>(null);
+const subtitlePreference = ref<SubtitlePreference | null>(null);
+const automaticSubtitlesOn = computed(
+  () =>
+    subtitlePreference.value === 'switched' ||
+    subtitlePreference.value === 'already' ||
+    subtitlePreference.value === 'translated',
+);
 
 /**
  * Whether to tell the viewer where the audio menu is.
@@ -120,7 +139,10 @@ const audioPreference = ref<AudioPreference | null>(null);
  * a menu that cannot deliver it would be a lie.
  */
 const showAudioNotice = computed(
-  () => dubbedAudio.value !== null && audioPreference.value === 'unsupported',
+  () =>
+    dubbedAudio.value !== null &&
+    audioPreference.value === 'unsupported' &&
+    (subtitlePreference.value === 'unsupported' || subtitlePreference.value === 'unavailable'),
 );
 
 /**
@@ -162,6 +184,8 @@ let player: YtPlayer | null = null;
 /** The same player, for the template — see the note in LivePlayerView. */
 const playerRef = ref<YtPlayer | null>(null);
 let playerVideoId: string | null = null;
+let languageAttempt = 0;
+let retriedLanguageVideoId: string | null = null;
 const playbackFailed = ref(false);
 
 function destroyPlayer(): void {
@@ -169,7 +193,19 @@ function destroyPlayer(): void {
   player = null;
   playerRef.value = null;
   playerVideoId = null;
+  retriedLanguageVideoId = null;
   audioPreference.value = null;
+  subtitlePreference.value = null;
+  languageAttempt += 1;
+}
+
+/** Cancel track work that belongs to the previous video while the existing
+ * iframe loads a new one. Its track methods can keep reporting the old video's
+ * list until playback starts, so selection resumes from the PLAYING event. */
+function resetAudioPreference(): void {
+  audioPreference.value = null;
+  subtitlePreference.value = null;
+  languageAttempt += 1;
 }
 
 /**
@@ -182,13 +218,21 @@ function applyAudioPreference(target: YtPlayer, videoId: string): void {
   // the state of the one they are on — that state is what the notice reads,
   // and nothing would come along to set it again.
   if (playerVideoId !== videoId) return;
+  const attempt = ++languageAttempt;
+  const allowSubtitleFallback = needsDutchFallback.value;
   audioPreference.value = null;
-  void preferAudioLanguage(target, 'nl', () => playerVideoId === videoId).then((result) => {
+  subtitlePreference.value = null;
+  const isCurrent = () => playerVideoId === videoId && languageAttempt === attempt;
+  void (async () => {
+    const result = await preferAudioLanguage(target, 'nl', isCurrent);
     // The rail moves fast and the wait above is seconds long; an answer about
     // an episode the viewer has already left is not an answer about this one.
-    if (playerVideoId !== videoId) return;
+    if (!isCurrent()) return;
     audioPreference.value = result;
-  });
+    if (!allowSubtitleFallback || (result !== 'unsupported' && result !== 'unavailable')) return;
+    const subtitleResult = await preferSubtitleLanguage(target, 'nl', isCurrent);
+    if (isCurrent()) subtitlePreference.value = subtitleResult;
+  })();
 }
 
 async function syncPlayer(videoId: string | null): Promise<void> {
@@ -204,8 +248,10 @@ async function syncPlayer(videoId: string | null): Promise<void> {
   // tearing down the iframe, which keeps the rail from flashing.
   if (player) {
     playerVideoId = videoId;
+    retriedLanguageVideoId = null;
+    playerRef.value = null;
+    resetAudioPreference();
     player.loadVideoById(videoId);
-    applyAudioPreference(player, videoId);
     return;
   }
 
@@ -229,9 +275,9 @@ async function syncPlayer(videoId: string | null): Promise<void> {
     // what makes the settings menu read "Audiotrack" instead of "Audio track",
     // which is the wording AudioTrackNotice points the viewer at on the embeds
     // where the switch below cannot be made for them.
-    // `cc_lang_pref` says which subtitles to show if they are turned on, and
-    // deliberately comes without `cc_load_policy`, which would turn them on for
-    // everybody. The button below is what turns them on.
+    // `cc_lang_pref` says which subtitles to show if they are turned on. There
+    // is deliberately no `cc_load_policy`: only the automatic fallback after
+    // a failed audio switch, or the button below, turns them on.
     playerVars: { rel: 0, modestbranding: 1, playsinline: 1, hl: 'nl', cc_lang_pref: 'nl' },
     events: {
       onReady: (event) => {
@@ -241,6 +287,18 @@ async function syncPlayer(videoId: string | null): Promise<void> {
         applyAudioPreference(event.target, videoId);
       },
       onStateChange: (event) => {
+        // The undocumented track methods may appear only once the video's
+        // playback modules are active. Run once for every newly loaded video;
+        // on the first video this also replaces a possibly-too-early ready-time
+        // attempt, and on later videos it avoids reading the previous track list.
+        if (
+          event.data === YT.PlayerState.PLAYING &&
+          retriedLanguageVideoId !== playerVideoId
+        ) {
+          retriedLanguageVideoId = playerVideoId;
+          playerRef.value = event.target;
+          applyAudioPreference(event.target, playerVideoId ?? videoId);
+        }
         if (event.data === YT.PlayerState.ENDED) playNext();
       },
       onError: (event) => {
@@ -267,8 +325,10 @@ function retryPlayback(): void {
   playbackFailed.value = false;
   if (player) {
     playerVideoId = videoId;
+    retriedLanguageVideoId = null;
+    playerRef.value = null;
+    resetAudioPreference();
     player.loadVideoById(videoId);
-    applyAudioPreference(player, videoId);
     return;
   }
   void syncPlayer(videoId);
@@ -322,6 +382,7 @@ onBeforeUnmount(destroyPlayer);
             :player="playerRef"
             language="nl"
             :video-key="activeVideoId"
+            :subtitles-active="automaticSubtitlesOn"
           />
           <!-- Draws nothing unless this episode has a second upload. Next to
                the track buttons because it answers the same kind of question:

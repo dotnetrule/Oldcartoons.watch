@@ -151,7 +151,7 @@ export const broadcastChannelSourceSchema = z.object({
   networkSlug: slugSchema,
   name: z.string().min(1),
   country: z.string().length(2),
-  language: z.string().min(2),
+  language: contentLanguageSchema,
   timezone: z.string().min(1),
 });
 
@@ -392,7 +392,12 @@ export const channelSourceSchema = z.object({
   note: z.string(),
 });
 
-export const channelsFileSchema = z.array(channelSourceSchema);
+export const channelsFileSchema = z
+  .array(channelSourceSchema)
+  .refine(
+    (channels) => new Set(channels.map((channel) => channel.id)).size === channels.length,
+    'duplicate YouTube channel id',
+  );
 
 export const playlistSourceSchema = z
   .object({

@@ -70,28 +70,24 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'gids',
     component: ScheduleView,
-    beforeEnter: loadBroadcastData,
   },
   {
     path: '/zender/:slug',
     name: 'zender',
     component: NetworkView,
     props: true,
-    beforeEnter: (to) => loadNetworkData(String(to.params.slug)),
   },
   {
     path: '/kijken/:channelId',
     name: 'live',
     component: () => import('./views/LivePlayerView.vue'),
     props: true,
-    beforeEnter: (to) => loadChannelData(String(to.params.channelId)),
   },
   {
     path: '/programma/:slug',
     name: 'programma',
     component: SeriesView,
     props: true,
-    beforeEnter: (to) => loadSeriesData(String(to.params.slug)),
   },
   {
     // Real season and episode numbers, not array indices — the URL is the
@@ -100,12 +96,6 @@ const routes: RouteRecordRaw[] = [
     name: 'aflevering',
     component: PlayerView,
     props: true,
-    beforeEnter: (to) =>
-      loadEpisodeData(
-        String(to.params.slug),
-        String(to.params.season),
-        String(to.params.episode),
-      ),
   },
 ];
 
@@ -139,9 +129,35 @@ routes.push({
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior() {
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition;
+    // Selecting another channel only changes the guide's query string. Keep
+    // the viewer at the card they clicked instead of jumping to the masthead.
+    if (to.path === from.path) return false;
     return { top: 0 };
   },
+});
+
+/**
+ * Load route data on every navigation, including a change to a dynamic param.
+ *
+ * Per-route `beforeEnter` guards do not run when `/programma/a` becomes
+ * `/programma/b`, because Vue Router considers that the same route record.
+ * A global resolve guard does, so a reused SeriesView can never receive a slug
+ * whose generated file was not loaded first.
+ */
+router.beforeResolve((to) => {
+  if (to.name === 'gids') return loadBroadcastData();
+  if (to.name === 'zender') return loadNetworkData(String(to.params.slug));
+  if (to.name === 'live') return loadChannelData(String(to.params.channelId));
+  if (to.name === 'programma') return loadSeriesData(String(to.params.slug));
+  if (to.name === 'aflevering') {
+    return loadEpisodeData(
+      String(to.params.slug),
+      String(to.params.season),
+      String(to.params.episode),
+    );
+  }
 });
 
 export default router;

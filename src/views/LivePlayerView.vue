@@ -21,7 +21,9 @@ import {
   allowIframeFullscreen,
   loadYoutubeApi,
   preferAudioLanguage,
+  preferSubtitleLanguage,
   type AudioPreference,
+  type SubtitlePreference,
   type YtPlayer,
 } from '../player/youtubeApi';
 
@@ -133,11 +135,21 @@ const broadcastLanguage = computed(() => {
 /** What became of the attempt to put this broadcast on the station's language.
  * Null until the answer is in — see PlayerView for why the notice waits. */
 const audioPreference = ref<AudioPreference | null>(null);
+const subtitlePreference = ref<SubtitlePreference | null>(null);
+const automaticSubtitlesOn = computed(
+  () =>
+    subtitlePreference.value === 'switched' ||
+    subtitlePreference.value === 'already' ||
+    subtitlePreference.value === 'translated',
+);
 
 /** The notice is for the one case the switch cannot cover: an embed that will
  * not talk about its tracks, on a broadcast the build knows is dubbed. */
 const showAudioNotice = computed(
-  () => dubbedAudio.value !== null && audioPreference.value === 'unsupported',
+  () =>
+    dubbedAudio.value !== null &&
+    audioPreference.value === 'unsupported' &&
+    (subtitlePreference.value === 'unsupported' || subtitlePreference.value === 'unavailable'),
 );
 
 /** Nothing is on the screen worth watching: the picture gives way to a card. */
@@ -168,6 +180,8 @@ let player: YtPlayer | null = null;
  * reactive; the track buttons do need to know when an embed exists. */
 const playerRef = ref<YtPlayer | null>(null);
 let loadedKey: string | null = null;
+let languageAttempt = 0;
+let retriedLanguageKey: string | null = null;
 let clockTimer: ReturnType<typeof setInterval> | undefined;
 let overlayTimer: ReturnType<typeof setTimeout> | undefined;
 let driftTick = 0;
@@ -257,13 +271,24 @@ function destroyPlayer(): void {
   player = null;
   playerRef.value = null;
   loadedKey = null;
+  retriedLanguageKey = null;
   playerReady.value = false;
   isPlaying.value = false;
   audioPreference.value = null;
+  subtitlePreference.value = null;
+  languageAttempt += 1;
   // The IFrame API replaces the mount div with its iframe. Once that iframe is
   // destroyed, force Vue to create a fresh mount node before playback resumes
   // (most visibly when an age lock is raised again mid-broadcast).
   if (hadPlayer) mountGeneration.value += 1;
+}
+
+/** Cancel track work for the outgoing slot. Until the replacement video starts,
+ * the reused player can still answer with the outgoing video's track list. */
+function resetAudioPreference(): void {
+  audioPreference.value = null;
+  subtitlePreference.value = null;
+  languageAttempt += 1;
 }
 
 /**
@@ -275,15 +300,23 @@ function applyAudioPreference(target: YtPlayer, key: string | null): void {
   // As in PlayerView: a late answer about a slot that has handed over must not
   // wipe the state of the one now on air.
   if (key === null || loadedKey !== key) return;
+  const attempt = ++languageAttempt;
+  const allowSubtitleFallback = dubbedAudio.value !== null;
   audioPreference.value = null;
+  subtitlePreference.value = null;
   const language = broadcastLanguage.value;
   if (!language) return;
-  void preferAudioLanguage(target, language, () => loadedKey === key).then((result) => {
+  const isCurrent = () => loadedKey === key && languageAttempt === attempt;
+  void (async () => {
+    const result = await preferAudioLanguage(target, language, isCurrent);
     // A live channel hands over on its own schedule, and this waits seconds.
     // An answer about the slot that just ended is not about the one on air.
-    if (loadedKey !== key) return;
+    if (!isCurrent()) return;
     audioPreference.value = result;
-  });
+    if (!allowSubtitleFallback || (result !== 'unsupported' && result !== 'unavailable')) return;
+    const subtitleResult = await preferSubtitleLanguage(target, language, isCurrent);
+    if (isCurrent()) subtitlePreference.value = subtitleResult;
+  })();
 }
 
 function keepPlayerLive(): void {
@@ -327,9 +360,11 @@ async function syncPlayer(): Promise<void> {
   const offset = expectedOffset();
   if (player) {
     loadedKey = key;
+    retriedLanguageKey = null;
     playerReady.value = false;
+    playerRef.value = null;
+    resetAudioPreference();
     player.loadVideoById({ videoId, startSeconds: offset });
-    applyAudioPreference(player, key);
     return;
   }
 
@@ -362,8 +397,8 @@ async function syncPlayer(): Promise<void> {
       // viewer.
       hl: 'nl',
       // Which subtitles to show *if* they are turned on. Deliberately without
-      // `cc_load_policy`: that would force subtitles onto every viewer, and
-      // what was asked for is a button.
+      // `cc_load_policy`: only a failed dubbed-audio switch or the viewer's
+      // button turns them on.
       cc_lang_pref: 'nl',
     },
     // One player instance outlives many broadcasts: `loadVideoById` above swaps
@@ -400,6 +435,11 @@ async function syncPlayer(): Promise<void> {
         if (event.data === YT.PlayerState.PLAYING) {
           playerReady.value = true;
           isPlaying.value = true;
+          playerRef.value = event.target;
+          if (retriedLanguageKey !== loadedKey) {
+            retriedLanguageKey = loadedKey;
+            applyAudioPreference(event.target, loadedKey);
+          }
           keepPlayerLive();
         }
         if (event.data === YT.PlayerState.PAUSED) isPlaying.value = false;
@@ -435,9 +475,11 @@ function goLive(): void {
     const key = playerKey.value;
     if (player && item && key) {
       loadedKey = key;
+      retriedLanguageKey = null;
       playerReady.value = false;
+      playerRef.value = null;
+      resetAudioPreference();
       player.loadVideoById({ videoId: item.mediaAsset.source.id, startSeconds: expectedOffset() });
-      applyAudioPreference(player, key);
       return;
     }
     void syncPlayer();
@@ -599,8 +641,8 @@ onBeforeUnmount(() => {
       <div
         class="live-overlay"
         :class="{ 'is-hidden': !overlayVisible }"
-        @pointerover="pointerOnOverlay = true"
-        @pointerout="pointerOnOverlay = false"
+        @pointerenter="pointerOnOverlay = true"
+        @pointerleave="pointerOnOverlay = false"
         @focusin="onOverlayFocusIn"
         @focusout="keyboardInOverlay = false"
       >
@@ -648,6 +690,7 @@ onBeforeUnmount(() => {
           :player="playerRef"
           :language="broadcastLanguage"
           :video-key="playerKey"
+          :subtitles-active="automaticSubtitlesOn"
         />
       </div>
     </template>
@@ -758,7 +801,8 @@ onBeforeUnmount(() => {
 .live-overlay.is-hidden .station,
 .live-overlay.is-hidden .programme,
 .live-overlay.is-hidden .next,
-.live-overlay.is-hidden .actions {
+.live-overlay.is-hidden .actions,
+.live-overlay.is-hidden .track-row {
   pointer-events: none;
 }
 

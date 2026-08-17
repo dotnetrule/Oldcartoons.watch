@@ -5,10 +5,10 @@
  *
  * Both players already ask for the right audio track by themselves — the live
  * player on every slot, the episode player on every video. This is what a
- * viewer reaches for when that quietly did not work: YouTube's own switch is
- * three taps into a gear menu that is easy to miss and, in fullscreen, easy to
- * lose. Pressing a button here asks the player the same question the page
- * already asked, and this time says out loud what came back.
+ * viewer reaches for when they want to retry or override the automatic result:
+ * YouTube's own switch is three taps into a gear menu that is easy to miss and,
+ * in fullscreen, easy to lose. Pressing a button here asks the player the same
+ * question the page already asked, and this time says out loud what came back.
  *
  * Audio is a one-shot: there is no "no audio", so the button enforces and
  * reports. Subtitles are a real toggle, because "off" is a state a viewer
@@ -33,6 +33,8 @@ const props = defineProps<{
   /** Changes whenever a different video is loaded, which is what makes a stale
    * answer stale — see the guards below. */
   videoKey: string | null;
+  /** True when the player's automatic audio fallback already enabled them. */
+  subtitlesActive?: boolean;
 }>();
 
 const ui = useUiStore();
@@ -41,7 +43,7 @@ const C = computed(() => ui.C);
 const status = ref<string | null>(null);
 const audioBusy = ref(false);
 const subtitleBusy = ref(false);
-const subtitlesOn = ref(false);
+const subtitlesOn = ref(props.subtitlesActive ?? false);
 
 const busy = computed(() => audioBusy.value || subtitleBusy.value);
 const ready = computed(() => props.player !== null);
@@ -55,6 +57,13 @@ watch(
     subtitlesOn.value = false;
     audioBusy.value = false;
     subtitleBusy.value = false;
+  },
+);
+
+watch(
+  () => props.subtitlesActive,
+  (active) => {
+    if (active) subtitlesOn.value = true;
   },
 );
 

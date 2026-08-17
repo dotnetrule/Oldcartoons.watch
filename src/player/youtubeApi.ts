@@ -15,7 +15,11 @@
  * below looks at every string on the object instead, which survives YouTube
  * renaming one.
  */
-export type YtAudioTrack = Record<string, unknown>;
+export type YtAudioTrack = Record<string, unknown> & {
+  /** Present on YouTube's in-page player objects. On an iframe player the
+   * same information may instead arrive as a plain nested object. */
+  getLanguageInfo?: () => unknown;
+};
 
 export type YtPlayer = {
   destroy: () => void;
@@ -104,8 +108,13 @@ export type AudioPreference =
 
 /** How long to keep asking before calling it unsupported. The list is not
  * populated the instant the player is ready; it arrives with the video's data. */
-const TRACK_WAIT_MS = 4_000;
+const TRACK_WAIT_MS = 5_000;
 const TRACK_POLL_MS = 250;
+
+/** YouTube sometimes reapplies its own/account language preference after a
+ * successful switch. Keep the wanted track pinned through that late setup. */
+const TRACK_ENFORCE_MS = 12_000;
+const TRACK_ENFORCE_POLL_MS = 1_000;
 
 /** A language tag's primary subtag, lowercased: `nl-NL` → `nl`. */
 function primarySubtag(tag: string): string {
@@ -117,22 +126,118 @@ function primarySubtag(tag: string): string {
  * *name* — "Nederlands", "English (United States)" — cannot pass for a tag. */
 const LANGUAGE_TAG = /^\.?[A-Za-z]{2,3}(?:[-_][A-Za-z0-9]{2,8})*$/;
 
+const LANGUAGE_ALIASES: Record<string, readonly string[]> = {
+  nl: ['nl', 'nld', 'dut', 'nederlands', 'dutch'],
+  en: ['en', 'eng', 'english', 'engels'],
+};
+
 /**
- * Every language tag this track carries, from whichever key holds it.
+ * Every string YouTube attached to a track, through whichever shape this
+ * version of its player chose.
  *
- * The list is undocumented and its keys have no contract, so reading
- * `track.languageCode` would be one rename away from silently never matching.
- * Reading every string on the object costs nothing here — a track has a
- * handful of fields — and keeps working through a rename.
+ * The in-page player currently exposes `getLanguageInfo()`, while values that
+ * have crossed the iframe's postMessage boundary can be plain nested objects.
+ * Neither shape is documented. Reading both, recursively but shallowly, keeps
+ * a minified property rename from turning an existing Dutch track invisible.
  */
-function trackLanguages(track: YtAudioTrack): string[] {
-  return Object.values(track).flatMap((value) => {
-    if (typeof value !== 'string' || !LANGUAGE_TAG.test(value)) return [];
-    return [primarySubtag(value.replace(/^\./, ''))];
+function trackStrings(track: YtAudioTrack): string[] {
+  const values: string[] = [];
+  const seen = new Set<object>();
+
+  function visit(value: unknown, depth: number): void {
+    if (typeof value === 'string') {
+      values.push(value);
+      return;
+    }
+    if (!value || typeof value !== 'object' || depth > 3 || seen.has(value)) return;
+    seen.add(value);
+    for (const child of Object.values(value)) visit(child, depth + 1);
+  }
+
+  visit(track, 0);
+  try {
+    visit(track.getLanguageInfo?.(), 0);
+  } catch {
+    /* the serialised/nested shape above may still carry the answer */
+  }
+
+  // Some direct player objects reveal their human name only this way. Plain
+  // objects stringify to noise, which none of the aliases below will match.
+  try {
+    values.push(String(track));
+  } catch {
+    /* no useful string representation */
+  }
+  return values;
+}
+
+/** Whether one of the track's ids, codes or human names denotes `language`. */
+function trackHasLanguage(track: YtAudioTrack, language: string): boolean {
+  const wanted = primarySubtag(language);
+  const aliases = LANGUAGE_ALIASES[wanted] ?? [wanted];
+
+  return trackStrings(track).some((raw) => {
+    const value = raw.trim().toLowerCase();
+    if (LANGUAGE_TAG.test(value)) {
+      const code = primarySubtag(value.replace(/^\./, ''));
+      if (aliases.includes(code)) return true;
+    }
+    return aliases.some((alias) => {
+      const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return new RegExp(`(^|[^a-z])${escaped}(?=$|[^a-z])`, 'i').test(value);
+    });
   });
 }
 
+/** Arrays cross the iframe boundary today; `Array.from` also accepts the
+ * array-like/iterable collections used by some in-page player variants. */
+function trackList(value: unknown): YtAudioTrack[] {
+  if (!value || (typeof value !== 'object' && typeof value !== 'function')) return [];
+  try {
+    return Array.from(value as ArrayLike<YtAudioTrack> | Iterable<YtAudioTrack>);
+  } catch {
+    return [];
+  }
+}
+
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** Keep correcting YouTube while its late account/player preferences settle. */
+async function enforceAudioLanguage(
+  player: YtPlayer,
+  language: string,
+  isCurrent: () => boolean,
+): Promise<void> {
+  const deadline = Date.now() + TRACK_ENFORCE_MS;
+  let lastBlindSetAt = Date.now();
+  while (isCurrent() && Date.now() < deadline) {
+    await sleep(TRACK_ENFORCE_POLL_MS);
+    if (!isCurrent()) return;
+    try {
+      const tracks = trackList(player.getAvailableAudioTracks?.());
+      const match = tracks.find((track) => trackHasLanguage(track, language));
+      if (!match) continue;
+      const playing = player.getAudioTrack?.();
+      if (playing && trackHasLanguage(playing, language)) continue;
+
+      const currentIsReadable =
+        playing !== undefined &&
+        Object.keys(LANGUAGE_ALIASES).some((candidate) =>
+          trackHasLanguage(playing, candidate),
+        );
+      // A readable wrong answer is corrected immediately. With no readable
+      // current track, make only a few spaced-out blind corrections: enough to
+      // beat a late override without needlessly restarting the same stream on
+      // every one-second poll.
+      if (currentIsReadable || Date.now() - lastBlindSetAt >= 3_000) {
+        player.setAudioTrack?.(match);
+        lastBlindSetAt = Date.now();
+      }
+    } catch {
+      return;
+    }
+  }
+}
 
 /**
  * Start this player in `language` when the video has a track for it.
@@ -146,9 +251,9 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
  *
  * Everything here is written for the day that stops being true: the methods
  * are optional on the type, absent ones report `unsupported`, and a throw is
- * caught rather than propagated. The failure mode of the whole function is the
- * behaviour the site had before it existed — the video plays in its upload
- * language and `AudioTrackNotice` says where the switch is.
+ * caught rather than propagated. A failure is reported to the caller rather
+ * than thrown, so it can try subtitles before `AudioTrackNotice` becomes the
+ * manual last resort.
  */
 export async function preferAudioLanguage(
   player: YtPlayer,
@@ -167,9 +272,9 @@ export async function preferAudioLanguage(
   const deadline = Date.now() + TRACK_WAIT_MS;
 
   while (isCurrent()) {
-    let tracks: YtAudioTrack[] | undefined;
+    let tracks: YtAudioTrack[];
     try {
-      tracks = player.getAvailableAudioTracks();
+      tracks = trackList(player.getAvailableAudioTracks());
     } catch {
       return 'unsupported';
     }
@@ -177,17 +282,28 @@ export async function preferAudioLanguage(
     // Only a non-empty list counts as an answer. An empty one is what both a
     // single-track video and a player that has not loaded its tracks look
     // like, so it is waited on rather than acted on.
-    if (Array.isArray(tracks) && tracks.length > 0) {
-      const match = tracks.find((track) => trackLanguages(track).includes(wanted));
-      if (!match) return 'unavailable';
+    if (tracks.length > 0) {
+      const match = tracks.find((track) => trackHasLanguage(track, wanted));
+      // A single default track is a common intermediate answer while the
+      // multi-language metadata is still arriving. Do not turn that moment
+      // into a permanent "unavailable" result.
+      if (!match) {
+        if (Date.now() >= deadline) return 'unavailable';
+        await sleep(TRACK_POLL_MS);
+        continue;
+      }
 
       try {
         const playing = player.getAudioTrack?.();
-        if (playing && trackLanguages(playing).includes(wanted)) return 'already';
+        if (playing && trackHasLanguage(playing, wanted)) {
+          void enforceAudioLanguage(player, wanted, isCurrent);
+          return 'already';
+        }
         player.setAudioTrack(match);
       } catch {
         return 'unsupported';
       }
+      void enforceAudioLanguage(player, wanted, isCurrent);
       return 'switched';
     }
 
@@ -240,7 +356,11 @@ function translationLanguages(value: unknown): string[] {
     if (typeof entry === 'string') {
       return LANGUAGE_TAG.test(entry) ? [primarySubtag(entry.replace(/^\./, ''))] : [];
     }
-    if (entry && typeof entry === 'object') return trackLanguages(entry as YtAudioTrack);
+    if (entry && typeof entry === 'object') {
+      return Object.keys(LANGUAGE_ALIASES).filter((language) =>
+        trackHasLanguage(entry as YtAudioTrack, language),
+      );
+    }
     return [];
   });
 }
@@ -271,6 +391,8 @@ export async function preferSubtitleLanguage(
   const wanted = primarySubtag(language);
   const deadline = Date.now() + TRACK_WAIT_MS;
   const { setOption, getOption } = player;
+  let sawTrackList = false;
+  let controlFailed = false;
 
   // The list only exists once the module is running, and loading it is also
   // what turns captions on for an embed that started with them off.
@@ -293,9 +415,10 @@ export async function preferSubtitleLanguage(
       // As with audio: an empty list is what both a caption-less video and a
       // module that has not loaded yet look like, so it is waited on.
       if (!Array.isArray(tracks) || tracks.length === 0) continue;
+      sawTrackList = true;
 
       const match = (tracks as YtAudioTrack[]).find((track) =>
-        trackLanguages(track).includes(wanted),
+        trackHasLanguage(track, wanted),
       );
       try {
         if (match) {
@@ -303,7 +426,7 @@ export async function preferSubtitleLanguage(
           if (
             showing &&
             typeof showing === 'object' &&
-            trackLanguages(showing as YtAudioTrack).includes(wanted)
+            trackHasLanguage(showing as YtAudioTrack, wanted)
           ) {
             return 'already';
           }
@@ -314,20 +437,28 @@ export async function preferSubtitleLanguage(
         const translations = translationLanguages(
           getOption.call(player, module, 'translationLanguages'),
         );
-        if (!translations.includes(wanted)) return 'unavailable';
+        // The two module names can expose different snapshots, and translation
+        // metadata often arrives after the track list. Check the other module
+        // and keep polling before declaring the language unavailable.
+        if (!translations.includes(wanted)) continue;
         // A track has to be showing before there is anything to translate.
         setOption.call(player, module, 'track', tracks[0]);
         setOption.call(player, module, 'translationLanguage', { languageCode: language });
         return 'translated';
       } catch {
-        return 'unsupported';
+        // One module name may throw while the other is the live one. Remember
+        // the control failure, but still give the other name a chance.
+        controlFailed = true;
       }
     }
 
     // Same reasoning as the audio path: a player that never answered has not
     // ruled Dutch subtitles out, so this says so rather than asserting there
     // were none.
-    if (Date.now() >= deadline) return 'unsupported';
+    if (Date.now() >= deadline) {
+      if (controlFailed) return 'unsupported';
+      return sawTrackList ? 'unavailable' : 'unsupported';
+    }
     await sleep(TRACK_POLL_MS);
   }
 

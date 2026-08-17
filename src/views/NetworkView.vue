@@ -469,9 +469,9 @@ function goGuide(): void {
 
 .archive-covers {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 18px;
-  padding-top: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 12px;
+  padding-top: 14px;
 }
 
 .cover-card {
@@ -486,14 +486,14 @@ function goGuide(): void {
 
 .cover-card-status {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 8px;
+  left: 8px;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 999px;
   background: rgba(11, 15, 22, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -514,14 +514,14 @@ function goGuide(): void {
 
 .cover-card strong {
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
   z-index: 1;
   margin: 0;
   overflow: hidden;
   color: #fff;
-  font: 600 clamp(13px, 1.8vw, 17px) 'Oswald', sans-serif;
+  font: 600 clamp(11px, 1.2vw, 13px) 'Oswald', sans-serif;
   line-height: 0.95;
   letter-spacing: 0.01em;
   text-transform: uppercase;
@@ -564,6 +564,12 @@ function goGuide(): void {
 }
 
 @media (max-width: 720px) {
+  .archive-covers {
+    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+    gap: 10px;
+    padding-top: 12px;
+  }
+
   .network-page {
     width: calc(100% - 28px);
     padding-top: 22px;
@@ -592,10 +598,17 @@ function goGuide(): void {
   }
 
   .cover-card-status {
-    top: 8px;
+    top: 7px;
+    left: 7px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .cover-card strong {
     left: 8px;
-    width: 20px;
-    height: 20px;
+    right: 8px;
+    bottom: 8px;
+    font-size: 11px;
   }
 
   .coming-up {

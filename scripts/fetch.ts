@@ -61,6 +61,9 @@ export type YoutubeSourceCache = {
   /** Series slugs a playlist is scoped to; empty for channels, which are not
    * scoped because a rights-holder channel only carries its own material. */
   covers: string[];
+  /** The exact ordered input of a hand-picked set. Kept even when an individual
+   * video could not be read, because its position is still an episode number. */
+  requestedVideoIds?: string[];
   videos: YoutubeVideo[];
 };
 
@@ -68,6 +71,22 @@ export type YoutubeSourceCache = {
  * rather than by a source id, because the set has no id of its own — the
  * series it fills in is the only name it has. */
 const videoSetCacheId = (slug: string): string => `videoset-${slug}`;
+
+const sameIds = (left: readonly string[], right: readonly string[]): boolean =>
+  left.length === right.length && left.every((id, index) => id === right[index]);
+
+/** A fresh dump is reusable only while it describes the current ordered set.
+ * Otherwise adding or reordering a video within 24 hours would reuse the old
+ * dump and make the ingest push appear to do nothing. */
+function isFreshVideoSet(path: string, maxAgeHours: number, requestedIds: string[]): boolean {
+  if (!isFresh(path, maxAgeHours)) return false;
+  try {
+    const cached = readJson(path) as Partial<YoutubeSourceCache>;
+    return cached.kind === 'videos' && sameIds(cached.requestedVideoIds ?? [], requestedIds);
+  } catch {
+    return false;
+  }
+}
 
 async function fetchYoutube(maxAgeHours: number): Promise<void> {
   const channels = readValidated(contentPath('channels.json'), channelsFileSchema);
@@ -157,7 +176,7 @@ async function fetchYoutube(maxAgeHours: number): Promise<void> {
   // nobody can play would ship a row that renders as available and is not.
   for (const set of videoSets) {
     const cachePath = youtubeCachePath(videoSetCacheId(set.episodesFor));
-    if (isFresh(cachePath, maxAgeHours)) {
+    if (isFreshVideoSet(cachePath, maxAgeHours, set.videos)) {
       console.log(`  video set ${set.episodesFor}: cached ${freshnessLabel(cachePath)} — skipping`);
       continue;
     }
@@ -192,6 +211,7 @@ async function fetchYoutube(maxAgeHours: number): Promise<void> {
       id: videoSetCacheId(set.episodesFor),
       name: `losse afleveringen voor ${set.episodesFor}`,
       covers: [set.episodesFor],
+      requestedVideoIds: set.videos,
       videos,
     };
     writeJson(youtubeCachePath(cache.id), cache);
@@ -416,8 +436,42 @@ function parseMaxAgeHours(argv: string[]): number {
   return hours;
 }
 
+/** Refuse misspelled options before doing any network work. Silently ignoring
+ * `--max-age-hour` or `--youtube-onli` makes a run do much more than requested
+ * while still looking successful in CI. */
+function validateArguments(argv: string[]): void {
+  const seen = new Set<string>();
+  const claim = (name: string): void => {
+    if (seen.has(name)) throw new Error(`${name} was given more than once`);
+    seen.add(name);
+  };
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === '--force' || arg === '--youtube-only') {
+      claim(arg);
+      continue;
+    }
+    if (arg?.startsWith('--series=') || arg?.startsWith('--max-age-hours=')) {
+      const name = arg.slice(0, arg.indexOf('='));
+      claim(name);
+      if (arg.endsWith('=')) throw new Error(`${name} needs a value`);
+      continue;
+    }
+    if (arg === '--series' || arg === '--max-age-hours') {
+      claim(arg);
+      const value = argv[index + 1];
+      if (!value || value.startsWith('--')) throw new Error(`${arg} needs a value`);
+      index += 1;
+      continue;
+    }
+    throw new Error(`unknown argument '${arg}'`);
+  }
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
+  validateArguments(argv);
   const only = parseSeriesFilter(argv);
   // Skips the TMDB half outright. It used to be the only way to run at all —
   // every series carried a placeholder id and the TMDB half refused those — and

@@ -95,10 +95,15 @@ export const useContentStore = defineStore('content', () => {
   function loadIndex(): Promise<IndexFile> {
     // Held as a promise so concurrent route entries share one request rather
     // than racing to fetch the same file.
-    indexRequest ??= loadJson<IndexFile>('/data/index.json').then((data) => {
-      index.value = data;
-      return data;
-    });
+    indexRequest ??= loadJson<IndexFile>('/data/index.json')
+      .then((data) => {
+        index.value = data;
+        return data;
+      })
+      .catch((error: unknown) => {
+        indexRequest = null;
+        throw error;
+      });
     return indexRequest;
   }
 
@@ -109,30 +114,45 @@ export const useContentStore = defineStore('content', () => {
 
     let request = seriesRequests.get(slug);
     if (!request) {
-      request = loadJson<SeriesFile>(`/data/series-${slug}.json`).then((data) => {
-        seriesFiles.value.set(slug, data);
-        return data;
-      });
+      request = loadJson<SeriesFile>(`/data/series-${slug}.json`)
+        .then((data) => {
+          seriesFiles.value.set(slug, data);
+          return data;
+        })
+        .catch((error: unknown) => {
+          seriesRequests.delete(slug);
+          throw error;
+        });
       seriesRequests.set(slug, request);
     }
     return request;
   }
 
   function loadBroadcastData(): Promise<BroadcastDataFile> {
-    broadcastRequest ??= loadJson<BroadcastDataFile>('/data/broadcast.json').then((data) => {
-      broadcastData.value = data;
-      return data;
-    });
+    broadcastRequest ??= loadJson<BroadcastDataFile>('/data/broadcast.json')
+      .then((data) => {
+        broadcastData.value = data;
+        return data;
+      })
+      .catch((error: unknown) => {
+        broadcastRequest = null;
+        throw error;
+      });
     return broadcastRequest;
   }
 
   /** The wider line-ups, which are the same size again as the broadcast feeds.
    * Fetched only once a viewer asks for them — see `BroadcastOpenFile`. */
   function loadOpenSchedules(): Promise<BroadcastOpenFile> {
-    openRequest ??= loadJson<BroadcastOpenFile>('/data/broadcast-open.json').then((data) => {
-      openData.value = data;
-      return data;
-    });
+    openRequest ??= loadJson<BroadcastOpenFile>('/data/broadcast-open.json')
+      .then((data) => {
+        openData.value = data;
+        return data;
+      })
+      .catch((error: unknown) => {
+        openRequest = null;
+        throw error;
+      });
     return openRequest;
   }
 
